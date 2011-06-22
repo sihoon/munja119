@@ -1,0 +1,849 @@
+
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import com.common.VbyP;
+import com.common.util.SLibrary;
+import com.common.util.StopWatch;
+import com.m.M;
+import com.m.address.Address;
+import com.m.address.AddressVO;
+import com.m.billing.Billing;
+import com.m.billing.BillingVO;
+import com.m.common.AdminSMS;
+import com.m.common.BooleanAndDescriptionVO;
+import com.m.common.Filtering;
+import com.m.common.PointManager;
+import com.m.excel.ExcelLoader;
+import com.m.excel.ExcelLoaderResultVO;
+import com.m.member.Join;
+import com.m.member.JoinVO;
+import com.m.member.SessionManagement;
+import com.m.member.UserInformationVO;
+import com.m.mobile.LogVO;
+import com.m.mobile.PhoneListVO;
+import com.m.mobile.SMS;
+import com.m.mobile.SMSClientVO;
+import com.m.sent.SentFactory;
+import com.m.sent.SentFactoryAble;
+import com.m.sent.SentGroupVO;
+import com.m.sent.SentVO;
+
+import flex.messaging.FlexContext;
+
+
+public class Web extends SessionManagement{
+	
+	public Web() {}
+	
+	public String test() {
+		System.out.println("BlazeDS!!!");
+		return "OK";
+	}
+
+	/*###############################
+	#	Join						#
+	###############################*/
+	public BooleanAndDescriptionVO checkID(String user_id) {
+		
+		BooleanAndDescriptionVO bvo = new BooleanAndDescriptionVO();
+		Join join = new Join();
+		
+		if (join.idDupleCheck(user_id)) {
+			bvo.setbResult(false);
+			bvo.setstrDescription("중복된 아이디 입니다.");
+		} else {
+			bvo.setbResult(true);
+		}
+		return bvo;
+	}
+	public BooleanAndDescriptionVO checkJumin(String jumin) {
+		
+		BooleanAndDescriptionVO bvo = new BooleanAndDescriptionVO();
+		Join join = new Join();
+		
+		if (join.juminDupleCheck(jumin)) {
+			bvo.setbResult(false);
+			bvo.setstrDescription("중복된 주민등록번호 입니다.");
+		} else {
+			bvo.setbResult(true);
+		}
+		return bvo;
+	}
+	public BooleanAndDescriptionVO join(String user_id, String password, String password_re, String name, String jumin, String hp, String returnPhone) {
+		
+		BooleanAndDescriptionVO bvo = new BooleanAndDescriptionVO();
+		Join join = new Join();
+		
+		JoinVO vo = new JoinVO();
+		vo.setUser_id(user_id);
+		vo.setPassword(password);
+		vo.setName(name);
+		vo.setJumin(jumin);
+		vo.setHp(hp);
+		vo.setReturnPhone(returnPhone);
+		
+		int rslt = join.insert(vo);
+		PointManager.getInstance().initPoint( user_id, 0);
+		
+		if (rslt < 1) {
+			bvo.setbResult(false);
+			bvo.setstrDescription("실패 하였습니다.");
+		}else {
+			bvo.setbResult(true);
+		}
+		return bvo;
+	}
+	
+	
+	
+	/*###############################
+	#	login						#
+	###############################*/
+	public BooleanAndDescriptionVO login(String user_id, String password) {
+
+		Connection conn = null;
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		
+		try {
+			
+			conn = VbyP.getDB();
+			if ( SLibrary.isNull(user_id) ) {
+				rvo.setbResult(false);
+				rvo.setstrDescription("사용자 아이디를 입력하세요.");
+			}else if ( SLibrary.isNull(password) ) {
+				rvo.setbResult(false);
+				rvo.setstrDescription("비밀번호를 입력하세요.");
+			}else {
+				rvo = super.login(conn, user_id, password);
+			}
+		}catch (Exception e) {}
+		finally {
+			
+			try {
+				if ( conn != null )
+					conn.close();
+			}catch(SQLException e) {
+				VbyP.errorLog("login >> conn.close() Exception!"); 
+			}
+		}
+		
+		return rvo;
+	}
+	public BooleanAndDescriptionVO logout_session() {
+		
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		String user_id = this.getSession();		
+		this.session_logout();		
+		if (!this.bSession()) {
+			
+			VbyP.accessLog(user_id+" >>"+FlexContext.getHttpRequest().getRemoteAddr()+" 로그아웃 성공");
+			rvo.setbResult(true);
+			rvo.setstrDescription("로그 아웃 되었습니다.");
+		}
+		else {
+			VbyP.accessLog(user_id+" >> 로그아웃 실패");
+			rvo.setbResult(false);
+			rvo.setstrDescription("로그 아웃 실패 입니다..");
+		}
+		
+		return rvo;
+	}
+	
+	public UserInformationVO getUserInformation() {
+		
+		Connection conn = null;
+		UserInformationVO vo = null;
+		try {
+			
+			conn = VbyP.getDB();
+			if ( !SLibrary.IfNull( super.getSession() ).equals("") )
+				vo = super.getUserInformation(conn);
+		}catch (Exception e) {}
+		finally {
+			
+			try {
+				if ( conn != null )
+					conn.close();
+			}catch(SQLException e) {
+				VbyP.errorLog("getUserInformation >> conn.close() Exception!"); 
+			}
+		}
+		
+		return vo;
+	}
+	
+	private boolean isLogin() {
+		
+		String user_id = getSession();
+		
+		if (user_id != null && !user_id.equals("")) 
+			return true;
+		else
+			return false;
+	}
+	
+	/*###############################
+	#	mobile						#
+	###############################*/
+
+	public static HashMap<String, String> STATE = new HashMap<String, String>();
+	
+	public static int getState(String user_id) { return SLibrary.parseInt( M.STATE.get(user_id) ); }
+	public static void setState(String user_id , int cnt) { M.STATE.put(user_id, Integer.toString(cnt)); }
+	public static void removeState(String user_id) { M.STATE.remove(user_id); }
+	
+	public BooleanAndDescriptionVO sendSMS(String message, ArrayList<PhoneListVO> al, String returnPhone, String reservationDate ) {
+		
+		Connection conn = null;
+		Connection connSMS = null;
+		SMS sms = SMS.getInstance();
+		String user_id = null;
+		UserInformationVO mvo = null;
+		int sendCount = 0;
+		int year = 0;
+		int month = 0;
+		boolean bReservation = false;
+		LogVO lvo = null;
+		ArrayList<SMSClientVO> alClientVO = null;
+		int logKey = 0;
+		ArrayList<String[]> phoneAndNameArrayList = null;
+		String requestIp = null;
+		
+		
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		
+		try {
+			
+			/*###############################
+			#		validity check			#
+			###############################*/
+			//stopWatch play
+			StopWatch sw = new StopWatch();
+			sw.play();
+			
+			if (!isLogin()) throw new Exception("로그인 되어 있지 않습니다.");
+			user_id = getSession();
+			requestIp = FlexContext.getHttpRequest().getRemoteAddr();
+			
+			//발송카운트 초기화
+			M.setState(user_id, 0);
+			
+			if (al == null)
+				throw new Exception("전송목록이 비어 있습니다.");
+			
+			VbyP.accessLog(user_id+" >> 전송 요청 : " + requestIp + " => ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"]");
+			
+			if ( !SLibrary.isNull(reservationDate.trim()) )
+				bReservation = true;
+			if ( bReservation && SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") == 0 )
+				throw new Exception("잘못된 형식의 예약 날짜 입니다.");
+			
+			if ( bReservation ) {
+				
+				year = SLibrary.parseInt( SLibrary.getDateTimeStringStandard(reservationDate, "yyyy") );
+				month = SLibrary.parseInt( SLibrary.getDateTimeStringStandard(reservationDate, "MM") );
+				
+				if ( year < SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) )
+					throw new Exception("과거년으로 전송 하실 수 없습니다.");
+				
+				if (year == SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) && month < SLibrary.parseInt( SLibrary.getDateTimeString("MM")) )
+					throw new Exception("과거월로 전송 하실 수 없습니다.");
+			}else {
+				
+				year = SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") );
+				month = SLibrary.parseInt( SLibrary.getDateTimeString("MM") );
+				reservationDate = SLibrary.getDateTimeString("yyyy-MM-dd HH:mm:ss");							
+			}
+				
+			if (year == 0 || month == 0)
+				throw new Exception("해당 년월을 가져 오지 못했습니다.");
+			
+			conn = VbyP.getDB();
+			if (conn == null)
+				throw new Exception("DB연결에 실패 하였습니다.");
+			
+			
+			mvo = getUserInformation( conn );
+			
+			connSMS = VbyP.getDB(mvo.getLine());
+								
+			if (connSMS == null)
+				throw new Exception("SMS DB연결에 실패 하였습니다.");
+			
+			/*###############################
+			#		Process					#
+			###############################*/
+			
+			returnPhone = SLibrary.replaceAll(returnPhone, "-", "");
+			phoneAndNameArrayList = sms.getPhone(conn, mvo.getUser_id(), al);		
+			sendCount = phoneAndNameArrayList.size();
+			//message 개행문자 변경
+			message = SLibrary.replaceAll(message, "\r", "\r\n");
+			
+			checkSMSSend( conn, sendCount, mvo, message, requestIp );
+			
+			/* Send Process */
+			//step1
+			lvo = sms.getLogVO( mvo, bReservation, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp);
+			logKey = sms.insertSMSLog(conn, lvo, year, month);
+			if ( logKey == 0 )
+				throw new Exception("전송내역 로그가 삽입 되지 않았습니다.");
+			VbyP.accessLog(user_id+" >> 전송 요청 : 로그 삽입 성공 ("+logKey+")"+ "경과 시간 : "+sw.getTime());
+			
+			//step2
+			if ( sms.sendPointPut(conn, mvo, sendCount*-1 ) != 1 )
+				throw new Exception("건수 차감이 되지 않았습니다.");
+			VbyP.accessLog(user_id+" >> 전송 요청 : 건수 차감 성공" + "경과 시간 : "+sw.getTime());
+			
+			//step3	
+			alClientVO = sms.getSMSClientVO(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp);
+			VbyP.accessLog(user_id+" >> 전송 요청 : getSMSClientVO 생성" + "경과 시간 : "+sw.getTime());
+			
+			//timeout 방지를 위해 닫는다.
+			try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
+			
+			int clientResult = 0;
+			
+			clientResult = sms.insertSMSClient(connSMS, alClientVO, mvo.getLine());
+			
+			VbyP.accessLog(user_id+" >> 전송 요청 : 전송테이블 삽입 성공" + "경과 시간 : "+sw.getTime());
+			
+			if ( clientResult != sendCount)
+				throw new Exception("전송테이블 입력 : "+ Integer.toString(clientResult)+" 발송데이터 : "+ Integer.toString( alClientVO.size() ) );
+			else{
+				rvo.setbResult(true);
+				rvo.setstrDescription(Integer.toString(clientResult)+","+year+","+month+","+logKey+","+mvo.getLine());
+			}
+			
+			//대량발송 모니터링 
+			if ( Integer.parseInt(VbyP.getValue("moniterSendCount")) < sendCount ){
+				
+				conn = VbyP.getDB();
+				AdminSMS asms = AdminSMS.getInstance();
+				String tempMessage = ( SLibrary.getByte( message ) > 15 )? SLibrary.cutBytes(message, 20, true, "...") : message ;
+				asms.sendAdmin(conn, 
+						"M[대량발송]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"건\r\n" 
+						+ tempMessage  );
+			}
+				
+		}catch (Exception e) {
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			System.out.println(e.toString());
+		}
+		finally {
+			
+			try {
+				if ( conn != null ) conn.close();
+				if ( connSMS != null ) connSMS.close();
+			}catch(SQLException e) {
+				VbyP.errorLog("sendSMS >> finally conn.close() or connSMS.close() Exception!"+e.toString()); 
+			}
+		}
+		
+		VbyP.accessLog(user_id+" >> 전송 요청 결과 : "+rvo.getstrDescription());
+		return rvo;
+	}
+	
+	private void checkSMSSend( Connection conn, int sendCount, UserInformationVO mvo, String message, String requestIp ) throws Exception {
+		
+		//최대 발송건수
+		if ( Integer.parseInt(VbyP.getValue("maxSendCount")) < sendCount )
+			throw new Exception( VbyP.getValue("maxSendCount")+" 건 이상 발송 하실 수 없습니다.");
+		
+		//탈퇴회원 체크
+		if( mvo.getLevaeYN().equals("Y") ){
+			logout_session();
+			throw new Exception("잘못된 접근입니다.");
+		}
+		
+		if( Integer.parseInt(mvo.getPoint()) < sendCount )
+			throw new Exception("잔여건수가 부족합니다. ( "+ Integer.toString(sendCount)+" / "+ mvo.getPoint()+" )");
+		
+		//message 필터링
+		if ( Integer.parseInt(VbyP.getValue("filterMinCount")) <= sendCount  ) {
+			
+			String filterMessage = null;
+			String bGlobal = "";
+			filterMessage = Filtering.globalMessageFiltering(message);
+			if (filterMessage == null )
+				filterMessage = Filtering.messageFiltering(mvo.getUser_id(), message);
+			else
+				bGlobal = "전체";
+			
+			if (filterMessage != null) {
+				
+				VbyP.accessLog(mvo.getUser_id() +" >> 전송 요청 : 스팸필터 ("+filterMessage+")");
+				AdminSMS asms = AdminSMS.getInstance();
+				asms.sendAdmin(conn, 
+						"M["+bGlobal+"스팸필터]\r\n" + mvo.getUser_id() + "\r\n" 
+						+ filterMessage  );
+				throw new Exception("스팸성 문구가 발견 되었습니다.");
+			}
+		}
+		//ip 필터링
+		if ( Filtering.ipFiltering(mvo.getUser_id(), requestIp) != null ) {
+			VbyP.accessLog(mvo.getUser_id() +" >> 전송 요청 : IP필터 ("+Filtering.ipFiltering(mvo.getUser_id(), requestIp)+")");
+			throw new Exception("고객님은 현재 발송이 제한되어 있습니다.");
+		}
+		
+		//메시지 이통사 미적용 한글 확인
+		String isMessage = SMS.getInstance().isMessage(message);
+		if ( isMessage != null )
+			throw new Exception("["+isMessage+"] 문자가 맞춤법에 어긋납니다.수정하세요.");
+		
+	}
+	
+	/*###############################
+	#	address_book				#
+	###############################*/
+	public String getAddress() {
+		
+		Connection conn = null;
+		Address address = null;
+		StringBuffer buf = new StringBuffer();
+		
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			conn = VbyP.getDB();
+			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
+			address = Address.getInstance();
+			
+			VbyP.accessLog(" >> 그룹 리스트 요청 "+ user_id);
+			buf = address.SelectTreeData(conn, user_id);
+			
+		}catch (Exception e) { VbyP.errorLogDaily("getAddress >>"+e.toString()); }	
+		finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getAddress >> conn.close() Exception!"); }
+		}
+		return buf.toString();
+	}
+	public BooleanAndDescriptionVO addGroup(String groupName) {
+		
+		Connection conn = null;
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		Address address = null;
+		
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			conn = VbyP.getDB();
+			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
+			address = Address.getInstance();
+			
+			VbyP.accessLog(" >> 그룹 생성 요청 "+ groupName +" , "+ user_id);
+						
+			if ( address.checkDuplicationGroup(conn, user_id, groupName) )
+				throw new Exception(groupName+" 그룹이 존재 합니다.");
+			
+			if ( address.InsertGroup(conn, user_id, groupName) < 1)
+				throw new Exception("그룹 생성에 실패 하였습니다.");
+			
+			rvo.setbResult(true);
+			
+		}catch (Exception e) {
+			
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			
+		}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("addGroup >> conn.close() Exception!"); }
+		}
+		
+		return rvo;
+	}
+	public BooleanAndDescriptionVO modifyGroup(String oldGroupName, String groupName) {
+		
+		Connection conn = null;
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		Address address = null;
+		
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			conn = VbyP.getDB();
+			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
+			address = Address.getInstance();
+			
+			VbyP.accessLog(" >> 그룹 수정 요청 "+ oldGroupName + " >> " +groupName +" , "+ user_id);
+			
+			if ( address.UpdateGroup(conn, oldGroupName, user_id, groupName) < 1)						
+				throw new Exception("그룹수정에 실패 하였습니다.");
+			
+			rvo.setbResult(true);
+			
+		}catch (Exception e) {
+			
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			
+		}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("modifyGroup >> conn.close() Exception!"); }
+		}
+		
+		return rvo;
+	}
+	
+	public BooleanAndDescriptionVO deleteGroup(String groupName) {
+		
+		Connection conn = null;
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		Address address = null;
+		
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			conn = VbyP.getDB();
+			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
+			address = Address.getInstance();
+			
+			VbyP.accessLog(" >> 그룹 삭제 요청 "+ groupName +" , "+ user_id);
+			
+			if ( address.DeleteGroup(conn, groupName, user_id) < 1 )				
+				throw new Exception("삭제에 실패 하였습니다.");
+	
+			
+			rvo.setstrDescription(groupName);
+			rvo.setbResult(true);
+			
+		}catch (Exception e) {
+			
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			
+		}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("addGroup >> conn.close() Exception!"); }
+		}
+		
+		return rvo;
+	}
+	public BooleanAndDescriptionVO addAddress(String groupName, String phone, String name, String memo) {
+		
+		Connection conn = null;
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		Address address = null;
+		AddressVO vo = new AddressVO();
+		
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			conn = VbyP.getDB();
+			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
+			address = Address.getInstance();
+			
+			VbyP.accessLog(" >> 전화번호 생성 요청 "+ user_id);
+
+			vo.setUser_id(user_id);
+			vo.setGrp(AddressVO.ADDRESS_FLAG);
+			vo.setGrpName(groupName);
+			vo.setPhone(phone);
+			vo.setName(name);
+			vo.setMemo(memo);
+			
+			if ( address.InsertMember(conn, vo) < 1)
+				throw new Exception("번호 저장에 실패 하였습니다.");
+			
+			rvo.setstrDescription(vo.getGrpName());
+			rvo.setbResult(true);
+			
+		}catch (Exception e) {
+			
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			
+		}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("addGroup >> conn.close() Exception!"); }
+		}
+		
+		return rvo;
+	}
+	public BooleanAndDescriptionVO modifyAddress(int modifyAddressIdx, String groupName, String phone, String name, String memo) {
+		
+		Connection conn = null;
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		Address address = null;
+		AddressVO vo = new AddressVO();
+		
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			conn = VbyP.getDB();
+			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
+			address = Address.getInstance();
+			
+			VbyP.accessLog(" >> 전화번호 수정 요청  "+ Integer.toString(vo.getIdx()) + user_id);
+			
+			vo.setIdx(modifyAddressIdx);
+			vo.setbModify(true);
+			vo.setUser_id(user_id);
+			vo.setGrp(AddressVO.ADDRESS_FLAG);
+			vo.setGrpName(groupName);
+			vo.setPhone(phone);
+			vo.setName(name);
+			vo.setMemo(memo);
+			
+			if ( address.UpdateMember(conn, vo.getIdx(), vo) < 1)
+				throw new Exception("번호 수정에 실패 하였습니다.");
+			
+			rvo.setstrDescription(vo.getGrpName());
+
+			rvo.setbResult(true);
+			
+		}catch (Exception e) {
+			
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			
+		}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("addGroup >> conn.close() Exception!"); }
+		}
+		
+		return rvo;
+	}
+	
+	public BooleanAndDescriptionVO deleteAddress(int deleteAddressIdx) {
+		
+		Connection conn = null;
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		Address address = null;
+		
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			conn = VbyP.getDB();
+			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
+			address = Address.getInstance();
+			
+			VbyP.accessLog(" >> 전화번호 삭제 요청 "+ Integer.toString(deleteAddressIdx) +" , "+ user_id);
+			if ( address.DeleteMember(conn, deleteAddressIdx, user_id) < 1)
+				throw new Exception("번호 삭제에 실패 하였습니다.");
+
+			rvo.setbResult(true);
+			
+		}catch (Exception e) {
+			
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			
+		}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("addGroup >> conn.close() Exception!"); }
+		}
+		
+		return rvo;
+	}
+	
+	/*###############################
+	#	billing						#
+	################################*/
+	
+	public BooleanAndDescriptionVO setBilling(BillingVO bvo) {
+		
+		Connection conn = null;
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		Billing bill = null;
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("") || !bvo.getUser_id().equals(user_id)) throw new Exception("로그인 되어 있지 않습니다.");
+			conn = VbyP.getDB();
+			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
+			bill = Billing.getInstance();
+			
+			VbyP.accessLog(" >> 결제등록 요청 "+ user_id +" , "+ Integer.toString(bvo.getAmount())+" , "+ bvo.getMethod());
+			
+			if ( bill.insert(conn, bvo) < 1)
+				throw new Exception("결제 등록에 실패 하였습니다.");
+
+			rvo.setbResult(true);
+			
+		}catch (Exception e) {
+			
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			
+		}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("addGroup >> conn.close() Exception!"); }
+		}
+		
+		return rvo;
+	}
+	
+	/*###############################
+	#	excel						#
+	###############################*/
+	public ExcelLoaderResultVO getExcelLoaderData(byte[] bytes, String fileName){
+		
+		VbyP.accessLog(" >> 엑셀로더 요청 ");
+		ExcelLoaderResultVO evo = new ExcelLoaderResultVO();
+		String path = VbyP.getValue("excelUploadPath");
+
+		ExcelLoader el = new ExcelLoader();
+		String uploadFileName = "";
+		evo.setbResult(true);
+		
+		try {
+			uploadFileName = el.uploadExcelFile(bytes, path, fileName);
+		}catch(Exception e){
+			evo.setbResult(false);
+			evo.setstrDescription("엑셀 파일이 업로드 되지 않았습니다.");
+		}
+		
+		try {
+			evo.setList( el.getExcelData(path, uploadFileName) );
+		}catch(IOException ie) {
+			System.out.println(ie.toString());
+		}catch(Exception e) {
+			System.out.println(e.toString());
+			evo.setbResult(false);
+			evo.setstrDescription("형식에 어긋난 엑셀 파일 입니다. 엑셀파일을 읽지 못하였습니다.");
+		}
+		finally {		 
+			new File(path + uploadFileName).delete();
+		}
+	    
+		return evo;
+	}
+	public BooleanAndDescriptionVO addAddress(ArrayList<AddressVO> al) {
+		
+		Connection conn = null;
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		Address address = null;
+		
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			conn = VbyP.getDB();
+			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
+			address = Address.getInstance();
+			
+			VbyP.accessLog(" >> 엑셀로더 주소록 저장 요청 "+ user_id);
+			
+			if ( address.InsertMember( conn , user_id, al ) < 1)
+				throw new Exception("번호 저장에 실패 하였습니다.");
+			
+			rvo.setbResult(true);
+			
+		}catch (Exception e) {
+			
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			
+		}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("addGroup >> conn.close() Exception!"); }
+		}
+		
+		return rvo;
+	}
+	
+	public String[] getAddressGroup() {
+		
+		Connection conn = null;
+		Address address = null;
+		String[] arr = null;
+		
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			conn = VbyP.getDB();
+			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
+			address = Address.getInstance();
+			
+			VbyP.accessLog(" >> 그룹 리스트 요청 "+ user_id);
+			arr = address.SelectGroup(conn, user_id);
+			
+			
+		}catch (Exception e) { VbyP.errorLogDaily("getAddressGroup >>"+e.toString()); }	
+		finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getAddressGroup >> conn.close() Exception!"); }
+		}
+		return arr;
+	}
+	
+	/*###############################
+	#	sent						#
+	###############################*/
+	public List<SentGroupVO> getSentGroupList( String fromDate, String endDate, boolean bReservation) {
+
+		
+		Connection conn = null;
+		List<SentGroupVO> list = null;
+		
+		SentFactoryAble sf = null;
+		sf = SentFactory.getInstance();
+		
+		if (isLogin()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				String user_id = getSession();
+				VbyP.accessLog(user_id+" >> 전송내역 그룹 요청 :"+fromDate+"~"+endDate+","+bReservation);
+				
+				if (user_id != null && !user_id.equals("")) {
+					
+					list = sf.getSentGroupList(conn, user_id, fromDate, endDate, bReservation);
+				}
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("getSentGroupList >> conn.close() Exception!"); }
+			}
+		}
+		
+		return list;
+	}
+	public List<SentVO> getSentList(int groupIndex, String line) {
+
+		
+		Connection connSMS = null;
+		List<SentVO> list = null;
+		
+		SentFactoryAble sf = null;
+		sf = SentFactory.getInstance();
+			
+		if (isLogin()) {		
+		
+			try {
+				
+				connSMS = VbyP.getDB(line);
+				String user_id = getSession();
+				VbyP.accessLog(user_id+" >> "+line+" 전송내역 요청 :"+ Integer.toString(groupIndex));
+				
+				if (user_id != null && !user_id.equals("")) {
+					
+					list = sf.getSentList(connSMS, user_id, line, Integer.toString(groupIndex) );
+				}
+			}catch (Exception e) {}	finally {			
+				try { if ( connSMS != null ) connSMS.close();
+				}catch(SQLException e) { VbyP.errorLog("getSentGroupList >> conn.close() Exception!"); }
+			}
+		}
+		
+		return list;
+	}
+	
+}
