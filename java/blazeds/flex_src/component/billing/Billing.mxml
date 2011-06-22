@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="700" height="480" creationComplete="creationCompleteHandler(event)">
+
+	<fx:Script>
+		<![CDATA[
+			import component.member.UserInformationVO;
+			
+			import lib.BooleanAndDescriptionVO;
+			import lib.RO;
+			import lib.SLibrary;
+			
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			private var ro:RO = new RO();
+			private var RO_DESTINATION:String = "WEB";
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				this.chargeAccount.addEventListener(Event.CHANGE, chargeAccount_changeEvent );
+				
+				ro.set(RO_DESTINATION, unit_ResultEventHandler);
+				ro.method.getUserInformation();
+			}
+			
+			private function unit_ResultEventHandler(event:ResultEvent):void {
+				
+				var uvo:UserInformationVO = event.result as UserInformationVO;
+				
+				this.userUnit.text = String(uvo.unit_cost);
+				setBillingCount();
+				
+			}
+			
+			private function chargeAccount_changeEvent(event:Event):void {
+				setBillingCount();
+			}
+			
+			private function setBillingCount():void {
+				var amount:Number = Number(this.chargeAccount.selectedValue);
+				var unit:Number = Number(this.userUnit.text);
+				this.billingCount.text = String(Math.ceil(amount/unit));
+			}
+			
+			protected function reqCharge_clickHandler(event:MouseEvent):void
+			{
+				var amount:String = String(this.chargeAccount.selectedValue);
+				var url:String = "/lgdacom/payreq.jsp";
+				SLibrary.javascript("yesThanks("+amount+",'"+url+"');");
+			}
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<s:RadioButtonGroup id="chargeMethod"/>
+		<s:RadioButtonGroup id="chargeAccount"/>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Form width="100%" height="100%" fontSize="14" fontWeight="bold" skinClass="skin.JoinSkin">
+		<s:FormItem label="결제방식" skinClass="skin.FormItemSkin">
+			<s:layout>
+				<s:VerticalLayout/>
+			</s:layout>
+			<s:RadioButton label="카드" value="card" groupName="chargeMethod" selected="true"/>
+			<s:RadioButton label="핸드폰" value="handphone" groupName="chargeMethod"/>
+			<s:RadioButton label="계좌이체" value="trasfer" groupName="chargeMethod"/>
+			<s:RadioButton label="무통장입금" value="bankbook" groupName="chargeMethod"/>
+		</s:FormItem>
+		<s:FormItem label="결제금액" skinClass="skin.FormItemSkin">
+			<s:layout>
+				<s:VerticalLayout/>
+			</s:layout>
+			<s:RadioButton label="30,000 원" value="30000" groupName="chargeAccount" selected="true"/>
+			<s:RadioButton label="50,000 원" value="50000" groupName="chargeAccount"/>
+			<s:RadioButton label="100,000 원" value="100000" groupName="chargeAccount"/>
+			<s:RadioButton label="300,000 원" value="300000" groupName="chargeAccount"/>
+			<s:RadioButton label="500,000 원" value="500000" groupName="chargeAccount"/>
+			<s:RadioButton label="1,000,000 원" value="1000000" groupName="chargeAccount"/>
+		</s:FormItem>
+		<s:FormItem label="건당 단가" skinClass="skin.FormItemSkin">
+			<s:layout>
+				<s:VerticalLayout/>
+			</s:layout>
+			<s:Label id="userUnit" text="0"/>
+		</s:FormItem>
+		<s:FormItem label="충전건수" skinClass="skin.FormItemSkin">
+			<s:layout>
+				<s:HorizontalLayout/>
+			</s:layout>
+			<s:Label id="billingCount" text="" /><s:Label text="건" />
+		</s:FormItem>
+		<s:FormItem label="" skinClass="skin.FormItemSkin">
+			<s:layout>
+				<s:VerticalLayout/>
+			</s:layout>
+			<s:Button id="reqCharge" label="결제하기" click="reqCharge_clickHandler(event)" />
+		</s:FormItem>
+	</s:Form>
+</s:Group>

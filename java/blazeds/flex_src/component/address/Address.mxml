@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:address="component.address.*" xmlns:lib="lib.*"
+		 creationComplete="getAddress()"  width="700" height="480">
+	<fx:Script>
+		<![CDATA[
+			import flash.utils.clearTimeout;
+			import flash.utils.setTimeout;
+			
+			import lib.BooleanAndDescriptionVO;
+			import lib.RO;
+			import lib.SLibrary;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			import mx.collections.ICollectionView;
+			import mx.collections.XMLListCollection;
+			import mx.controls.treeClasses.ITreeDataDescriptor;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.remoting.RemoteObject;
+			import mx.utils.ObjectProxy;
+			
+			import spark.events.TextOperationEvent;
+			
+			/*################################
+			# 속성
+			#################################*/
+			
+			[Bindable]
+			[Embed(source="/assets/images/folder.png")]
+			private var PLUS:Class; // 트리아이콘
+			[Bindable]
+			[Embed(source="/assets/images/folder_open.png")]
+			private var MINUS:Class; // 트리아이콘
+			
+			private var modifyGroup:String;			
+			private var modifyAddressIdx:int;			
+			private var URL:String = "/send/address/";
+			
+			private var ro:RO = new RO();
+			private var RO_DESTINATION:String = "WEB";
+			
+			
+			/*###############################
+			#	RemoteObject				#
+			###############################*/
+			
+			// 주소록 리스트 가져오기
+			private function getAddress():void {
+				
+				ro.set(RO_DESTINATION, address_ResultEventHandler);
+				ro.method.getAddress();
+			}
+			private function address_ResultEventHandler(event:ResultEvent):void {
+				
+				var xlData:XMLList = new XMLList(event.result);
+				if(xlData.elements("msg").toString()!="ok") {
+					SLibrary.alert(xlData.elements("msg").toString());
+				}
+				else {
+					myTree.dataProvider = new XMLListCollection(xlData.elements("addrs"));
+					callLater( expendGroupTree );
+				}
+				
+				callLater(spinnerStop);
+			}
+			
+			
+			// 그룹 확인 클릭
+			protected function checkGroupBtn_clickHandler(event:MouseEvent):void {
+				
+				if (groupName.text == "") {
+					SLibrary.alert("그룹이름을 입력 하세요.");
+				} else {
+					if (modifyGroup != "") {
+						ro.set(RO_DESTINATION, addGroup_ResultEventHandler);
+						ro.method.modifyGroup(modifyGroup, groupName.text);
+					}else {
+						ro.set(RO_DESTINATION, addGroup_ResultEventHandler);
+						ro.method.addGroup(groupName.text);
+					}
+				}
+			}			
+			private function addGroup_ResultEventHandler(event:ResultEvent):void {
+				
+				var bVO:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
+				if (bVO.bResult) {
+					getAddress();
+					callLater(groupPanelInit);
+				} else {
+					SLibrary.alert(bVO.strDescription);
+				}
+			}
+			
+			// 주소 확인 클릭
+			protected function checkAddresBtn_clickHandler(event:MouseEvent):void {
+				
+				if (dropDownGroup.selectedIndex == -1) {
+					SLibrary.alert("그룹을 선택 하세요.");
+				} else {
+					var grpName:String = new String((dropDownGroup.selectedItem as Object).label);
+
+					if (modifyAddressIdx != 0) {
+						ro.set(RO_DESTINATION, addAddress_ResultEventHandler);
+						ro.method.modifyAddress(modifyAddressIdx, grpName, textInputPhone.text, textInputName.text, textInputMemo.text);
+					}else {
+						ro.set(RO_DESTINATION, addAddress_ResultEventHandler);
+						ro.method.addAddress(grpName, textInputPhone.text, textInputName.text, textInputMemo.text);
+					}
+				}
+			}
+			private function addAddress_ResultEventHandler(event:ResultEvent):void {
+				
+				var bVO:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
+				if (bVO.bResult) {
+					getAddress();
+					callLater(addressPanelInit);
+				} else {
+					SLibrary.alert(bVO.strDescription);
+				}
+			}
+			
+			// 주소 삭제
+			public function deleteAddress(idx:String):void {
+				if (idx == "0" || idx == "") {
+					SLibrary.alert("삭제할 주소 키가 없습니다.");
+				} else {
+					ro.set(RO_DESTINATION, deleteAddress_ResultEventHandler);
+					ro.method.deleteAddress( new int(idx) );
+				}
+			}
+			private function deleteAddress_ResultEventHandler(event:ResultEvent):void {
+				
+				var bVO:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
+				if (bVO.bResult) {
+					SLibrary.alert("삭제 되었습니다.");
+					getAddress();
+				} else {
+					SLibrary.alert(bVO.strDescription);
+				}
+			}
+			
+			// 그룹 삭제
+			public function deleteGroup(obj:Object):void {
+				
+				if (obj.label == null || obj.label == "") {
+					
+					SLibrary.alert("삭제할 그룹 이름이 없습니다.");
+				} else {
+					ro.set(RO_DESTINATION, deleteGroup_ResultEventHandler);
+					ro.method.deleteGroup(obj.label);
+				}
+			}
+			private function deleteGroup_ResultEventHandler(event:ResultEvent):void {
+				
+				var bVO:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
+				if (bVO.bResult) {
+					getAddress();
+					SLibrary.alert(bVO.strDescription+" 그룹이 삭제 되었습니다.");
+				} else {
+					SLibrary.alert(bVO.strDescription);
+				}
+			}
+			
+			// 그룹 수정 클릭
+			public function modifyGroupBtn_clickHandler(param:String):void {
+				
+				groupPanel.visible = true;
+				modifyGroup = param;
+				this.groupName.text = param;
+			}
+			// 전송 클릭
+			public function sendBtn_ClickHandler(type:String, xml:XMLList):void {
+				
+				var phone:String = "";
+				if (type == "group") {
+					for each(var element:XML in xml.elements()) {
+						
+						phone += element.@phone+"||"+element.@label+",";
+					}
+				}else {
+					phone = xml.@phone+"||"+xml.@label+",";
+				}
+				
+				phone = phone.substr(0, phone.length -1);
+				parentApplication.addPhone(phone);
+				//javascript("sendToActionScript('phone','"+phone+"');");
+			}
+			// 주소 수정 클릭
+			public function modifyAddressBtn_clickHandler(param:Object):void {
+				
+				addAddressBtn_clickHandler(null);
+				
+				modifyAddressIdx = param.idx;
+				
+				var obj:Object = dropDownGroup.selectedItem;
+				
+				var ac:ArrayCollection = dropDownGroup.dataProvider as ArrayCollection;
+				for (var i:int; i < ac.length; i++) {
+					var item:Object = ac[i];
+					if (item.label == param.group) {
+						dropDownGroup.selectedIndex = i;
+						break;
+					}
+				}
+				
+				textInputPhone.text = param.phone;
+				textInputName.text = param.name;
+				textInputMemo.text = param.memo;
+				
+				addressPanel.visible = true;
+			}
+			
+			/*################################
+			# 검색 
+			#################################*/
+			private var timeoutID:uint;
+			private var duration:Number = 1000;
+			private function search_keyUpHandler(evnet:KeyboardEvent):void {
+				clearTimeout(timeoutID);
+				timeoutID = setTimeout(searchHandler,duration);
+				
+				spinnerStart();
+			}
+			
+			protected function searchHandler():void {
+				
+				var dp:XMLListCollection = myTree.dataProvider as XMLListCollection;
+				if (dp != null) {
+					myTree.dataProvider = dp;
+					dp.refresh();
+					filterDataDescriptor();
+					callLater(expendTree);
+				}else {
+					spinnerStop();
+				}
+			}
+			
+			private function filterDataDescriptor():void {
+				// 하위노드 필터링
+				var descriptor:ITreeDataDescriptor = new FilteredTreeDataDescriptor(getFilteredCollection);
+				myTree.dataDescriptor = descriptor;
+			}
+			
+			private function getFilteredCollection(item:Object):ICollectionView {
+				
+				var node:XML = item as XML;
+				var dp:XMLListCollection = new XMLListCollection(node.children());
+				dp.filterFunction = checkString;
+				dp.refresh();
+				
+				return dp;
+			}
+			
+			private function checkString(item:Object):Boolean {
+				
+				var _searchString:String = search.text;
+				if(!_searchString) return true;
+				
+				var node:XML = item as XML;
+				var label:String = node.@label;
+				var pattern:String = ".*"+_searchString+".*";
+				
+				if ( new String(node.@label).match(pattern) || new String(node.@phone).match(pattern) ) return true;
+				
+				var children:XMLList = node.children();
+				
+				// 재귀호출로 하위노드 검사
+				for each ( var child:XML in children ) {
+					
+					if (checkString(child))	return true;
+				}				
+				return false;
+			}
+			
+			// 노드 모두 펼침
+			private function expendTree():void {
+				
+				if(myTree) {
+					
+					var dp:XMLListCollection = myTree.dataProvider as XMLListCollection;
+					var len:int = dp.length;
+					for(var i:int=0; i<len; ++i) {
+						myTree.expandChildrenOf(dp.getItemAt(i), true);
+					}
+				}
+				callLater(spinnerStop);
+			}
+			
+			// 그룹 노드 펼침
+			private function expendGroupTree():void {
+				
+				if(myTree) {
+					
+					var dp:XMLListCollection = myTree.dataProvider as XMLListCollection;
+					if (dp.length > 0)
+						myTree.expandItem(dp.getItemAt(0), true);
+					
+				}
+				
+				callLater(spinnerStop);
+			}
+			
+			private function spinnerStart():void {
+				spinner.start();
+				spinner.visible = true;
+			}
+			
+			private function spinnerStop():void {
+				spinner.stop();
+				spinner.visible = false;
+			}
+			
+			protected function search_focusInHandler(event:FocusEvent):void {
+				
+				search.text = "";
+				search.setStyle("color",0xffffff);
+			}
+			
+			protected function search_focusOutHandler(event:FocusEvent):void {
+				
+				if (search.text == "") {
+					search.text = "검색 입력..";
+					search.setStyle("color",0x999999);
+				}
+			}
+			
+			protected function addAddressBtn_clickHandler(event:MouseEvent):void {
+				
+				var dp:XMLListCollection = myTree.dataProvider as XMLListCollection;
+				
+				var ac:ArrayCollection = new ArrayCollection();
+				var obj:Object = null;
+				var cnt:int = dp.length;
+				var child:XML = null;
+				
+				for ( var i:int; i < cnt; i++ ) {
+					child = dp[i];
+					obj = new Object();
+					obj.label = new String(child.@label);
+					obj.data = new String(child.@idx);
+					ac.addItem(obj);
+				}				
+				dropDownGroup.dataProvider = ac;
+				addressPanel.visible = true;
+			}
+			
+			
+			public function treeChanged(event:Event):void {
+				var selectedNode:XML = Tree(event.target).selectedItem as XML;
+				//trace(selectedNode.@label);
+			}
+			
+			public function addressPanelInit():void {
+				modifyAddressIdx=0;
+				textInputPhone.text = "";
+				textInputName.text = "";
+				textInputMemo.text = "";
+				addressPanel.visible=false;
+			}
+			
+			public function groupPanelInit():void {
+				groupName.text='';
+				modifyGroup = '';
+				groupPanel.visible=false;
+			}
+			
+
+		]]>
+	</fx:Script>
+	
+	<s:Group id="addressBox" left="0" right="0" height="480">
+		<s:layout>
+			<s:VerticalLayout gap="0"/>
+		</s:layout>
+		<s:Group height="22">
+			<s:layout>
+				<s:HorizontalLayout/>
+			</s:layout>
+			<s:TextInput id="search"
+						 focusIn="search_focusInHandler(event)"
+						 focusOut="search_focusOutHandler(event)" focusThickness="0"
+						 keyUp="search_keyUpHandler(event)" text="검색 입력.."/>
+			<s:Button label="그룹추가" click="modifyGroup='';groupName.text='';groupPanel.visible=true;"/>
+			<s:Button label="주소추가" id="addAddressBtn" click="addAddressBtn_clickHandler(event)" />
+		</s:Group>		
+		<s:Group width="700" height="455">
+			<s:layout>
+				<s:BasicLayout/>
+			</s:layout>
+			<mx:Tree id="myTree" width="700" height="455" change="treeChanged(event)" borderSkin="{null}"
+					 disclosureClosedIcon="{PLUS}" disclosureOpenIcon="{MINUS}"
+					 itemRenderer="component.address.AddressTreeItemRenderer" labelField="@label"
+					 showRoot="true"/>
+			<lib:Spinner id="spinner" visible="false" left="10"  right="10" bottom="50" top="50" spinnerColor="#666666" spinnerHighlightColor="#cccccc" spinnerLineThickness="6" spinnerType="gradientlines" spinnerAlpha="0.5" />
+		</s:Group>
+	</s:Group>
+	
+	<s:Panel id="groupPanel" visible="false" x="173" y="22" title="그룹추가 및 수정">
+		<s:Form>
+			<s:FormItem height="32" label="그룹이름" skinClass="skin.FormItemSkin">
+				<s:TextInput id="groupName"/>
+			</s:FormItem>
+			<s:Label id="validLabel" width="251" text="그룹이름을 입력 후 확인을 누르세요." textAlign="center" verticalAlign="top"/>
+			<s:FormItem height="32">
+				<s:layout>
+					<s:HorizontalLayout/>
+				</s:layout>
+				<s:Button id="checkGroupBtn" label="확인" click="checkGroupBtn_clickHandler(event)"/>
+				<s:Button label="취소" color="#000000" click="groupPanelInit()"/>
+			</s:FormItem>
+		</s:Form>
+	</s:Panel>
+	
+	<s:Panel id="addressPanel" visible="false" x="127" y="0" height="218"
+			 title="주소 추가 및 수정">
+		<s:Form id="form1" x="10" y="-10" width="351" height="155">
+			<s:FormItem height="22" label="그룹선택" skinClass="skin.FormItemSkin">
+				<s:DropDownList id="dropDownGroup" prompt="- 그룹 -"></s:DropDownList>
+			</s:FormItem>
+			<s:FormItem height="22" label="전화번호" skinClass="skin.FormItemSkin">
+				<s:TextInput id="textInputPhone"/>
+			</s:FormItem>
+			<s:FormItem height="22" label="이름" skinClass="skin.FormItemSkin">
+				<s:TextInput id="textInputName"/>
+			</s:FormItem>
+			<s:FormItem height="22" label="메모" skinClass="skin.FormItemSkin">
+				<s:TextInput id="textInputMemo" width="266"/>
+			</s:FormItem>
+			<s:FormItem>
+				<s:layout>
+					<s:HorizontalLayout/>
+				</s:layout>
+				<s:Button id="checkAddresBtn" label="확인" click="checkAddresBtn_clickHandler(event)"/>
+				<s:Button label="취소" click="addressPanelInit()"/>
+			</s:FormItem>
+		</s:Form>
+	</s:Panel>
+</s:Group>
