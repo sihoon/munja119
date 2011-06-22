@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<actionScriptProperties analytics="false" mainApplicationPath="flex_admin.mxml" projectUUID="da68d808-fa02-4cb0-9e06-9e2e07bfb099" version="7">
+  <compiler additionalCompilerArguments="-services &quot;D:\Workspace\20110422-FLEXSMS\blazeds\WebContent\WEB-INF\flex\services-config.xml&quot; -locale en_US" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderLocation="D:/Workspace/20110422-FLEXSMS/blazeds/WebContent/flex_admin-debug" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+    <compilerSourcePath/>
+    <libraryPath defaultLinkType="0">
+      <libraryPathEntry kind="4" path="">
+        <excludedEntries>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flex.swc" useDefaultLinkType="false"/>
+        </excludedEntries>
+      </libraryPathEntry>
+      <libraryPathEntry kind="1" linkType="1" path="libs"/>
+    </libraryPath>
+    <sourceAttachmentPath/>
+  </compiler>
+  <applications>
+    <application path="flex_admin.mxml"/>
+  </applications>
+  <modules>
+    <module application="src/flex_admin.mxml" destPath="module/Member.swf" optimize="true" sourcePath="src/module/Member.mxml"/>
+    <module application="src/flex_admin.mxml" destPath="module/Point.swf" optimize="true" sourcePath="src/module/Point.mxml"/>
+    <module application="src/flex_admin.mxml" destPath="module/Sent.swf" optimize="true" sourcePath="src/module/Sent.mxml"/>
+    <module application="src/flex_admin.mxml" destPath="module/Stats.swf" optimize="true" sourcePath="src/module/Stats.mxml"/>
+    <module application="src/flex_admin.mxml" destPath="module/PointLog.swf" optimize="true" sourcePath="src/module/PointLog.mxml"/>
+  </modules>
+  <buildCSSFiles/>
+  <flashCatalyst validateFlashCatalystCompatibility="false"/>
+</actionScriptProperties>
