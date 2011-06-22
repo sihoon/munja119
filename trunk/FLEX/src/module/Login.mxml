@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns:s="library://ns.adobe.com/flex/spark"
+		   xmlns:mx="library://ns.adobe.com/flex/mx"
+		   creationComplete="creationCompleteHandler(event)" layout="absolute">
+	<fx:Style source="flex.css"/>
+	<fx:Metadata>
+		[Event(name="join", type="flash.events.MouseEvent")]
+		[Event(name="login", type="lib.CustomEvent")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import component.member.Join;
+			import component.member.UserInformationVO;
+			
+			import lib.BooleanAndDescriptionVO;
+			import lib.CustomEvent;
+			import lib.RO;
+			import lib.SLibrary;
+			
+			import mx.core.IFlexDisplayObject;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			
+			private var RO_DESTINATION:String = "WEB";
+			private var ro:RO = new RO();
+			
+			public function loginOK(vo:UserInformationVO):void {
+				
+				login.visible = false;
+				loginInfo.visible = true;
+				
+				login_info.text = vo.user_name + " 님 안녕하세요.";
+				point.text = vo.point;
+			}
+			
+			public function loginNO():void {
+				
+				login.visible = true;
+				loginInfo.visible = false;
+			}
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				ro.set(RO_DESTINATION, loginOk_ResultEventHandler);
+				ro.method.getUserInformation();
+			}
+			protected function loginOk_ResultEventHandler(event:ResultEvent):void
+			{
+				var info:UserInformationVO = UserInformationVO(event.result);
+				if (info != null)
+					dispatchEvent(new CustomEvent("login",info));
+			}
+			
+			protected function login_id_focusInHandler(event:FocusEvent):void
+			{
+				
+				if (login_id.getStyle("color") == "0xcccccc") {
+					login_id.text = "";
+					login_id.setStyle("color", "0x000000");
+
+				}
+			}
+			
+			protected function login_pw_focusInHandler(event:FocusEvent):void
+			{
+				if (login_pw.getStyle("color") == "0xcccccc") {
+					login_pw.text = "";
+					login_pw.setStyle("color", "0x000000");
+					login_pw.displayAsPassword = true;
+				}
+			}
+
+
+
+			protected function login_button_clickHandler(event:MouseEvent):void
+			{
+				if (login_id.text == "") {
+					SLibrary.alert("아이디를 입력하세요");
+				}else if (login_pw.text == "") {
+					SLibrary.alert("비밀번호를 입력하세요");
+				}else {
+					
+					ro.set(RO_DESTINATION, login_ResultEventHandler);
+					ro.method.login(login_id.text, login_pw.text);
+				}
+			}
+			private function login_ResultEventHandler(event:ResultEvent):void {
+				
+				var bVO:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
+				if (bVO.bResult) {
+					creationCompleteHandler(null);
+				} else {
+					SLibrary.alert("로그인 실패.");
+				}
+			}
+			
+			
+			protected function join_button_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new MouseEvent("join"));
+			}
+
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:HGroup id="login" x="0" y="4">
+		<s:TextInput id="login_id" height="23" text="id" color="#cccccc" focusIn="login_id_focusInHandler(event)"/>
+		<s:TextInput id="login_pw" height="23" text="password" color="#cccccc" focusIn="login_pw_focusInHandler(event)"/>
+		<s:Button id="login_button" label="로그인" click="login_button_clickHandler(event)"/>
+		<s:Button id="join_button" label="회원가입" click="join_button_clickHandler(event)"/>
+	</s:HGroup>
+	
+	<s:HGroup id="loginInfo" x="0" y="7" visible="false">
+		<s:Label id="login_info" fontSize="12" />
+		<s:Label text=" 사용가능건수 : " fontSize="12" />
+		<s:Label id="point" fontWeight="bold" fontSize="12" />
+	</s:HGroup>
+	
+</mx:Module>
