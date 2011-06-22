@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Metadata>
+		[Event(name="validValue", type="lib.CustomEvent")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import lib.CustomEvent;
+			import lib.KoreaPhoneNumberFormatter;
+			import lib.SLibrary;
+			
+			import mx.collections.ArrayCollection;
+
+			[Bindable]
+			private var al:ArrayCollection = new ArrayCollection(); // 전화번호 리스트
+			private var Kpf:KoreaPhoneNumberFormatter = new KoreaPhoneNumberFormatter(); // 전화번호 포맷
+			
+			public function init():void {
+				
+				this.al = new ArrayCollection();
+				setTotalCount();
+			}
+			
+			public function setTotalCount():void { 
+				this.totalCount.text = new String(this.al.length);
+				dispatchEvent(new CustomEvent("validValue", null));
+			}
+			
+			public function getTotalCount():Number { return  Number(this.totalCount.text); }
+			
+			public function get phoneList():ArrayCollection { return this.al; }
+			
+			
+			public function addList(str:String):void {
+				
+				var arr:Array = str.split(",");
+				var cnt:int = arr.length;
+				
+				var pvo:PhoneListVO = null;
+				var temp:Array = null;
+				for (var i:int; i< cnt; i++) {
+					temp = arr[i].split("||");
+					
+					pvo = new PhoneListVO();
+					pvo.phoneNumber = (temp != null && temp.length > 0)?temp[0]:"";
+					pvo.phoneName = (temp != null && temp.length > 1)?temp[1]:"";					
+					phoneList.addItem(pvo);
+				}
+				setTotalCount();
+			}
+			
+			public function addListArray(arr:Array):void {
+				
+				var cnt:int = arr.length;
+				var vo:PhoneListVO = null;
+				var temp:Array = null;
+				
+				var addAc:ArrayCollection = new ArrayCollection();
+				
+				for (var i:int = 0; i < cnt; i++) {
+					
+					vo = new PhoneListVO();
+					temp = arr[i] as Array;
+					vo.phoneNumber = (temp.length > 0)? SLibrary.trim(temp[0]):"";
+					vo.phoneName = (temp.length > 1)? temp[1]:"";
+					
+					if ( SLibrary.bKoreaPhoneCheck(vo.phoneNumber) )
+						addAc.addItem(vo);
+				}
+				phoneList.addAllAt(addAc, (phoneList.length < 1)? 0 : phoneList.length-1);
+				setTotalCount();
+			}
+
+			protected function addPhoneButton_clickHandler(event:MouseEvent):void {
+				addList(phoneTextInput.text);
+			}
+			
+			// 전화번호 포맷
+			private function phoneFomat(item:Object, column:DataGridColumn):String	{ 
+				return Kpf.format(item.phoneNumber); 
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:HGroup verticalAlign="middle">
+		<s:Label text="수신번호"/>
+		<s:TextInput id="phoneTextInput" width="100" />
+		<s:Button id="addPhoneButton" width="30" label="+" click="addPhoneButton_clickHandler(event)"/>
+	</s:HGroup>
+	<mx:DataGrid id="sendDG" width="190" height="100" dataProvider="{al}" showHeaders="false">
+		<mx:columns>
+				<mx:DataGridColumn  headerText="이름" dataField="phoneName" width="80"></mx:DataGridColumn>
+				<mx:DataGridColumn  headerText="전화번호" labelFunction="phoneFomat" dataField="phoneNumber"></mx:DataGridColumn>
+				<mx:DataGridColumn  sortable="false" itemRenderer="component.handphone.DeleteRenderer" width="20" ></mx:DataGridColumn>
+		</mx:columns>
+	</mx:DataGrid>
+	
+	
+	<s:HGroup>
+		<s:Label text="총인원 : "/><s:Label id="totalCount" text="" width="120" textAlign="right"></s:Label><s:Label text="명" />	
+	</s:HGroup>
+</s:VGroup>

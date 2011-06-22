@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Script>
+		<![CDATA[
+			public function get bReservation():Boolean { return (reservationText.text.length > 0)?true:false; }
+			
+			public function get strReservation():String { return this.reservationText.text; }
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Button label="예약" />
+	<s:Label id="reservationText" />
+</s:HGroup>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%"
+		   creationComplete="module1_creationCompleteHandler(event)">
+	<fx:Style source="flex.css"/>
+	<fx:Script>
+		<![CDATA[
+			import flashx.textLayout.conversion.TextConverter;
+			
+			import mx.events.FlexEvent;
+			
+			[Bindable]
+			private var _sHtml1:String = "";
+			[Bindable]
+			private var _sHtml2:String = "";
+			
+			public function setMessage1(notiMessage:String):void{
+				_sHtml1 = notiMessage;
+			}
+			
+			public function setMessage2(notiMessage:String):void{
+				_sHtml2 = notiMessage;
+			}
+
+			protected function module1_creationCompleteHandler(event:FlexEvent):void
+			{
+				setMessage1("<b>기능을 소개 합니다.</b><br/>");
+				setMessage2("<b>단가를 소개 합니다.</b>");
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:VGroup left="0" right="0" top="0" bottom="0" width="100%" height="100%">
+		<mx:Accordion id="accordion" color="0x323232" width="100%" height="100%">
+			<!-- Define each panel using a VBox container. -->
+			<s:NavigatorContent label="기능소개">
+				<s:RichText id="message1" textFlow="{TextConverter.importToFlow(this._sHtml1, TextConverter.TEXT_FIELD_HTML_FORMAT)}"/>
+			</s:NavigatorContent>
+			
+			<s:NavigatorContent label="단가안내">
+				<s:RichText id="message2" textFlow="{TextConverter.importToFlow(this._sHtml2, TextConverter.TEXT_FIELD_HTML_FORMAT)}"/>
+			</s:NavigatorContent>
+			<!--
+			<s:NavigatorContent label="공지사항" width="100%">
+				<mx:DataGrid id="dgGroup" width="100%" height="100%"
+							 draggableColumns="false" resizableColumns="false">
+				</mx:DataGrid>
+			</s:NavigatorContent>
+			-->
+		</mx:Accordion>
+	</s:VGroup>
+	
+	
+</mx:Module>
