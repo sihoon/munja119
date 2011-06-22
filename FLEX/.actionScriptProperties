@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties analytics="false" mainApplicationPath="flex_admin.mxml" projectUUID="da68d808-fa02-4cb0-9e06-9e2e07bfb099" version="7">
-  <compiler additionalCompilerArguments="-services &quot;D:\Workspace\20110422-FLEXSMS\blazeds\WebContent\WEB-INF\flex\services-config.xml&quot; -locale en_US" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderLocation="D:/Workspace/20110422-FLEXSMS/blazeds/WebContent/flex_admin-debug" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+<actionScriptProperties analytics="false" mainApplicationPath="flex.mxml" projectUUID="f5f93507-cd93-4ed4-b1b4-8966836a6513" version="7">
+  <compiler additionalCompilerArguments="-services &quot;D:\Workspace\20110615-119\blazeds\WebContent\WEB-INF\flex\services-config.xml&quot; -locale en_US" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderLocation="D:/Workspace/20110615-119/blazeds/WebContent/flex-debug" outputFolderPath="bin-debug" rootURL="" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath/>
     <libraryPath defaultLinkType="0">
       <libraryPathEntry kind="4" path="">
@@ -13,14 +13,17 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="flex_admin.mxml"/>
+    <application path="flex.mxml"/>
   </applications>
   <modules>
-    <module application="src/flex_admin.mxml" destPath="module/Member.swf" optimize="true" sourcePath="src/module/Member.mxml"/>
-    <module application="src/flex_admin.mxml" destPath="module/Point.swf" optimize="true" sourcePath="src/module/Point.mxml"/>
-    <module application="src/flex_admin.mxml" destPath="module/Sent.swf" optimize="true" sourcePath="src/module/Sent.mxml"/>
-    <module application="src/flex_admin.mxml" destPath="module/Stats.swf" optimize="true" sourcePath="src/module/Stats.mxml"/>
-    <module application="src/flex_admin.mxml" destPath="module/PointLog.swf" optimize="true" sourcePath="src/module/PointLog.mxml"/>
+    <module application="src/flex.mxml" destPath="module/Address.swf" optimize="true" sourcePath="src/module/Address.mxml"/>
+    <module application="src/flex.mxml" destPath="module/Count.swf" optimize="true" sourcePath="src/module/Count.mxml"/>
+    <module application="src/flex.mxml" destPath="module/ExcelLoader.swf" optimize="true" sourcePath="src/module/ExcelLoader.mxml"/>
+    <module application="src/flex.mxml" destPath="module/HandPhone.swf" optimize="true" sourcePath="src/module/HandPhone.mxml"/>
+    <module application="src/flex.mxml" destPath="module/Home.swf" optimize="true" sourcePath="src/module/Home.mxml"/>
+    <module application="src/flex.mxml" destPath="module/Login.swf" optimize="true" sourcePath="src/module/Login.mxml"/>
+    <module application="src/flex.mxml" destPath="module/Sent.swf" optimize="true" sourcePath="src/module/Sent.mxml"/>
+    <module application="src/flex.mxml" destPath="module/Billing.swf" optimize="true" sourcePath="src/module/Billing.mxml"/>
   </modules>
   <buildCSSFiles/>
   <flashCatalyst validateFlashCatalystCompatibility="false"/>

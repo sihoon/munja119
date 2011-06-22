@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>flex_admin</name>
+	<name>flex</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -19,12 +19,7 @@
 		<link>
 			<name>bin-debug</name>
 			<type>2</type>
-			<location>D:/Workspace/20110422-FLEXSMS/blazeds/WebContent/flex_admin-debug</location>
-		</link>
-		<link>
-			<name>bin-release</name>
-			<type>2</type>
-			<location>D:/Workspace/20110422-FLEXSMS/blazeds/WebContent/flex_admin</location>
+			<location>D:/Workspace/20110615-119/blazeds/WebContent/flex-debug</location>
 		</link>
 	</linkedResources>
 </projectDescription>

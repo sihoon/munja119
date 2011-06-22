@@ -168,6 +168,12 @@ package lib
 			navigateToURL(u,"_self");
 		}
 		
+		public static function javascript(msg:String):void {
+			
+			var u:URLRequest = new URLRequest("javascript:" + msg + "");
+			navigateToURL(u,"_self");
+		}
+		
 		public static function checkJumin(value:String):String {
 			
 			var result:String = null;
