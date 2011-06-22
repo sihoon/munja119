@@ -57,6 +57,12 @@
                 flashvars, params, attributes);
             // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
             swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+            
+            function yesThanks(amount,where) {
+            	document.form.amount.value = amount;
+            	document.form.action = where;
+            	document.form.submit();
+            }
         </script>
     </head>
     <body>
@@ -64,6 +70,7 @@
              JavaScript and Flash plug-in support is available. The div is initially hidden so that it doesn't show
              when JavaScript is disabled.
         -->
+        <iframe src="_blank" id="nobody" name="nobody" frameborder="0" width="10" height="10" style="display:block;"></iframe>
         <div id="flashContent">
             <p>
                 To view this page ensure that Adobe Flash Player version 
@@ -103,6 +110,11 @@
                 </object>
                 <!--<![endif]-->
             </object>
-        </noscript>     
+        </noscript>
+        
+        <form name="form" target="nobody" mehtod="post" action="" >
+        	<input type="hidden" name="amount" value="" />
+        </form>
+        
    </body>
 </html>
