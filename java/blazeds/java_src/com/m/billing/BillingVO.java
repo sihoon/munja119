@@ -13,15 +13,13 @@ public class BillingVO implements Serializable {
 	String user_id;
 	String method;
 	int amount;
-	String order_no;
-	String item_type; 
+	String order_no; 
 	String unit_cost;
-	int remain_point; 
-	String pay_state; 
-	String ynVAT; 
+	int remain_point; ; 
 	String memo; 
 	String admin_id;
 	String timeWrite;
+	
 	public int getIdx() {
 		return idx;
 	}
@@ -37,20 +35,11 @@ public class BillingVO implements Serializable {
 	public String getOrder_no() {
 		return order_no;
 	}
-	public String getItem_type() {
-		return item_type;
-	}
 	public String getUnit_cost() {
 		return unit_cost;
 	}
 	public int getRemain_point() {
 		return remain_point;
-	}
-	public String getPay_state() {
-		return pay_state;
-	}
-	public String getYnVAT() {
-		return ynVAT;
 	}
 	public String getMemo() {
 		return memo;
@@ -76,20 +65,11 @@ public class BillingVO implements Serializable {
 	public void setOrder_no(String order_no) {
 		this.order_no = order_no;
 	}
-	public void setItem_type(String item_type) {
-		this.item_type = item_type;
-	}
 	public void setUnit_cost(String unit_cost) {
 		this.unit_cost = unit_cost;
 	}
 	public void setRemain_point(int remain_point) {
 		this.remain_point = remain_point;
-	}
-	public void setPay_state(String pay_state) {
-		this.pay_state = pay_state;
-	}
-	public void setYnVAT(String ynVAT) {
-		this.ynVAT = ynVAT;
 	}
 	public void setMemo(String memo) {
 		this.memo = memo;

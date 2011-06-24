@@ -3,7 +3,7 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   creationComplete="creationCompleteHandler(event)"
-			   minWidth="955" minHeight="600" skinClass="skin.App1">
+			   minWidth="1024" minHeight="768" skinClass="skin.App1">
 	<fx:Style source="flex.css"/>
 	<fx:Script>
 		<![CDATA[
@@ -90,7 +90,7 @@
 	<mx:ModuleLoader id="mlLogin" url="module/Login.swf" horizontalCenter="0">
 		<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 	</mx:ModuleLoader>
-	<s:Panel width="1024" height="670" horizontalCenter="0" title="문자 119"  y="40">
+	<s:Panel width="1024" height="670" horizontalCenter="0" title=""  y="40">
 		<s:controlBarContent >
 			<s:VGroup>
 				<s:Label color="0x999999" text="Copyright ⓒ www.munja119.com All right reserved "/>	
@@ -99,7 +99,7 @@
 			</s:VGroup>
 		</s:controlBarContent>
 
-		<s:HGroup horizontalCenter="0" top="10">
+		<s:HGroup horizontalCenter="0" left="0" right="0" bottom="0" top="10">
 			
 			<mx:ModuleLoader id="mlHandPhone" url="module/HandPhone.swf">
 				<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
