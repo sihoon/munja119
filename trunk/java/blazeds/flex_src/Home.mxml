@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" backgroundColor="0x000000">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		*
+		{
+			font-family: Dotum;
+			color:#eeeeee;
+		}
+	</fx:Style>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:HGroup gap="5">
+		<s:Panel width="200" skinClass="skin.HomePanelSkin" title="단가안내">
+			<s:layout>
+				<s:VerticalLayout paddingTop="5" paddingLeft="5" paddingRight="5" paddingBottom="5"/>
+			</s:layout>
+			<s:Label width="100%" text="최저 건당 00원" fontWeight="bold" color="#93DAFF" />
+			<s:Label width="100%" text="이용량에 따라 최저 건당 00원까지 적용 가능 합니다." color="#ffffff" />
+			<s:Label width="100%" text="기본 건당 00원" fontWeight="bold" color="#93DAFF" />
+			<s:Label width="100%" text="사용량, 메시지 내용에 상관 없이 모든 회원이 건당 00원이 적용 됩니다." color="#ffffff" />
+		</s:Panel>
+		<s:Panel width="300" skinClass="skin.HomePanelSkin" title="기능안내">
+			<s:layout>
+				<s:VerticalLayout paddingTop="5" paddingLeft="5" paddingRight="5" paddingBottom="5"/>
+			</s:layout>
+			<s:Label width="100%" text="최대50만건 일괄 전송" fontWeight="bold" color="#93DAFF" />
+			<s:Label width="100%" text="엑셀 또는 주소록에 50만건 등록 후 즉시 발송 가능 하며, 발송시 진행 상황을 실시간으로 확인 가능 합니다." color="#ffffff" />
+			<s:Label width="100%" text="대량 주소록 관리" fontWeight="bold" color="#93DAFF" />
+			<s:Label width="100%" text="그룹별로 관리되며 대량의 데이터를 페이징 없이 확인 가능 합니다." color="#ffffff" />
+			<s:Label width="100%" text="엑셀 발송" fontWeight="bold" color="#93DAFF" />
+			<s:Label width="100%" text="버전에 관계없이 모든 엑셀 파일을 실시간으로 발송 및 주소록에 저장 가능 합니다." color="#ffffff" />
+		</s:Panel>
+		<s:Panel skinClass="skin.HomePanelSkin" width="100%" title="공지사항"></s:Panel>
+	</s:HGroup>
+	
+	
+</s:Application>
