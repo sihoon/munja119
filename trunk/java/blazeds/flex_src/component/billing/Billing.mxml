@@ -20,6 +20,7 @@
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				this.chargeAccount.addEventListener(Event.CHANGE, chargeAccount_changeEvent );
+				this.chargeMethod.addEventListener(Event.CHANGE, chargeAccount_changeEvent );
 				
 				ro.set(RO_DESTINATION, unit_ResultEventHandler);
 				ro.method.getUserInformation();
@@ -40,7 +41,10 @@
 			
 			private function setBillingCount():void {
 				var amount:Number = Number(this.chargeAccount.selectedValue);
+				var smethod:String = String(this.chargeMethod.selectedValue);
 				var unit:Number = Number(this.userUnit.text);
+				
+				this.method.text = smethod;
 				this.billingCount.text = String(Math.ceil(amount/unit));
 			}
 			
@@ -48,7 +52,8 @@
 			{
 				var amount:String = String(this.chargeAccount.selectedValue);
 				var url:String = "/lgdacom/payreq.jsp";
-				SLibrary.javascript("yesThanks("+amount+",'"+url+"');");
+				var method:String = String(this.chargeMethod.selectedValue);
+				SLibrary.javascript("yesThanks('"+method+"',"+amount+",'"+url+"');");
 			}
 		]]>
 	</fx:Script>
@@ -58,44 +63,39 @@
 		<s:RadioButtonGroup id="chargeAccount"/>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:Form width="100%" height="100%" fontSize="14" fontWeight="bold" skinClass="skin.JoinSkin">
-		<s:FormItem label="결제방식" skinClass="skin.FormItemSkin">
+	<s:VGroup left="0" right="0" top="0" bottom="0">
+		<s:Panel width="100%" skinClass="skin.HomePanelSkin" title="1. 결제 수단">
 			<s:layout>
-				<s:VerticalLayout/>
+				<s:VerticalLayout paddingTop="5" paddingLeft="5" paddingRight="5" paddingBottom="5"/>
 			</s:layout>
-			<s:RadioButton label="카드" value="card" groupName="chargeMethod" selected="true"/>
-			<s:RadioButton label="핸드폰" value="handphone" groupName="chargeMethod"/>
-			<s:RadioButton label="계좌이체" value="trasfer" groupName="chargeMethod"/>
-			<s:RadioButton label="무통장입금" value="bankbook" groupName="chargeMethod"/>
-		</s:FormItem>
-		<s:FormItem label="결제금액" skinClass="skin.FormItemSkin">
+			<s:RadioButton label="카드" value="카드" groupName="chargeMethod" selected="true"  />
+			<s:RadioButton label="계좌이체" value="계좌이체" groupName="chargeMethod" />
+			<s:RadioButton label="무통장입금" value="무통장입금" groupName="chargeMethod" />
+		</s:Panel>
+		<s:Panel width="100%" skinClass="skin.HomePanelSkin" title="2. 결제 금액">
 			<s:layout>
-				<s:VerticalLayout/>
+				<s:VerticalLayout paddingTop="5" paddingLeft="5" paddingRight="5" paddingBottom="5"/>
 			</s:layout>
-			<s:RadioButton label="30,000 원" value="30000" groupName="chargeAccount" selected="true"/>
-			<s:RadioButton label="50,000 원" value="50000" groupName="chargeAccount"/>
-			<s:RadioButton label="100,000 원" value="100000" groupName="chargeAccount"/>
-			<s:RadioButton label="300,000 원" value="300000" groupName="chargeAccount"/>
-			<s:RadioButton label="500,000 원" value="500000" groupName="chargeAccount"/>
-			<s:RadioButton label="1,000,000 원" value="1000000" groupName="chargeAccount"/>
-		</s:FormItem>
-		<s:FormItem label="건당 단가" skinClass="skin.FormItemSkin">
+			<s:RadioButton label="50,000 원" value="50000" groupName="chargeAccount" />
+			<s:RadioButton label="100,000 원" value="100000" groupName="chargeAccount" />
+			<s:RadioButton label="500,000 원" value="500000" groupName="chargeAccount" />
+			<s:RadioButton label="1,000,000 원" value="1000000" groupName="chargeAccount" />
+		</s:Panel>
+		<s:Panel width="100%" skinClass="skin.HomePanelSkin" title="3. 결제 확인">
 			<s:layout>
-				<s:VerticalLayout/>
+				<s:VerticalLayout paddingTop="5" paddingLeft="5" paddingRight="5" paddingBottom="5"/>
 			</s:layout>
-			<s:Label id="userUnit" text="0"/>
-		</s:FormItem>
-		<s:FormItem label="충전건수" skinClass="skin.FormItemSkin">
-			<s:layout>
-				<s:HorizontalLayout/>
-			</s:layout>
-			<s:Label id="billingCount" text="" /><s:Label text="건" />
-		</s:FormItem>
-		<s:FormItem label="" skinClass="skin.FormItemSkin">
-			<s:layout>
-				<s:VerticalLayout/>
-			</s:layout>
-			<s:Button id="reqCharge" label="결제하기" click="reqCharge_clickHandler(event)" />
-		</s:FormItem>
-	</s:Form>
+			<s:Label width="100%" text="결제수단" fontWeight="bold" color="#93DAFF" />
+			<s:Label id="method" width="100%" text="카드" color="#ffffff" />
+			<s:Label width="100%" text="금액" fontWeight="bold" color="#93DAFF" />
+			<s:Label width="100%" text="10000" color="#ffffff" />
+			<s:Label width="100%" text="건당 단가" fontWeight="bold" color="#93DAFF" />
+			<s:Label id="userUnit" width="100%" text="10" color="#ffffff" />
+			<s:Label width="100%" text="충전 건수" fontWeight="bold" color="#93DAFF" />
+			<s:Label id="billingCount" width="100%" text="10000" color="#ffffff" />
+		</s:Panel>
+		<s:Button id="reqCharge" label="결제하기" click="reqCharge_clickHandler(event)" />
+	</s:VGroup>
+	
+	
 </s:Group>

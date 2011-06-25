@@ -48,8 +48,13 @@ try {
     String LGD_BUYEREMAIL       = "";               //구매자 이메일
     String LGD_TIMESTAMP        = SLibrary.getDateTimeString("yyyyMMddHHmmss");                //타임스탬프
     String LGD_CUSTOM_SKIN      = "blue";                                                //상점정의 결제창 스킨(red, blue, cyan, green, yellow)
+    String LGD_CUSTOM_FIRSTPAY  = SLibrary.IfNull(request.getParameter("smethod"));
 
-
+	if (LGD_CUSTOM_FIRSTPAY.equals("카드")) LGD_CUSTOM_FIRSTPAY = "SC0010";
+	else if (LGD_CUSTOM_FIRSTPAY.equals("계좌이체")) LGD_CUSTOM_FIRSTPAY = "SC0030";
+	else LGD_CUSTOM_FIRSTPAY = "";
+	
+	
     /*
      * 가상계좌(무통장) 결제 연동을 하시는 경우 아래 LGD_CASNOTEURL 을 설정하여 주시기 바랍니다. 
      */    
@@ -201,6 +206,8 @@ function isActiveXOK(){
 <input type="hidden" name="LGD_CUSTOM_PROCESSTYPE"      value="<%= LGD_CUSTOM_PROCESSTYPE %>">         <!-- 트랜잭션 처리방식 -->
 <input type="hidden" name="LGD_TIMESTAMP"               value="<%= LGD_TIMESTAMP %>">                  <!-- 타임스탬프 -->
 <input type="hidden" name="LGD_HASHDATA"                value="<%= LGD_HASHDATA %>">                   <!-- MD5 해쉬암호값 -->
+<input type="hidden" name="LGD_CUSTOM_FIRSTPAY"			value="<%= LGD_CUSTOM_FIRSTPAY %>">
+<input type="hidden" name="LGD_CUSTOM_USABLEPAY"			value="<%= LGD_CUSTOM_FIRSTPAY %>">
 <input type="hidden" name="LGD_PAYKEY"                  id="LGD_PAYKEY">   							   <!-- LG데이콤 PAYKEY(인증후 자동셋팅)-->
 <input type="hidden" name="LGD_VERSION"         		value="JSP_XPay_1.0">
 

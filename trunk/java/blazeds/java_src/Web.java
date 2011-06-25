@@ -657,23 +657,42 @@ public class Web extends SessionManagement{
 	#	billing						#
 	################################*/
 	
-	public BooleanAndDescriptionVO setBilling(BillingVO bvo) {
+	public BooleanAndDescriptionVO setBilling( Connection conn, BillingVO bvo) {
 		
-		Connection conn = null;
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
 		rvo.setbResult(false);
 		Billing bill = null;
+		UserInformationVO uvo = null;
+		int point = 0;
+		int rslt = 0;
+		
+		
 		try {
 			String user_id = getSession();
 			if (user_id == null || user_id.equals("") || !bvo.getUser_id().equals(user_id)) throw new Exception("로그인 되어 있지 않습니다.");
-			conn = VbyP.getDB();
 			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
 			bill = Billing.getInstance();
 			
+			
+			
 			VbyP.accessLog(" >> 결제등록 요청 "+ user_id +" , "+ Integer.toString(bvo.getAmount())+" , "+ bvo.getMethod());
+			
+			uvo = getUserInformation(conn, bvo.getUser_id());
+			point = SLibrary.intValue( String.valueOf( Math.ceil(bvo.getAmount()/uvo.getUnit_cost()) ) );
+			
+			bvo.setPoint(point);
+			bvo.setRemain_point( SLibrary.intValue(uvo.getPoint()) + point);
+			bvo.setTimeWrite(SLibrary.getDateTimeString("yyyy-MM-dd HH:mm:ss"));
+			bvo.setUnit_cost(Integer.toString(uvo.getUnit_cost()));
 			
 			if ( bill.insert(conn, bvo) < 1)
 				throw new Exception("결제 등록에 실패 하였습니다.");
+			
+			
+			PointManager pm = PointManager.getInstance();
+			rslt = pm.insertUserPoint(conn, uvo, 03, point * PointManager.DEFULT_POINT);
+			if (rslt != 1)
+				throw new Exception("건수 충전에 실패 하였습니다.");
 
 			rvo.setbResult(true);
 			
@@ -682,11 +701,7 @@ public class Web extends SessionManagement{
 			rvo.setbResult(false);
 			rvo.setstrDescription(e.getMessage());
 			
-		}	finally {			
-			try { if ( conn != null ) conn.close();
-			}catch(SQLException e) { VbyP.errorLog("addGroup >> conn.close() Exception!"); }
 		}
-		
 		return rvo;
 	}
 	

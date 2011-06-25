@@ -99,7 +99,7 @@
 			</s:VGroup>
 		</s:controlBarContent>
 
-		<s:HGroup horizontalCenter="0" left="0" right="0" bottom="0" top="10">
+		<s:HGroup horizontalCenter="0" top="10">
 			
 			<mx:ModuleLoader id="mlHandPhone" url="module/HandPhone.swf">
 				<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>

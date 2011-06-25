@@ -15,7 +15,8 @@ public class BillingVO implements Serializable {
 	int amount;
 	String order_no; 
 	String unit_cost;
-	int remain_point; ; 
+	int point;
+	int remain_point; 
 	String memo; 
 	String admin_id;
 	String timeWrite;
@@ -79,6 +80,12 @@ public class BillingVO implements Serializable {
 	}
 	public void setTimeWrite(String timeWrite) {
 		this.timeWrite = timeWrite;
+	}
+	public int getPoint() {
+		return point;
+	}
+	public void setPoint(int point) {
+		this.point = point;
 	}
 
 
