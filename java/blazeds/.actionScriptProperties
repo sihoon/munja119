@@ -17,7 +17,6 @@
   <applications>
     <application path="admin/flex_admin.mxml"/>
     <application path="flex.mxml"/>
-    <application path="Home.mxml"/>
   </applications>
   <modules>
     <module application="flex_src/flex.mxml" destPath="module/Address.swf" optimize="true" sourcePath="flex_src/module/Address.mxml"/>

@@ -1,3 +1,9 @@
+<%@page import="com.common.VbyP"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="com.m.member.UserInformationVO"%>
+<%@page import="com.m.member.SessionManagement"%>
+<%@page import="com.m.billing.BillingVO"%>
 <%@page import="com.common.util.SLibrary"%>
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page import="lgdacom.XPayClient.XPayClient;"%>
@@ -9,7 +15,7 @@
      * LG텔레콤으로 부터 내려받은 LGD_PAYKEY(인증Key)를 가지고 최종 결제요청.(파라미터 전달시 POST를 사용하세요)
      */
 
-    String configPath = "D:/Workspace/20110615-119/blazeds/WebContent/lgdacom";  //LG텔레콤에서 제공한 환경파일("/conf/lgdacom.conf,/conf/mall.conf") 위치 지정.
+    String configPath = "D:/Workspace/google119/blazeds/WebContent/lgdacom";  //LG텔레콤에서 제공한 환경파일("/conf/lgdacom.conf,/conf/mall.conf") 위치 지정.
     
     /*
      *************************************************
@@ -91,19 +97,60 @@
          
          if( "0000".equals( xpay.m_szResCode ) ) {
          	//최종결제요청 결과 성공 DB처리
-         	//out.println("최종결제요청 결과 성공 DB처리하시기 바랍니다.<br>");
-         	
-         	
-         	
-/*##################################################################*/
-
-
-/*##################################################################*/
-
-
-         	            	
+         	//out.println("최종결제요청 결과 성공 DB처리하시기 바랍니다.<br>");            	
          	//최종결제요청 결과 성공 DB처리 실패시 Rollback 처리
          	boolean isDBOK = true; //DB처리 실패시 false로 변경해 주세요.
+         	
+/*##################################################################*/
+			String session_id = (String)session.getAttribute("user_id");
+         	Connection conn = null;
+         	SessionManagement sm = null;
+         	String pay_code = "";
+         	String pay_name = "";
+         	int amount = SLibrary.intValue(xpay.Response("LGD_AMOUNT",0));
+         	BooleanAndDescriptionVO badvo = null;
+         	
+         	Web w = new Web();
+         	
+         	try {
+         		sm = new SessionManagement();
+             	pay_code = SLibrary.IfNull(xpay.Response("LGD_PAYTYPE",0));
+             	
+             	conn = VbyP.getDB();
+             	if (conn == null)throw new Exception("DB연결에 실패 하였습니다.");
+             	
+	         	if (pay_code.equals("SC0010")) pay_name="카드";
+	         	else if (pay_code.equals("SC0030")) pay_name="계좌이체";
+	         	
+	         	if (SLibrary.isNull(session_id)) throw new Exception("로그인이 필요 합니다.");
+	         	if (SLibrary.isNull(pay_code) || SLibrary.isNull(pay_name)) throw new Exception("결제 방식이 없습니다.");
+
+	         	
+				BillingVO bvo = new BillingVO();
+				bvo.setUser_id(session_id);
+				bvo.setAdmin_id("PG");
+				bvo.setAmount( amount );
+				bvo.setMemo("");
+				bvo.setMethod(pay_name);
+				bvo.setOrder_no(xpay.Response("LGD_OID",0));
+				
+				w.setBilling(conn, bvo);
+				
+         	}catch(Exception e) {
+         		out.println(SLibrary.alertScript(e.getMessage(), ""));
+         		isDBOK = false;
+         	}finally {
+         		if (conn != null) {
+         			try { if ( conn != null ) conn.close();
+        			}catch(SQLException e) { VbyP.errorLog("payres >> conn.close() Exception!"); }
+         		}
+         	}
+			
+
+/*##################################################################*/
+         	
+         	
+         	
          	if( !isDBOK ) {
          		xpay.Rollback("상점 DB처리 실패로 인하여 Rollback 처리 [TID:" +xpay.Response("LGD_TID",0)+",MID:" + xpay.Response("LGD_MID",0)+",OID:"+xpay.Response("LGD_OID",0)+"]");
          		

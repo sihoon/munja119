@@ -52,7 +52,7 @@ in accordance with the terms of the license agreement accompanying it.
     <!--- @private -->
 	<s:Rect left="0" right="0" top="0" bottom="0">
 		<s:fill>
-			<s:SolidColor color="#333333"/>
+			<s:SolidColor color="#000000"/>
 		</s:fill>
 	</s:Rect>
     
@@ -73,7 +73,7 @@ in accordance with the terms of the license agreement accompanying it.
                 <!--- @private -->
 				<s:Rect left="0" right="0" top="0" bottom="0">
 					<s:fill>
-						<s:SolidColor color="#000000"/>
+						<s:SolidColor color="#333333"/>
 					</s:fill>
 				</s:Rect>
                 <s:Rect id="tbFill" left="0" right="0" top="0" bottom="3">
@@ -84,8 +84,8 @@ in accordance with the terms of the license agreement accompanying it.
                 <!-- layer 3: text -->
                 <!--- @copy spark.components.Panel#titleDisplay -->
                 <s:Label id="titleDisplay" maxDisplayedLines="1"
-                         left="9" right="3" top="1" bottom="3" minHeight="30"
-                         verticalAlign="middle" fontSize="14" fontFamily="Dotum" color="#FFFFFF" textAlign="start" fontWeight="bold">
+                         left="9" right="3" top="1" bottom="3" minHeight="25"
+                         verticalAlign="middle" fontSize="13" fontFamily="Dotum" color="#FFFFFF" textAlign="start" fontWeight="bold">
                 </s:Label>
             </s:Group>
             
