@@ -1,3 +1,6 @@
+<%@ page contentType="text/html; charset=EUC-KR" %>
+<%@page import="com.m.billing.Billing"%>
+<%@page import="com.m.common.BooleanAndDescriptionVO"%>
 <%@page import="com.common.VbyP"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="java.sql.Connection"%>
@@ -5,7 +8,6 @@
 <%@page import="com.m.member.SessionManagement"%>
 <%@page import="com.m.billing.BillingVO"%>
 <%@page import="com.common.util.SLibrary"%>
-<%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page import="lgdacom.XPayClient.XPayClient;"%>
 
 <%
@@ -110,8 +112,6 @@
          	int amount = SLibrary.intValue(xpay.Response("LGD_AMOUNT",0));
          	BooleanAndDescriptionVO badvo = null;
          	
-         	Web w = new Web();
-         	
          	try {
          		sm = new SessionManagement();
              	pay_code = SLibrary.IfNull(xpay.Response("LGD_PAYTYPE",0));
@@ -134,7 +134,7 @@
 				bvo.setMethod(pay_name);
 				bvo.setOrder_no(xpay.Response("LGD_OID",0));
 				
-				w.setBilling(conn, bvo);
+				badvo = Billing.getInstance().setBilling(conn, bvo);
 				
          	}catch(Exception e) {
          		out.println(SLibrary.alertScript(e.getMessage(), ""));
@@ -146,7 +146,9 @@
          		}
          	}
 			
-
+			if (isDBOK) {
+				out.println(SLibrary.alertScript("결제가 완료 되었습니다.","parent.window.location.reload();"));
+			}
 /*##################################################################*/
          	
          	

@@ -37,7 +37,7 @@ public class SessionManagement {
 		}
 		
 		if (rslt == 0)
-			VbyP.accessLog(user_id+" >> ·Î±×ÀÎ ½Ã°£ ¾÷µ¥ÀÌÆ® ½ÇÆÐ");
+			VbyP.accessLog(user_id+" >> ï¿½Î±ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½");
 		
 		FlexSession session =  FlexContext.getFlexSession();
 		session.setAttribute("user_id", user_id);
@@ -67,10 +67,10 @@ public class SessionManagement {
 		}
 		
 		if (rslt == 0)
-			VbyP.accessLog(user_id+" >> ·Î±×ÀÎ ½Ã°£ ¾÷µ¥ÀÌÆ® ½ÇÆÐ");
+			VbyP.accessLog(user_id+" >> ï¿½Î±ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½");
 		
 		FlexSession session =  FlexContext.getFlexSession();
-		session.setAttribute("user_id", user_id);
+		session.setAttribute("admin_id", user_id);
 		VbyP.accessLog(user_id+" Admin Login");
 		
 	}
@@ -92,9 +92,29 @@ public class SessionManagement {
 
 	}
 	
+	public String getAdminSession() {
+		
+		FlexSession session = FlexContext.getFlexSession();
+		
+		if ( session.getAttribute("admin_id") == null )
+			return null;
+		else
+			return session.getAttribute("admin_id").toString();
+
+	}
+	
 	public boolean bSession() {
 		
 		String user_id = getSession();
+		if (user_id != null && !user_id.equals(""))
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean bAdminSession() {
+		
+		String user_id = getAdminSession();
 		if (user_id != null && !user_id.equals(""))
 			return true;
 		else
@@ -115,10 +135,10 @@ public class SessionManagement {
 		
 		if (rslt != 1) {
 			
-			rvo.setstrDescription("ÀÔ·ÂÇÏ½Å ·Î±×ÀÎ Á¤º¸°¡ ¾ø½À´Ï´Ù.");
+			rvo.setstrDescription("ï¿½Ô·ï¿½ï¿½Ï½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 		}else {
 			
-			rvo.setbResult(true);//ÀÏ¹Ý»ç¿ëÀÚ ·Î±×ÀÎ¼º°ø
+			rvo.setbResult(true);//ï¿½Ï¹Ý»ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½Î¼ï¿½ï¿½ï¿½
 		}
 		
 		if (rvo.getbResult())
@@ -142,10 +162,10 @@ public class SessionManagement {
 		
 		if (rslt != 1) {
 			
-			rvo.setstrDescription("ÀÔ·ÂÇÏ½Å ·Î±×ÀÎ Á¤º¸°¡ ¾ø½À´Ï´Ù.");
+			rvo.setstrDescription("ï¿½Ô·ï¿½ï¿½Ï½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 		}else {
 			
-			rvo.setbResult(true);//ÀÏ¹Ý»ç¿ëÀÚ ·Î±×ÀÎ¼º°ø
+			rvo.setbResult(true);//ï¿½Ï¹Ý»ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½Î¼ï¿½ï¿½ï¿½
 		}
 		
 		if (rvo.getbResult())

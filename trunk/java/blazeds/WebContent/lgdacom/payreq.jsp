@@ -1,3 +1,4 @@
+<%@page import="com.common.VbyP"%>
 <%@page import="com.m.member.SessionManagement"%>
 <%@ page contentType="text/html;charset=EUC-KR" %>
 <%@page import="com.m.member.UserInformationVO"%>
@@ -48,10 +49,12 @@ try {
     String LGD_BUYEREMAIL       = "";               //구매자 이메일
     String LGD_TIMESTAMP        = SLibrary.getDateTimeString("yyyyMMddHHmmss");                //타임스탬프
     String LGD_CUSTOM_SKIN      = "blue";                                                //상점정의 결제창 스킨(red, blue, cyan, green, yellow)
-    String LGD_CUSTOM_FIRSTPAY  = SLibrary.IfNull(request.getParameter("smethod"));
+    String req_smethod = SLibrary.IfNull(VbyP.getPOST(request.getParameter("smethod")));
+    String LGD_CUSTOM_FIRSTPAY  = "";
 
-	if (LGD_CUSTOM_FIRSTPAY.equals("카드")) LGD_CUSTOM_FIRSTPAY = "SC0010";
-	else if (LGD_CUSTOM_FIRSTPAY.equals("계좌이체")) LGD_CUSTOM_FIRSTPAY = "SC0030";
+    System.out.println(req_smethod);
+	if (req_smethod.equals("카드")) LGD_CUSTOM_FIRSTPAY = "SC0010";
+	else if (req_smethod.equals("계좌이체")) LGD_CUSTOM_FIRSTPAY = "SC0030";
 	else LGD_CUSTOM_FIRSTPAY = "";
 	
 	

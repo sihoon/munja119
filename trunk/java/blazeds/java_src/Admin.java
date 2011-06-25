@@ -14,9 +14,6 @@ import com.m.member.MemberVO;
 import com.m.member.SessionManagement;
 import com.m.member.UserInformationVO;
 
-import flex.messaging.FlexContext;
-
-
 public class Admin extends SessionManagement {
 
 	public Admin() {}
@@ -57,14 +54,11 @@ public class Admin extends SessionManagement {
 	public BooleanAndDescriptionVO isLogin() {
 		
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();			
-		if (this.bSession()) {
-			VbyP.accessLog(getSession()+" >>"+FlexContext.getHttpRequest().getRemoteAddr()+" 관리자 로그인.");
+		if (this.bAdminSession()) {
 			rvo.setbResult(true);
-			
 		}
 		else {
 			rvo.setbResult(false);
-			
 		}
 		
 		return rvo;
@@ -75,7 +69,7 @@ public class Admin extends SessionManagement {
 		
 		Connection conn = null;
 		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
-		VbyP.accessLog(getSession()+" >> 회원리스트 요청");
+		VbyP.accessLog(getAdminSession()+" >> 회원리스트 요청");
 		
 		if (isLogin().getbResult()) {		
 		
@@ -84,7 +78,7 @@ public class Admin extends SessionManagement {
 				conn = VbyP.getDB();
 				
 				
-				if (getSession() != null && !getSession().equals("")) {
+				if (getAdminSession() != null && !getAdminSession().equals("")) {
 					
 					
 					StringBuffer buf = new StringBuffer();
@@ -112,7 +106,7 @@ public class Admin extends SessionManagement {
 	public int updateMember(MemberVO mvo) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getSession()+" >> 회원수정 요청"+mvo.getUser_id());
+		VbyP.accessLog(getAdminSession()+" >> 회원수정 요청"+mvo.getUser_id());
 		int rslt = 0;
 		
 		if (isLogin().getbResult()) {		
@@ -159,7 +153,7 @@ public class Admin extends SessionManagement {
 	public int updateMemberPasswd(String user_id) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getSession()+" >> 비밀번호 초기화 요청"+user_id);
+		VbyP.accessLog(getAdminSession()+" >> 비밀번호 초기화 요청"+user_id);
 		int rslt = 0;
 		
 		if (isLogin().getbResult()) {		
@@ -191,13 +185,13 @@ public class Admin extends SessionManagement {
 		
 		Connection conn = null;
 		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
-		VbyP.accessLog(getSession()+" >> 포인트 리스트 요청");
+		VbyP.accessLog(getAdminSession()+" >> 포인트 리스트 요청");
 		
 		if (isLogin().getbResult()) {		
 		
 			try {
 				conn = VbyP.getDB();
-				if (getSession() != null && !getSession().equals("")) {
+				if (getAdminSession() != null && !getAdminSession().equals("")) {
 					
 					
 					StringBuffer buf = new StringBuffer();
@@ -225,7 +219,7 @@ public class Admin extends SessionManagement {
 	public int setPoint(String user_id, int point) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getSession()+" >> 포인트 수정 요청");
+		VbyP.accessLog(getAdminSession()+" >> 포인트 수정 요청");
 		
 		SessionManagement sm = new SessionManagement();
 		UserInformationVO mvo = null;
@@ -253,7 +247,7 @@ public class Admin extends SessionManagement {
 		
 		Connection conn = null;
 		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
-		VbyP.accessLog(getSession()+" >> 포인트 로그 요청");
+		VbyP.accessLog(getAdminSession()+" >> 포인트 로그 요청");
 		
 		if (isLogin().getbResult()) {		
 		
@@ -262,7 +256,7 @@ public class Admin extends SessionManagement {
 				conn = VbyP.getDB();
 				
 				
-				if (getSession() != null && !getSession().equals("")) {
+				if (getAdminSession() != null && !getAdminSession().equals("")) {
 					
 					
 					StringBuffer buf = new StringBuffer();
@@ -291,7 +285,7 @@ public class Admin extends SessionManagement {
 		
 		Connection conn = null;
 		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
-		VbyP.accessLog(getSession()+" >> 전송내역요청");
+		VbyP.accessLog(getAdminSession()+" >> 전송내역요청");
 		
 		if (isLogin().getbResult()) {		
 		
@@ -300,7 +294,7 @@ public class Admin extends SessionManagement {
 				conn = VbyP.getDB();
 				
 				
-				if (getSession() != null && !getSession().equals("")) {
+				if (getAdminSession() != null && !getAdminSession().equals("")) {
 					
 					
 					StringBuffer buf = new StringBuffer();
@@ -336,7 +330,7 @@ public class Admin extends SessionManagement {
 			try {
 				
 				conn = VbyP.getDB();
-				String user_id = getSession();
+				String user_id = getAdminSession();
 				VbyP.accessLog(user_id+" >> 전송내역:"+fromDate+"~"+endDate+","+bReservation);
 				
 				if (user_id != null && !user_id.equals("")) {
@@ -374,7 +368,7 @@ public class Admin extends SessionManagement {
 			try {
 				
 				connSMS = VbyP.getDB(line);
-				VbyP.accessLog(getSession()+" >> "+line+" 전송내역 상세보기:"+ Integer.toString(groupIndex));
+				VbyP.accessLog(getAdminSession()+" >> "+line+" 전송내역 상세보기:"+ Integer.toString(groupIndex));
 				
 				if (user_id != null && !user_id.equals("")) {
 							
@@ -404,13 +398,13 @@ public class Admin extends SessionManagement {
 		
 		Connection conn = null;
 		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
-		VbyP.accessLog(getSession()+" >> 결제 리스트 요청");
+		VbyP.accessLog(getAdminSession()+" >> 결제 리스트 요청");
 		
 		if (isLogin().getbResult()) {		
 		
 			try {
 				conn = VbyP.getDB();
-				if (getSession() != null && !getSession().equals("")) {
+				if (getAdminSession() != null && !getAdminSession().equals("")) {
 					
 					
 					StringBuffer buf = new StringBuffer();
@@ -438,7 +432,7 @@ public class Admin extends SessionManagement {
 	public int updateBilling(BillingVO bvo) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getSession()+" >> 결제수정 요청"+bvo.getUser_id());
+		VbyP.accessLog(getAdminSession()+" >> 결제수정 요청"+bvo.getUser_id());
 		int rslt = 0;
 		
 		if (isLogin().getbResult()) {		
@@ -475,7 +469,7 @@ public class Admin extends SessionManagement {
 	public int deleteBilling(int idx) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getSession()+" >> 결제정보 삭제 요청"+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> 결제정보 삭제 요청"+Integer.toString(idx));
 		int rslt = 0;
 		
 		if (isLogin().getbResult()) {		
