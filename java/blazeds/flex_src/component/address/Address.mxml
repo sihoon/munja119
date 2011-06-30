@@ -2,7 +2,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:address="component.address.*" xmlns:lib="lib.*"
-		 creationComplete="getAddress()"  width="700" height="480">
+		 creationComplete="getAddress()"  width="700" height="460">
 	<fx:Script>
 		<![CDATA[
 			import flash.utils.clearTimeout;
@@ -373,7 +373,7 @@
 		]]>
 	</fx:Script>
 	
-	<s:Group id="addressBox" left="0" right="0" height="480">
+	<s:Group id="addressBox" left="0" right="0" height="460">
 		<s:layout>
 			<s:VerticalLayout gap="0"/>
 		</s:layout>
@@ -388,13 +388,13 @@
 			<s:Button label="그룹추가" click="modifyGroup='';groupName.text='';groupPanel.visible=true;"/>
 			<s:Button label="주소추가" id="addAddressBtn" click="addAddressBtn_clickHandler(event)" />
 		</s:Group>		
-		<s:Group width="700" height="455">
+		<s:Group width="700" height="435">
 			<s:layout>
 				<s:BasicLayout/>
 			</s:layout>
-			<mx:Tree id="myTree" width="700" height="455" change="treeChanged(event)" borderSkin="{null}"
+			<mx:Tree id="myTree" width="700" height="435" change="treeChanged(event)" 
 					 disclosureClosedIcon="{PLUS}" disclosureOpenIcon="{MINUS}"
-					 itemRenderer="component.address.AddressTreeItemRenderer" labelField="@label"
+					 itemRenderer="component.address.AddressTreeItemRenderer" borderColor="#333333" labelField="@label" contentBackgroundColor="#111111" contentBackgroundAlpha="1"
 					 showRoot="true"/>
 			<lib:Spinner id="spinner" visible="false" left="10"  right="10" bottom="50" top="50" spinnerColor="#666666" spinnerHighlightColor="#cccccc" spinnerLineThickness="6" spinnerType="gradientlines" spinnerAlpha="0.5" />
 		</s:Group>

@@ -2,7 +2,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 creationComplete="init()" width="700" height="480" xmlns:lib="lib.*">
+		 creationComplete="init()" width="700" height="460" xmlns:lib="lib.*">
 	
 	<fx:Script>
 		<![CDATA[
@@ -295,7 +295,7 @@
 		<s:DropDownList id="comboBoxGroup" enabled="{this.radioAddressSelected}" width="80" prompt="- 그룹 -"></s:DropDownList>
 		<s:Button id="addOn" label="넣기" toolTip="{this.radioAddressSelected?'선택한 전화번호열과 이름열을 주소록에 저장 합니다.':'선택한 전화번호열과 이름열을 전송목록에 추가 합니다.'}" click="clickAddButton()"/>
 	</s:HGroup>
-	<mx:DataGrid id="excelDg" width="700" height="430" headerHeight="25"></mx:DataGrid>
+	<mx:DataGrid id="excelDg" width="700" height="410" headerHeight="25"></mx:DataGrid>
 	</s:VGroup>
 	<lib:Spinner id="spinner" visible="false" left="10"  right="10" bottom="10" top="10" spinnerColor="#ff4500" spinnerHighlightColor="#ffffff" spinnerLineThickness="8" spinnerType="gradientlines" spinnerAlpha="0.5" />
 	

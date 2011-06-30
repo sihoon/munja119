@@ -13,8 +13,8 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:HGroup gap="5">
-		<s:Panel width="200" skinClass="skin.HomePanelSkin" title="단가안내">
+	<s:HGroup width="100%" gap="5">
+		<s:Panel width="40%" height="170" skinClass="skin.HomePanelSkin" title="단가안내">
 			<s:layout>
 				<s:VerticalLayout paddingTop="5" paddingLeft="5" paddingRight="5" paddingBottom="5"/>
 			</s:layout>
@@ -23,7 +23,7 @@
 			<s:Label width="100%" text="기본 건당 00원" fontWeight="bold" color="#93DAFF" />
 			<s:Label width="100%" text="사용량, 메시지 내용에 상관 없이 모든 회원이 건당 00원이 적용 됩니다." color="#ffffff" />
 		</s:Panel>
-		<s:Panel width="450" skinClass="skin.HomePanelSkin" title="기능안내">
+		<s:Panel width="60%" height="170" skinClass="skin.HomePanelSkin" title="기능안내">
 			<s:layout>
 				<s:VerticalLayout paddingTop="5" paddingLeft="5" paddingRight="5" paddingBottom="5"/>
 			</s:layout>
@@ -35,7 +35,60 @@
 			<s:Label width="100%" text="버전에 관계없이 모든 엑셀 파일을 실시간으로 발송 및 주소록에 저장 가능 합니다." color="#ffffff" />
 		</s:Panel>
 	</s:HGroup>
-	<s:Panel skinClass="skin.HomePanelSkin" width="100%" title="공지사항"></s:Panel>
+	<s:Panel skinClass="skin.HomePanelSkin" width="100%" title="이모티콘">
+		<s:layout>
+			<s:VerticalLayout paddingTop="10" paddingBottom="10" horizontalAlign="center" gap="12"/>
+		</s:layout>
+		<s:HGroup left="10" right="10" height="99" gap="12" horizontalAlign="center">
+			<s:Group width="122" height="99">
+				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
+				<s:Label text="이모티콘\\n\\n 입니다." left="4" right="4" top="4" bottom="4"  />
+			</s:Group>
+			<s:Group width="122" height="99">
+				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
+				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"/>
+			</s:Group>
+			<s:Group width="122" height="99">
+				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
+				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"/>
+			</s:Group>
+			<s:Group width="122" height="99">
+				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
+				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"/>
+			</s:Group>
+			<s:Group width="122" height="99">
+				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
+				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"/>
+			</s:Group>
+			
+		</s:HGroup>
+		
+		<s:HGroup left="10" right="10" height="99" gap="12" horizontalAlign="center">
+			<s:Group width="122" height="99">
+				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
+				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"  />
+			</s:Group>
+			<s:Group width="122" height="99">
+				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
+				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"/>
+			</s:Group>
+			<s:Group width="122" height="99">
+				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
+				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"/>
+			</s:Group>
+			<s:Group width="122" height="99">
+				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
+				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"/>
+			</s:Group>
+			<s:Group width="122" height="99">
+				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
+				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"/>
+			</s:Group>
+			
+		</s:HGroup>
+		
+		
+	</s:Panel>
 	
 	
 </mx:Module>
