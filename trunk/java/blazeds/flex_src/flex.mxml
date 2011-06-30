@@ -90,7 +90,7 @@
 	<mx:ModuleLoader id="mlLogin" url="module/Login.swf" horizontalCenter="0">
 		<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 	</mx:ModuleLoader>
-	<s:Panel width="1024" height="670" horizontalCenter="0" title=""  y="40">
+	<s:Panel width="1024" height="670" horizontalCenter="0" title="munja119.com"  y="40">
 		<s:controlBarContent >
 			<s:VGroup>
 				<s:Label color="0x999999" text="Copyright ⓒ www.munja119.com All right reserved "/>	
@@ -105,33 +105,33 @@
 				<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 			</mx:ModuleLoader>
 			
-			<mx:TabNavigator id="tn" width="720" height="520" tabWidth="100" tabHeight="25" paddingBottom="10"
-							 paddingLeft="10" paddingRight="10" paddingTop="10" >
-				<s:NavigatorContent label="홈">
+			<mx:TabNavigator id="tn" width="720" height="520" tabWidth="120" tabHeight="40" paddingBottom="10"
+							 paddingLeft="10" paddingRight="10" paddingTop="10" cornerRadius="4" >
+				<s:NavigatorContent label="홈" icon="@Embed(source='assets/images/home.png')">
 					<mx:ModuleLoader id="mlHome" url="module/Home.swf" left="0" right="0" top="0" bottom="0">
 						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 					</mx:ModuleLoader>
 				</s:NavigatorContent>
 				
-				<s:NavigatorContent label="주소록" enabled="{bLogin}">
+				<s:NavigatorContent label="주소록" enabled="{bLogin}" icon="@Embed(source='assets/images/address.png')">
 					<mx:ModuleLoader id="mlAddress" left="0" right="0" top="0" bottom="0" url="module/Address.swf">
 						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 					</mx:ModuleLoader>
 				</s:NavigatorContent>
 				
-				<s:NavigatorContent label="엑셀로더" enabled="{bLogin}">
+				<s:NavigatorContent label="엑셀로더" enabled="{bLogin}" icon="@Embed(source='assets/images/Excel.png')">
 					<mx:ModuleLoader id="mlExcelLoader" left="0" right="0" top="0" bottom="0" url="module/ExcelLoader.swf">
 						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 					</mx:ModuleLoader>
 				</s:NavigatorContent>
 				
-				<s:NavigatorContent label="전송내역" enabled="{bLogin}">
+				<s:NavigatorContent label="전송내역" enabled="{bLogin}" icon="@Embed(source='assets/images/sent.png')">
 					<mx:ModuleLoader id="mlSent" left="0" right="0" top="0" bottom="0" url="module/Sent.swf">
 						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 					</mx:ModuleLoader>
 				</s:NavigatorContent>
 				
-				<s:NavigatorContent label="결제하기" enabled="{bLogin}">
+				<s:NavigatorContent label="결제하기" enabled="{bLogin}" icon="@Embed(source='assets/images/billing.png')" >
 					<mx:ModuleLoader id="mlBilling" left="0" right="0" top="0" bottom="0" url="module/Billing.swf">
 						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 					</mx:ModuleLoader>

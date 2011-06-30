@@ -153,12 +153,12 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	
-	<s:Group width="700" height="450">
+	<s:Group width="700" height="430">
 		<s:VGroup gap="2">
 			<s:HGroup left="0" right="0">
-				<mx:DateField width="95" id="dateField1" yearNavigationEnabled="true" formatString="YYYY-MM-DD"/>
+				<mx:DateField width="95" id="dateField1" yearNavigationEnabled="true" formatString="YYYY-MM-DD" contentBackgroundColor="#333333" color="#ffffff"/>
 				<s:Label text=" ~ " />
-				<mx:DateField width="95" id="dateField2" yearNavigationEnabled="true" formatString="YYYY-MM-DD"/>
+				<mx:DateField width="95" id="dateField2" yearNavigationEnabled="true" formatString="YYYY-MM-DD" contentBackgroundColor="#333333" color="#ffffff"/>
 				<s:Button label="검색" click="submit()"/>
 				<s:Button label="예약내역만보기" click="reservation_submit()"/>
 			</s:HGroup>

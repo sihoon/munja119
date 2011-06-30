@@ -54,15 +54,18 @@ mx|TabNavigator
 	
 }
 .myTabs {
-	textRollOverColor: #336699;	
+	textRollOverColor: #336699;
 	font-weight: bold;
+	font-size:14;
+	text-align:left;
+	cornerRadius: 8;
 }
 .mySelectedTabs {
 }
 .myTabNavigatorText
 {
 	font-weight: bold;	
-	font-size: 13;
+	font-size: 16;
 }
 
 mx|DataGrid
