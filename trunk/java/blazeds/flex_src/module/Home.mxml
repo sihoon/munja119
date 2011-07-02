@@ -86,29 +86,6 @@
 			</s:Group>
 			
 		</s:HGroup>
-		<s:HGroup left="10" right="10" height="99" gap="12" horizontalAlign="center">
-			<s:Group width="122" height="99">
-				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
-				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"  />
-			</s:Group>
-			<s:Group width="122" height="99">
-				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
-				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"/>
-			</s:Group>
-			<s:Group width="122" height="99">
-				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
-				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"/>
-			</s:Group>
-			<s:Group width="122" height="99">
-				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
-				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"/>
-			</s:Group>
-			<s:Group width="122" height="99">
-				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
-				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"/>
-			</s:Group>
-			
-		</s:HGroup>
 		
 	</s:Panel>
 	
