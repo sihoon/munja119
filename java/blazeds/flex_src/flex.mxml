@@ -2,8 +2,9 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:flexiframe="http://code.google.com/p/flex-iframe/"
 			   creationComplete="creationCompleteHandler(event)"
-			   minWidth="1024" minHeight="768" skinClass="skin.App1">
+			   minWidth="1024" minHeight="768" skinClass="skin.App1" xmlns:lib="lib.*">
 	<fx:Style source="flex.css"/>
 	<fx:Script>
 		<![CDATA[
@@ -87,15 +88,18 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<mx:ModuleLoader id="mlLogin" url="module/Login.swf" horizontalCenter="0">
+	<s:VGroup width="1024" height="800" horizontalCenter="17">
+		
+	<mx:ModuleLoader id="mlLogin" url="module/Login.swf" left="0" right="0" top="0" bottom="0">
 		<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 	</mx:ModuleLoader>
-	<s:Panel width="1024" height="670" horizontalCenter="0" title="munja119.com"  y="40">
+	<s:Panel width="1024" minHeight="670" horizontalCenter="0" title="munja119.com"  top="40">
 		<s:controlBarContent >
 			<s:VGroup>
-				<s:Label color="0x999999" text="Copyright ⓒ www.munja119.com All right reserved "/>	
 				<s:Label color="0x666666" text="상호명 : 유진, 사업자등록번호 : 128-35-09733, 통신판매업신고번호 : 제2010 경기고양 1467호"/>
 				<s:Label color="0x666666" text="주소 : 경기도 고양시 덕양구 행신동 996-3 주공프라자 1-502, 개인정보관리자 : 김진, 전화번호 : 070-7510-8489 팩스번호 : 031)901-7251 | 메일 : webmaster@munja119.com"/>
+				<s:Label color="0x999999" text="Copyright ⓒ www.munja119.com All right reserved "/>
+				
 			</s:VGroup>
 		</s:controlBarContent>
 
@@ -105,12 +109,16 @@
 				<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 			</mx:ModuleLoader>
 			
-			<mx:TabNavigator id="tn" width="720" height="520" tabWidth="120" tabHeight="40" paddingBottom="10"
+			<mx:TabNavigator id="tn" width="720" minHeight="520" tabWidth="120" tabHeight="40" paddingBottom="10"
 							 paddingLeft="10" paddingRight="10" paddingTop="10" cornerRadius="4" >
 				<s:NavigatorContent label="홈" icon="@Embed(source='assets/images/home.png')">
-					<mx:ModuleLoader id="mlHome" url="module/Home.swf" left="0" right="0" top="0" bottom="0">
-						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
-					</mx:ModuleLoader>
+					<s:Scroller width="100%" height="100%" minWidth="0" minHeight="0">
+						<s:Group>
+						<mx:ModuleLoader id="mlHome"  url="module/Home.swf" left="0" right="0" top="0" bottom="0">
+							<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
+						</mx:ModuleLoader>
+						</s:Group>
+					</s:Scroller>
 				</s:NavigatorContent>
 				
 				<s:NavigatorContent label="주소록" enabled="{bLogin}" icon="@Embed(source='assets/images/address.png')">
@@ -139,4 +147,14 @@
 			</mx:TabNavigator>
 		</s:HGroup>
 	</s:Panel>
+	</s:VGroup>
+	
+	<s:SkinnableContainer skinClass="skin.IframeSkin" top="30" horizontalCenter="17">
+		<lib:IFrame id="test2"
+					label="Yahoo"
+					source="about:blank"
+					width="100%"
+					height="100%"/>
+	</s:SkinnableContainer>
+	
 </s:Application>
