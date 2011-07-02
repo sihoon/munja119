@@ -14,14 +14,14 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:HGroup width="100%" gap="5">
-		<s:Panel width="40%" height="170" skinClass="skin.HomePanelSkin" title="단가안내">
+		<s:Panel width="40%" height="170" skinClass="skin.HomePanelSkin" title="요금안내">
 			<s:layout>
 				<s:VerticalLayout paddingTop="5" paddingLeft="5" paddingRight="5" paddingBottom="5"/>
 			</s:layout>
-			<s:Label width="100%" text="최저 건당 00원" fontWeight="bold" color="#93DAFF" />
-			<s:Label width="100%" text="이용량에 따라 최저 건당 00원까지 적용 가능 합니다." color="#ffffff" />
-			<s:Label width="100%" text="기본 건당 00원" fontWeight="bold" color="#93DAFF" />
-			<s:Label width="100%" text="사용량, 메시지 내용에 상관 없이 모든 회원이 건당 00원이 적용 됩니다." color="#ffffff" />
+			<s:Label width="100%" text="최저 건당 10.7원(부가세별도)" fontWeight="bold" color="#93DAFF" />
+			<s:Label width="100%" text="충전금액은 발송건수에 따라 건당 최저 10.7원(부가세별도) 입니다." color="#ffffff" />
+			<s:Label width="100%" text="적립금" fontWeight="bold" color="#93DAFF" />
+			<s:Label width="100%" text="결제완료시 1% 적립. 보유 적립금이 3,000 이상부터 사용할 수 있습니다." color="#ffffff" />
 		</s:Panel>
 		<s:Panel width="60%" height="170" skinClass="skin.HomePanelSkin" title="기능안내">
 			<s:layout>
@@ -86,7 +86,29 @@
 			</s:Group>
 			
 		</s:HGroup>
-		
+		<s:HGroup left="10" right="10" height="99" gap="12" horizontalAlign="center">
+			<s:Group width="122" height="99">
+				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
+				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"  />
+			</s:Group>
+			<s:Group width="122" height="99">
+				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
+				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"/>
+			</s:Group>
+			<s:Group width="122" height="99">
+				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
+				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"/>
+			</s:Group>
+			<s:Group width="122" height="99">
+				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
+				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"/>
+			</s:Group>
+			<s:Group width="122" height="99">
+				<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" left="0"/>
+				<s:Label text="이모티콘 입니다." left="4" right="4" top="4" bottom="4"/>
+			</s:Group>
+			
+		</s:HGroup>
 		
 	</s:Panel>
 	
