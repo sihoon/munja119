@@ -150,6 +150,7 @@
 	</s:VGroup>
 	
 	<s:SkinnableContainer skinClass="skin.IframeSkin" top="30" horizontalCenter="17">
+		<s:Button id="closeIframe" skinClass="skin.IframeCloseButton" top="-40" right="-40" />
 		<lib:IFrame id="test2"
 					label="Yahoo"
 					source="about:blank"
