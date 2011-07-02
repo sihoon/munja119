@@ -45,7 +45,7 @@
             params.quality = "high";
             params.bgcolor = "${bgcolor}";
             params.allowscriptaccess = "sameDomain";
-            params.allowfullscreen = "true";
+            params.allowfullscreen = "false";
             var attributes = {};
             attributes.id = "${application}";
             attributes.name = "${application}";
@@ -67,7 +67,7 @@
             }
         </script>
     </head>
-    <body>
+    <body scroll="no">
         <!-- SWFObject's dynamic embed method replaces this alternative HTML content with Flash content when enough 
              JavaScript and Flash plug-in support is available. The div is initially hidden so that it doesn't show
              when JavaScript is disabled.
@@ -112,7 +112,7 @@
                 <!--<![endif]-->
             </object>
         </noscript>
-        <iframe src="_blank" id="nobody" name="nobody" frameborder="0" width="1" height="1" style="display:block;"></iframe>
+        <iframe src="_blank" id="nobody" name="nobody" frameborder="0" width="0" height="0" style="display:block;"></iframe>
         <form name="form" target="nobody" mehtod="post" action="" >
         	<input type="hidden" name="smethod" value="" />
         	<input type="hidden" name="amount" value="" />
