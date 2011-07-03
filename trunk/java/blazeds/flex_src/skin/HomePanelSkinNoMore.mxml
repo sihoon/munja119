@@ -83,12 +83,11 @@ in accordance with the terms of the license agreement accompanying it.
                 </s:Rect>
                 <!-- layer 3: text -->
                 <!--- @copy spark.components.Panel#titleDisplay -->
-                <s:Label id="titleDisplay" left="9" right="70" top="0" bottom="3" minHeight="27"
+                <s:Label id="titleDisplay" left="9" right="0" top="0" bottom="3" minHeight="27"
 						 color="#FFFFFF" fontFamily="Dotum" fontSize="13" fontWeight="bold"
 						 maxDisplayedLines="1" textAlign="start" verticalAlign="middle"
 						 width.normal="100%">
                 </s:Label>
-				<s:Button skinClass="skin.MoreButton" right="0"  height="27" width="70" bottom="3" />
             </s:Group>
             
             <!--

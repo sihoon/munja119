@@ -11,6 +11,7 @@ package lib
 		public function RO(destination:String=null)
 		{
 			super(destination);
+			this.showBusyCursor = true;
 			this.addEventListener(FaultEvent.FAULT, remoteObjectFaultEventHandler);
 		}
 		
