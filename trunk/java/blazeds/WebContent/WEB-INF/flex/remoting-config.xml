@@ -12,13 +12,13 @@
     
     <destination id="WEB">
 		<properties>
-		<source>Web</source>
+		<source>com.m.Web</source>
 		</properties>
 	</destination>
 	
 	<destination id="ADMIN">
 		<properties>
-		<source>Admin</source>
+		<source>com.m.Admin</source>
 		</properties>
 	</destination>
 

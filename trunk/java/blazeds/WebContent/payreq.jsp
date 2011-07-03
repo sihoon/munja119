@@ -157,7 +157,7 @@ function isActiveXOK(){
 
 <body onload="isActiveXOK();">
 <div id="LGD_ACTIVEX_DIV"/> <!-- ActiveX 설치 안내 Layer 입니다. 수정하지 마세요. -->
-<form method="post" id="LGD_PAYINFO" action="/lgdacom/payres.jsp">
+<form method="post" id="LGD_PAYINFO" action="/payres.jsp">
 <table>
     <tr>
         <td>구매자 이름 </td>
