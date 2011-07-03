@@ -80,7 +80,19 @@
 				
 				var obj:Object = this.mlHandPhone.child;
 				obj.cPhone.addListArray(arr);
+			}
+			
+			public function viewIframe(type:String):void {
 				
+				var url:String = "";
+				if (type == "personal") url = "/note/personal.html";
+				else if (type == "promise")	url = "/note/promise.html";
+				else if (type == "spam") url = "/note/spam.html";
+
+				iframe.source = url;
+				iframeContainer.visible = true;
+				iframe.visible = true;
+			
 			}
 
 		]]>
@@ -149,10 +161,11 @@
 	</s:Panel>
 	</s:VGroup>
 	
-	<s:SkinnableContainer skinClass="skin.IframeSkin" top="30" horizontalCenter="17">
-		<s:Button id="closeIframe" skinClass="skin.IframeCloseButton" width="46" height="46" top="-40" right="-40" />
-		<lib:IFrame id="test2"
+	<s:SkinnableContainer id="iframeContainer" visible="false" skinClass="skin.IframeSkin" top="60" horizontalCenter="17">
+		<s:Button id="closeIframe" skinClass="skin.IframeCloseButton" width="46" height="46" top="-40" right="-40" click="this.iframeContainer.visible=false;iframe.visible=false;" />
+		<lib:IFrame id="iframe"
 					label="Yahoo"
+					visible="false"
 					source="about:blank"
 					width="100%"
 					height="100%"/>

@@ -102,6 +102,11 @@
 				dispatchEvent(new MouseEvent("join"));
 			}
 
+			protected function iframeClick(type:String, event:MouseEvent):void
+			{
+				parentDocument.viewIframe(type);
+			}
+			
 		]]>
 	</fx:Script>
 	<mx:states>
@@ -125,9 +130,9 @@
 			<s:Label id="point" fontWeight="bold" fontSize="12" />
 		</s:HGroup>
 		<s:HGroup right="0" top="4">
-			<s:ToggleButton label="개인정보취급방침" skinClass="skin.ToggleButtonSkinSi" />
-			<s:ToggleButton label="이용약관" skinClass="skin.ToggleButtonSkinSi" />
-			<s:ToggleButton label="광고/스팸문자관련정책" skinClass="skin.ToggleButtonSkinSi" />
+			<s:ToggleButton label="개인정보취급방침" skinClass="skin.ToggleButtonSkinSi" click="iframeClick('personal',event)" />
+			<s:ToggleButton label="이용약관" skinClass="skin.ToggleButtonSkinSi" click="iframeClick('promise',event)" />
+			<s:ToggleButton label="광고/스팸문자관련정책" skinClass="skin.ToggleButtonSkinSi" click="iframeClick('spam',event)" />
 		</s:HGroup>
 	</s:Group>
 	

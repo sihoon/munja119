@@ -36,7 +36,6 @@ s|TextArea
 	skinClass: ClassReference('skin.TextAreaSkin');
 	
 }
-
 mx|TabNavigator
 {
 	tab-height: 22;

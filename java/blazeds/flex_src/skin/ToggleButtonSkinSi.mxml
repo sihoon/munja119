@@ -52,7 +52,7 @@
     <!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay -->
     <s:Label id="labelDisplay" left="4" right="4" top="0" bottom="0" horizontalCenter="0"
 			 maxDisplayedLines="1" textAlign="center" verticalAlign="middle" verticalCenter="1"
-			 textDecoration.over="underline">
+			 textDecoration.over="underline" textDecoration.overAndSelected="underline">
     </s:Label>
     
 </s:SparkButtonSkin>
