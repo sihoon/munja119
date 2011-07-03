@@ -36,7 +36,22 @@ public class Billing {
 			VbyP.accessLog(" >> 결제등록 요청 "+ user_id +" , "+ Integer.toString(bvo.getAmount())+" , "+ bvo.getMethod());
 			
 			uvo = new SessionManagement().getUserInformation(conn, bvo.getUser_id());
-			point = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount()/uvo.getUnit_cost()) ) );
+			
+			if (bvo.getAmount() == 2000) point = 100;
+			else if (bvo.getAmount() == 5700) point = 300;
+			else if (bvo.getAmount() == 9000) point = 500;
+			else if (bvo.getAmount() == 17000) point = 1000;
+			else if (bvo.getAmount() == 24600) point = 1500;
+			else if (bvo.getAmount() == 46500) point = 3000;
+			else if (bvo.getAmount() == 74000) point = 5000;
+			else if (bvo.getAmount() == 139000) point = 10000;
+			else if (bvo.getAmount() == 260000) point = 20000;
+			else if (bvo.getAmount() == 375000) point = 30000;
+			else if (bvo.getAmount() == 600000) point = 50000;
+			else if (bvo.getAmount() == 1150000) point = 100000;
+			else if (bvo.getAmount() == 3300000) point = 300000;
+			else if (bvo.getAmount() == 5350000) point = 500000;
+			else point = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount()/uvo.getUnit_cost()) ) );
 			
 			bvo.setPoint(point);
 			bvo.setRemain_point( SLibrary.intValue(uvo.getPoint()) + point);
