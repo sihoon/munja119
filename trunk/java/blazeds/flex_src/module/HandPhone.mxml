@@ -192,7 +192,7 @@
 		</s:VGroup>
 	</s:Group>	
 	<!--전송중 카운트-->
-	<s:VGroup id="iAlertContainer" x="22" y="60" width="165" depth="7" focusEnabled="false" visible="false" horizontalAlign="center">
+	<s:VGroup id="iAlertContainer" x="38" y="120" width="165" depth="7" focusEnabled="false" visible="false" horizontalAlign="center">
 		<s:Label text="전송요청!!" fontSize="14" color="0x000000" visible="false"/>
 		<lib:AlertLabel id="iAlert" font_size="40" glow_color="0x000000" text_color="0xFFFFFF" text_label="" effectEnd="this.iAlertContainer.visible=false"/>
 	</s:VGroup>
