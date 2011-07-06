@@ -9,7 +9,7 @@ public interface SMSAble {
 	
 	static final String TRAN_TYPE_CODE = "03";
 	static final String RESERVATION_CODE = "Y";
-	static final String SITE_CODE = "smspia.com";
+	static final String SITE_CODE = "munja119.com";
 	static final String CLIENT_SENDSTAT = "0";
 	static final String CLIENT_RSLTSTAT = "00";
 	static final String CLIENT_MESSAGETYPE = "0";
