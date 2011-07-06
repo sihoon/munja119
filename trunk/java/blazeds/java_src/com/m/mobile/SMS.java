@@ -355,12 +355,11 @@ public class SMS implements SMSAble {
 		pq.setString(9, vo.getTR_ETC4());
 		pq.setString(10, vo.getTR_ETC5());
 		pq.setString(11, vo.getTR_ETC6());
-		pq.setString(12, vo.getTR_ETC7());
 		//TR_SENDSTAT, TR_RSLTSTAT, TR_RSLTDATE, TR_MODIFIED
-		pq.setString(13, "0");
-		pq.setString(14, "00");
+		pq.setString(12, "0");
+		pq.setString(13, "00");
+		pq.setString(14, vo.getTR_SENDDATE());
 		pq.setString(15, vo.getTR_SENDDATE());
-		pq.setString(16, vo.getTR_SENDDATE());
 	}
 	
 	private void insertSMSClientPqSetter_fail(PreparedExecuteQueryManager pq, SMSClientVO vo, String code) {
@@ -376,12 +375,11 @@ public class SMS implements SMSAble {
 		pq.setString(9, vo.getTR_ETC4());
 		pq.setString(10, vo.getTR_ETC5());
 		pq.setString(11, vo.getTR_ETC6());
-		pq.setString(12, vo.getTR_ETC7());
 		//TR_SENDSTAT, TR_RSLTSTAT, TR_RSLTDATE, TR_MODIFIED
-		pq.setString(13, "2");
-		pq.setString(14, code);
+		pq.setString(12, "2");
+		pq.setString(13, code);
+		pq.setString(14, vo.getTR_SENDDATE());
 		pq.setString(15, vo.getTR_SENDDATE());
-		pq.setString(16, vo.getTR_SENDDATE());
 	}
 	
 	public ArrayList<String[]> getPhone(Connection conn, String user_id, ArrayList<PhoneListVO> al) {
