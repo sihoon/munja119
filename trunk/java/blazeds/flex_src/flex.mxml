@@ -15,12 +15,15 @@
 			
 			import module.Login;
 			
+			import mx.controls.ToolTip;
 			import mx.core.IFlexDisplayObject;
+			import mx.core.IUIComponent;
 			import mx.events.FlexEvent;
 			import mx.events.IndexChangedEvent;
 			import mx.events.ModuleEvent;
 			import mx.events.StateChangeEvent;
 			import mx.managers.PopUpManager;
+			import mx.managers.ToolTipManager;
 			
 			[Bindable]
 			public var bLogin:Boolean = false;
@@ -53,6 +56,7 @@
 				
 				var obj2:Object = this.mlHandPhone.child;
 				obj2.isValid();
+				obj2.cReturnPhone.returnPhoneTextInput.text = uvo.phone_return;
 			}
 			
 			private function alert(msg:String):void {
@@ -94,6 +98,24 @@
 				iframe.visible = true;
 			
 			}
+			
+			public var myTip:ToolTip;
+			private function loginTip(event:Event):void {
+				if (!bLogin) createBigTip(event);
+			}
+			private function loginTipDestroy():void {
+				if (!bLogin) destroyBigTip();
+			}
+			private function createBigTip(event:Event):void {
+				var s:String = "로그인후 해당 메뉴를 이용 하실 수 있습니다.";
+				myTip = ToolTipManager.createToolTip(s,5,40,null,IUIComponent(event.currentTarget)) as ToolTip;
+				myTip.setStyle("backgroundColor",0xFFCC00);
+			}
+			
+			private function destroyBigTip():void {
+				ToolTipManager.destroyToolTip(myTip);
+			}
+
 
 		]]>
 	</fx:Script>
@@ -133,25 +155,25 @@
 					</s:Scroller>
 				</s:NavigatorContent>
 				
-				<s:NavigatorContent label="주소록" enabled="{bLogin}" icon="@Embed(source='assets/images/address.png')">
+				<s:NavigatorContent label="주소록" enabled="{bLogin}" icon="@Embed(source='assets/images/address.png')" rollOver="loginTip(event)" rollOut="loginTipDestroy()">
 					<mx:ModuleLoader id="mlAddress" left="0" right="0" top="0" bottom="0" url="module/Address.swf">
 						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 					</mx:ModuleLoader>
 				</s:NavigatorContent>
 				
-				<s:NavigatorContent label="엑셀로더" enabled="{bLogin}" icon="@Embed(source='assets/images/Excel.png')">
+				<s:NavigatorContent label="엑셀로더" enabled="{bLogin}" icon="@Embed(source='assets/images/Excel.png')" rollOver="loginTip(event)" rollOut="loginTipDestroy()">
 					<mx:ModuleLoader id="mlExcelLoader" left="0" right="0" top="0" bottom="0" url="module/ExcelLoader.swf">
 						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 					</mx:ModuleLoader>
 				</s:NavigatorContent>
 				
-				<s:NavigatorContent label="전송내역" enabled="{bLogin}" icon="@Embed(source='assets/images/sent.png')">
+				<s:NavigatorContent label="전송내역" enabled="{bLogin}" icon="@Embed(source='assets/images/sent.png')" rollOver="loginTip(event)" rollOut="loginTipDestroy()">
 					<mx:ModuleLoader id="mlSent" left="0" right="0" top="0" bottom="0" url="module/Sent.swf">
 						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 					</mx:ModuleLoader>
 				</s:NavigatorContent>
 				
-				<s:NavigatorContent label="결제하기" enabled="{bLogin}" icon="@Embed(source='assets/images/billing.png')" >
+				<s:NavigatorContent label="결제하기" enabled="{bLogin}" icon="@Embed(source='assets/images/billing.png')" rollOver="loginTip(event)" rollOut="loginTipDestroy()">
 					<mx:ModuleLoader id="mlBilling" left="0" right="0" top="0" bottom="0" url="module/Billing.swf">
 						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 					</mx:ModuleLoader>

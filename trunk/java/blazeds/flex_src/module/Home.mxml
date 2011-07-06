@@ -16,14 +16,14 @@
 			<s:Label width="100%" text="최저 건당 10.7원(부가세별도)" fontWeight="bold" color="#93DAFF" />
 			<s:Label width="100%" text="충전금액은 발송건수에 따라 건당 최저 10.7원(부가세별도) 입니다." color="#ffffff" />
 			<!--<s:Label width="100%" text="적립금" fontWeight="bold" color="#93DAFF" />
-			<s:Label width="100%" text="결제완료시 1% 적립. 보유 적립금이 3,000 이상부터 사용할 수 있습니다." color="#ffffff" /> -->
+			<s:Label width="100%" text="결제완료시 1% 적립. 보유 적립금이 3,000원 이상부터 사용할 수 있습니다." color="#ffffff" /> -->
 		</s:Panel>
 		<s:Panel width="100%" height="170" skinClass="skin.HomePanelSkin" title="기능안내">
 			<s:layout>
 				<s:VerticalLayout paddingTop="5" paddingLeft="5" paddingRight="5" paddingBottom="5"/>
 			</s:layout>
 			<s:Label width="100%" text="최대50만건 일괄 전송" fontWeight="bold" color="#93DAFF" />
-			<s:Label width="100%" text="엑셀 또는 주소록에 50만건 등록 후 즉시 발송 가능 하며, 발송시 진행 상황을 실시간으로 확인 가능 합니다." color="#ffffff" />
+			<s:Label width="100%" text="엑셀 또는 주소록에 최대 50만건까지 등록 후 즉시 발송 가능 하며, 발송시 진행 상황을 실시간으로 확인 가능 합니다." color="#ffffff" />
 			<s:Label width="100%" text="대량 주소록 관리" fontWeight="bold" color="#93DAFF" />
 			<s:Label width="100%" text="그룹별로 관리되며 대량의 데이터를 페이징 없이 확인 가능 합니다." color="#ffffff" />
 			<s:Label width="100%" text="엑셀 발송" fontWeight="bold" color="#93DAFF" />
@@ -64,7 +64,7 @@
 				<s:VerticalLayout paddingTop="5" paddingLeft="5" paddingRight="5" paddingBottom="5"/>
 			</s:layout>
 			<s:Label width="100%" text="적립금은 무엇인가요?" fontWeight="bold" color="#93DAFF" />
-			<s:Label width="100%" text="결제완료시 금액의 1%가 적립되며, 보유 적립금이 3,000 이상부터 건수로 전화하여 사용 하실 수 있습니다." color="#ffffff" />
+			<s:Label width="100%" text="결제완료시 금액의 1%가 적립되며, 보유 적립금이 3,000 이상부터 건수로 전환하여 사용 하실 수 있습니다." color="#ffffff" />
 			<s:Label width="100%" text="엑셀파일을 이용하여 대량 발송이 가능 한가요?" fontWeight="bold" color="#93DAFF" />
 			<s:Label width="100%" text="엑셀 로더 메뉴에서 가지고 계신 엑셀파일을 열어 발송 또는 주소록에 저장 가능 합니다." color="#ffffff" />
 			<!--<s:Label width="100%" text="그룹별, 개인별로 주소록에 정리하여 발송 할 수 있나요?" color="#93DAFF" />

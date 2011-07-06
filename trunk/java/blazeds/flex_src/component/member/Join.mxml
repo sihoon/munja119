@@ -74,7 +74,7 @@
 					pwHelp.text = ValidationResult(arr[0]).errorMessage;
 				}else {
 					ti.setStyle("borderColor",VALID_COLOR);
-					pwHelp.text = "감사합니다.";
+					pwHelp.text = "확인";
 				}
 			}
 			// 비밀번호 확인 검사
@@ -94,7 +94,7 @@
 				}else {
 					if (tipw.text == ti.text) {
 						ti.setStyle("borderColor",VALID_COLOR);
-						pwReHelp.text = "감사합니다.";
+						pwReHelp.text = "확인";
 					}else {
 						pwReHelp.text = "비밀번호와 일치 하지 않습니다.";
 					}
@@ -117,7 +117,7 @@
 					nameHelp.text = ValidationResult(arr[0]).errorMessage;
 				}else {
 					ti.setStyle("borderColor",VALID_COLOR);
-					nameHelp.text = "감사합니다.";
+					nameHelp.text = "확인";
 				}
 			}
 			
@@ -209,7 +209,7 @@
 				var bVO:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
 				if (bVO.bResult) {
 					tiId.setStyle("borderColor",VALID_COLOR);
-					idHelp.text = "감사합니다.";
+					idHelp.text = "확인";
 				} else {
 					tiId.setStyle("borderColor",INVALID_COLOR);
 					idHelp.text = "사용할수 없는 아이디 입니다.";
@@ -232,7 +232,7 @@
 				var bVO:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
 				if (bVO.bResult) {
 					tiJumin.setStyle("borderColor",VALID_COLOR);
-					juminHelp.text = "감사합니다.";
+					juminHelp.text = "확인";
 				} else {
 					tiJumin.setStyle("borderColor",INVALID_COLOR);
 					juminHelp.text = "가입된 주민등록 번호입니다.";
@@ -315,14 +315,14 @@
 			<s:layout>
 				<s:HorizontalLayout/>
 			</s:layout>
-			<s:TextInput id="tiHp" keyUp="tiHp_keyUpHandler(event)"/>
-			<s:Label text="" id="hpHelp" />
+			<s:TextInput id="tiHp" keyUp="tiHp_keyUpHandler(event)" restrict="0-9"/>
+			<s:Label id="hpHelp" text="숫자만 입력 가능 합니다." />
 		</s:FormItem>
 		<s:FormItem label="회신번호" skinClass="skin.FormItemSkin">
 			<s:layout>
 				<s:HorizontalLayout/>
 			</s:layout>
-			<s:TextInput id="tiReturn" keyUp="tiReturn_keyUpHandler(event)" borderColor="255"/><s:Label id="returnHelp" text="" />
+			<s:TextInput id="tiReturn" keyUp="tiReturn_keyUpHandler(event)" borderColor="255"  restrict="0-9"/><s:Label id="returnHelp" text="숫자만 입력 가능 합니다." />
 		</s:FormItem>
 		<s:FormItem>
 			<s:layout>
