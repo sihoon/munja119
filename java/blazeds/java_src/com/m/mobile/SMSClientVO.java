@@ -25,7 +25,6 @@ public class SMSClientVO implements Serializable {
 	String TR_ETC4 = "";
 	String TR_ETC5 = "";
 	String TR_ETC6 = "";
-	String TR_ETC7 = "";
 	
 	public int getTR_NUM() {
 		return TR_NUM;
@@ -140,11 +139,5 @@ public class SMSClientVO implements Serializable {
 	}
 	public void setTR_ETC6(String tRETC6) {
 		TR_ETC6 = tRETC6;
-	}
-	public String getTR_ETC7() {
-		return TR_ETC7;
-	}
-	public void setTR_ETC7(String tRETC7) {
-		TR_ETC7 = tRETC7;
 	}
 }
