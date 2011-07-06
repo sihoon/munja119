@@ -33,7 +33,7 @@
 				loginInfo.visible = true;
 				
 				login_info.text = vo.user_name + " 님 안녕하세요.";
-				point.text = vo.point;
+				point.text = SLibrary.addComma( vo.point );
 			}
 			
 			public function loginNO():void {
@@ -107,6 +107,22 @@
 				parentDocument.viewIframe(type);
 			}
 			
+			protected function logout_button_clickHandler(event:MouseEvent):void
+			{
+				ro.set(RO_DESTINATION, logout_ResultEventHandler);
+				ro.method.logout_session();
+			}
+			
+			private function logout_ResultEventHandler(event:ResultEvent):void {
+				
+				var bVO:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
+				if (bVO.bResult) {
+					SLibrary.javascript("alert('정상적으로 로그아웃 되었습니다.');window.location.reload();");
+				} else {
+					SLibrary.alert("로그아웃 실패.");
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	<mx:states>
@@ -124,10 +140,11 @@
 			<s:Button id="login_button" label="로그인" click="login_button_clickHandler(event)"/>
 			<s:Button id="join_button" label="회원가입" click="join_button_clickHandler(event)"/>
 		</s:HGroup>
-		<s:HGroup id="loginInfo" top="7" includeIn="userInfo">
+		<s:HGroup id="loginInfo" top="4" verticalAlign="middle" includeIn="userInfo">
 			<s:Label id="login_info" fontSize="12" />
 			<s:Label text=" 사용가능건수 : " fontSize="12" />
 			<s:Label id="point" fontWeight="bold" fontSize="12" />
+			<s:Button id="logout_button" label="로그아웃" click="logout_button_clickHandler(event)"/>
 		</s:HGroup>
 		<s:HGroup right="0" top="4">
 			<s:ToggleButton label="개인정보취급방침" skinClass="skin.ToggleButtonSkinSi" click="iframeClick('personal',event)" />

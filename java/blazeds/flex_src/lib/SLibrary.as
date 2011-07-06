@@ -174,6 +174,25 @@ package lib
 			navigateToURL(u,"_self");
 		}
 		
+		public static function addComma(str:String):String {
+			var rslt:String = new String(str);
+			var strLen:int = str.length;
+			if (strLen > 3) {
+			
+				var commaNum:int = int((strLen-1)/3);
+				var index:int = strLen - commaNum*3;
+				var num:int = 0;
+				rslt = str.slice(0,index);
+				for(var i:int = 0; i < commaNum; i++){
+					num = index+i*3;
+					rslt += ","+str.slice(num, num+3);
+				}
+
+			}
+			
+			return rslt;
+		}
+		
 		public static function checkJumin(value:String):String {
 			
 			var result:String = null;
