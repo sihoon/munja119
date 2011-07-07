@@ -4,7 +4,7 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:flexiframe="http://code.google.com/p/flex-iframe/"
 			   creationComplete="creationCompleteHandler(event)"
-			   minWidth="1024" minHeight="768" skinClass="skin.App1" xmlns:lib="lib.*">
+			   minWidth="1024" minHeight="768" skinClass="skin.App1" xmlns:lib="lib.*" xmlns:billing="component.billing.*">
 	<fx:Style source="flex.css"/>
 	<fx:Script>
 		<![CDATA[
@@ -161,7 +161,7 @@
 					</mx:ModuleLoader>
 				</s:NavigatorContent>
 				
-				<s:NavigatorContent label="엑셀로더" enabled="{bLogin}" icon="@Embed(source='assets/images/Excel.png')" rollOver="loginTip(event)" rollOut="loginTipDestroy()">
+				<s:NavigatorContent label="엑셀전송" enabled="{bLogin}" icon="@Embed(source='assets/images/Excel.png')" rollOver="loginTip(event)" rollOut="loginTipDestroy()">
 					<mx:ModuleLoader id="mlExcelLoader" left="0" right="0" top="0" bottom="0" url="module/ExcelLoader.swf">
 						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 					</mx:ModuleLoader>
@@ -182,6 +182,11 @@
 		</s:HGroup>
 	</s:Panel>
 	</s:VGroup>
+	
+	<s:SkinnableContainer id="costContainer" visible="false" skinClass="skin.IframeSkin" top="60" horizontalCenter="17">
+		<s:Button skinClass="skin.IframeCloseButton" width="46" height="46" top="-40" right="-40" click="this.costContainer.visible=false;" />
+		<billing:Cost />
+	</s:SkinnableContainer>
 	
 	<s:SkinnableContainer id="iframeContainer" visible="false" skinClass="skin.IframeSkin" top="60" horizontalCenter="17">
 		<s:Button id="closeIframe" skinClass="skin.IframeCloseButton" width="46" height="46" top="-40" right="-40" click="this.iframeContainer.visible=false;iframe.visible=false;" />
