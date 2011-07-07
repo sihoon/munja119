@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.common.VbyP;
+import com.common.db.PreparedExecuteQueryManager;
 import com.common.util.SLibrary;
 import com.common.util.StopWatch;
 import com.m.M;
@@ -398,6 +399,46 @@ public class Web extends SessionManagement{
 		if ( isMessage != null )
 			throw new Exception("["+isMessage+"] 문자가 맞춤법에 어긋납니다.수정하세요.");
 		
+	}
+	
+	public BooleanAndDescriptionVO saveReturnPhone(String returnPhone) {
+		
+		Connection conn = null;
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		
+		String rp = SLibrary.IfNull(returnPhone);
+		PreparedExecuteQueryManager pq = null;
+		
+		
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			conn = VbyP.getDB();
+			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
+			
+			VbyP.accessLog(" >> 회신번호 저장 요청 "+ rp +" , "+ user_id);
+			
+			pq = new PreparedExecuteQueryManager();
+			pq.setPrepared(conn, VbyP.getSQL("updateReturnPhone"));
+			
+			pq.setString(1, rp);
+			pq.setString(2, user_id);
+			pq.executeUpdate();
+
+			rvo.setbResult(true);
+			
+		}catch (Exception e) {
+			
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			
+		}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("addGroup >> conn.close() Exception!"); }
+		}
+		
+		return rvo;
 	}
 	
 	/*###############################
