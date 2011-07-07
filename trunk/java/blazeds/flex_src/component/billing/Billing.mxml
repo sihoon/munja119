@@ -19,6 +19,9 @@
 			[Bindable]
 			private var b:Boolean = false;
 			
+			[Bindable]
+			private var bCharge:Boolean = false;
+			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				this.chargeAccount.addEventListener(Event.CHANGE, chargeAccount_changeEvent );
@@ -60,8 +63,16 @@
 					accountPanel.height = 70;
 				}
 				
-				if (smethod != "null" && amount > 0 ) b = true;
-				else b = false;
+				if (smethod != "null" && smethod != "무통장입금" && amount > 0 ) {
+					b = true;
+					bCharge = false;
+				}else if (smethod != "null" && smethod == "무통장입금" && amount > 0 ) {
+					b = false;
+					bCharge = true;
+				}else {
+					b = false;
+					bCharge = false;
+				}
 					
 				
 				//this.method.text = smethod;
@@ -228,8 +239,28 @@
 				</s:SkinnableContainer>
 			</s:VGroup>
 		</s:Panel>
+		<s:Group width="100%" >
+			<s:Panel width="100%" visible="{bCharge}" skinClass="skin.HomePanelSkin" title="계좌안내">
+				<s:layout>
+					<s:VerticalLayout paddingTop="5" paddingLeft="25" paddingRight="5" paddingBottom="5"/>
+				</s:layout>
+				<s:SkinnableContainer width="100%" skinClass="skin.HomeRowSkin">
+					<s:Label width="100%" text="국민 - 최유진 243701-04-053435" fontWeight="bold" color="#93DAFF" />
+				</s:SkinnableContainer>
+				<s:SkinnableContainer width="100%" skinClass="skin.HomeRowSkin">
+					<s:Label width="100%" text="농협 - 최유진 302-0270-9608-11" fontWeight="bold" color="#93DAFF" />
+				</s:SkinnableContainer>
+				<s:SkinnableContainer width="100%" skinClass="skin.HomeRowSkin">
+					<s:Label width="100%" text="신한 - 최유진 110-304-851796" fontWeight="bold" color="#93DAFF" />
+				</s:SkinnableContainer>
+				<s:SkinnableContainer width="100%" skinClass="skin.HomeRowSkin">
+					<s:Label width="100%" text="우리 - 최유진 191-420251-02-001" fontWeight="bold" color="#93DAFF" />
+				</s:SkinnableContainer>
+			</s:Panel>
+			
+			<s:Button id="reqCharge" label="결제하기" visible="{!bCharge}"  enabled="{b}" click="reqCharge_clickHandler(event)" />	
+		</s:Group>
 		
-		<s:Button id="reqCharge" label="결제하기" enabled="{b}" click="reqCharge_clickHandler(event)" />
 	
 	
 </s:VGroup>
