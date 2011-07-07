@@ -21,8 +21,6 @@
 			private var VALID_COLOR:Number = 0x0000FF;
 			private var INVALID_COLOR:Number = 0xFF0000;
 			
-			
-			
 			private function checkAll():Boolean {
 				
 				var b:Boolean = false;
@@ -309,7 +307,7 @@
 			<s:layout>
 				<s:HorizontalLayout/>
 			</s:layout>
-			<s:TextInput id="tiJumin" keyUp="tiJumin_keyUpHandler(event)"/><s:Label id="juminHelp" text="" />
+			<s:TextInput id="tiJumin" keyUp="tiJumin_keyUpHandler(event)" restrict="0-9"/><s:Label id="juminHelp" text="숫자만 입력 가능 합니다." />
 		</s:FormItem>
 		<s:FormItem label="휴대폰번호" skinClass="skin.FormItemSkin">
 			<s:layout>
