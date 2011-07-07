@@ -178,7 +178,7 @@
 				<mx:columns>
 					<mx:DataGridColumn headerText="번호" sortable="false" width="50" labelFunction="fnLabelDetail"></mx:DataGridColumn>
 					<mx:DataGridColumn dataField="phone" headerText="전화번호"></mx:DataGridColumn>
-					<mx:DataGridColumn dataField="stat" headerText="메시지위치"></mx:DataGridColumn>
+					<mx:DataGridColumn dataField="state" headerText="메시지위치" itemRenderer="component.sent.SentStateRenderer"></mx:DataGridColumn>
 					<mx:DataGridColumn dataField="result" headerText="결과"></mx:DataGridColumn>
 					<mx:DataGridColumn dataField="resultDate" headerText="결과시간"></mx:DataGridColumn>
 				</mx:columns>
