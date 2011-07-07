@@ -19,7 +19,7 @@
 	</fx:Declarations>
 	<s:HGroup width="100%" gap="5">
 		<util:MorePanel width="235" height="170" title="요금안내" more="costimg_clickHandler(event)" >
-			<s:Group buttonMode="true" click="costimg_clickHandler(event)">
+			<s:Group buttonMode="true" useHandCursor="true" click="costimg_clickHandler(event)">
 				<s:BitmapImage source="@Embed(source='assets/images/money.png')" />	
 			</s:Group>
 			<s:Label width="100%" text="최저 건당 10.7원(부가세별도)" fontWeight="bold" color="#93DAFF" />
