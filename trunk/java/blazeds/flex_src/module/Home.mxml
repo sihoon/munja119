@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		   xmlns:s="library://ns.adobe.com/flex/spark" 
-		   xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%"
+		   xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" xmlns:util="component.util.*"
 		   >
 	<fx:Style source="flex.css"/>
+	
+	<fx:Script>
+		<![CDATA[
+			protected function costimg_clickHandler(event:Event):void
+			{
+				parentApplication.costContainer.visible = true;
+			}
+		]]>
+	</fx:Script>
+	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:HGroup width="100%" gap="5">
-		<s:Panel width="235" height="170" skinClass="skin.HomePanelSkin" title="요금안내">
-			<s:layout>
-				<s:VerticalLayout paddingTop="5" paddingLeft="5" paddingRight="5" paddingBottom="5"/>
-			</s:layout>
-			<s:BitmapImage source="@Embed(source='assets/images/money.png')" />
+		<util:MorePanel width="235" height="170" title="요금안내" more="costimg_clickHandler(event)" >
+			<s:Group buttonMode="true" click="costimg_clickHandler(event)">
+				<s:BitmapImage source="@Embed(source='assets/images/money.png')" />	
+			</s:Group>
 			<s:Label width="100%" text="최저 건당 10.7원(부가세별도)" fontWeight="bold" color="#93DAFF" />
 			<s:Label width="100%" text="충전금액은 발송건수에 따라 건당 최저 10.7원(부가세별도) 입니다." color="#ffffff" />
 			<!--<s:Label width="100%" text="적립금" fontWeight="bold" color="#93DAFF" />
 			<s:Label width="100%" text="결제완료시 1% 적립. 보유 적립금이 3,000원 이상부터 사용할 수 있습니다." color="#ffffff" /> -->
-		</s:Panel>
+		</util:MorePanel>
+
 		<s:Panel width="100%" height="170" skinClass="skin.HomePanelSkin" title="기능안내">
 			<s:layout>
 				<s:VerticalLayout paddingTop="5" paddingLeft="5" paddingRight="5" paddingBottom="5"/>

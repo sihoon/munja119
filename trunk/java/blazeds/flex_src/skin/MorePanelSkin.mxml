@@ -37,10 +37,20 @@ in accordance with the terms of the license agreement accompanying it.
         /** 
          * @copy spark.skins.spark.ApplicationSkin#hostComponent
          */
-        [HostComponent("spark.components.Panel")]
+        [HostComponent("component.util.MorePanel")]
         ]]>
     </fx:Metadata> 
-    
+	
+	<fx:Script>
+		<![CDATA[
+			protected function clickHandler(event:MouseEvent):void
+			{
+				hostComponent.morePatch();
+			}
+		]]>
+	</fx:Script>
+	
+	
     <s:states>
         <s:State name="normal" />
         <s:State name="disabled" />
@@ -88,7 +98,7 @@ in accordance with the terms of the license agreement accompanying it.
 						 maxDisplayedLines="1" textAlign="start" verticalAlign="middle"
 						 width.normal="100%">
                 </s:Label>
-				<s:Button skinClass="skin.MoreButton" right="0"  height="27" width="70" bottom="3" />
+				<s:Button skinClass="skin.MoreButton" click="clickHandler(event)" right="0"  height="27" width="70" bottom="3" />
             </s:Group>
             
             <!--
