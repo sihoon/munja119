@@ -122,12 +122,18 @@
 					
 					var result:Array = String(bVO.strDescription).split(/\,/);
 					var cnt:int = result.length;
+					if (cnt > 0)
+						SLibrary.alert( result[0]+" 건 전송 요청이 완료 되었습니다." );
+					else
+						SLibrary.alert( "0 건 전송 요청이 완료 되었습니다." );
 					
 				} else {
 					
 					isValid();
 					SLibrary.alert(bVO.strDescription);
 				}
+				parentApplication.userInfoInit();
+				parentApplication.sentInit();
 				
 			}
 			
@@ -149,13 +155,7 @@
 
 			protected function cancelButton_clickHandler(event:MouseEvent):void
 			{
-				remoteObjectInit();
-				
-				ro.addEventListener(ResultEvent.RESULT,test_ResultEventHandler);
-				
-				ro.removeEventListener(ResultEvent.RESULT, test_ResultEventHandler);
-				ro.addEventListener(ResultEvent.RESULT,test2_ResultEventHandler);
-				ro.test( );
+				this.cPhone.init();
 			}
 			
 			private function test_ResultEventHandler(e:ResultEvent):void {

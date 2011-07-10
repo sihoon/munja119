@@ -24,13 +24,7 @@
 				bvo.user_id = data.user_id;
 				bvo.method = data.method;
 				bvo.amount = data.amount;
-				bvo.order_no = data.order_no; 
-				bvo.unit_cost = data.unit_cost;
-				bvo.remain_point = data.remain_point; 
-				bvo.memo = data.memo;
-				bvo.admin_id = data.admin_id;
-				bvo.timeWrite = data.timeWrite;
-				
+								
 				parentDocument.update_submit(bvo);
 			}
 			
@@ -42,8 +36,8 @@
 		]]>
 	</fx:Script>
 	<s:HGroup top="0" bottom="0" left="2" right="2">
-		<s:Button id="btnModify" visible="false" enabled="false" height="20" label="M" toolTip="해당열을 수정 후 클릭 하면 결제정보가 수정 됩니다." click="btnModify_clickHandler(event)"/>
-		<s:Button id="btnDelete" height="20" label="D" toolTip="정보를 삭제 합니다." click="btnDelete_clickHandler(event)"/>
+		<s:Button id="btnModify" enabled="false" height="20" label="M" toolTip="해당열을 수정 후 클릭 하면 결제정보가 등록 됩니다." click="btnModify_clickHandler(event)"/>
+		<s:Button id="btnDelete" height="20" label="D" toolTip="삭제 합니다." click="btnDelete_clickHandler(event)"/>
 	</s:HGroup>
 	
 </s:MXDataGridItemRenderer>

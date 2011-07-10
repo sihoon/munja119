@@ -2,15 +2,17 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:lib="lib.*"
-		 creationComplete="creationCompleteHandler(event)" width="700" height="100%">
-	<fx:Style source="Sent.css"/>
+		 creationComplete="creationCompleteHandler()" width="700" height="100%">
 	<fx:Script>
 		<![CDATA[
+			import lib.BooleanAndDescriptionVO;
 			import lib.RO;
 			import lib.SLibrary;
 			
 			import mx.collections.ArrayCollection;
 			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
 			import mx.events.FlexEvent;
 			import mx.formatters.DateFormatter;
 			import mx.rpc.events.FaultEvent;
@@ -21,9 +23,11 @@
 			private var RO_DESTINATION:String = "WEB";
 			private var al:ArrayCollection = new ArrayCollection();
 			private var alDetail:ArrayCollection = new ArrayCollection();
+			
+			private var bRes:Boolean = false;
 
 			
-			protected function creationCompleteHandler(event:FlexEvent):void {
+			public function creationCompleteHandler():void {
 				
 				var date:Date = new Date();
 				date.setMonth( date.getMonth()-1);
@@ -89,6 +93,7 @@
 				if (al != null) {
 					dgGroup.dataProvider = al;
 				}
+				bRes = false;
 				callLater(spinnerStop);
 			}
 			
@@ -122,20 +127,77 @@
 				dg.height = 0;
 				dgGroup.percentHeight=100;
 				
-				ro.set(RO_DESTINATION, reservation_submit_ResultEventHandler);
-				ro.method.getAddress( );
+				var df:DateFormatter = new DateFormatter();
+				df.formatString = "YYYY-MM-DD";
+				
+				ro.set(RO_DESTINATION, reservation_ResultEventHandler);
+				ro.method.getSentGroupList( df.format(dateField1.selectedDate), df.format(dateField2.selectedDate), true );
 				
 				spinnerStart();
 			}
-			private function reservation_submit_ResultEventHandler(event:ResultEvent):void {
+			
+			private function reservation_ResultEventHandler(event:ResultEvent):void {
 				
-				var al:ArrayCollection = event.result as ArrayCollection;
+				al = event.result as ArrayCollection;
 				
 				if (al != null) {
-					
+					dgGroup.dataProvider = al;
 				}
+				bRes = true;
 				callLater(spinnerStop);
 			}
+			
+			
+			private var gidx:int = 0;
+			private var gline:String = "";
+			public function delete_submit(idx:String, line:String):void {
+				
+				if (idx == null) idx = "0";
+				
+				ro.set(RO_DESTINATION, delete_submit_ResultEventHandler);
+				
+				gidx = new int(idx);
+				gline = line;
+				if (bRes) {
+					Alert.show("정말 예약을 취소 하시겠습니까?", "예약취소확인", 1|8, this, resAlertClicked);
+					
+				}else {
+					Alert.show("정말 전송 내역을 삭제 하시겠습니까?", "삭제확인", 1|8, this, delAlertClicked);
+					
+				}
+					
+				//spinnerStart();
+				
+			}
+			
+			private function resAlertClicked(event:CloseEvent):void {
+				
+				if(event.detail == Alert.YES) {
+					ro.method.cancelSent( gidx, gline );
+				}
+			}
+			
+			private function delAlertClicked(event:CloseEvent):void {
+				
+				if(event.detail == Alert.YES) {
+					ro.method.deleteSent( gidx, gline );
+				}
+			}
+			
+			private function delete_submit_ResultEventHandler(event:ResultEvent):void {
+				
+				var bvo:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
+				
+				if (bvo.bResult) {
+					SLibrary.alert("삭제 되었습니다.");
+					creationCompleteHandler();
+				}else {
+					SLibrary.alert("삭제에 실패 하였습니다.");
+				}
+				
+				
+			}
+
 			
 			private function spinnerStart():void {
 				spinner.start();
@@ -160,7 +222,7 @@
 				<s:Label text=" ~ " />
 				<mx:DateField width="95" id="dateField2" yearNavigationEnabled="true" formatString="YYYY-MM-DD" contentBackgroundColor="#333333" color="#ffffff"/>
 				<s:Button label="검색" click="submit()"/>
-				<s:Button label="예약내역만보기" click="reservation_submit()"/>
+				<s:Button label="예약보기" click="reservation_submit()"/>
 			</s:HGroup>
 			
 			<mx:DataGrid id="dgGroup" width="700" height="400" draggableColumns="false" resizableColumns="false">
@@ -178,7 +240,7 @@
 				<mx:columns>
 					<mx:DataGridColumn headerText="번호" sortable="false" width="50" labelFunction="fnLabelDetail"></mx:DataGridColumn>
 					<mx:DataGridColumn dataField="phone" headerText="전화번호"></mx:DataGridColumn>
-					<mx:DataGridColumn dataField="state" headerText="메시지위치" itemRenderer="component.sent.SentStateRenderer"></mx:DataGridColumn>
+					<mx:DataGridColumn dataField="state" headerText="메시지위치"  itemRenderer="component.sent.SentStateRenderer"></mx:DataGridColumn>
 					<mx:DataGridColumn dataField="result" headerText="결과"></mx:DataGridColumn>
 					<mx:DataGridColumn dataField="resultDate" headerText="결과시간"></mx:DataGridColumn>
 				</mx:columns>

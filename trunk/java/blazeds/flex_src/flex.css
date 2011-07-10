@@ -36,6 +36,26 @@ s|TextArea
 	skinClass: ClassReference('skin.TextAreaSkin');
 	
 }
+s|DropDownList 
+{
+	contentBackgroundColor : #000000;
+	rollOverColor : #333333;
+	selectionColor : #666666;
+		
+}
+mx|Alert {
+	chromeColor : #ffffff, #dddddd;
+	font-size: 12;
+	background-color: #333333;
+	buttonStyleName : buttonmx;
+}
+
+mx|Button {
+	focusColor:#000000;
+}
+.buttonmx {
+	focusColor:#000000;
+}
 mx|TabNavigator
 {
 	tab-height: 22;

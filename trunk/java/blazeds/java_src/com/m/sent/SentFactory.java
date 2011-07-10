@@ -83,13 +83,13 @@ public class SentFactory implements SentFactoryAble {
 	}
 	
 	public SentStatisticVO getSentStatistic(Connection connSMS, String userId, String sentClientName,
-			int year, int month, String sentGroupIndex) {
+			 String sentGroupIndex) {
 		
 		HashMap<String, String> hm = null;
 		SentStatisticVO vo = new SentStatisticVO();
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-		pq.setPrepared( connSMS, VbyP.messageFormat(VbyP.getSQL("selectSentStatistic"), new Object[]{year+SLibrary.addTwoSizeNumber(month)}) );
+		pq.setPrepared( connSMS, VbyP.getSQL("selectSentStatistic"));
 		pq.setString(1, userId);
 		pq.setString(2, sentGroupIndex);
 		pq.setString(3, userId);
@@ -163,13 +163,13 @@ public class SentFactory implements SentFactoryAble {
 		return rslt;
 	}
 	
-	public BooleanAndDescriptionVO deleteSentGroupList(Connection conn, String user_id, String pay_type, int idx, int year, int month) {
+	public BooleanAndDescriptionVO deleteSentGroupList(Connection conn, String user_id, int idx) {
 		
-		VbyP.debugLog(user_id + " >> 내역삭제 시작 "+pay_type+","+Integer.toString(idx)+","+Integer.toString(year)+","+Integer.toString(month));
+		VbyP.debugLog(user_id + " >> 내역삭제 시작 "+Integer.toString(idx));
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
 		rvo.setbResult(false);
 		
-		int updateResultCount = updateSentGroup(conn, user_id, idx, year, month, "logdel");
+		int updateResultCount = updateSentGroup(conn, user_id, idx, "logdel");
 		VbyP.debugLog(user_id + " >> 내역삭제  전송그룹테이블 업데이트 : "+Integer.toString(updateResultCount) );			
 				
 		if ( updateResultCount == 1 ) {
@@ -185,13 +185,13 @@ public class SentFactory implements SentFactoryAble {
 		return rvo;
 	}
 	
-	public BooleanAndDescriptionVO deleteSentGroupList(Connection conn, String user_id, int year, int month) {
+	public BooleanAndDescriptionVO deleteSentGroupList(Connection conn, String user_id) {
 		
-		VbyP.debugLog(user_id + " >> 내역삭제 시작 "+Integer.toString(year)+","+Integer.toString(month));
+		VbyP.debugLog(user_id + " >> 내역삭제 시작 ");
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
 		rvo.setbResult(false);
 		
-		int updateResultCount = updateSentGroup(conn, user_id, year, month, "logdel");
+		int updateResultCount = updateSentGroup(conn, user_id, "logdel");
 		VbyP.debugLog(user_id + " >> 내역삭제  전송그룹테이블 업데이트 : "+Integer.toString(updateResultCount) );			
 				
 		if ( updateResultCount == 1 ) {
@@ -207,38 +207,38 @@ public class SentFactory implements SentFactoryAble {
 		return rvo;
 	}
 	
-	public BooleanAndDescriptionVO cancelSentGroupList(Connection conn, Connection connSMS, UserInformationVO mvo, int idx, int year, int month) throws Exception {
+	public BooleanAndDescriptionVO cancelSentGroupList(Connection conn, Connection connSMS, UserInformationVO mvo, int idx) throws Exception {
 		
-		VbyP.debugLog(mvo.getUser_id() + " >> 예약취소 시작 "+Integer.toString(idx)+","+Integer.toString(year)+","+Integer.toString(month));
+		VbyP.debugLog(mvo.getUser_id() + " >> 예약취소 시작 "+Integer.toString(idx));
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
 		rvo.setbResult(false);
 		
 		try {
 			
-			String[] sentGroupInfo =  selectTimeAndCountSentGroupData(conn, mvo.getUser_id(), idx, year, month);
+			String[] sentGroupInfo =  selectTimeAndCountSentGroupData(conn, mvo.getUser_id(), idx);
 			
-			if (sentGroupInfo.length == 2 && SLibrary.parseLong(sentGroupInfo[0]) < SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + CANCEL_GAP )
+			if (sentGroupInfo.length == 2 && SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") < SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + CANCEL_GAP )
 				throw new Exception( "발송 "+CANCEL_GAP/60+"분전 예약은 취소 할 수 없습니다." );
 			
 			int tranResultCount = deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
 			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  전송테이블 삭제 : "+Integer.toString(tranResultCount) );			
-			int reservationResultCount = deleteSentDataOfReservationTable(connSMS, mvo.getUser_id(), idx);
-			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  예약테이블 삭제 : "+Integer.toString(reservationResultCount) );	
-			int failResultCount = selectSentDataOfLogTable(connSMS, mvo.getUser_id(), idx, year, month);
-			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  로그테이블 건수(수신거부,중복등등) : "+Integer.toString(reservationResultCount) );	
+			//int reservationResultCount = deleteSentDataOfReservationTable(connSMS, mvo.getUser_id(), idx);
+			//VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  예약테이블 삭제 : "+Integer.toString(reservationResultCount) );	
+			int failResultCount = selectSentDataOfLogTable(connSMS, mvo.getUser_id(), idx);
+			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  로그테이블 건수(수신거부,중복등등) : "+Integer.toString(failResultCount) );	
 			
-			if ( sentGroupInfo.length == 2 && SLibrary.parseInt(sentGroupInfo[1]) != (tranResultCount + reservationResultCount + failResultCount) ) 
-				throw new Exception( "삭제된 발송 테이터와 예약 건수가 달라 데이터 삭제만 되었습니다.("+Integer.toString(tranResultCount + reservationResultCount + failResultCount)+"/"+sentGroupInfo[1]+") 1544-6123으로 연락 주세요." ); 
+			if ( sentGroupInfo.length == 2 && SLibrary.parseInt(sentGroupInfo[1]) != (tranResultCount +  failResultCount) ) 
+				throw new Exception( "삭제된 발송 테이터와 예약 건수가 달라 데이터 삭제만 되었습니다.("+Integer.toString(tranResultCount +  failResultCount)+"/"+sentGroupInfo[1]+") 1544-6123으로 연락 주세요." ); 
 			
-			int updateResultCount = updateSentGroup(conn, mvo.getUser_id(), idx, year, month, "cancel");
+			int updateResultCount = updateSentGroup(conn, mvo.getUser_id(), idx, "cancel");
 			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  전송그룹테이블 업데이트 : "+Integer.toString(updateResultCount) );
 			
 			if ( updateResultCount != 1 )
 				throw new Exception( "취소상태가 변경 되지 않았습니다." );
 					
-			if ( cancelPointPut(conn, mvo, tranResultCount + reservationResultCount + failResultCount) == 1 ) {
+			if ( cancelPointPut(conn, mvo, tranResultCount +  failResultCount) == 1 ) {
 					rvo.setbResult(true);
-					VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  건수 추가 : "+Integer.toString(tranResultCount + reservationResultCount) );					
+					VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  건수 추가 : "+Integer.toString(tranResultCount ) );					
 			} else {
 				throw new Exception( "예약 취소건수가 추가 되지 않았습니다.");
 			} 
@@ -253,10 +253,10 @@ public class SentFactory implements SentFactoryAble {
 		return rvo;
 	}
 	
-	private String[] selectTimeAndCountSentGroupData(Connection conn, String user_id, int idx, int year, int month) {
+	private String[] selectTimeAndCountSentGroupData(Connection conn, String user_id, int idx ) {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-		pq.setPrepared(conn, VbyP.messageFormat( VbyP.getSQL("selectDeleteTransferLog"), new Object[]{Integer.toString(year)+SLibrary.addTwoSizeNumber(month)}) );
+		pq.setPrepared(conn, VbyP.getSQL("selectDeleteTransferLog") );
 		pq.setString(1, user_id);
 		pq.setString(2, Integer.toString(idx) );
 		
@@ -272,7 +272,7 @@ public class SentFactory implements SentFactoryAble {
 		
 		return pq.executeUpdate();
 	}
-	
+	/*
 	private int deleteSentDataOfReservationTable(Connection conn, String user_id, int idx) {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
@@ -281,32 +281,32 @@ public class SentFactory implements SentFactoryAble {
 		pq.setString(2, Integer.toString(idx) );
 		return pq.executeUpdate();
 	}
-	
-	private int selectSentDataOfLogTable(Connection conn, String user_id, int idx, int year, int month) {
+	*/
+	private int selectSentDataOfLogTable(Connection conn, String user_id, int idx) {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-		pq.setPrepared(conn, VbyP.messageFormat( VbyP.getSQL("selectSentDataLogtable"), new Object[]{Integer.toString(year)+SLibrary.addTwoSizeNumber(month)}) );
+		pq.setPrepared(conn,VbyP.getSQL("selectSentDataLogtable") );
 		pq.setString(1, user_id);
 		pq.setString(2, Integer.toString(idx) );
 		return pq.ExecuteQueryNum();
 	}
 	
-	private int updateSentGroup(Connection conn, String user_id, int idx, int year, int month, String type) {
+	private int updateSentGroup(Connection conn, String user_id, int idx, String type) {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-		pq.setPrepared(conn, VbyP.messageFormat( VbyP.getSQL("updateSentGroup"), new Object[]{Integer.toString(year)+SLibrary.addTwoSizeNumber(month)}) );
+		pq.setPrepared(conn, VbyP.getSQL("updateSentGroup") );
 		pq.setString(1, type);
-		pq.setInt(2, SLibrary.parseInt( SLibrary.getUnixtimeStringSecond() ));
+		pq.setString(2, SLibrary.getDateTimeString());
 		pq.setString(3, user_id);
 		pq.setString(4, Integer.toString(idx) );
 		
 		return pq.executeUpdate();
 	}
 	
-	private int updateSentGroup(Connection conn, String user_id, int year, int month, String type) {
+	private int updateSentGroup(Connection conn, String user_id, String type) {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-		pq.setPrepared(conn, VbyP.messageFormat( VbyP.getSQL("updateMonthSentGroup"), new Object[]{Integer.toString(year)+SLibrary.addTwoSizeNumber(month)}) );
+		pq.setPrepared(conn, VbyP.getSQL("updateMonthSentGroup") );
 		pq.setString(1, type);
 		pq.setInt(2, SLibrary.parseInt( SLibrary.getUnixtimeStringSecond() ));
 		pq.setString(3, user_id);

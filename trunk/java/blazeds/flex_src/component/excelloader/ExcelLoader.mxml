@@ -259,6 +259,7 @@
 				var bVO:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
 				if (bVO.bResult) {
 					SLibrary.alert("저장되었습니다.");
+					parentApplication.addressInit();
 				} else {
 					SLibrary.alert(bVO.strDescription);
 				}
@@ -290,8 +291,8 @@
 		<s:Button label="엑셀파일열기" toolTip="클릭하여 엑셀 파일을 선택 하십시요." click="this.fur.addFiles()"/>		
 		<s:DropDownList id="excelPhone" enabled="false" width="80"></s:DropDownList>
 		<s:DropDownList id="excelName" enabled="false" width="80"></s:DropDownList>		
-		<s:RadioButton id="radioSendList" label="전송목록" groupName="radiogroup1"/>
-		<s:RadioButton id="radioAddress" label="주소록" groupName="radiogroup1" click="radioAddress_clickHandler(event)"/>
+		<s:RadioButton id="radioSendList" chromeColor="#cccccc" label="전송목록" groupName="radiogroup1"/>
+		<s:RadioButton id="radioAddress" chromeColor="#cccccc" label="주소록" groupName="radiogroup1" click="radioAddress_clickHandler(event)"/>
 		<s:DropDownList id="comboBoxGroup" enabled="{this.radioAddressSelected}" width="80" prompt="- 그룹 -"></s:DropDownList>
 		<s:Button id="addOn" label="넣기" toolTip="{this.radioAddressSelected?'선택한 전화번호열과 이름열을 주소록에 저장 합니다.':'선택한 전화번호열과 이름열을 전송목록에 추가 합니다.'}" click="clickAddButton()"/>
 	</s:HGroup>

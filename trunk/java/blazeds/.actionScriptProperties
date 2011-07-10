@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties analytics="false" mainApplicationPath="flex.mxml" projectUUID="2a6fcbfd-0a15-4576-b9b1-6248200eb163" version="7">
-  <compiler additionalCompilerArguments="-services &quot;D:\Workspace\google119\blazeds\WebContent\WEB-INF\flex\services-config.xml&quot; -locale en_US" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="WebContent/blazeds-debug" sourceFolderPath="flex_src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+<actionScriptProperties analytics="false" mainApplicationPath="flex.mxml" projectUUID="2a6fcbfd-0a15-4576-b9b1-6248200eb163" version="10">
+  <compiler additionalCompilerArguments="-services &quot;D:\Workspace\google119\blazeds\WebContent\WEB-INF\flex\services-config.xml&quot; -locale en_US" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="WebContent/blazeds-debug" removeUnusedRSL="true" sourceFolderPath="flex_src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath>
       <compilerSourcePathEntry kind="1" linkType="1" path="flex_src"/>
     </compilerSourcePath>
     <libraryPath defaultLinkType="0">
       <libraryPathEntry kind="4" path="">
         <excludedEntries>
-          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flex.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/core.swc" useDefaultLinkType="false"/>
         </excludedEntries>
       </libraryPathEntry>
       <libraryPathEntry kind="1" linkType="1" path="libs"/>
@@ -19,20 +19,21 @@
     <application path="flex.mxml"/>
   </applications>
   <modules>
-    <module application="flex_src/flex.mxml" destPath="module/Address.swf" optimize="true" sourcePath="flex_src/module/Address.mxml"/>
-    <module application="flex_src/flex.mxml" destPath="module/Billing.swf" optimize="true" sourcePath="flex_src/module/Billing.mxml"/>
-    <module application="flex_src/flex.mxml" destPath="module/Count.swf" optimize="true" sourcePath="flex_src/module/Count.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Point.swf" optimize="true" sourcePath="flex_src/admin/module/Point.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Sent.swf" optimize="true" sourcePath="flex_src/module/Sent.mxml"/>
     <module application="flex_src/flex.mxml" destPath="module/ExcelLoader.swf" optimize="true" sourcePath="flex_src/module/ExcelLoader.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/PointLog.swf" optimize="true" sourcePath="flex_src/admin/module/PointLog.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Billing.swf" optimize="true" sourcePath="flex_src/admin/module/Billing.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Sent.swf" optimize="true" sourcePath="flex_src/admin/module/Sent.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Login.swf" optimize="true" sourcePath="flex_src/module/Login.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Stats.swf" optimize="true" sourcePath="flex_src/admin/module/Stats.mxml"/>
     <module application="flex_src/flex.mxml" destPath="module/HandPhone.swf" optimize="true" sourcePath="flex_src/module/HandPhone.mxml"/>
     <module application="flex_src/flex.mxml" destPath="module/Home.swf" optimize="true" sourcePath="flex_src/module/Home.mxml"/>
-    <module application="flex_src/flex.mxml" destPath="module/Login.swf" optimize="true" sourcePath="flex_src/module/Login.mxml"/>
-    <module application="flex_src/flex.mxml" destPath="module/Sent.swf" optimize="true" sourcePath="flex_src/module/Sent.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Count.swf" optimize="true" sourcePath="flex_src/module/Count.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Billing.swf" optimize="true" sourcePath="flex_src/module/Billing.mxml"/>
     <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Member.swf" optimize="true" sourcePath="flex_src/admin/module/Member.mxml"/>
-    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Point.swf" optimize="true" sourcePath="flex_src/admin/module/Point.mxml"/>
-    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/PointLog.swf" optimize="true" sourcePath="flex_src/admin/module/PointLog.mxml"/>
-    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Sent.swf" optimize="true" sourcePath="flex_src/admin/module/Sent.mxml"/>
-    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Stats.swf" optimize="true" sourcePath="flex_src/admin/module/Stats.mxml"/>
-    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Billing.swf" optimize="true" sourcePath="flex_src/admin/module/Billing.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Address.swf" optimize="true" sourcePath="flex_src/module/Address.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/CashList.swf" optimize="true" sourcePath="flex_src/admin/module/CashList.mxml"/>
   </modules>
   <buildCSSFiles/>
   <flashCatalyst validateFlashCatalystCompatibility="false"/>

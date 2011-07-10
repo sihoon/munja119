@@ -11,10 +11,10 @@ public interface SentFactoryAble {
 	List<SentGroupVO> getSentGroupList(Connection conn, String user_id, String fromDate, String endDate, boolean bReservation);
 	List<SentVO> getSentList(Connection connSMS, String user_id, String line, String sentGroupIndex);
 	
-	SentStatisticVO getSentStatistic(Connection connSMS, String userId, String sentClientName, int year, int month, String sentGroupIndex);
+	SentStatisticVO getSentStatistic(Connection connSMS, String userId, String sentClientName, String sentGroupIndex);
 	
-	BooleanAndDescriptionVO deleteSentGroupList(Connection conn, String user_id, String pay_type, int idx, int year, int month);
-	BooleanAndDescriptionVO deleteSentGroupList(Connection conn, String user_id, int year, int month);
-	BooleanAndDescriptionVO cancelSentGroupList(Connection conn, Connection connSMS, UserInformationVO mvo, int idx, int year, int month) throws Exception ;
+	BooleanAndDescriptionVO deleteSentGroupList(Connection conn, String user_id, int idx );
+	BooleanAndDescriptionVO deleteSentGroupList(Connection conn, String user_id);
+	BooleanAndDescriptionVO cancelSentGroupList(Connection conn, Connection connSMS, UserInformationVO mvo, int idx) throws Exception ;
 	
 }

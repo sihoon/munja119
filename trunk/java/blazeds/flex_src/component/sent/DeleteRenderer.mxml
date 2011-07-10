@@ -14,7 +14,7 @@
 
 			protected function delete_clickHandler(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
+				parentDocument.delete_submit(data.idx, data.line);
 			}
 
 		]]>

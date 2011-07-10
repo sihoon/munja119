@@ -5,6 +5,10 @@
 
 	<fx:Script>
 		<![CDATA[
+			import lib.KoreaPhoneNumberFormatter;
+			
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
 			import mx.events.FlexEvent;
 			import mx.utils.ObjectProxy;
 			
@@ -42,16 +46,29 @@
 			}
 			
 			protected function delete_clickHandler(event:MouseEvent):void {
-				var parent:Address = parentDocument as Address;
-				var obj:Object = new Object();
-				obj.type = new String(data.attribute('type'));
-				obj.idx = new int(data.attribute('idx'));
-				obj.label = new String(data.attribute('label'));
+				Alert.show("정말 주소록에서 삭제 하시겠습니까?", "삭제 확인", 1|8, this, alertClicked);
+			}
+			
+			private function alertClicked(event:CloseEvent):void {
 				
-				if (obj.type == "group")
-					parent.deleteGroup(obj);
-				else
-					parent.deleteAddress(new String(data.attribute('idx')));
+				if(event.detail == Alert.YES) {
+					var parent:Address = parentDocument as Address;
+					var obj:Object = new Object();
+					obj.type = new String(data.attribute('type'));
+					obj.idx = new int(data.attribute('idx'));
+					obj.label = new String(data.attribute('label'));
+					
+					if (obj.type == "group")
+						parent.deleteGroup(obj);
+					else
+						parent.deleteAddress(new String(data.attribute('idx')));
+				}
+			}
+			
+			private var Kpf:KoreaPhoneNumberFormatter = new KoreaPhoneNumberFormatter(); // 전화번호 포맷
+			// 전화번호 포맷
+			private function phoneFomat(item:String):String	{ 
+				return Kpf.format(item); 
 			}
 
 		]]>
@@ -73,7 +90,7 @@
 			<s:BitmapImage source="{treeListData.disclosureIcon}" visible="{treeListData.hasChildren}" />
 		</s:Group>
 		<s:Label id="labelField" width="100" text="{treeListData.label}" paddingTop="2"/>
-		<s:Label width="80" text="{data.attribute('phone')}" paddingTop="2"/>
+		<s:Label width="100" text="{phoneFomat(data.attribute('phone'))}" paddingTop="2"/>
 		<s:Label width="140" text="{data.attribute('memo')}" paddingTop="2"/>
 		<s:Button click="send_clickHandler(event)" label="전송" visible="{data.attribute('type')!='all'}"/>
 		<s:Button click="modify_clickHandler(event)" label="수정" visible="{data.attribute('type')!='all'}"/>

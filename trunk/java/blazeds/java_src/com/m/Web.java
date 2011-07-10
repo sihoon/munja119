@@ -15,6 +15,7 @@ import com.common.util.StopWatch;
 import com.m.M;
 import com.m.address.Address;
 import com.m.address.AddressVO;
+import com.m.billing.Billing;
 import com.m.common.AdminSMS;
 import com.m.common.BooleanAndDescriptionVO;
 import com.m.common.Filtering;
@@ -444,7 +445,7 @@ public class Web extends SessionManagement{
 	/*###############################
 	#	address_book				#
 	###############################*/
-	public String getAddress() {
+	public String getAddressOfGroup() {
 		
 		Connection conn = null;
 		Address address = null;
@@ -457,8 +458,91 @@ public class Web extends SessionManagement{
 			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
 			address = Address.getInstance();
 			
-			VbyP.accessLog(" >> 그룹 리스트 요청 "+ user_id);
+			VbyP.accessLog(" >> 그룹별 리스트 요청 "+ user_id);
 			buf = address.SelectTreeData(conn, user_id);
+			
+		}catch (Exception e) { VbyP.errorLogDaily("getAddressOfGroup >>"+e.toString()); }	
+		finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getAddressOfGroup >> conn.close() Exception!"); }
+		}
+		return buf.toString();
+	}
+	
+	public ArrayList<HashMap<String, String>> getAddress() {
+		
+		Connection conn = null;
+		Address address = null;
+		ArrayList<HashMap<String, String>> al = null;
+		
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			conn = VbyP.getDB();
+			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
+			address = Address.getInstance();
+			
+			VbyP.accessLog(" >> 주소별 리스트 요청 "+ user_id);
+			al = address.SelectMember(conn, user_id);
+			
+		}catch (Exception e) { VbyP.errorLogDaily("getAddress >>"+e.toString()); }	
+		finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getAddress >> conn.close() Exception!"); }
+		}
+		return al;
+	}
+	
+	public ArrayList<HashMap<String, String>> getAddressSearch(String search) {
+		
+		Connection conn = null;
+		Address address = null;
+		ArrayList<HashMap<String, String>> al = null;
+		
+		String s = SLibrary.IfNull(search);
+		
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			conn = VbyP.getDB();
+			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
+			address = Address.getInstance();
+			
+			VbyP.accessLog(" >> 주소별 리스트 요청 "+ user_id);
+			al = address.SearchMember(conn, user_id,s);
+			
+		}catch (Exception e) { VbyP.errorLogDaily("getAddress >>"+e.toString()); }	
+		finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getAddress >> conn.close() Exception!"); }
+		}
+		return al;
+	}
+	
+	public String getAddressAllSend() {
+		
+		Connection conn = null;
+		Address address = null;
+		ArrayList<HashMap<String, String>> al = null;
+		StringBuffer buf  = new StringBuffer();
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			conn = VbyP.getDB();
+			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
+			address = Address.getInstance();
+			
+			VbyP.accessLog(" >> 전체 주소 리스트 요청 "+ user_id);
+			al = address.SelectMember(conn, user_id);
+			
+			int cnt = al.size();
+			HashMap<String, String> hm = null;
+			
+			for (int i = 0; i < cnt; i++) {
+				hm = al.get(i);
+				buf.append(SLibrary.IfNull(hm, "phone")+"||"+SLibrary.IfNull(hm, "name")+",");
+			}
+			buf.setLength(buf.length()-1);
 			
 		}catch (Exception e) { VbyP.errorLogDaily("getAddress >>"+e.toString()); }	
 		finally {			
@@ -467,6 +551,7 @@ public class Web extends SessionManagement{
 		}
 		return buf.toString();
 	}
+	
 	public BooleanAndDescriptionVO addGroup(String groupName) {
 		
 		Connection conn = null;
@@ -696,6 +781,36 @@ public class Web extends SessionManagement{
 	/*###############################
 	#	billing						#
 	################################*/
+	public BooleanAndDescriptionVO setCash( String account, String amount, String method, String reqname) {
+		
+		Connection conn = null;
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		Billing billing = null;
+		
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			conn = VbyP.getDB();
+			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
+			billing = Billing.getInstance();
+			
+			VbyP.accessLog(" >> 엑셀로더 주소록 저장 요청 "+ user_id);
+			
+			rvo = billing.setCash( conn , user_id, account, amount, method, reqname );
+			
+		}catch (Exception e) {
+			
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			
+		}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("setCash >> conn.close() Exception!"); }
+		}
+		
+		return rvo;
+	}
 	
 	/*###############################
 	#	excel						#
@@ -800,7 +915,7 @@ public class Web extends SessionManagement{
 		Connection conn = null;
 		List<SentGroupVO> list = null;
 		
-		SentFactoryAble sf = null;
+		SentFactory sf = null;
 		sf = SentFactory.getInstance();
 		
 		if (isLogin()) {		
@@ -852,5 +967,112 @@ public class Web extends SessionManagement{
 		
 		return list;
 	}
+	
+	public BooleanAndDescriptionVO deleteSent(int groupIndex, String line) {
+
+		
+		Connection conn = null;
+		
+		SentFactory sf = null;
+		sf = SentFactory.getInstance();
+		
+		BooleanAndDescriptionVO bvo = null;
+			
+		if (isLogin()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				String user_id = getSession();
+				VbyP.accessLog(user_id+" >> "+line+" 전송내역 삭제 요청 :"+ Integer.toString(groupIndex));
+				
+				if (user_id != null && !user_id.equals("") && groupIndex > 0 && !SLibrary.isNull(line)) {
+					
+					bvo = sf.deleteSentGroupList( conn, user_id, groupIndex );
+				}
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("getSentGroupList >> conn.close() Exception!"); }
+			}
+		}
+		
+		return bvo;
+	}
+	
+	public BooleanAndDescriptionVO cancelSent( int idx, String sendLine) {
+		
+		Connection conn = null;
+		Connection connSMS = null;
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		
+		SentFactory sf = null;
+		sf = SentFactory.getInstance();
+		
+		try {	
+				String user_id = getSession();
+				if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+				VbyP.accessLog(user_id+" >> 예약 취소 요청 :"+idx+","+sendLine);			
+				
+				conn = VbyP.getDB();
+				if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");								
+					
+				UserInformationVO vo = getUserInformation();
+				
+				connSMS = VbyP.getDB(sendLine);
+				if (connSMS == null) throw new Exception("SMS DB연결이 되어 있지 않습니다.("+sendLine+")");
+				rvo = sf.cancelSentGroupList(conn, connSMS, vo, idx);
+				
+				
+				if (rvo.getbResult()) {
+					rvo.setstrDescription("취소 되었습니다.");
+					VbyP.accessLog(user_id+" >> 예약 취소 성공 :"+idx+","+sendLine);
+				}
+				else {
+					VbyP.accessLog(user_id+" >> 예약 취소 실패 :"+rvo.getstrDescription());
+				}
+			
+		}catch (Exception e) {
+			
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			
+		}	finally {			
+			try { 
+				if ( conn != null ) conn.close();
+				if (connSMS != null) connSMS.close();
+			}catch(SQLException e) { VbyP.errorLog("cancelSentGroupList >> conn.close() Exception!"); }
+		}
+		return rvo;
+	}
+	
+	
+	public String[] getHomeEmoti() {
+
+		
+		Connection conn = null;
+		String [] arr = null;
+		
+		try {
+			
+			conn = VbyP.getDB();
+			VbyP.accessLog(" >>  Home 이모티콘 요청 ");
+			
+			StringBuffer buf = new StringBuffer();
+			buf.append(VbyP.getSQL("homeEmoti"));
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, buf.toString() );
+			arr = pq.ExecuteQuery();
+			
+		}catch (Exception e) {}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getSentGroupList >> conn.close() Exception!"); }
+		}
+		
+		return arr;
+	}
+	
+	
+	
 	
 }

@@ -18,6 +18,43 @@ public class Billing {
 		return bill;
 	}
 	
+	public BooleanAndDescriptionVO setCash(Connection conn, String user_id, String account, String amount, String method, String reqName) {
+		
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		int rslt = 0;
+		
+		
+		try {
+			
+			
+			VbyP.accessLog(" >> 무통장 입금 요청 "+ user_id +" , "+ account+" , "+ amount+" , "+ method+" , "+reqName);
+			
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, VbyP.getSQL("insertCash") );
+			pq.setString(1, user_id);
+			pq.setString(2, account);
+			pq.setInt(3, SLibrary.intValue(amount));
+			pq.setString(4, method);
+			pq.setString(5, reqName);
+			pq.setString(6, SLibrary.getDateTimeString());
+						
+			rslt =  pq.executeUpdate();
+			
+			if ( rslt < 1)
+				throw new Exception("무통장 등록에 실패 하였습니다.");
+			
+			rvo.setbResult(true);
+			
+		}catch (Exception e) {
+			
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			
+		}
+		return rvo;
+	}
+	
 	public BooleanAndDescriptionVO setBilling( Connection conn, BillingVO bvo) {
 		
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
@@ -37,24 +74,24 @@ public class Billing {
 			
 			uvo = new SessionManagement().getUserInformation(conn, bvo.getUser_id());
 			
-			if (bvo.getAmount() == 2000) point = 100;
-			else if (bvo.getAmount() == 5700) point = 300;
-			else if (bvo.getAmount() == 9000) point = 500;
-			else if (bvo.getAmount() == 17000) point = 1000;
-			else if (bvo.getAmount() == 24600) point = 1500;
-			else if (bvo.getAmount() == 46500) point = 3000;
-			else if (bvo.getAmount() == 74000) point = 5000;
-			else if (bvo.getAmount() == 139000) point = 10000;
-			else if (bvo.getAmount() == 260000) point = 20000;
-			else if (bvo.getAmount() == 375000) point = 30000;
-			else if (bvo.getAmount() == 600000) point = 50000;
-			else if (bvo.getAmount() == 1150000) point = 100000;
-			else if (bvo.getAmount() == 3300000) point = 300000;
-			else if (bvo.getAmount() == 5350000) point = 500000;
+			if (bvo.getAmount() == ( 2000+( 2000 *0.1 ) ) ) point = 100;
+			else if (bvo.getAmount() == ( 5700+( 5700 *0.1 ) ) ) point = 300;
+			else if (bvo.getAmount() == ( 9000+( 9000 *0.1 ) ) ) point = 500;
+			else if (bvo.getAmount() == ( 17000+( 17000 *0.1 ) ) ) point = 1000;
+			else if (bvo.getAmount() == ( 24600+( 24600 *0.1 ) ) ) point = 1500;
+			else if (bvo.getAmount() == ( 46500+( 46500 *0.1 ) ) ) point = 3000;
+			else if (bvo.getAmount() == ( 74000+( 74000 *0.1 ) ) ) point = 5000;
+			else if (bvo.getAmount() == ( 139000+( 139000 *0.1 ) ) ) point = 10000;
+			else if (bvo.getAmount() == ( 260000+( 260000 *0.1 ) ) ) point = 20000;
+			else if (bvo.getAmount() == ( 375000+( 375000 *0.1 ) ) ) point = 30000;
+			else if (bvo.getAmount() == ( 600000+( 600000 *0.1 ) ) ) point = 50000;
+			else if (bvo.getAmount() == ( 1150000+( 1150000 *0.1 ) ) ) point = 100000;
+			else if (bvo.getAmount() == ( 3300000+( 3300000 *0.1 ) ) ) point = 300000;
+			else if (bvo.getAmount() == ( 5350000+( 5350000 *0.1 ) ) ) point = 500000;
 			else point = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount()/uvo.getUnit_cost()) ) );
 			
 			bvo.setPoint(point);
-			bvo.setRemain_point( SLibrary.intValue(uvo.getPoint()) + point);
+			bvo.setRemain_point( SLibrary.intValue(uvo.getPoint())+point);
 			bvo.setTimeWrite(SLibrary.getDateTimeString("yyyy-MM-dd HH:mm:ss"));
 			bvo.setUnit_cost(Integer.toString(uvo.getUnit_cost()));
 			
