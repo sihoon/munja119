@@ -72,6 +72,7 @@
 				<fx:Array>
 					<fx:Object label="회원관리" url="admin/module/Member.swf"></fx:Object>
 					<fx:Object label="결제관리" url="admin/module/Billing.swf"></fx:Object>
+					<fx:Object label="무통장입금예약" url="admin/module/CashList.swf"></fx:Object>
 					<fx:Object label="포인트관리" url="admin/module/Point.swf"></fx:Object>
 					<fx:Object label="포인트로그관리" url="admin/module/PointLog.swf"></fx:Object>
 					<fx:Object label="전송관리" url="admin/module/Sent.swf"></fx:Object>

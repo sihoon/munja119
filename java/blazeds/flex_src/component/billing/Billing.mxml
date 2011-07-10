@@ -81,17 +81,47 @@
 			
 			protected function reqCharge_clickHandler(event:MouseEvent):void
 			{
-				var amount:String = String(this.chargeAccount.selectedValue);
+				var amountN:Number = Number(this.chargeAccount.selectedValue);
+				var amount:String = String(amountN + ( amountN*0.1));
 				var url:String = "/payreq.jsp";
 				var method:String = String(this.chargeMethod.selectedValue);
 				SLibrary.javascript("yesThanks('"+method+"',"+amount+",'"+url+"');");
 			}
+			
+			protected function cashReq_clickHandler():void
+			{
+				var ins:String = cashName.text;
+				if (ins == "") {
+					SLibrary.alert("입금자명을 입력 하시기 바랍니다.");
+				} else {
+				
+					var amountN:Number = Number(this.chargeAccount.selectedValue);
+					
+					var amount:String = String(amountN + ( amountN*0.1));
+					var method:String = String(this.chargeMethod.selectedValue);
+					
+					ro.set(RO_DESTINATION, cashReq_ResultEventHandler);
+					ro.method.setCash( String(cash.selectedValue) ,amount, method, ins);
+				}
+			}
+			
+			private function cashReq_ResultEventHandler(event:ResultEvent):void {
+				
+				var bvo:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
+				
+				if (bvo.bResult) {
+					SLibrary.alert("예약 되었습니다.\\r\\n\\r\\n - 이체 완료시 건수가 충전됩니다.");
+				}
+				
+			}
+			
 		]]>
 	</fx:Script>
 
 	<fx:Declarations>
 		<s:RadioButtonGroup id="chargeMethod"/>
 		<s:RadioButtonGroup id="chargeAccount"/>
+		<s:RadioButtonGroup id="cash"/>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 		<s:Panel width="100%" skinClass="skin.HomePanelSkin" title="1. 결제 수단">
@@ -111,7 +141,7 @@
 		</s:Panel>
 		<s:Panel width="100%" id="accountPanel" skinClass="skin.HomePanelSkin" title="2. 결제 금액">
 			<s:HGroup id="chargeRadioLabel" visible="false" paddingTop="5" paddingLeft="25" paddingRight="25" paddingBottom="5" width="100%" gap="40">
-				<s:Label paddingTop="5" color="#93DAFF" text="{ SLibrary.addComma( String(chargeAccount.selectedValue) )+' 원'} " fontSize="16" fontWeight="bold" />
+				<s:Label paddingTop="5" color="#93DAFF" text="{ SLibrary.addComma( String( Number(chargeAccount.selectedValue) + (Number(chargeAccount.selectedValue) * 0.1) ) )+' 원'} " fontSize="16" fontWeight="bold" />
 				<s:Button label="다시선택" click="accountPanel.height = 480;chargeAccount.selectedValue = null; chargeRadio.visible=true; chargeRadioLabel.visible=false;"  />
 			</s:HGroup>
 			<s:VGroup id="chargeRadio"  paddingTop="5" paddingLeft="25" paddingRight="25" paddingBottom="5">
@@ -244,18 +274,24 @@
 				<s:layout>
 					<s:VerticalLayout paddingTop="5" paddingLeft="25" paddingRight="5" paddingBottom="5"/>
 				</s:layout>
-				<s:SkinnableContainer width="100%" skinClass="skin.HomeRowSkin">
-					<s:Label width="100%" text="국민 - 최유진 243701-04-053435" fontWeight="bold" color="#93DAFF" />
+				<s:SkinnableContainer width="100%" skinClass="skin.HomeRowSkin" >
+					<s:RadioButton chromeColor="#cccccc" verticalCenter="0" fontWeight="bold" color="#93DAFF" label="국민 - 최유진 243701-04-053435" value="국민 - 최유진 243701-04-053435" groupName="cash" selected="true" />
 				</s:SkinnableContainer>
 				<s:SkinnableContainer width="100%" skinClass="skin.HomeRowSkin">
-					<s:Label width="100%" text="농협 - 최유진 302-0270-9608-11" fontWeight="bold" color="#93DAFF" />
+					<s:RadioButton chromeColor="#cccccc" verticalCenter="0" fontWeight="bold" color="#93DAFF" label="농협 - 최유진 302-0270-9608-11" value="농협 - 최유진 302-0270-9608-11" groupName="cash" />
 				</s:SkinnableContainer>
 				<s:SkinnableContainer width="100%" skinClass="skin.HomeRowSkin">
-					<s:Label width="100%" text="신한 - 최유진 110-304-851796" fontWeight="bold" color="#93DAFF" />
+					<s:RadioButton chromeColor="#cccccc" verticalCenter="0" fontWeight="bold" color="#93DAFF" label="신한 - 최유진 110-304-851796" value="신한 - 최유진 110-304-851796" groupName="cash" />
 				</s:SkinnableContainer>
 				<s:SkinnableContainer width="100%" skinClass="skin.HomeRowSkin">
-					<s:Label width="100%" text="우리 - 최유진 191-420251-02-001" fontWeight="bold" color="#93DAFF" />
+					<s:RadioButton chromeColor="#cccccc" verticalCenter="0" fontWeight="bold" color="#93DAFF" label="우리 - 최유진 191-420251-02-001" value="우리 - 최유진 191-420251-02-001" groupName="cash" />
 				</s:SkinnableContainer>
+				<s:HGroup verticalAlign="middle">
+					<s:Label text="입금자명 " />
+					<s:TextInput id="cashName" />
+					<s:Label text="으로 " />
+					<s:Button id="cashReq" label="예약하기" click="cashReq_clickHandler()" />
+				</s:HGroup>
 			</s:Panel>
 			
 			<s:Button id="reqCharge" label="결제하기" visible="{!bCharge}"  enabled="{b}" click="reqCharge_clickHandler(event)" />	

@@ -366,11 +366,13 @@ public class Address implements AddressAble {
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 		pq.setPrepared(conn, SQL);
 		pq.setString(1, user_id);
-		pq.setString(2, "%"+search+"%");
+		pq.setInt(2, AddressVO.ADDRESS_FLAG);
 		pq.setString(3, "%"+search+"%");
+		pq.setString(4, "%"+search+"%");
 		al = pq.ExecuteQueryArrayList();
 		return al;
 	}
+
 	
 	//ÀüÃ¼
 	public ArrayList<HashMap<String, String>> SelectMember(Connection conn , String user_id) {
@@ -381,7 +383,7 @@ public class Address implements AddressAble {
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 		pq.setPrepared(conn, SQL);
 		pq.setString(1, user_id);
-		pq.setInt(2, AddressVO.GROUP_FLAG);
+		pq.setInt(2, AddressVO.ADDRESS_FLAG);
 		al = pq.ExecuteQueryArrayList();
 		return al;
 	}

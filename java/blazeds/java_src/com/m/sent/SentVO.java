@@ -33,6 +33,14 @@ public class SentVO implements Serializable {
 		this.result_code = result_code;
 	}
 	
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
 	public int getSentGroupIndex() {
 		return sentGroupIndex;
 	}

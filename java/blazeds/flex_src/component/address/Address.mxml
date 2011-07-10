@@ -9,6 +9,7 @@
 			import flash.utils.setTimeout;
 			
 			import lib.BooleanAndDescriptionVO;
+			import lib.KoreaPhoneNumberFormatter;
 			import lib.RO;
 			import lib.SLibrary;
 			
@@ -18,6 +19,7 @@
 			import mx.collections.XMLListCollection;
 			import mx.controls.treeClasses.ITreeDataDescriptor;
 			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
 			import mx.events.ListEvent;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
@@ -37,11 +39,18 @@
 			[Embed(source="/assets/images/folder_open.png")]
 			private var MINUS:Class; // 트리아이콘
 			
+			[Bindable]
+			private var xml:XMLListCollection;
+			
+			private var ac:ArrayCollection;
+			
 			private var modifyGroup:String;			
 			private var modifyAddressIdx:int;			
 			private var URL:String = "/send/address/";
 			
 			private var ro:RO = new RO();
+			private var ro2:RO = new RO();
+			private var ro3:RO = new RO();
 			private var RO_DESTINATION:String = "WEB";
 			
 			
@@ -50,23 +59,35 @@
 			###############################*/
 			
 			// 주소록 리스트 가져오기
-			private function getAddress():void {
+			public function getAddress():void {
 				
-				ro.set(RO_DESTINATION, address_ResultEventHandler);
-				ro.method.getAddress();
+				if (this.myTree != null) {
+					ro.set(RO_DESTINATION, addressGrp_ResultEventHandler);
+					ro.method.getAddressOfGroup();
+				}			
+				if (dg != null) {
+					ro2.set(RO_DESTINATION, address_ResultEventHandler);
+					ro2.method.getAddress();
+				}
 			}
-			private function address_ResultEventHandler(event:ResultEvent):void {
+			private function addressGrp_ResultEventHandler(event:ResultEvent):void {
 				
 				var xlData:XMLList = new XMLList(event.result);
 				if(xlData.elements("msg").toString()!="ok") {
 					SLibrary.alert(xlData.elements("msg").toString());
 				}
 				else {
-					myTree.dataProvider = new XMLListCollection(xlData.elements("addrs"));
+					this.xml = new XMLListCollection(xlData.elements("addrs"));
 					callLater( expendGroupTree );
 				}
 				
 				callLater(spinnerStop);
+			}
+			
+			private function address_ResultEventHandler(event:ResultEvent):void {
+				
+				ac = event.result as ArrayCollection;
+				this.dg.dataProvider = ac;
 			}
 			
 			
@@ -190,6 +211,18 @@
 				parentApplication.addPhone(phone);
 				//javascript("sendToActionScript('phone','"+phone+"');");
 			}
+			
+			// 전송 클릭
+			public function sendBtnAddr_ClickHandler(obj:Object):void {
+				
+				var phone:String = "";
+				
+				phone = obj.phone+"||"+obj.name+",";
+
+				phone = phone.substr(0, phone.length -1);
+				parentApplication.addPhone(phone);
+				//javascript("sendToActionScript('phone','"+phone+"');");
+			}
 			// 주소 수정 클릭
 			public function modifyAddressBtn_clickHandler(param:Object):void {
 				
@@ -229,10 +262,9 @@
 			
 			protected function searchHandler():void {
 				
-				var dp:XMLListCollection = myTree.dataProvider as XMLListCollection;
-				if (dp != null) {
-					myTree.dataProvider = dp;
-					dp.refresh();
+				if (xml != null) {
+					myTree.dataProvider = xml;
+					xml.refresh();
 					filterDataDescriptor();
 					callLater(expendTree);
 				}else {
@@ -282,10 +314,9 @@
 				
 				if(myTree) {
 					
-					var dp:XMLListCollection = myTree.dataProvider as XMLListCollection;
-					var len:int = dp.length;
+					var len:int = xml.length;
 					for(var i:int=0; i<len; ++i) {
-						myTree.expandChildrenOf(dp.getItemAt(i), true);
+						myTree.expandChildrenOf(xml.getItemAt(i), true);
 					}
 				}
 				callLater(spinnerStop);
@@ -295,10 +326,8 @@
 			private function expendGroupTree():void {
 				
 				if(myTree) {
-					
-					var dp:XMLListCollection = myTree.dataProvider as XMLListCollection;
-					if (dp.length > 0)
-						myTree.expandItem(dp.getItemAt(0), true);
+					if (xml.length > 0)
+						myTree.expandItem(xml.getItemAt(0), true);
 					
 				}
 				
@@ -369,36 +398,99 @@
 				groupPanel.visible=false;
 			}
 			
+			private function fnLabel(item:Object, column:DataGridColumn):String {
+				
+				return (ac.getItemIndex(item) + 1).toString();
+			}
+			
 
+			protected function myViewStack_changeHandler(event:IndexChangedEvent):void
+			{
+				getAddress();
+			}
+			
+			protected function search_clickHandler(event:MouseEvent):void
+			{
+				
+				if (dg != null) {
+					ro2.set(RO_DESTINATION, addressSearch_ResultEventHandler);
+					var str:String = this.search.text;
+					if (str == "검색 입력..") str="";
+					ro2.method.getAddressSearch(str);
+				}
+			}
+			
+			private function addressSearch_ResultEventHandler(event:ResultEvent):void {
+				
+				ac = event.result as ArrayCollection;
+				this.dg.dataProvider = ac;
+			}
+			
+			private var Kpf:KoreaPhoneNumberFormatter = new KoreaPhoneNumberFormatter(); // 전화번호 포맷
+			// 전화번호 포맷
+			private function phoneFomat(item:Object, column:DataGridColumn):String	{ 
+				return Kpf.format(item.phone); 
+			}
+			
+			protected function allBtn_clickHandler(event:MouseEvent):void
+			{
+				ro.set(RO_DESTINATION, allBtn_ResultEventHandler);
+				ro.method.getAddressAllSend();
+			}
+			
+			private function allBtn_ResultEventHandler(event:ResultEvent):void {
+				
+				var str:String = event.result as String;
+				parentApplication.addPhone(str);
+				SLibrary.alert("추가되었습니다.");
+			}
+			
 		]]>
 	</fx:Script>
 	
-	<s:Group id="addressBox" left="0" right="0" height="460">
-		<s:layout>
-			<s:VerticalLayout gap="0"/>
-		</s:layout>
-		<s:Group height="22">
-			<s:layout>
-				<s:HorizontalLayout/>
-			</s:layout>
-			<s:TextInput id="search"
-						 focusIn="search_focusInHandler(event)"
-						 focusOut="search_focusOutHandler(event)" focusThickness="0"
-						 keyUp="search_keyUpHandler(event)" text="검색 입력.."/>
+	<s:VGroup width="100%" height="100%">
+		<s:HGroup verticalAlign="middle">
+			<mx:LinkBar borderColor="#9B0303" borderStyle="solid" contentBackgroundColor="#000000"
+						dataProvider="{myViewStack}" fontSize="12" fontWeight="bold" horizontalAlign="left"/>
+			
 			<s:Button label="그룹추가" click="modifyGroup='';groupName.text='';groupPanel.visible=true;"/>
 			<s:Button label="주소추가" id="addAddressBtn" click="addAddressBtn_clickHandler(event)" />
-		</s:Group>		
-		<s:Group width="700" height="435">
-			<s:layout>
-				<s:BasicLayout/>
-			</s:layout>
-			<mx:Tree id="myTree" width="700" height="435" change="treeChanged(event)" 
-					 disclosureClosedIcon="{PLUS}" disclosureOpenIcon="{MINUS}"
-					 itemRenderer="component.address.AddressTreeItemRenderer" borderColor="#333333" labelField="@label" contentBackgroundColor="#111111" contentBackgroundAlpha="1"
-					 showRoot="true"/>
-			<lib:Spinner id="spinner" visible="false" left="10"  right="10" bottom="50" top="50" spinnerColor="#666666" spinnerHighlightColor="#cccccc" spinnerLineThickness="6" spinnerType="gradientlines" spinnerAlpha="0.5" />
-		</s:Group>
-	</s:Group>
+			<s:Button label="전체전송" id="allBtn" click="allBtn_clickHandler(event)" />
+			<s:TextInput id="search" visible="{this.myViewStack.selectedIndex == 1}"
+						 focusThickness="0" text=""/>
+			<s:Button label="검색" click="search_clickHandler(event)"  visible="{this.myViewStack.selectedIndex == 1}" />
+		</s:HGroup>
+		
+		
+		<!-- Define the ViewStack and the three child containers -->
+		<mx:ViewStack id="myViewStack" borderStyle="solid" width="100%" height="100%" color="0x323232" change="myViewStack_changeHandler(event)">
+			
+			<s:NavigatorContent id="group" label="그룹별 보기" backgroundColor="#000000" fontWeight="bold">
+				<s:Group id="addressBox" left="0" right="0" height="100%">
+					<mx:Tree id="myTree" width="100%" height="100%" change="treeChanged(event)" 
+							 disclosureClosedIcon="{PLUS}" disclosureOpenIcon="{MINUS}" dataProvider="{xml}"
+							 itemRenderer="component.address.AddressTreeItemRenderer" borderColor="#333333" labelField="@label" contentBackgroundColor="#000000" contentBackgroundAlpha="1"
+							 showRoot="true" fontWeight="normal"/>
+					<lib:Spinner id="spinner" visible="false" left="10"  right="10" bottom="50" top="50" spinnerColor="#666666" spinnerHighlightColor="#cccccc" spinnerLineThickness="6" spinnerType="gradientlines" spinnerAlpha="0.5" />
+				</s:Group>
+			</s:NavigatorContent>
+			<s:NavigatorContent id="address" height="100%" label="주소별 보기" backgroundColor="#000000" fontWeight="bold">
+				<mx:DataGrid id="dg" width="100%" height="100%" draggableColumns="false" resizableColumns="false" fontWeight="normal">
+					<mx:columns>
+						<mx:DataGridColumn headerText="번호" sortable="false" labelFunction="fnLabel" width="50"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="name" headerText="이름" width="100"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="phone" headerText="전화번호" labelFunction="phoneFomat" ></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="grpName" headerText="그룹" width="80"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="memo" headerText="메모"></mx:DataGridColumn>
+						<mx:DataGridColumn headerText="" width="150"  sortable="false" itemRenderer="component.address.AddressRenderer" />
+					</mx:columns>
+				</mx:DataGrid>
+			</s:NavigatorContent>
+			
+		</mx:ViewStack>
+	</s:VGroup>
+	
+	
 	
 	<s:Panel id="groupPanel" visible="false" x="173" y="22" title="그룹추가 및 수정">
 		<s:Form>
@@ -420,7 +512,7 @@
 			 title="주소 추가 및 수정">
 		<s:Form id="form1" x="10" y="-10" width="351" height="155">
 			<s:FormItem height="22" label="그룹선택" skinClass="skin.FormItemSkin">
-				<s:DropDownList id="dropDownGroup" prompt="- 그룹 -"></s:DropDownList>
+				<s:DropDownList id="dropDownGroup" prompt="- 그룹 -"  ></s:DropDownList>
 			</s:FormItem>
 			<s:FormItem height="22" label="전화번호" skinClass="skin.FormItemSkin">
 				<s:TextInput id="textInputPhone"/>

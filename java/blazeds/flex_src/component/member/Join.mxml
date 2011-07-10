@@ -104,7 +104,7 @@
 			{
 				var ti:TextInput = TextInput(event.currentTarget);
 				sv.minLength = 2;
-				sv.maxLength = 10;
+				sv.maxLength = 20;
 				sv.tooShortError = "2자리 이상 입력하세요";
 				sv.tooLongError = "10자리 이상 입력하실 수 없습니다.";
 				

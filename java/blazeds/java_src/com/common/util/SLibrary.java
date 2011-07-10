@@ -125,6 +125,10 @@ public class SLibrary {
 			return false;
 	}
 	
+	public static String getDateTimeString() {
+		return getDateTimeString("yyyy-MM-dd HH:mm:ss");
+	}
+	
 	public static String getDateTimeString(String format) {
 
 		return getDateTimeString(format, System.currentTimeMillis());
