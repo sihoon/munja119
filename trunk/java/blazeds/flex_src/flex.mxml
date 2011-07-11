@@ -124,6 +124,14 @@
 				}
 			}
 			
+			// 엑셀전송 초기화
+			public function excelInit():void {
+				if (this.mlExcelLoader != null) {
+					var obj:Object = this.mlExcelLoader.child;
+					obj.excelloader.init();
+				}
+			}
+			
 			// 사용자 건수 초기화
 			public function userInfoInit():void {
 				if (this.mlLogin != null) {
@@ -132,7 +140,7 @@
 				}
 			}
 			
-			
+			// 전송내역 초기화
 			public function sentInit():void {
 				
 				if (this.mlSent != null ) {
@@ -140,6 +148,23 @@
 					obj.sent.creationCompleteHandler();
 				}
 				
+			}
+			
+			// 결제하기 초기화
+			public function billingInit():void {
+				
+				if (this.mlSent != null ) {
+					var obj:Object = this.mlBilling.child;
+					obj.billing.creationCompleteHandler();
+				}
+				
+			}
+			
+			public function allTabInit():void {
+				addressInit();
+				excelInit();
+				sentInit();
+				billingInit();
 			}
 
 			
@@ -187,19 +212,19 @@
 					</mx:ModuleLoader>
 				</s:NavigatorContent>
 				
-				<s:NavigatorContent label="엑셀전송" enabled="{bLogin}" icon="@Embed(source='assets/images/Excel.png')">
+				<s:NavigatorContent label="엑셀전송" icon="@Embed(source='assets/images/Excel.png')">
 					<mx:ModuleLoader id="mlExcelLoader" left="0" right="0" top="0" bottom="0" url="module/ExcelLoader.swf">
 						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 					</mx:ModuleLoader>
 				</s:NavigatorContent>
 				
-				<s:NavigatorContent label="전송내역" enabled="{bLogin}" icon="@Embed(source='assets/images/sent.png')">
+				<s:NavigatorContent label="전송내역" icon="@Embed(source='assets/images/sent.png')">
 					<mx:ModuleLoader id="mlSent" left="0" right="0" top="0" bottom="0" url="module/Sent.swf">
 						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 					</mx:ModuleLoader>
 				</s:NavigatorContent>
 				
-				<s:NavigatorContent label="결제하기" enabled="{bLogin}" icon="@Embed(source='assets/images/billing.png')">
+				<s:NavigatorContent label="결제하기" icon="@Embed(source='assets/images/billing.png')">
 					<mx:ModuleLoader id="mlBilling" left="0" right="0" top="0" bottom="0" url="module/Billing.swf">
 						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 					</mx:ModuleLoader>

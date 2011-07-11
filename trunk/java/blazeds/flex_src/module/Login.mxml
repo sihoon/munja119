@@ -34,6 +34,8 @@
 				
 				login_info.text = vo.user_name + " 님 안녕하세요.";
 				point.text = SLibrary.addComma( vo.point );
+				
+				parentApplication.allTabInit();
 			}
 			
 			public function loginNO():void {

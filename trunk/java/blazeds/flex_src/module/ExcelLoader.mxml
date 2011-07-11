@@ -12,5 +12,5 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<excelloader:ExcelLoader/>
+	<excelloader:ExcelLoader id="excelloader"/>
 </mx:Module>
