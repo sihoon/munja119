@@ -6,6 +6,6 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:Scroller width="100%" height="100%" minWidth="0" minHeight="0">
-		<billing:Billing />
+		<billing:Billing id="billing" />
 	</s:Scroller>
 </mx:Module>
