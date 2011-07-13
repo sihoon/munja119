@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="122" height="99" click="clickHandler()">
+	
+	<fx:Script>
+		<![CDATA[
+			protected function clickHandler():void
+			{
+				parentApplication.setMessage(label.text);
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" />
+	<s:Label id="label" color="#ffffff" left="5" right="5" top="5" bottom="5" height="99" text=""/>
+</s:Group>
