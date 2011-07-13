@@ -106,11 +106,20 @@
 				this._currentByte = 0;
 			}
 
+			protected function clickHandler(event:Event):void
+			{
+				parentApplication.loadEmoticon();
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:TextArea id="IMessage" width="190" verticalScrollPolicy="off" enabled="{_enable}" keyUp="IMessage_keyUpHandler(event)"></s:TextArea>
-	<s:Label id="IByteLabel" width="190" text="80" textAlign="right"/>
+	<s:HGroup width="100%" verticalAlign="middle">
+		<s:Button label="이모티콘" left="0" click="clickHandler(event)" />
+		<s:Label id="IByteLabel" right="0" width="100%" text="80" textAlign="right"/>	
+	</s:HGroup>
+	
 </s:VGroup>
