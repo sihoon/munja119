@@ -590,4 +590,131 @@ public class Admin extends SessionManagement {
 		
 		return rslt;
 	}
+	
+	
+	public String[] getEmoti(int page, String category) {
+		
+
+		Connection conn = null;
+		ArrayList<HashMap<String, String>> al = null;
+		String [] arr = null;
+		
+		int alCount = 0;
+		
+		int count = 20;
+		int from = 0;
+		
+		try {
+			
+			conn = VbyP.getDB();
+			
+			if (page == 0) page = 1;
+			from = count * (page -1);
+			
+			VbyP.accessLog(" >>  관리자 이모티콘 요청("+category+") "+Integer.toString(from));
+			
+			StringBuffer buf = new StringBuffer();
+			buf.append(VbyP.getSQL("adminEmoticon"));
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, buf.toString() );
+			pq.setString(1, category);
+			pq.setInt(2, from);
+			pq.setInt(3, count);
+			
+			al = pq.ExecuteQueryArrayList();
+			alCount = al.size();
+			HashMap<String, String> hm = null;
+			arr = new String[alCount];
+			
+			for (int i = 0; i < alCount; i++) {
+				hm = al.get(i);
+				arr[i] = SLibrary.padL(hm.get("idx"),7, "0")+hm.get("msg");
+			}
+			
+			
+		}catch (Exception e) {}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getEmoti >> conn.close() Exception!"); }
+		}
+		
+		return arr;
+	}
+	
+	
+	public void updateEmoti(int idx, String msg) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 이모티콘 업데이트 "+Integer.toString(idx));
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminEmoticonUpdate"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setString(1, msg);
+				pq.setInt(2, idx);
+				pq.executeUpdate();
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("updateEmoti >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
+	
+	public void deleteEmoti(int idx) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 이모티콘 삭제 "+Integer.toString(idx));
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminEmoticonDelete"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setInt(1, idx);
+				pq.executeUpdate();
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("deleteEmoti >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
+	
+	public void addEmoti(String cate, String msg) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 이모티콘 추가 "+cate+" "+msg);
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminEmoticonInsert"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setString(1, cate);
+				pq.setString(2, msg);
+				pq.executeUpdate();
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("addEmoti >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
 }
