@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="getMessage(curCategory)" width="100%" height="100%" xmlns:emoticon="admin.component.emoticon.*">
+	<fx:Script>
+		<![CDATA[
+			import lib.RO;
+			import lib.SLibrary;
+			
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			
+			private var al:Array = null;
+			private var ro:RO = new RO();
+			private var RO_DESTINATION:String = "ADMIN";
+			
+			private var page:uint = 1;
+			public var curCategory:String = "greeting";
+			private var maxPage:uint = 0;
+			
+			protected function getMessage(category:String):void {
+				
+				//spinnerStart();
+				ro.set(RO_DESTINATION, emoticon_ResultEventHandler);
+				ro.method.getEmoti(this.page, category);
+				
+			}
+			
+			private function emoticon_ResultEventHandler(event:ResultEvent):void {
+				
+				al = event.result as Array;
+				
+				if (al == null || al.length < 1)
+					page--;
+				else				
+					this.mgEmoti.arrMessage = al;
+			}
+			
+			protected function tbCategory_itemClickHandler():void
+			{
+				this.page = 1;
+				if (tbCategory.selectedIndex == 0) {
+					getMessage("greeting");
+					curCategory = "greeting";
+				}
+				else if (tbCategory.selectedIndex == 1) {
+					getMessage("humor");
+					curCategory = "humor";
+				}
+				else if (tbCategory.selectedIndex == 2) {
+					getMessage("love");
+					curCategory = "love";
+				}
+				else if (tbCategory.selectedIndex == 3) {
+					getMessage("theme");
+					curCategory = "theme";
+				}
+				
+			}
+			
+			private function prePage():void { if (page > 1)page--; }
+			private function nextPage():void { page++;	}
+			
+			
+			public function modify(idx:int, msg:String):void {
+				
+				ro.set(RO_DESTINATION, modify_ResultEventHandler);
+				ro.method.updateEmoti(idx, msg);
+			}
+			
+			private function modify_ResultEventHandler(event:ResultEvent):void {
+				
+				SLibrary.alert("수정되었습니다." );
+				getMessage(curCategory);
+			}
+			
+			public function deleteEmt(idx:int):void {
+				
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.deleteEmoti(idx);
+			}
+			
+			private function delete_ResultEventHandler(event:ResultEvent):void {
+				
+				SLibrary.alert("삭제되었습니다." );
+				getMessage(curCategory);
+			}
+			
+			[Bindable]public var cards:ArrayCollection = new ArrayCollection(
+				[ {label:"안부", data:"greeting"}, 
+					{label:"유머", data:"humor"},
+					{label:"사랑", data:"love"},
+					{label:"테마", data:"theme"} ]);
+			
+			protected function add_clickHandler(event:MouseEvent):void
+			{
+				ro.set(RO_DESTINATION, add_ResultEventHandler);
+				ro.method.addEmoti(cbCate.selectedItem.data, inputEmt.text);
+			}
+			
+			private function add_ResultEventHandler(event:ResultEvent):void {
+				
+				SLibrary.alert("저장되었습니다." );
+			  	this.curCategory = cbCate.selectedItem.data
+				getMessage(curCategory);
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<fx:Array id="category">
+			<fx:String>안부</fx:String>
+			<fx:String>유머</fx:String>
+			<fx:String>사랑</fx:String>
+			<fx:String>테마</fx:String>
+		</fx:Array>
+	</fx:Declarations>
+	<s:HGroup width="100%" height="100%">
+		<s:VGroup>
+			<s:Group width="142" height="100" >
+				<s:TextArea id="inputEmt" left="5" right="5" top="5" bottom="5" height="100" />
+			</s:Group>
+			<s:ComboBox id="cbCate" prompt="카테고리 선택" dataProvider="{cards}"/>
+			<s:Button label="추가" click="add_clickHandler(event)"/>
+		</s:VGroup>
+		<s:VGroup width="100%" height="100%">
+			
+			<mx:ToggleButtonBar id="tbCategory" width="100%" dataProvider="{category}" itemClick="tbCategory_itemClickHandler()"></mx:ToggleButtonBar>
+			<s:HGroup width="100%"  verticalAlign="middle">
+				<s:Button label="이전" width="20" top="50" skinClass="component.emoticon.PreButtonSkin" click="{prePage();getMessage(curCategory)}" />	
+				<emoticon:MessageGroup width="100%" height="100%" id="mgEmoti" />
+				<s:Button label="다음" skinClass="component.emoticon.NextButtonSkin" click="{nextPage();getMessage(curCategory)}"/>
+			</s:HGroup>
+		</s:VGroup>
+	</s:HGroup>
+</s:Module>
