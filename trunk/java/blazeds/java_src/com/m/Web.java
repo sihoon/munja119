@@ -1066,7 +1066,43 @@ public class Web extends SessionManagement{
 			
 		}catch (Exception e) {}	finally {			
 			try { if ( conn != null ) conn.close();
-			}catch(SQLException e) { VbyP.errorLog("getSentGroupList >> conn.close() Exception!"); }
+			}catch(SQLException e) { VbyP.errorLog("getHomeEmoti >> conn.close() Exception!"); }
+		}
+		
+		return arr;
+	}
+	
+	public String[] getEmoti(int page, String category) {
+		
+
+		Connection conn = null;
+		String [] arr = null;
+		int count = 8;
+		
+		int from = 0;
+		
+		try {
+			
+			conn = VbyP.getDB();
+			
+			if (page == 0) page = 1;
+			from = count * (page -1);
+			
+			VbyP.accessLog(" >>  이모티콘 요청("+category+") "+Integer.toString(from));
+			
+			StringBuffer buf = new StringBuffer();
+			buf.append(VbyP.getSQL("emoti"));
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, buf.toString() );
+			pq.setString(1, category);
+			pq.setInt(2, from);
+			pq.setInt(3, count);
+			
+			arr = pq.ExecuteQuery();
+			
+		}catch (Exception e) {}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getEmoti >> conn.close() Exception!"); }
 		}
 		
 		return arr;
