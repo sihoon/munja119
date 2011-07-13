@@ -23,6 +23,8 @@
 			import mx.events.StateChangeEvent;
 			import mx.managers.PopUpManager;
 			import mx.managers.ToolTipManager;
+			import mx.modules.IModuleInfo;
+			import mx.modules.ModuleManager;
 			
 			[Bindable]
 			public var bLogin:Boolean = false;
@@ -153,7 +155,7 @@
 			// 결제하기 초기화
 			public function billingInit():void {
 				
-				if (this.mlSent != null ) {
+				if (this.mlBilling != null ) {
 					var obj:Object = this.mlBilling.child;
 					obj.billing.creationCompleteHandler();
 				}
@@ -166,6 +168,20 @@
 				sentInit();
 				billingInit();
 			}
+			
+			public function loadEmoticon():void {
+				
+				this.mlEmoti.url = "module/Emoticon.swf";
+				this.mlEmoti.loadModule();
+			}
+			
+			public function setMessage(msg:String):void {
+				
+				if (this.mlHandPhone != null) {
+					var obj:Object = this.mlHandPhone.child;
+					obj.cMessage.setMessage(msg);
+				}
+			}
 
 			
 		]]>
@@ -173,6 +189,8 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
+	
+	
 	<s:VGroup width="1024" height="800" horizontalCenter="17">
 		
 	<mx:ModuleLoader id="mlLogin" url="module/Login.swf" left="0" right="0" top="0" bottom="0">
@@ -181,10 +199,9 @@
 	<s:Panel width="1024" minHeight="670" horizontalCenter="0" title="munja119.com"  top="40">
 		<s:controlBarContent >
 			<s:VGroup>
-				<s:Label color="0x666666" text="상호명 : 유진, 사업자등록번호 : 128-35-09733, 통신판매업신고번호 : 제2010 경기고양 1467호"/>
+				<s:Label color="0x666666" text="상호명 : 유진, 사업자등록번호 : 128-35-09733, 대표자명:최유진, 통신판매업신고번호 : 제2010 경기고양 1467호"/>
 				<s:Label color="0x666666" text="주소 : 경기도 고양시 덕양구 행신동 996-3 주공프라자 1-502, 개인정보관리자 : 김진, 전화번호 : 070-7510-8489 팩스번호 : 031)970-0746 | 메일 : webmaster@munja119.com"/>
 				<s:Label color="0x999999" text="Copyright ⓒ www.munja119.com All right reserved "/>
-				
 			</s:VGroup>
 		</s:controlBarContent>
 
@@ -248,5 +265,5 @@
 					width="100%"
 					height="100%"/>
 	</s:SkinnableContainer>
-	
+	<mx:ModuleLoader id="mlEmoti" top="30" horizontalCenter="50" />
 </s:Application>
