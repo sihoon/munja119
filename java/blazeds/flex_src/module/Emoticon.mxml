@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="getMessage('greeting')" width="640" height="370" xmlns:emoticon="component.emoticon.*">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace emoticon "component.emoticon.*";
+		global
+		{
+			chrome-color: #333333;
+			color: #CCCCCC;
+			content-background-color: #000000;
+			symbol-color: #000000;
+			roll-over-color: #555555;
+			selection-color: #333333;
+			focus-color: #999999;
+			accent-color: #8C8C8C;
+			fontFamily: "Dotum";
+			fontSize: 12px;
+			
+		}
+		
+		mx|ToggleButtonBar {
+			buttonStyleName: "mytoggleButtonBarButtonStyle";
+			firstButtonStyleName: "mytoggleButtonBarFirstButtonStyle";
+			lastButtonStyleName: "mytoggleButtonBarLastButtonStyle";
+			selectedButtonTextStyleName: "mytoggleButtonBarSelectedButtonStyle";
+		}
+		.mytoggleButtonBarButtonStyle {
+			textRollOverColor: #ffffff;
+		}
+		
+		.mytoggleButtonBarFirstButtonStyle {
+			textRollOverColor: #ffffff;
+		}
+		
+		.mytoggleButtonBarLastButtonStyle {
+			textRollOverColor: #ffffff;
+		}
+		
+		.mytoggleButtonBarSelectedButtonStyle {
+			textRollOverColor: #ffffff;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import lib.RO;
+			
+			import mx.rpc.events.ResultEvent;
+			
+			private var al:Array = null;
+			private var ro:RO = new RO();
+			private var RO_DESTINATION:String = "WEB";
+			
+			private var page:uint = 1;
+			public var curCategory:String = "love";
+			private var maxPage:uint = 0;
+			
+			protected function getMessage(category:String):void {
+				
+				//spinnerStart();
+				ro.set(RO_DESTINATION, emoticon_ResultEventHandler);
+				ro.method.getEmoti(this.page, category);
+				
+			}
+			
+			private function emoticon_ResultEventHandler(event:ResultEvent):void {
+				
+				al = event.result as Array;
+				
+				if (al == null || al.length < 1)
+					page--;
+				else				
+					this.mgEmoti.arrMessage = al;
+			}
+			
+			protected function tbCategory_itemClickHandler():void
+			{
+				this.page = 1;
+				if (tbCategory.selectedIndex == 0) {
+					getMessage("greeting");
+					curCategory = "greeting";
+				}
+				else if (tbCategory.selectedIndex == 1) {
+					getMessage("humor");
+					curCategory = "humor";
+				}
+				else if (tbCategory.selectedIndex == 2) {
+					getMessage("love");
+					curCategory = "love";
+				}
+				else if (tbCategory.selectedIndex == 3) {
+					getMessage("theme");
+					curCategory = "theme";
+				}
+				
+			}
+			
+			private function prePage():void { if (page > 1)page--; }
+			private function nextPage():void { page++;	}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<fx:Array id="category">
+			<fx:String>안부</fx:String>
+			<fx:String>유머</fx:String>
+			<fx:String>사랑</fx:String>
+			<fx:String>테마</fx:String>
+		</fx:Array>
+	</fx:Declarations>
+	<s:SkinnableContainer id="costContainer" visible="true" skinClass="skin.EmoticonSkin" width="640" height="370" top="60" horizontalCenter="17">
+		<s:Button skinClass="skin.IframeCloseButton" width="46" height="46" top="-40" right="-40" click="this.costContainer.visible=false;" />
+		<s:Panel skinClass="skin.HomePanelSkinNoMore" title="이모티콘" left="0" right="0" top="10" bottom="0">
+			<s:layout>
+				<s:VerticalLayout paddingTop="5" paddingLeft="0" paddingRight="0" paddingBottom="5"/>
+			</s:layout>
+			<mx:ToggleButtonBar id="tbCategory" width="100%" dataProvider="{category}" itemClick="tbCategory_itemClickHandler()"></mx:ToggleButtonBar>
+			<s:HGroup width="100%"  verticalAlign="middle">
+				<s:Button label="이전" width="20" top="50" skinClass="component.emoticon.PreButtonSkin" click="{prePage();getMessage(curCategory)}" />	
+				<emoticon:MessageGroup width="100%" height="200" id="mgEmoti" />
+				<s:Button label="다음" skinClass="component.emoticon.NextButtonSkin" click="{nextPage();getMessage(curCategory)}"/>
+			</s:HGroup>
+		</s:Panel>
+	</s:SkinnableContainer>
+</s:Module>
