@@ -63,7 +63,7 @@
 				
 				if (!parentApplication.bLogin) {
 					parentApplication.tn.selectedIndex=0;
-					SLibrary.alert("로그인 후 이용 가능합니다.address");
+					SLibrary.alert("로그인 후 이용 가능합니다.");
 					return;
 				}
 				
