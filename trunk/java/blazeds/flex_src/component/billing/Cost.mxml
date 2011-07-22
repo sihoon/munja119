@@ -15,7 +15,7 @@
 		<s:Label text="발송건/포인트" width="130" textAlign="center" />
 		<s:Label text="적립금" width="130" textAlign="center" />
 		<s:Label text="금액" width="130" textAlign="center" />
-		<s:Label text="단가" width="130" textAlign="center" />
+		<s:Label text="단가" width="80" textAlign="center" />
 	</s:HGroup>
 	<s:Rect width="100%" height="2" >
 		<s:fill>
@@ -26,96 +26,106 @@
 		<s:Label text="100건/포인트" width="130" textAlign="center" />
 		<s:Label text="20원" width="130" textAlign="center" />
 		<s:Label text="2,000원" width="130" textAlign="center" />
-		<s:Label text="20원/건" width="130" textAlign="center" />
+		<s:Label text="20원/건" width="80" textAlign="center" color="#666666" fontStyle="italic" />
+		<s:Label text="=> 12원 / 166건" width="130" textAlign="center" />
 	</s:SkinnableContainer>
 	
 	<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
 		<s:Label text="300건/포인트" width="130" textAlign="center" />
 		<s:Label text="57원" width="130" textAlign="center" />
 		<s:Label text="5,700원" width="130" textAlign="center" />
-		<s:Label text="19원/건" width="130" textAlign="center" />
+		<s:Label text="19원/건" width="80" textAlign="center" color="#666666" fontStyle="italic"  />
+		<s:Label text="=> 12원 / 475건" width="130" textAlign="center" />
 	</s:SkinnableContainer>
 	
 	<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
 		<s:Label text="500건/포인트" width="130" textAlign="center" />
 		<s:Label text="90원" width="130" textAlign="center" />
 		<s:Label text="9,000원" width="130" textAlign="center" />
-		<s:Label text="18원/건" width="130" textAlign="center" />
+		<s:Label text="18원/건" width="80" textAlign="center" color="#666666" fontStyle="italic"  />
+		<s:Label text="=> 12원 / 750건" width="130" textAlign="center" />
 	</s:SkinnableContainer>
 	
 	<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
 		<s:Label text="1,000건/포인트" width="130" textAlign="center" />
 		<s:Label text="170원" width="130" textAlign="center" />
 		<s:Label text="17,000원" width="130" textAlign="center" />
-		<s:Label text="17원/건" width="130" textAlign="center" />
+		<s:Label text="17원/건" width="80" textAlign="center" color="#666666" fontStyle="italic"  />
+		<s:Label text="=> 12원 / 1,416건" width="130" textAlign="center" />
 	</s:SkinnableContainer>
 	
 	<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
 		<s:Label text="1,500건/포인트" width="130" textAlign="center" />
 		<s:Label text="246원" width="130" textAlign="center" />
 		<s:Label text="24,600원" width="130" textAlign="center" />
-		<s:Label text="16.4원/건" width="130" textAlign="center" />
+		<s:Label text="16.4원/건" width="80" textAlign="center" color="#666666" fontStyle="italic"  />
+		<s:Label text="=> 12원 / 2,050건" width="130" textAlign="center" />
 	</s:SkinnableContainer>
 	
 	<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
 		<s:Label text="3,000건/포인트" width="130" textAlign="center" />
 		<s:Label text="465원" width="130" textAlign="center" />
 		<s:Label text="46,500원" width="130" textAlign="center" />
-		<s:Label text="15.5원/건" width="130" textAlign="center" />
+		<s:Label text="15.5원/건" width="80" textAlign="center" color="#666666" fontStyle="italic"  />
+		<s:Label text="=> 12원 / 3,875건" width="130" textAlign="center" />
 	</s:SkinnableContainer>
 	
 	<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
 		<s:Label text="5,000건/포인트" width="130" textAlign="center" />
 		<s:Label text="740원" width="130" textAlign="center" />
 		<s:Label text="74,000원" width="130" textAlign="center" />
-		<s:Label text="14.8원/건" width="130" textAlign="center" />
+		<s:Label text="14.8원/건" width="80" textAlign="center" color="#666666" fontStyle="italic"  />
+		<s:Label text="=> 12원 / 6,166건" width="130" textAlign="center" />
 	</s:SkinnableContainer>
 	
 	<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
 		<s:Label text="10,000건/포인트" width="130" textAlign="center" />
 		<s:Label text="1,390원" width="130" textAlign="center" />
 		<s:Label text="139,000원" width="130" textAlign="center" />
-		<s:Label text="13.9원/건" width="130" textAlign="center" />
+		<s:Label text="13.9원/건" width="80" textAlign="center" color="#666666" fontStyle="italic"  />
+		<s:Label text="=> 12원 / 11,583건" width="130" textAlign="center" />
 	</s:SkinnableContainer>
 	
 	<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
 		<s:Label text="20,000건/포인트" width="130" textAlign="center" />
 		<s:Label text="2,600원" width="130" textAlign="center" />
 		<s:Label text="260,000원" width="130" textAlign="center" />
-		<s:Label text="13원/건" width="130" textAlign="center" />
+		<s:Label text="13원/건" width="80" textAlign="center" color="#666666" fontStyle="italic"  />
+		<s:Label text="=> 12원 / 13,333건" width="130" textAlign="center" />
 	</s:SkinnableContainer>
 	<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
 		<s:Label text="30,000건/포인트" width="130" textAlign="center" />
 		<s:Label text="3,750원" width="130" textAlign="center" />
 		<s:Label text="375,000원" width="130" textAlign="center" />
-		<s:Label text="12.5원/건" width="130" textAlign="center" />
+		<s:Label text="12.5원/건" width="80" textAlign="center" color="#666666" fontStyle="italic"  />
+		<s:Label text="=> 12원 / 41,250건" width="130" textAlign="center" />
 	</s:SkinnableContainer>
 	
 	<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
 		<s:Label text="50,000건/포인트" width="130" textAlign="center" />
 		<s:Label text="6,000원" width="130" textAlign="center" />
 		<s:Label text="600,000원" width="130" textAlign="center" />
-		<s:Label text="12원/건" width="130" textAlign="center" />
+		<s:Label text="12원/건" width="80" textAlign="center" />
 	</s:SkinnableContainer>
 	
 	<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
 		<s:Label text="100,000건/포인트" width="130" textAlign="center" />
 		<s:Label text="11,500원" width="130" textAlign="center" />
 		<s:Label text="1,150,000원" width="130" textAlign="center" />
-		<s:Label text="11.5원/건" width="130" textAlign="center" />
+		<s:Label text="11.5원/건" width="80" textAlign="center" />
 	</s:SkinnableContainer>
 	
 	<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
 		<s:Label text="300,000건/포인트" width="130" textAlign="center" />
 		<s:Label text="33,000원" width="130" textAlign="center" />
 		<s:Label text="3,300,000원" width="130" textAlign="center" />
-		<s:Label text="11원/건" width="130" textAlign="center" />
+		<s:Label text="11원/건" width="80" textAlign="center" />
 	</s:SkinnableContainer>
 	
 	<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
 		<s:Label text="500,000건/포인트" width="130" textAlign="center" />
 		<s:Label text="53,500원" width="130" textAlign="center" />
 		<s:Label text="5,350,000원" width="130" textAlign="center" />
-		<s:Label text="10.7원/건" width="130" textAlign="center" />
+		<s:Label text="10.7원/건" width="80" textAlign="center" />
 	</s:SkinnableContainer>
 </s:Panel>
