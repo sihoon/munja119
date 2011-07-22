@@ -49,8 +49,8 @@
 			<s:Group buttonMode="true" useHandCursor="true" click="costimg_clickHandler(event)">
 				<s:BitmapImage source="@Embed(source='assets/images/money.png')" />	
 			</s:Group>
-			<s:Label width="100%" text="최저 건당 10.7원(부가세별도)" fontWeight="bold" color="#93DAFF" />
-			<s:Label width="100%" text="충전금액은 발송건수에 따라 건당 최저 10.7원(부가세별도) 입니다." color="#ffffff" />
+			<s:Label width="100%" text="문자119 파격 이벤트!!" fontWeight="bold" color="#93DAFF" />
+			<s:Label width="100%" text="단 1건의 문자도 12원에 가능 합니다. " color="#ffffff" />
 			<!--<s:Label width="100%" text="적립금" fontWeight="bold" color="#93DAFF" />
 			<s:Label width="100%" text="결제완료시 1% 적립. 보유 적립금이 3,000원 이상부터 사용할 수 있습니다." color="#ffffff" /> -->
 		</util:MorePanel>
