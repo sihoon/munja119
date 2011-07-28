@@ -91,14 +91,14 @@
 		<s:Label text="2,600원" width="130" textAlign="center" />
 		<s:Label text="260,000원" width="130" textAlign="center" />
 		<s:Label text="13원/건" width="80" textAlign="center" color="#666666" fontStyle="italic"  />
-		<s:Label text="=> 12원 / 13,333건" width="130" textAlign="center" />
+		<s:Label text="=> 12원 / 21,666건" width="130" textAlign="center" />
 	</s:SkinnableContainer>
 	<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
 		<s:Label text="30,000건/포인트" width="130" textAlign="center" />
 		<s:Label text="3,750원" width="130" textAlign="center" />
 		<s:Label text="375,000원" width="130" textAlign="center" />
 		<s:Label text="12.5원/건" width="80" textAlign="center" color="#666666" fontStyle="italic"  />
-		<s:Label text="=> 12원 / 41,250건" width="130" textAlign="center" />
+		<s:Label text="=> 12원 / 31,250건" width="130" textAlign="center" />
 	</s:SkinnableContainer>
 	
 	<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
