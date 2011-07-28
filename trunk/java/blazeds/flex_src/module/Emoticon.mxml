@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		  xmlns:s="library://ns.adobe.com/flex/spark" 
-		  xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="getMessage('greeting')" width="640" height="370" xmlns:emoticon="component.emoticon.*">
+		  xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="getMessage('greeting')" width="800" height="370" xmlns:emoticon="component.emoticon.*">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 		@namespace mx "library://ns.adobe.com/flex/mx";
@@ -103,24 +103,94 @@
 	</fx:Script>
 	<fx:Declarations>
 		<fx:Array id="category">
+			<fx:String>감사</fx:String>
+			<fx:String>계절</fx:String>
+			<fx:String>공지/안내</fx:String>
+			<fx:String>기념</fx:String>
+			<fx:String>날씨</fx:String>
+			<fx:String>명언/감동</fx:String>
+			<fx:String>모임</fx:String>
+			<fx:String>부고/조의</fx:String>
+			<fx:String>사과/화해</fx:String>
+			<fx:String>사랑/고백</fx:String>
+			<fx:String>시즌</fx:String>
 			<fx:String>안부</fx:String>
-			<fx:String>유머</fx:String>
-			<fx:String>사랑</fx:String>
-			<fx:String>테마</fx:String>
+			<fx:String>약속</fx:String>
+			<fx:String>요일</fx:String>
+			<fx:String>우정</fx:String>
+			<fx:String>위로/격려</fx:String>
+			<fx:String>유머/패러디</fx:String>
+			<fx:String>종교</fx:String>
+			<fx:String>초대</fx:String>
+			<fx:String>축하</fx:String>
+			<fx:String>홍보/행사</fx:String>
+			<fx:String>기타</fx:String>
+		</fx:Array>
+		<fx:Array id="category1">
+			<fx:String>가구/인테리어</fx:String>
+			<fx:String>가전</fx:String>
+			<fx:String>건강/다이어트</fx:String>
+			<fx:String>결혼정보</fx:String>
+			<fx:String>금융</fx:String>
+			<fx:String>꽃배달</fx:String>
+			<fx:String>나이트</fx:String>
+			<fx:String>낚시</fx:String>
+			<fx:String>노래방</fx:String>
+			<fx:String>대리운전</fx:String>
+			<fx:String>대출</fx:String>
+			<fx:String>동물병원</fx:String>
+			<fx:String>레저/스포츠</fx:String>
+			<fx:String>렌터카</fx:String>
+			<fx:String>미용실</fx:String>
+			<fx:String>병원</fx:String>
+			<fx:String>보험</fx:String>
+			<fx:String>부동산</fx:String>
+			<fx:String>쇼핑몰/오픈마켓</fx:String>
+			<fx:String>스포츠</fx:String>
+			<fx:String>식품/슈퍼마켓</fx:String>
+			<fx:String>여행사</fx:String>
+			<fx:String>옷/의류</fx:String>
+			<fx:String>유치원/어린이집</fx:String>
+			<fx:String>유흥</fx:String>
+			<fx:String>음식</fx:String>
+			<fx:String>이삿짐</fx:String>
+			<fx:String>자동차</fx:String>
+			<fx:String>조합/노조</fx:String>
+			<fx:String>종교</fx:String>
+			<fx:String>카센터</fx:String>
+			<fx:String>택배/쿽서비스</fx:String>
+			<fx:String>통신</fx:String>
+			<fx:String>학원/학교</fx:String>
 		</fx:Array>
 	</fx:Declarations>
-	<s:SkinnableContainer id="costContainer" visible="true" skinClass="skin.EmoticonSkin" width="640" height="370" top="60" horizontalCenter="17">
+	<s:SkinnableContainer id="costContainer" visible="true" skinClass="skin.EmoticonSkin" width="800" height="370" top="60" horizontalCenter="17">
 		<s:Button skinClass="skin.IframeCloseButton" width="46" height="46" top="-40" right="-40" click="this.costContainer.visible=false;" />
 		<s:Panel skinClass="skin.HomePanelSkinNoMore" title="이모티콘" left="0" right="0" top="10" bottom="0">
 			<s:layout>
 				<s:VerticalLayout paddingTop="5" paddingLeft="0" paddingRight="0" paddingBottom="5"/>
 			</s:layout>
-			<mx:ToggleButtonBar id="tbCategory" width="100%" dataProvider="{category}" itemClick="tbCategory_itemClickHandler()"></mx:ToggleButtonBar>
-			<s:HGroup width="100%"  verticalAlign="middle">
-				<s:Button label="이전" width="20" top="50" skinClass="component.emoticon.PreButtonSkin" click="{prePage();getMessage(curCategory)}" />	
-				<emoticon:MessageGroup width="100%" height="200" id="mgEmoti" />
-				<s:Button label="다음" skinClass="component.emoticon.NextButtonSkin" click="{nextPage();getMessage(curCategory)}"/>
-			</s:HGroup>
+			<mx:TabNavigator id="tn" width="720" minHeight="520" tabWidth="120" tabHeight="40" paddingBottom="10"
+							 paddingLeft="10" paddingRight="10" paddingTop="10" cornerRadius="4">
+				<s:NavigatorContent label="테마문자">
+					<s:layout>
+						<s:VerticalLayout paddingTop="5" paddingLeft="0" paddingRight="0" paddingBottom="5"/>
+					</s:layout>
+					<mx:ToggleButtonBar id="tbCategory" width="400"  dataProvider="{category}"  itemClick="tbCategory_itemClickHandler()"></mx:ToggleButtonBar>
+					<s:HGroup width="100%"  verticalAlign="middle">
+						<s:Button label="이전" width="20" top="50" skinClass="component.emoticon.PreButtonSkin" click="{prePage();getMessage(curCategory)}" />	
+						<emoticon:MessageGroup width="100%" height="200" id="mgEmoti" />
+						<s:Button label="다음" skinClass="component.emoticon.NextButtonSkin" click="{nextPage();getMessage(curCategory)}"/>
+					</s:HGroup>
+				</s:NavigatorContent>
+				<s:NavigatorContent label="업종별">
+					<mx:ToggleButtonBar id="tbCategory1" width="100%" dataProvider="{category1}" itemClick="tbCategory_itemClickHandler()"></mx:ToggleButtonBar>
+					<s:HGroup width="100%"  verticalAlign="middle">
+						<s:Button label="이전" width="20" top="50" skinClass="component.emoticon.PreButtonSkin" click="{prePage();getMessage(curCategory)}" />	
+						<emoticon:MessageGroup width="100%" height="200" id="mgEmoti1" />
+						<s:Button label="다음" skinClass="component.emoticon.NextButtonSkin" click="{nextPage();getMessage(curCategory)}"/>
+					</s:HGroup>
+				</s:NavigatorContent>
+			</mx:TabNavigator>
 		</s:Panel>
 	</s:SkinnableContainer>
 </s:Module>

@@ -293,6 +293,19 @@ public class SLibrary {
 	}
 	
 	/**  
+	* 현재 기준으로 n일 전후 날짜 반환
+	* @param n - 적용 일
+	* @param format 
+	* @return String 
+	*/
+	public static String diffOfDay(int n , String format){
+		
+		Calendar cal = Calendar.getInstance();
+		cal.add ( Calendar.DATE, n );
+		return SLibrary.getDateTimeString(format, cal.getTime());
+	}
+	
+	/**  
 	* 현재 기준으로 n달 전후 날짜 반환
 	* @param n - 적용 달
 	* @param format 
