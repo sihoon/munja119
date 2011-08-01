@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+	<Resource name="jdbc/web"
+		auth="Container"
+		type="javax.sql.DataSource"
+		driverClassName="com.mysql.jdbc.Driver"                 
+		loginTimeout="10"
+		maxWait="5000"
+		maxActive="20"
+		maxIdle="20"
+		username="xhdzmsdkdl"
+		password="xhdzmsdkdl!@#$"
+		testOnBorrow="true"
+		validationQuery="select 1 from dual"
+		poolPreparedStatements="true"
+        url="jdbc:mysql://1.226.84.99:3306/web?autoReconnection=true&amp;"
+        />
+   	<Resource name="jdbc/sms1"
+		auth="Container"
+		type="javax.sql.DataSource"
+		driverClassName="com.mysql.jdbc.Driver"                 
+		loginTimeout="10"
+		maxWait="5000"
+		maxActive="20"
+		maxIdle="20"
+		username="xhdzmsdkdl"
+		password="xhdzmsdkdl!@#$"
+		testOnBorrow="true"
+		validationQuery="select 1 from dual"
+		poolPreparedStatements="true"
+        url="jdbc:mysql://1.226.84.99:3306/sms1?autoReconnection=true&amp;"
+        />
+<!-- 
+     <Resource name="jdbc/web"
+		auth="Container"
+		type="javax.sql.DataSource"
+		driverClassName="com.mysql.jdbc.Driver"                 
+		loginTimeout="10"
+		maxWait="5000"
+		maxActive="20"
+		maxIdle="20"
+		username="web"
+		password="xhdzmsdkdlelqlweb"
+		testOnBorrow="true"
+		validationQuery="select 1 from dual"
+		poolPreparedStatements="true"
+        url="jdbc:mysql://localhost:3306/web?autoReconnection=true&amp;"
+        />
+   	<Resource name="jdbc/sms1"
+		auth="Container"
+		type="javax.sql.DataSource"
+		driverClassName="com.mysql.jdbc.Driver"                 
+		loginTimeout="10"
+		maxWait="5000"
+		maxActive="20"
+		maxIdle="20"
+		username="sms1"
+		password="xhdzmsdkdlelqlsms1"
+		testOnBorrow="true"
+		validationQuery="select 1 from dual"
+		poolPreparedStatements="true"
+        url="jdbc:mysql://localhost:3306/sms1?autoReconnection=true&amp;"
+        />
+        
+ -->
+
+</Context>
