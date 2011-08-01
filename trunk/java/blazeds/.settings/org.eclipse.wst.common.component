@@ -3,7 +3,7 @@
     <wb-module deploy-name="blazeds">
         <wb-resource deploy-path="/" source-path="/WebContent"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/java_src"/>
-        <property name="context-root" value="blazeds"/>
         <property name="java-output-path" value="/blazeds/build/classes"/>
+        <property name="context-root" value="/"/>
     </wb-module>
 </project-modules>
