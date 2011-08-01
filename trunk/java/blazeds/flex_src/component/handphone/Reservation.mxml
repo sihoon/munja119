@@ -17,15 +17,22 @@
 			protected function resLayer_setReservationHandler(event:CustomEvent):void
 			{
 				reservationText.text = String(event.obj);
-				this.setResButton.visible = false;
-				this.canResButton.visible = true;
 			}
 			
 			protected function canResButton_clickHandler(event:MouseEvent):void
 			{
 				this.reservationText.text = "";
-				this.setResButton.visible = true;
-				this.canResButton.visible = false;
+				
+			}
+			
+			protected function checkbox1_changeHandler(event:Event):void
+			{
+				if (cb.selected) {
+					setResButton_clickHandler(null);
+				}else {
+					canResButton_clickHandler(null);
+				}
+				
 			}
 			
 		]]>
@@ -34,10 +41,10 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:HGroup width="100%" height="100%" verticalAlign="middle">
-		<s:Group>
-			<s:Button id="setResButton" label="예약하기" click="setResButton_clickHandler(event)" />
-			<s:Button id="canResButton" label="예약취소" visible="false" click="canResButton_clickHandler(event)" />	
-		</s:Group>
+		<s:HGroup verticalAlign="middle" gap="0">
+			<s:CheckBox id="cb" fontSize="11" change="checkbox1_changeHandler(event)" />
+			<s:Label text="예약하기" color="0xffffff"/>
+		</s:HGroup>
 		<s:Label id="reservationText" fontSize="12" fontWeight="bold" color="#ed6c1f" />	
 	</s:HGroup>
 	<handphone:ReservationLayer id="resLayer" visible="false" x="-15" y="-275" setReservation="resLayer_setReservationHandler(event)" />

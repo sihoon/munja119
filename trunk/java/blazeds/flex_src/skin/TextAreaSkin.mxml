@@ -53,22 +53,13 @@
         <s:State name="normalWithPrompt"/>
         <s:State name="disabledWithPrompt" stateGroups="disabledStates"/>
     </s:states>
-    
-    <!-- border --> 
-    <!--- @private -->
-    <s:Rect id="border" left="0" right="0" top="0" bottom="0">
-        <s:stroke>
-            <!--- @private -->
-            <s:SolidColorStroke id="borderStroke" color="0x696969" weight="1"/>            
-        </s:stroke>
-    </s:Rect>
 
     <!-- fill -->
     <!--- Defines the appearance of the TextArea component's background. -->
     <s:Rect id="background" left="1" right="1" top="1" bottom="1">
         <s:fill>
             <!--- @private Defines the background fill color. -->
-            <s:SolidColor id="bgFill" color="0x464646" />
+            <s:SolidColor id="bgFill" color="0xd9d9d7" />
         </s:fill>
     </s:Rect>
     
@@ -80,14 +71,14 @@
 							paddingLeft="4"
 							paddingRight="4"
 							maxWidth="125"
-							maxHeight="125" />
+							maxHeight="125" color="0x000000" />
     </s:Scroller>
     
     <!--- Defines the Label that is used for prompt text. The includeInLayout property is false so the prompt text does not affect measurement. -->
     <s:Label id="promptDisplay"
                 mouseEnabled="false" mouseChildren="false"
                 includeIn="normalWithPrompt,disabledWithPrompt" 
-                includeInLayout="false"
+                includeInLayout="false" color="0x000000"
                 />            
 
 </s:SparkSkin>

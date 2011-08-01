@@ -4,7 +4,7 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:flexiframe="http://code.google.com/p/flex-iframe/"
 			   creationComplete="creationCompleteHandler(event)"
-			   minWidth="1024" minHeight="768" skinClass="skin.App1" xmlns:lib="lib.*" xmlns:billing="component.billing.*">
+			   minWidth="1024" minHeight="768" skinClass="skin.App1" xmlns:lib="lib.*" xmlns:billing="component.billing.*" xmlns:component="component.*">
 	<fx:Style source="flex.css"/>
 	<fx:Script>
 		<![CDATA[
@@ -190,8 +190,15 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	
+	<component:Menu x="230" y="23" />
 	
-	<s:VGroup width="1024" height="800" horizontalCenter="17">
+	<mx:ModuleLoader top="200" id="mlHandPhone" url="module/HandPhone.swf">
+		<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
+	</mx:ModuleLoader>
+
+	<s:VGroup width="1024" height="800" top="200" horizontalCenter="17">
+		
+	
 		
 	<mx:ModuleLoader id="mlLogin" url="module/Login.swf" left="0" right="0" top="0" bottom="0">
 		<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
@@ -206,10 +213,6 @@
 		</s:controlBarContent>
 
 		<s:HGroup horizontalCenter="0" top="10">
-			
-			<mx:ModuleLoader id="mlHandPhone" url="module/HandPhone.swf">
-				<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
-			</mx:ModuleLoader>
 			
 			<mx:TabNavigator id="tn" width="720" minHeight="520" tabWidth="120" tabHeight="40" paddingBottom="10"
 							 paddingLeft="10" paddingRight="10" paddingTop="10" cornerRadius="4">

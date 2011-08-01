@@ -81,7 +81,7 @@ in accordance with the terms of the license agreement accompanying it.
 			 lineBreak="toFit"
 			 maxDisplayedLines="1"
 			 horizontalCenter="0" verticalCenter="1"
-			 left="10" right="10" top="2" bottom="2"
+			 left="5" right="5" top="2" bottom="2" color="0xffffff"
 			 >
 	</s:Label>
 	

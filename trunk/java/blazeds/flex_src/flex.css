@@ -6,7 +6,7 @@
 *
 {
 	font-family: Dotum;
-	color:#eeeeee;
+	color:#000000;
 }
 
 s|Button {
@@ -89,7 +89,6 @@ mx|TabNavigator
 
 mx|DataGrid
 {
-	borderSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_borderSkin");
 	headerBackgroundSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_headerBackgroundSkin");
 	columnDropIndicatorSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_columnDropIndicatorSkin");
 	columnResizeSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_columnResizeSkin");

@@ -57,20 +57,21 @@
         A rectangle with a solid color fill that forms the background of the application.
         The color of the fill is set to the Application's backgroundColor property.
     -->
-		
 	
-    <s:Rect id="backgroundRect" left="0" right="0" top="0" bottom="0"  >
-        <s:fill>
-            <!--- @private -->
-            <s:SolidColor id="bgRectFill" color="#fbf6e1"/>
-        </s:fill>
-    </s:Rect>
-	
-	<s:Rect left="0" right="0" height="385"  >
+	<s:Rect left="0" right="0" top="0" bottom="0">
 		<s:fill>
-			<s:BitmapFill source="@Embed('/assets/images/application_bg.png')" fillMode="repeat" />
+			<s:BitmapFill source="@Embed('/assets/Bg.png')" />
 		</s:fill>
 	</s:Rect>
+	
+	<s:Rect left="0" width="1024" height="790"  >
+		<s:fill>
+			<s:BitmapFill source="@Embed('/assets/main_left.png')" />
+		</s:fill>
+	</s:Rect>
+	
+	<s:BitmapImage x="40" y="25" source="@Embed('/assets/logo.png')" />
+	
 	
     <s:Group left="0" right="0" top="0" bottom="0">
         <s:layout>

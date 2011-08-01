@@ -32,11 +32,11 @@
 				
 				var validMessage:String = "";
 				
-				if ( Boolean(parentApplication.bLogin) == false ) validMessage = "<font color='#FF6464'>로그인</font> 후 이용 가능 합니다.";
-				else if (cMessage.getMessage() == "" ) validMessage = "<font color='#FF6464'>메시지</font>를 입력 하세요.";
-				else if (cMessage.bLimitMessage()) validMessage = "메시지가 <font color='#FF6464'>" +cMessage.getLimitMessageByte()+ "byte</font>를 초과 하였습니다.";
-				else if (cPhone.getTotalCount() == 0) validMessage = "<font color='#FF6464'>전화번호</font>를 입력하세요.";
-				else if (cReturnPhone.returnPhone.length == 0) validMessage = "<font color='#FF6464'>회신번호</font>를 입력하세요";
+				if ( Boolean(parentApplication.bLogin) == false ) validMessage = "로그인 후 이용 가능 합니다.";
+				else if (cMessage.getMessage() == "" ) validMessage = "메시지를 입력 하세요.";
+				else if (cMessage.bLimitMessage()) validMessage = "메시지가 " +cMessage.getLimitMessageByte()+ "byte를 초과 하였습니다.";
+				else if (cPhone.getTotalCount() == 0) validMessage = "전화번호를 입력하세요.";
+				else if (cReturnPhone.returnPhone.length == 0) validMessage = "회신번호를 입력하세요";
 				else {
 					validMessage = "<font color='#25E021'>전송하기</font> 버튼을 누르면 전송 됩니다.";
 					sendButton.enabled = true;
@@ -91,7 +91,7 @@
 			
 			protected function sendButton_clickHandler(event:MouseEvent):void
 			{
-				Button(event.currentTarget).enabled = false;
+				sendButton.enabled = false;
 				remoteObjectInit();
 				
 				ro.addEventListener(ResultEvent.RESULT,send_ResultEventHandler);
@@ -176,25 +176,31 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:Group>
-		<s:BitmapImage source="@Embed('/assets/hp11.png')" />
-		<s:VGroup left="26" top="57" gap="4">
+	<s:Group >
+		<s:BitmapImage source="@Embed('/assets/phone_bg.png')" />
+		<s:VGroup left="20" top="42" gap="2">
 			<handphone:ReadMe id="cReadMe"/>
 			<handphone:Message id="cMessage" alert="message1_alertHandler(event)" validValue="validHandler(event)"/>
-			<handphone:Phone  id="cPhone" validValue="validHandler(event)"/>
+			<s:BitmapImage source="@Embed('/assets/underbar.png')" />
 			<handphone:ReturnPhone  id="cReturnPhone" validValue="validHandler(event)"/>
-			<handphone:Reservation  id="cReservation"/>
-			<s:HGroup gap="10">
-				<s:Button id="sendButton" width="90" height="30" label="전송하기"
-						  click="sendButton_clickHandler(event)"/>
-				<s:Button id="cancelButton" width="90" height="30" label="취소하기"
-						  click="cancelButton_clickHandler(event)"/>	
+			<s:BitmapImage source="@Embed('/assets/underbar.png')" />
+			<handphone:Phone  id="cPhone" validValue="validHandler(event)"/>
+			
+			<handphone:Reservation id="cReservation" width="187"/>
+			<s:HGroup horizontalAlign="center" gap="10" width="100%">
+				<s:Group id="sendButton" buttonMode="true" useHandCursor="true" click="sendButton_clickHandler(event)">
+					<s:BitmapImage source="@Embed('/assets/send.png')" />
+				</s:Group>
+				<s:Group id="cancelButton" buttonMode="true" useHandCursor="true" click="cancelButton_clickHandler(event)">
+					<s:BitmapImage source="@Embed('/assets/cancel.png')" />
+				</s:Group>
 			</s:HGroup>
+		</s:VGroup>	
+		<!--전송중 카운트-->
+		<s:VGroup id="iAlertContainer" x="38" y="120" width="165" depth="7" focusEnabled="false" visible="false" horizontalAlign="center">
+			<s:Label text="전송요청!!" fontSize="14" color="0x000000" visible="false"/>
+			<lib:AlertLabel id="iAlert" font_size="40" glow_color="0x000000" text_color="0xFFFFFF" text_label="" effectEnd="this.iAlertContainer.visible=false"/>
 		</s:VGroup>
-	</s:Group>	
-	<!--전송중 카운트-->
-	<s:VGroup id="iAlertContainer" x="38" y="120" width="165" depth="7" focusEnabled="false" visible="false" horizontalAlign="center">
-		<s:Label text="전송요청!!" fontSize="14" color="0x000000" visible="false"/>
-		<lib:AlertLabel id="iAlert" font_size="40" glow_color="0x000000" text_color="0xFFFFFF" text_label="" effectEnd="this.iAlertContainer.visible=false"/>
-	</s:VGroup>
+	
+	</s:Group>
 </mx:Module>
