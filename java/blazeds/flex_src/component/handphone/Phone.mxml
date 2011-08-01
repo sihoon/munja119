@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		  xmlns:s="library://ns.adobe.com/flex/spark" 
-		  xmlns:mx="library://ns.adobe.com/flex/mx">
+		  xmlns:mx="library://ns.adobe.com/flex/mx" gap="2">
 	<fx:Metadata>
 		[Event(name="validValue", type="lib.CustomEvent")]
 	</fx:Metadata>
@@ -74,7 +74,7 @@
 			}
 
 			protected function addPhoneButton_clickHandler(event:MouseEvent):void {
-				addList(phoneTextInput.text);
+				addList(phoneTextInput.text);phoneTextInput.text = "";
 			}
 			
 			// 전화번호 포맷
@@ -88,20 +88,19 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:HGroup verticalAlign="middle">
-		<s:Label text="수신번호"/>
-		<s:TextInput id="phoneTextInput" width="100" />
+		<s:Label text="수신번호" fontSize="11" color="0xffffff"/>
+		<s:TextInput id="phoneTextInput" width="100" enter="addPhoneButton_clickHandler(null)" />
 		<s:Button id="addPhoneButton" width="30" label="+" click="addPhoneButton_clickHandler(event)"/>
 	</s:HGroup>
-	<mx:DataGrid id="sendDG" width="190" height="100" dataProvider="{al}" showHeaders="false">
+	<s:BitmapImage source="@Embed('/assets/underbar.png')" />
+	<mx:DataGrid id="sendDG" width="100%" height="90" dataProvider="{al}" showHeaders="false" borderColor="0x000000">
 		<mx:columns>
-				<mx:DataGridColumn  headerText="이름" dataField="phoneName" width="80"></mx:DataGridColumn>
+				<mx:DataGridColumn  headerText="이름" dataField="phoneName" width="60"></mx:DataGridColumn>
 				<mx:DataGridColumn  headerText="전화번호" labelFunction="phoneFomat" dataField="phoneNumber"></mx:DataGridColumn>
 				<mx:DataGridColumn  sortable="false" itemRenderer="component.handphone.DeleteRenderer" width="20" ></mx:DataGridColumn>
 		</mx:columns>
 	</mx:DataGrid>
-	
-	
 	<s:HGroup>
-		<s:Label text="총인원 : "/><s:Label id="totalCount" text="" width="120" textAlign="right"></s:Label><s:Label text="명" />	
+		<s:Label text="총인원 : " fontSize="11" color="0xffffff"/><s:Label fontSize="11" id="totalCount" text="" width="120" textAlign="right" color="0xffffff"></s:Label><s:Label fontSize="11" color="0xffffff" text="명" />	
 	</s:HGroup>
 </s:VGroup>

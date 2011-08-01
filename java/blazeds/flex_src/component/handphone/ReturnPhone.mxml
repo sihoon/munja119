@@ -52,7 +52,7 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:Label text="회신번호"/>
+	<s:Label text="발신번호" fontSize="11" color="0xffffff"/>
 	<s:TextInput id="returnPhoneTextInput" height="20"  width="100" keyUp="returnPhoneTextInput_keyUpHandler(event)"/>
 	<s:Button id="saveReturnBtn" click="saveReturnBtn_clickHandler(event)" label="+" width="30" />
 </s:HGroup>

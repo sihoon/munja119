@@ -75,7 +75,7 @@
 	
 	<s:BitmapImage source="@Embed('assets/images/ReserveBG.png')" width="220" height="330"/>
 	
-	<s:Button x="192" y="10" skinClass="skin.CloseButton" useHandCursor="true" buttonMode="true" click="{this.visible=false}"/>
+	<s:Button x="192" y="10" skinClass="skin.CloseButton" useHandCursor="true" buttonMode="true" click="{this.visible=false;parentDocument.cb.selected=false;}"/>
 	
 	<s:Group top="30" left="15" bottom="0" right="0">
 		<s:layout><s:VerticalLayout/></s:layout>
@@ -84,16 +84,16 @@
 			<s:Label id="fullYear" text="{df.format(dateChooser.selectedDate)}" color="#ffffff" fontSize="12"/>
 			<s:HGroup verticalAlign="middle">
 				<s:NumericStepper id="time" height="20" color="#000000"
-								  contentBackgroundColor="#333333" fontSize="12" maximum="23"
+								  contentBackgroundColor="#ffffff" fontSize="12" maximum="23"
 								  valueFormatFunction="numericFormat"/><s:Label text="시" color="#FFFFFF"/>
 				<s:NumericStepper id="min" height="20" color="#000000"
-								  contentBackgroundColor="#333333" fontSize="12" maximum="59"
+								  contentBackgroundColor="#ffffff" fontSize="12" maximum="59"
 								  valueFormatFunction="numericFormat"/><s:Label text="분" color="#FFFFFF"/>
 			</s:HGroup>
 			<s:Label text="24시간제를 사용 합니다" color="#ed6c1f"/>
 			<s:HGroup>
 				<s:Button label="확인" click="confirm()" useHandCursor="true" buttonMode="true"/>
-				<s:Button label="취소" click="{this.visible=false}" useHandCursor="true" buttonMode="true"/>
+				<s:Button label="취소" click="{this.visible=false;parentDocument.cb.selected=false;}" useHandCursor="true" buttonMode="true"/>
 			</s:HGroup>
 		</s:VGroup>
 	</s:Group>

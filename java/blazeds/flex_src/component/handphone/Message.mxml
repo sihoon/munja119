@@ -2,7 +2,7 @@
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
 		  xmlns:s="library://ns.adobe.com/flex/spark"
 		  xmlns:mx="library://ns.adobe.com/flex/mx"
-		  creationComplete="vgroup1_creationCompleteHandler(event)" horizontalAlign="center">
+		  creationComplete="vgroup1_creationCompleteHandler(event)" horizontalAlign="center" gap="2">
 	<fx:Metadata>
 		[Event(name="alert", type="lib.CustomEvent")]
 		[Event(name="validValue", type="lib.CustomEvent")]
@@ -116,10 +116,15 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:TextArea id="IMessage" width="190" verticalScrollPolicy="off" enabled="{_enable}" keyUp="IMessage_keyUpHandler(event)"></s:TextArea>
+	<s:TextArea id="IMessage" height="115" width="100%" verticalScrollPolicy="off" enabled="{_enable}" color="0x000000" keyUp="IMessage_keyUpHandler(event)"></s:TextArea>
 	<s:HGroup width="100%" verticalAlign="middle">
-		<s:Button label="이모티콘" left="0" click="clickHandler(event)" />
-		<s:Label id="IByteLabel" right="0" width="100%" text="80" textAlign="right"/>	
+		<s:Group buttonMode="true" useHandCursor="true" click="clickHandler(event)">
+			<s:BitmapImage source="@Embed('/assets/emoticon_button.png')" />
+		</s:Group>
+		<s:Group buttonMode="true" useHandCursor="true">
+			<s:BitmapImage source="@Embed('/assets/spec_button.png')" />
+		</s:Group>
+		<s:Label id="IByteLabel" right="0" text="80" width="14" textAlign="right" color="0xffffff" fontSize="11"/>	
 	</s:HGroup>
 	
 </s:VGroup>
