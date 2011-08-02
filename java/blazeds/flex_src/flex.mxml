@@ -4,7 +4,7 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:flexiframe="http://code.google.com/p/flex-iframe/"
 			   creationComplete="creationCompleteHandler(event)"
-			   minWidth="1024" minHeight="768" skinClass="skin.App1" xmlns:lib="lib.*" xmlns:billing="component.billing.*" xmlns:component="component.*">
+			   minWidth="1024" minHeight="790" skinClass="skin.App1" xmlns:lib="lib.*" xmlns:billing="component.billing.*" xmlns:component="component.*">
 	<fx:Style source="flex.css"/>
 	<s:states>
 		<s:State name="main"/>
@@ -200,23 +200,53 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
+	<s:HGroup height="10" gap="10"
+			  x="860" y="10">
+		<s:Group buttonMode="true" useHandCursor="true">
+			<s:BitmapImage source="@Embed(source='assets/home.png')"/>
+		</s:Group>
+		<s:Group buttonMode="true" useHandCursor="true">
+			<s:BitmapImage source="@Embed(source='assets/join_text.png')"/>
+		</s:Group>
+		<s:Group buttonMode="true" useHandCursor="true">
+			<s:BitmapImage source="@Embed(source='assets/email.png')"/>
+		</s:Group>
+	</s:HGroup>
 	
 	<component:Menu x="230" y="23" depth="3" />
 	
-	<mx:ModuleLoader x="30" y="60" id="mlHandPhone" url="module/HandPhone.swf" depth="3">
+	<s:HGroup gap="0"
+			  x.main="770" y.main="52">
+		<s:Group buttonMode="true" useHandCursor="true">
+			<s:BitmapImage source="@Embed(source='assets/mini_menu_1.png')"/>
+		</s:Group>
+		<s:Group buttonMode="true" useHandCursor="true">
+			<s:BitmapImage source="@Embed(source='assets/mini_menu_2.png')"/>
+		</s:Group>
+	</s:HGroup>
+	
+	<mx:ModuleLoader x="65" y="110" id="mlHandPhone" url="module/HandPhone.swf" depth="3">
 		<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 	</mx:ModuleLoader>
 	
 	<s:VGroup>
 		
-		<s:VGroup width="1024" top="0" bottom="0" includeIn="main" depth="2" horizontalAlign="right" paddingTop="60" paddingRight="40">
-			<s:BitmapImage source="@Embed(source='assets/costinfo.png')" right="0"/>
-			<s:BitmapImage source="@Embed(source='assets/function_info.png')" right="0" />
-			<component:MainEmoticon />
-			<s:Group width="880">
-				<s:Rect left="0" right="0" top="0" bottom="0" radiusX="5"><s:fill><s:SolidColor color="0xffffff" /></s:fill></s:Rect>
-				<s:Rect left="0" right="0" top="0" bottom="0" radiusX="5"><s:stroke><s:SolidColorStroke weight="2" color="0xff0000" /></s:stroke></s:Rect>
-				<s:HGroup paddingTop="10" paddingLeft="10" paddingBottom="10">
+		<s:Group width="1024" height="710" includeIn="main" depth="2" >
+			<s:BitmapImage y="43" right="15" source="@Embed(source='assets/costinfo.png')"/>
+			<s:Group x="696" y="150" buttonMode="true" useHandCursor="true">
+				<s:BitmapImage source="@Embed(source='assets/view1.png')"/>
+			</s:Group>
+			<s:BitmapImage y="200" right="15" source="@Embed(source='assets/function_info.png')"/>
+			<s:Group x="543" y="202" buttonMode="true" useHandCursor="true">
+				<s:BitmapImage source="@Embed(source='assets/view1.png')"/>
+			</s:Group>
+			<component:MainEmoticon x="361" y="320" />
+			<s:Group width="940" x="66" y="570">
+				<s:Rect left="0" right="0" top="0" bottom="0" radiusX="15"><s:fill><s:SolidColor color="0xffffff" /></s:fill></s:Rect>
+				<s:Rect left="0" right="0" top="0" bottom="0" radiusX="15"><s:stroke><s:SolidColorStroke weight="1" color="0xff0000" /></s:stroke></s:Rect>
+				
+				
+				<s:HGroup paddingTop="10" paddingLeft="10" paddingBottom="10" gap="20">
 					<s:HGroup paddingTop="20">
 						<mx:ModuleLoader id="mlLogin" url="module/Login.swf" left="0" right="0" top="0" bottom="0">
 							<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
@@ -227,25 +257,31 @@
 					<s:BitmapImage source="@Embed(source='assets/soge.png')" />
 					<s:VGroup>
 						<s:BitmapImage source="@Embed(source='assets/notic_text.png')" />
-						<s:Label text="▶ 문자119가 오픈하였습니다.                    2011-08-02" fontSize="11" />
-						<s:Label text="▶ 문자119가 오픈하였습니다.                    2011-08-02" fontSize="11" />
-						<s:Label text="▶ 문자119가 오픈하였습니다.                    2011-08-02" fontSize="11" />
+						<s:Label text="▶ 문자119가 새롭게 개편되었습니다.  2011-08-02" fontSize="11" />
+						<s:Label text="▶ 단가 이벤트가 진행됩니다.  2011-07-27" fontSize="11" />
+						<s:Label text="▶ 주소록 관리가 편해 졌습니다.  2011-07-24" fontSize="11" />
 						<s:HGroup>
 							<s:BitmapImage source="@Embed(source='assets/ask_no.png')" />	
 							<s:BitmapImage source="@Embed(source='assets/faq.png')" />	
 						</s:HGroup>
 					</s:VGroup>
 				</s:HGroup>
+				<s:Group x="460" y="12" height="15" buttonMode="true" useHandCursor="true">
+					<s:BitmapImage source="@Embed(source='assets/sangpum_go.png')"/>
+				</s:Group>
 			</s:Group>
-		</s:VGroup>
+			
+			
+		</s:Group>
 	
 		<s:VGroup width="1024" top="100" left="" includeIn="sub" depth="2">
 			<s:ModuleLoader left="0" right="0" id="mlContext">
 				<s:unload><![CDATA[ if(parent != null){ parent.removeChild(this); }	]]></s:unload>
 			</s:ModuleLoader>
 		</s:VGroup>
-		<s:VGroup width="1024" paddingLeft="100">
-			<s:HGroup>
+		<s:VGroup width="1024" paddingTop="10" paddingLeft="80">
+			<s:HGroup paddingLeft="100"
+					  paddingLeft.main="140">
 				<s:Group buttonMode="true" useHandCursor="true" click="{viewIframe('personal')}"><s:BitmapImage source="@Embed(source='assets/personal.png')" /></s:Group>	
 				<s:Group buttonMode="true" useHandCursor="true" click="{viewIframe('promise')}"><s:BitmapImage source="@Embed(source='assets/pramise.png')" /></s:Group>
 				<s:Group buttonMode="true" useHandCursor="true" click="{viewIframe('spam')}"><s:BitmapImage source="@Embed(source='assets/spamUntitled-3.png')" /></s:Group>
