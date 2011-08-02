@@ -135,24 +135,42 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:Group width="1024">
-		<s:HGroup id="login" left="0" top="4" includeIn="login">
-			<s:TextInput id="login_id" height="23" text="id" color="#cccccc" focusIn="login_id_focusInHandler(event)"/>
-			<s:TextInput id="login_pw" height="23" text="password" color="#cccccc" focusIn="login_pw_focusInHandler(event)"/>
-			<s:Button id="login_button" label="로그인" click="login_button_clickHandler(event)"/>
-			<s:Button id="join_button" label="회원가입" click="join_button_clickHandler(event)"/>
-		</s:HGroup>
+	<s:Group>
+		<s:BitmapImage source="@Embed(source='assets/login_text.png')" includeIn="login" />
+		<s:VGroup id="login" includeIn="login" left="0" top="4" paddingLeft="30" paddingTop="25">
+			<s:HGroup>
+				<s:VGroup gap="4">
+					<s:TextInput id="login_id" height="16" text="id" focusIn="login_id_focusInHandler(event)"/>
+					<s:TextInput id="login_pw" height="16" text="password" focusIn="login_pw_focusInHandler(event)"/>	
+				</s:VGroup>
+				<s:Group id="login_button" click="login_button_clickHandler(event)" buttonMode="true" useHandCursor="true">
+					<s:BitmapImage source="@Embed(source='assets/login_button.png')" />
+				</s:Group>
+			</s:HGroup>
+			<s:HGroup>
+				<s:Group id="idsearch_button" click="join_button_clickHandler(event)" buttonMode="true" useHandCursor="true">
+					<s:BitmapImage source="@Embed(source='assets/search_id.png')" />
+				</s:Group>
+				<s:Group id="join_button" click="join_button_clickHandler(event)" buttonMode="true" useHandCursor="true">
+					<s:BitmapImage source="@Embed(source='assets/joint.png')" />
+				</s:Group>	
+			</s:HGroup>
+			
+
+		</s:VGroup>
 		<s:HGroup id="loginInfo" top="4" verticalAlign="middle" includeIn="userInfo">
 			<s:Label id="login_info" fontSize="12" />
 			<s:Label text=" 사용가능건수 : " fontSize="12" />
 			<s:Label id="point" fontWeight="bold" fontSize="12" />
 			<s:Button id="logout_button" label="로그아웃" click="logout_button_clickHandler(event)"/>
 		</s:HGroup>
+		<!--
 		<s:HGroup right="0" top="4">
 			<s:ToggleButton label="개인정보취급방침" skinClass="skin.ToggleButtonSkinSi" click="iframeClick('personal',event)" />
 			<s:ToggleButton label="이용약관" skinClass="skin.ToggleButtonSkinSi" click="iframeClick('promise',event)" />
 			<s:ToggleButton label="광고/스팸문자관련정책" skinClass="skin.ToggleButtonSkinSi" click="iframeClick('spam',event)" />
 		</s:HGroup>
+		-->
 	</s:Group>
 	
 	

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" height="200" creationComplete="creationCompleteHandler()">
+	<s:layout>
+		<s:VerticalLayout gap="0"/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import lib.RO;
+			
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.IndexChangeEvent;
+			
+			private var currGubun:String = "테마문자";
+			private var currCate:String = "";
+			private var currPage:int = 0;
+			
+			private var ro:RO = new RO();
+			private var RO_DESTINATION:String = "WEB";
+			
+			private var currAC:ArrayCollection = null;
+			
+			private var one_one:ArrayCollection = new ArrayCollection(["감사","계절","공지/안내","기념","날씨","명언/감동","모임","부고/조의","사과/화해","사랑/고백"]);
+			private var one_two:ArrayCollection = new ArrayCollection(["시즌","안부","약속","요일","우정","위로/격려","유머/패러디","종교","초대","축하"]);
+			private var one_three:ArrayCollection = new ArrayCollection(["홍보/행사","기타"]);
+
+			private var one:ArrayCollection = new ArrayCollection([one_one,one_two,one_three]);
+			
+			
+			private var two_one:ArrayCollection = new ArrayCollection(["가구/인테리어","가전","건강/다이어트","결혼정보","금융","꽃배달","나이트","낚시","노래방"]);
+			private var two_two:ArrayCollection = new ArrayCollection(["대리운전","대출","동물병원","레저/스포츠","렌터카","미용실","병원","보험","부동산"]);
+			private var two_three:ArrayCollection = new ArrayCollection(["쇼핑몰/오픈마켓","스포츠","식품/슈퍼마켓","여행사","옷/의류","유치원/어린이집","유흥"]);
+			private var two_four:ArrayCollection = new ArrayCollection(["음식","이삿짐","자동차","조합/노조","종교","카센터","택배/쿽서비스","통신","학원/학교"]);
+			private var two:ArrayCollection = new ArrayCollection([two_one,two_two,two_three,two_four]);
+			
+			private var three:ArrayCollection = new ArrayCollection();
+			
+			protected function creationCompleteHandler():void
+			{
+				currAC = one;
+				
+				init_cate();
+				
+				emtTab.selectedIndex = 0;
+				
+				ro.set(RO_DESTINATION, unit_ResultEventHandler);
+				ro.method.getHomeEmotiCate(currGubun, currCate, currPage);
+			}
+			
+			private function unit_ResultEventHandler(event:ResultEvent):void {
+				
+				var arr:Array = event.result as Array;
+				
+				emt1.text = arr[0];
+				emt2.text = arr[1];
+				emt3.text = arr[2];
+				emt4.text = arr[3];
+			}
+			
+			protected function pre_clickHandler(event:MouseEvent):void
+			{
+				var idx:int = currAC.getItemIndex( category.dataProvider );
+				if (idx > 0) {
+					category.dataProvider = currAC.getItemAt(idx -1) as ArrayCollection;
+					nextBtn.enabled = true;
+					if (idx -1 == 0) preBtn.enabled = false;
+				} else {
+					preBtn.enabled = false;
+				}
+					
+			}
+			
+			protected function next_clickHandler(event:MouseEvent):void
+			{
+				var idx:int = currAC.getItemIndex( category.dataProvider );
+				if (idx < currAC.length - 1) {
+					category.dataProvider = currAC.getItemAt(idx +1) as ArrayCollection;
+					preBtn.enabled = true;
+					
+					if (idx +1 == currAC.length - 1) nextBtn.enabled = false;
+				} else {
+					nextBtn.enabled = false;
+				}
+			}
+			
+			protected function emti_changeHandler(event:IndexChangeEvent):void
+			{
+				category.visible = true;
+				preBtn.visible = true;
+				nextBtn.visible = true;
+				
+				if (emtTab.selectedIndex == 0) {currAC = one;currGubun = "테마문자";}
+				else if (emtTab.selectedIndex == 1) {currAC = two;currGubun = "업종별문자";}
+				else if (emtTab.selectedIndex == 2) {
+					category.visible = false;
+					preBtn.visible = false;
+					nextBtn.visible = false;
+					currGubun = "등록문자";
+				}
+				currCate = "";
+				currPage = 0;
+				init_cate();
+				ro.method.getHomeEmotiCate(currGubun, currCate, currPage);
+			}
+			
+			private function init_cate():void {
+				category.dataProvider = currAC.getItemAt(0) as ArrayCollection;
+				preBtn.enabled = false;
+				if (currAC.length == 1)nextBtn.enabled = false;
+				else nextBtn.enabled = true;
+			}
+			
+			protected function category_changeHandler(event:IndexChangeEvent):void
+			{
+				currPage = 0;
+				var ac:ArrayCollection = category.dataProvider as ArrayCollection;
+				currCate = ac.getItemAt( category.selectedIndex ) as String;
+				ro.method.getHomeEmotiCate(currGubun, currCate, currPage);
+			}
+			
+			private function prePage():void { if (currPage > 1)currPage--; }
+			private function nextPage():void { currPage++;	}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:ButtonBar id="emtTab" skinClass="skin.EmotiButtonBar" change="emti_changeHandler(event)">
+		<s:ArrayCollection> 
+			<fx:String>테마</fx:String> 
+			<fx:String>업종별</fx:String> 
+			<fx:String>등록</fx:String> 
+		</s:ArrayCollection> 
+	</s:ButtonBar>
+	<s:Group>
+		<s:VGroup>
+			<s:HGroup gap="2">
+				<s:Group id="preBtn" buttonMode="true" useHandCursor="true" click="pre_clickHandler(event)">
+					<s:BitmapImage source="@Embed(source='assets/left_emt.png')" left="0"/>
+				</s:Group>
+				<s:ButtonBar id="category" skinClass="skin.EmoticonCateButtonBarSkin" fontSize="11" change="category_changeHandler(event)" />
+				<s:Group id="nextBtn" buttonMode="true" useHandCursor="true" click="next_clickHandler(event)">
+					<s:BitmapImage source="@Embed(source='assets/right_emt.png')" left="0"/>
+				</s:Group>
+			</s:HGroup>
+			<s:HGroup left="10" right="10" gap="5" verticalAlign="middle" horizontalAlign="center" fontSize="12">
+				<s:Group width="20" height="31"  click="{nextPage();ro.method.getHomeEmotiCate(currGubun, currCate, currPage);}">
+					<s:BitmapImage source="@Embed(source='assets/images/jun_icon_l_1.jpg')"/>	
+				</s:Group>
+				
+				<s:Group width="142" height="118">
+					<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+					<s:Label id="emt1" text="" left="12" right="12" top="20" bottom="4" />
+				</s:Group>
+				<s:Group width="142" height="118">
+					<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+					<s:Label id="emt2" text="" left="12" right="12" top="20" bottom="4" />
+				</s:Group>
+				<s:Group width="142" height="118">
+					<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+					<s:Label id="emt3" text="" left="12" right="12" top="20" bottom="4" />
+				</s:Group>
+				<s:Group width="142" height="118">
+					<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+					<s:Label id="emt4" text="" left="12" right="12" top="20" bottom="4" />
+				</s:Group>
+				
+				<s:Group width="20" height="31"  click="{nextPage();ro.method.getHomeEmotiCate(currGubun, currCate, currPage);}">
+					<s:BitmapImage source="@Embed(source='assets/images/jun_icon_r_1.jpg')"/>	
+				</s:Group>
+			</s:HGroup>
+		</s:VGroup>
+	</s:Group>
+</s:Group>

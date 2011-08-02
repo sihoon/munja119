@@ -8,19 +8,19 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:Group useHandCursor="true" buttonMode="true">
+	<s:Group useHandCursor="true" buttonMode="true" click="{parentApplication.moveMenu('module/Address.swf')}">
 		<s:BitmapImage source="@Embed('/assets/menu1.png')"  />
 	</s:Group>
-	<s:Group useHandCursor="true" buttonMode="true">
+	<s:Group useHandCursor="true" buttonMode="true" click="{parentApplication.moveMenu('module/Address.swf')}">
 		<s:BitmapImage source="@Embed('/assets/menu2.png')" />
 	</s:Group>
-	<s:Group useHandCursor="true" buttonMode="true">
+	<s:Group useHandCursor="true" buttonMode="true" click="{parentApplication.moveMenu('module/Address.swf')}">
 		<s:BitmapImage source="@Embed('/assets/menu3.png')" />
 	</s:Group>
-	<s:Group useHandCursor="true" buttonMode="true">
+	<s:Group useHandCursor="true" buttonMode="true" click="{parentApplication.moveMenu('module/Address.swf')}">
 		<s:BitmapImage source="@Embed('/assets/menu4.png')" />
 	</s:Group>
-	<s:Group useHandCursor="true" buttonMode="true">
+	<s:Group useHandCursor="true" buttonMode="true" click="{parentApplication.moveMenu('module/Address.swf')}">
 		<s:BitmapImage source="@Embed('/assets/menu5.png')" />
 	</s:Group>
 	

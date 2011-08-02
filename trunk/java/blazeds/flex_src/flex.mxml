@@ -6,6 +6,10 @@
 			   creationComplete="creationCompleteHandler(event)"
 			   minWidth="1024" minHeight="768" skinClass="skin.App1" xmlns:lib="lib.*" xmlns:billing="component.billing.*" xmlns:component="component.*">
 	<fx:Style source="flex.css"/>
+	<s:states>
+		<s:State name="main"/>
+		<s:State name="sub"/>
+	</s:states>
 	<fx:Script>
 		<![CDATA[
 			import component.member.Join;
@@ -34,8 +38,8 @@
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
+				currentState = "main";
 				swf = ["module/Home.swf","module/Address.swf","module/ExcelLoader.swf","module/Sent.swf"];
-				
 				// 회원 가입 Window 띄우기
 				this.mlLogin.child.addEventListener("join", join_button_clickHandler);
 				this.mlLogin.child.addEventListener("login", loginCheckHandler);
@@ -182,6 +186,13 @@
 					obj.cMessage.setMessage(msg);
 				}
 			}
+			
+			public function moveMenu(url:String):void {
+				
+				this.mlContext.unloadModule();
+				this.mlContext.url = url;
+				mlContext.loadModule();
+			}
 
 			
 		]]>
@@ -190,20 +201,61 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	
-	<component:Menu x="230" y="23" />
+	<component:Menu x="230" y="23" depth="3" />
 	
-	<mx:ModuleLoader top="200" id="mlHandPhone" url="module/HandPhone.swf">
+	<mx:ModuleLoader x="30" y="60" id="mlHandPhone" url="module/HandPhone.swf" depth="3">
 		<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 	</mx:ModuleLoader>
-
-	<s:VGroup width="1024" height="800" top="200" horizontalCenter="17">
-		
 	
+	<s:VGroup>
 		
-	<mx:ModuleLoader id="mlLogin" url="module/Login.swf" left="0" right="0" top="0" bottom="0">
-		<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
-	</mx:ModuleLoader>
-	<s:Panel width="1024" minHeight="670" horizontalCenter="0" title="munja119.com"  top="40">
+		<s:VGroup width="1024" top="0" bottom="0" includeIn="main" depth="2" horizontalAlign="right" paddingTop="60" paddingRight="40">
+			<s:BitmapImage source="@Embed(source='assets/costinfo.png')" right="0"/>
+			<s:BitmapImage source="@Embed(source='assets/function_info.png')" right="0" />
+			<component:MainEmoticon />
+			<s:Group width="880">
+				<s:Rect left="0" right="0" top="0" bottom="0" radiusX="5"><s:fill><s:SolidColor color="0xffffff" /></s:fill></s:Rect>
+				<s:Rect left="0" right="0" top="0" bottom="0" radiusX="5"><s:stroke><s:SolidColorStroke weight="2" color="0xff0000" /></s:stroke></s:Rect>
+				<s:HGroup paddingTop="10" paddingLeft="10" paddingBottom="10">
+					<s:HGroup paddingTop="20">
+						<mx:ModuleLoader id="mlLogin" url="module/Login.swf" left="0" right="0" top="0" bottom="0">
+							<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
+						</mx:ModuleLoader>	
+					</s:HGroup>
+	
+					<s:BitmapImage source="@Embed(source='assets/account_no.png')" />
+					<s:BitmapImage source="@Embed(source='assets/soge.png')" />
+					<s:VGroup>
+						<s:BitmapImage source="@Embed(source='assets/notic_text.png')" />
+						<s:Label text="▶ 문자119가 오픈하였습니다.                    2011-08-02" fontSize="11" />
+						<s:Label text="▶ 문자119가 오픈하였습니다.                    2011-08-02" fontSize="11" />
+						<s:Label text="▶ 문자119가 오픈하였습니다.                    2011-08-02" fontSize="11" />
+						<s:HGroup>
+							<s:BitmapImage source="@Embed(source='assets/ask_no.png')" />	
+							<s:BitmapImage source="@Embed(source='assets/faq.png')" />	
+						</s:HGroup>
+					</s:VGroup>
+				</s:HGroup>
+			</s:Group>
+		</s:VGroup>
+	
+		<s:VGroup width="1024" top="100" left="" includeIn="sub" depth="2">
+			<s:ModuleLoader left="0" right="0" id="mlContext">
+				<s:unload><![CDATA[ if(parent != null){ parent.removeChild(this); }	]]></s:unload>
+			</s:ModuleLoader>
+		</s:VGroup>
+		<s:VGroup width="1024" paddingLeft="100">
+			<s:HGroup>
+				<s:Group buttonMode="true" useHandCursor="true" click="{viewIframe('personal')}"><s:BitmapImage source="@Embed(source='assets/personal.png')" /></s:Group>	
+				<s:Group buttonMode="true" useHandCursor="true" click="{viewIframe('promise')}"><s:BitmapImage source="@Embed(source='assets/pramise.png')" /></s:Group>
+				<s:Group buttonMode="true" useHandCursor="true" click="{viewIframe('spam')}"><s:BitmapImage source="@Embed(source='assets/spamUntitled-3.png')" /></s:Group>
+			</s:HGroup>
+			<s:BitmapImage source="@Embed(source='assets/copy_right.png')" />
+		</s:VGroup>
+	</s:VGroup>
+	
+	
+	<s:Panel width="1024" minHeight="670" horizontalCenter="0" title="munja119.com"  top="40" visible="false">
 		<s:controlBarContent >
 			<s:VGroup>
 				<s:Label color="0x666666" text="상호명 : 유진, 사업자등록번호 : 128-35-09733, 대표자명:최유진, 통신판매업신고번호 : 제2010 경기고양 1467호"/>
@@ -252,7 +304,6 @@
 			</mx:TabNavigator>
 		</s:HGroup>
 	</s:Panel>
-	</s:VGroup>
 	
 	<s:SkinnableContainer id="costContainer" visible="false" skinClass="skin.IframeSkin" top="60" horizontalCenter="17">
 		<s:Button skinClass="skin.IframeCloseButton" width="46" height="46" top="-40" right="-40" click="this.costContainer.visible=false;" />
@@ -269,4 +320,5 @@
 					height="100%"/>
 	</s:SkinnableContainer>
 	<mx:ModuleLoader id="mlEmoti" top="30" horizontalCenter="50" />
+	
 </s:Application>
