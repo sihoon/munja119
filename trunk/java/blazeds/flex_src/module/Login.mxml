@@ -32,7 +32,7 @@
 				login.visible = false;
 				loginInfo.visible = true;
 				
-				login_info.text = vo.user_name + " 님 안녕하세요.";
+				login_info.text = vo.user_name;
 				point.text = SLibrary.addComma( vo.point );
 				
 				parentApplication.allTabInit();
@@ -58,7 +58,7 @@
 			protected function login_id_focusInHandler(event:FocusEvent):void
 			{
 				
-				if (login_id.getStyle("color") == "0xcccccc") {
+				if (login_id.getStyle("color") == "0xaaaaaa") {
 					login_id.text = "";
 					login_id.setStyle("color", "0x000000");
 
@@ -67,7 +67,7 @@
 			
 			protected function login_pw_focusInHandler(event:FocusEvent):void
 			{
-				if (login_pw.getStyle("color") == "0xcccccc") {
+				if (login_pw.getStyle("color") == "0xaaaaaa") {
 					login_pw.text = "";
 					login_pw.setStyle("color", "0x000000");
 					login_pw.displayAsPassword = true;
@@ -135,13 +135,13 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:Group>
+	<s:Group width="210">
 		<s:BitmapImage source="@Embed(source='assets/login_text.png')" includeIn="login" />
 		<s:VGroup id="login" includeIn="login" left="0" top="4" paddingLeft="30" paddingTop="25">
 			<s:HGroup>
 				<s:VGroup gap="4">
-					<s:TextInput id="login_id" height="16" text="id" focusIn="login_id_focusInHandler(event)"/>
-					<s:TextInput id="login_pw" height="16" text="password" focusIn="login_pw_focusInHandler(event)"/>	
+					<s:TextInput id="login_id" height="16" color="0xaaaaaa" text="id" focusIn="login_id_focusInHandler(event)"/>
+					<s:TextInput id="login_pw" height="16" color="0xaaaaaa" text="password" focusIn="login_pw_focusInHandler(event)"/>	
 				</s:VGroup>
 				<s:Group id="login_button" click="login_button_clickHandler(event)" buttonMode="true" useHandCursor="true">
 					<s:BitmapImage source="@Embed(source='assets/login_button.png')" />
@@ -158,19 +158,18 @@
 			
 
 		</s:VGroup>
-		<s:HGroup id="loginInfo" top="4" verticalAlign="middle" includeIn="userInfo">
-			<s:Label id="login_info" fontSize="12" />
-			<s:Label text=" 사용가능건수 : " fontSize="12" />
-			<s:Label id="point" fontWeight="bold" fontSize="12" />
+		<s:VGroup id="loginInfo" top="4" verticalAlign="middle" includeIn="userInfo">
+			<s:HGroup>
+				<s:Label id="login_info" fontSize="12" color="0x1377d4" fontWeight="bold" /><s:Label fontSize="12" text=" 님 안녕하세요." />
+			</s:HGroup>
+			<s:HGroup verticalAlign="middle">
+				<s:Label text="사용가능건수 : " fontSize="12" />
+				<s:Label id="point" fontWeight="bold" fontSize="12" />
+				<s:Label text=" 건" fontSize="12" />
+				<s:Button label="충전" />
+			</s:HGroup>
 			<s:Button id="logout_button" label="로그아웃" click="logout_button_clickHandler(event)"/>
-		</s:HGroup>
-		<!--
-		<s:HGroup right="0" top="4">
-			<s:ToggleButton label="개인정보취급방침" skinClass="skin.ToggleButtonSkinSi" click="iframeClick('personal',event)" />
-			<s:ToggleButton label="이용약관" skinClass="skin.ToggleButtonSkinSi" click="iframeClick('promise',event)" />
-			<s:ToggleButton label="광고/스팸문자관련정책" skinClass="skin.ToggleButtonSkinSi" click="iframeClick('spam',event)" />
-		</s:HGroup>
-		-->
+		</s:VGroup>
 	</s:Group>
 	
 	

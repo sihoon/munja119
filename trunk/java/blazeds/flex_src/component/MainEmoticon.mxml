@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" height="200" creationComplete="creationCompleteHandler()">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="creationCompleteHandler()">
 	<s:layout>
 		<s:VerticalLayout gap="0"/>
 	</s:layout>
@@ -133,15 +133,20 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:ButtonBar id="emtTab" skinClass="skin.EmotiButtonBar" change="emti_changeHandler(event)">
-		<s:ArrayCollection> 
-			<fx:String>테마</fx:String> 
-			<fx:String>업종별</fx:String> 
-			<fx:String>등록</fx:String> 
-		</s:ArrayCollection> 
-	</s:ButtonBar>
-	<s:Group>
-		<s:VGroup>
+	<s:VGroup gap="10">
+		<s:BitmapImage source="@Embed(source='assets/emoticon_headtext.png')" left="0"/>
+		<s:ButtonBar id="emtTab" skinClass="skin.EmotiButtonBar" change="emti_changeHandler(event)" color="0xffffff" fontWeight="bold">
+			<s:ArrayCollection> 
+				<fx:String>테마문자</fx:String> 
+				<fx:String>업종별문자</fx:String> 
+				<fx:String>등록문자</fx:String> 
+			</s:ArrayCollection> 
+		</s:ButtonBar>	
+	</s:VGroup>
+	
+	<s:Group width="644" height="191">
+		<s:BitmapImage source="@Embed(source='assets/emt_main_bg.png')" left="0"/>
+		<s:VGroup top="11" left="0" right="0" horizontalAlign="center">
 			<s:HGroup gap="2">
 				<s:Group id="preBtn" buttonMode="true" useHandCursor="true" click="pre_clickHandler(event)">
 					<s:BitmapImage source="@Embed(source='assets/left_emt.png')" left="0"/>
@@ -151,9 +156,10 @@
 					<s:BitmapImage source="@Embed(source='assets/right_emt.png')" left="0"/>
 				</s:Group>
 			</s:HGroup>
-			<s:HGroup left="10" right="10" gap="5" verticalAlign="middle" horizontalAlign="center" fontSize="12">
-				<s:Group width="20" height="31"  click="{nextPage();ro.method.getHomeEmotiCate(currGubun, currCate, currPage);}">
-					<s:BitmapImage source="@Embed(source='assets/images/jun_icon_l_1.jpg')"/>	
+			<s:HGroup left="10" right="10" fontSize="12" gap="5" horizontalAlign="center"
+					  paddingTop="10" verticalAlign="middle">
+				<s:Group width="20" height="31"  buttonMode="true" useHandCursor="true" click="{nextPage();ro.method.getHomeEmotiCate(currGubun, currCate, currPage);}">
+					<s:BitmapImage left="3" source="@Embed(source='assets/pre_emt.png')"/>	
 				</s:Group>
 				
 				<s:Group width="142" height="118">
@@ -173,8 +179,8 @@
 					<s:Label id="emt4" text="" left="12" right="12" top="20" bottom="4" />
 				</s:Group>
 				
-				<s:Group width="20" height="31"  click="{nextPage();ro.method.getHomeEmotiCate(currGubun, currCate, currPage);}">
-					<s:BitmapImage source="@Embed(source='assets/images/jun_icon_r_1.jpg')"/>	
+				<s:Group width="20" height="31" buttonMode="true" useHandCursor="true"  click="{nextPage();ro.method.getHomeEmotiCate(currGubun, currCate, currPage);}">
+					<s:BitmapImage left="3" source="@Embed(source='assets/next_emt.png')"/>	
 				</s:Group>
 			</s:HGroup>
 		</s:VGroup>
