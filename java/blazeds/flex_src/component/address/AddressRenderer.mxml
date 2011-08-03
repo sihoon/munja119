@@ -44,9 +44,15 @@
 	</fx:Script>
 	<s:Label id="lblData" top="0" left="0" right="0" bottom="0" text="{dataGridListData.label}" />
 	
-	<s:HGroup top="0" bottom="0" left="2" right="2">
-		<s:Button click="send_clickHandler(event)" label="전송"/>
-		<s:Button click="modify_clickHandler(event)" label="수정"/>
-		<s:Button click="delete_clickHandler(event)" label="삭제"/>
+	<s:HGroup top="0" bottom="0" left="2" right="2" horizontalAlign="center">
+		<s:Group buttonMode="true" useHandCursor="true" click="send_clickHandler(event)">
+			<s:BitmapImage source="@Embed(source='assets/addr_send.png')"/>
+		</s:Group>
+		<s:Group buttonMode="true" useHandCursor="true" click="modify_clickHandler(event)">
+			<s:BitmapImage source="@Embed(source='assets/addr_modify.png')"/>
+		</s:Group>
+		<s:Group buttonMode="true" useHandCursor="true" click="delete_clickHandler(event)">
+			<s:BitmapImage source="@Embed(source='assets/addr_del.png')"/>
+		</s:Group>
 	</s:HGroup>
 </s:MXDataGridItemRenderer>

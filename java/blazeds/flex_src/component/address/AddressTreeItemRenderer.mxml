@@ -89,11 +89,23 @@
 		<s:Group id="disclosureGroup">
 			<s:BitmapImage source="{treeListData.disclosureIcon}" visible="{treeListData.hasChildren}" />
 		</s:Group>
+		<s:BitmapImage source="{treeListData.icon}" />
 		<s:Label id="labelField" width="100" text="{treeListData.label}" paddingTop="2"/>
 		<s:Label width="100" text="{phoneFomat(data.attribute('phone'))}" paddingTop="2"/>
-		<s:Label width="140" text="{data.attribute('memo')}" paddingTop="2"/>
-		<s:Button click="send_clickHandler(event)" label="전송" visible="{data.attribute('type')!='all'}"/>
-		<s:Button click="modify_clickHandler(event)" label="수정" visible="{data.attribute('type')!='all'}"/>
-		<s:Button click="delete_clickHandler(event)" label="삭제" visible="{data.attribute('type')!='all'}"/>
+		<s:Label width="50" text="{data.attribute('memo')}" paddingTop="2"/>
 	</s:HGroup>
+	<s:Group right="2">
+		<s:layout>
+			<s:HorizontalLayout  />
+		</s:layout>
+		<s:Group buttonMode="true" useHandCursor="true" click="send_clickHandler(event)" visible="{data.attribute('type')!='all'}">
+			<s:BitmapImage source="@Embed(source='assets/addr_send.png')"/>
+		</s:Group>
+		<s:Group buttonMode="true" useHandCursor="true" click="modify_clickHandler(event)" visible="{data.attribute('type')!='all'}">
+			<s:BitmapImage source="@Embed(source='assets/addr_modify.png')"/>
+		</s:Group>
+		<s:Group buttonMode="true" useHandCursor="true" click="delete_clickHandler(event)" visible="{data.attribute('type')!='all'}">
+			<s:BitmapImage source="@Embed(source='assets/addr_del.png')"/>
+		</s:Group>
+	</s:Group>
 </s:MXTreeItemRenderer>

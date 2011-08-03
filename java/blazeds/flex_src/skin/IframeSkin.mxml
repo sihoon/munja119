@@ -38,15 +38,30 @@
     </s:states>
     
     <!--- Defines the appearance of the SkinnableContainer class's background. -->
-    <s:BitmapImage source="assets/images/iframeBackgrounds.png" left="0" />
     
+	
+	<s:Rect left="1" top="1" right="1" bottom="1">
+		<s:fill>
+			<!--- @private
+			Defines the  PanelSkin class's background fill. The default color is 0xFFFFFF. -->
+			<s:SolidColor color="#ffffff"/>
+		</s:fill>
+	</s:Rect>
+	
+	<s:Rect left="0" right="0" top="0" bottom="0" >
+		<s:stroke>
+			<!--- @private -->
+			<s:SolidColorStroke color="0x999999" weight="2" />
+		</s:stroke>
+	</s:Rect>
+	<s:BitmapImage source="assets/popup_top.png" left="0" />
     <!--
         Note: setting the minimum size to 0 here so that changes to the host component's
         size will not be thwarted by this skin part's minimum size.   This is a compromise,
         more about it here: http://bugs.adobe.com/jira/browse/SDK-21143
     -->
     <!--- @copy spark.components.SkinnableContainer#contentGroup -->
-    <s:Group id="contentGroup" left="40" right="40" top="40" bottom="40" minWidth="0" minHeight="0">
+    <s:Group id="contentGroup" left="0" right="0" top="0" bottom="0" minWidth="0" minHeight="0">
         <s:layout>
             <s:BasicLayout/>
         </s:layout>
