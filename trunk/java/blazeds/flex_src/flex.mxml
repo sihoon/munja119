@@ -34,12 +34,12 @@
 			public var bLogin:Boolean = false;
 			public var login_id:String = null;
 			private var modules:Array = null;
-			private var swf:Array = null;
+			
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				currentState = "main";
-				swf = ["module/Home.swf","module/Address.swf","module/ExcelLoader.swf","module/Sent.swf"];
+				
 				// 회원 가입 Window 띄우기
 				this.mlLogin.child.addEventListener("join", join_button_clickHandler);
 				this.mlLogin.child.addEventListener("login", loginCheckHandler);
@@ -94,9 +94,9 @@
 			public function viewIframe(type:String):void {
 				
 				var url:String = "";
-				if (type == "personal") url = "/note/personal.html";
-				else if (type == "promise")	url = "/note/promise.html";
-				else if (type == "spam") url = "/note/spam.html";
+				if (type == "personal") { url = "/note/personal.html"; popupTitle.text = "개인정보보호정책";}
+				else if (type == "promise")	{ url = "/note/promise.html"; popupTitle.text = "이용약관";}
+				else if (type == "spam") { url = "/note/spam.html"; popupTitle.text = "광고스팸문자";}
 
 				iframe.source = url;
 				iframeContainer.visible = true;
@@ -122,14 +122,8 @@
 			}
 			
 			
-			// 주소록 초기화
-			public function addressInit():void {
-				if (this.mlAddress != null) {
-					var obj:Object = this.mlAddress.child;
-					obj.address.getAddress();
-				}
-			}
 			
+			/*
 			// 엑셀전송 초기화
 			public function excelInit():void {
 				if (this.mlExcelLoader != null) {
@@ -137,7 +131,7 @@
 					obj.excelloader.init();
 				}
 			}
-			
+			*/
 			// 사용자 건수 초기화
 			public function userInfoInit():void {
 				if (this.mlLogin != null) {
@@ -145,7 +139,7 @@
 					obj.creationCompleteHandler();
 				}
 			}
-			
+			/*
 			// 전송내역 초기화
 			public function sentInit():void {
 				
@@ -165,12 +159,12 @@
 				}
 				
 			}
-			
+			*/
 			public function allTabInit():void {
-				addressInit();
-				excelInit();
-				sentInit();
-				billingInit();
+				//addressInit();
+				//excelInit();
+				//sentInit();
+				//billingInit();
 			}
 			
 			public function loadEmoticon():void {
@@ -189,9 +183,11 @@
 			
 			public function moveMenu(url:String):void {
 				
-				this.mlContext.unloadModule();
+				currentState = "sub";
+				if ( this.mlContext != null) this.mlContext.unloadModule();
 				this.mlContext.url = url;
 				mlContext.loadModule();
+				
 			}
 
 			
@@ -200,6 +196,16 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
+	
+	<!-- 삼각형 배경 -->
+	<s:BitmapImage id="main_left" x="0" y="0" x.sub="-200" y.sub="-200" source="@Embed(source='/assets/main_left.png')"/>
+	
+	<!-- 로고 -->
+	<s:Group buttonMode="true" useHandCursor="true" click="{currentState='main'}">
+		<s:BitmapImage x="40" y="25" source="@Embed('/assets/logo.png')" />
+	</s:Group>
+	
+	<!-- 홈, 회원가입, 이메일 -->
 	<s:HGroup height="10" gap="10"
 			  x="860" y="10">
 		<s:Group buttonMode="true" useHandCursor="true">
@@ -213,10 +219,12 @@
 		</s:Group>
 	</s:HGroup>
 	
+	<!-- 메뉴 -->
 	<component:Menu x="230" y="23" depth="3" />
 	
+	<!-- 단가안내,세금계산서 -->
 	<s:HGroup gap="0"
-			  x.main="770" y.main="52">
+			  x="770" y="52">
 		<s:Group buttonMode="true" useHandCursor="true">
 			<s:BitmapImage source="@Embed(source='assets/mini_menu_1.png')"/>
 		</s:Group>
@@ -225,12 +233,13 @@
 		</s:Group>
 	</s:HGroup>
 	
+	<!-- 핸드폰 -->
 	<mx:ModuleLoader x="65" y="110" id="mlHandPhone" url="module/HandPhone.swf" depth="3">
 		<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
 	</mx:ModuleLoader>
 	
 	<s:VGroup>
-		
+		<!-- 메인 -->
 		<s:Group width="1024" height="710" includeIn="main" depth="2" >
 			<s:BitmapImage y="43" right="15" source="@Embed(source='assets/costinfo.png')"/>
 			<s:Group x="696" y="150" buttonMode="true" useHandCursor="true">
@@ -270,15 +279,27 @@
 					<s:BitmapImage source="@Embed(source='assets/sangpum_go.png')"/>
 				</s:Group>
 			</s:Group>
-			
-			
 		</s:Group>
 	
-		<s:VGroup width="1024" top="100" left="" includeIn="sub" depth="2">
-			<s:ModuleLoader left="0" right="0" id="mlContext">
-				<s:unload><![CDATA[ if(parent != null){ parent.removeChild(this); }	]]></s:unload>
-			</s:ModuleLoader>
-		</s:VGroup>
+		<!-- 서브페이지 -->
+		<s:Group width="1024" y="100" includeIn="sub" depth="2">
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="right" paddingTop="80" gap="0"/>
+			</s:layout>
+			<s:BitmapImage source="@Embed(source='assets/sub_title.png')"/>
+			<s:Group x="307" width="717" height="500">
+				<s:Rect left="0" right="0" top="0" bottom="0" radiusX="15"><s:fill><s:SolidColor color="0xffffff" /></s:fill></s:Rect>
+				<s:Rect left="0" right="0" top="0" bottom="0" radiusX="15"><s:stroke><s:SolidColorStroke weight="2" color="0xf00000" /></s:stroke></s:Rect>
+				<s:Group left="20" right="20" top="20" bottom="20">
+					<s:ModuleLoader left="0" right="0" id="mlContext">
+						<s:unload><![CDATA[ if(parent != null){ parent.removeChild(this); }	]]></s:unload>
+					</s:ModuleLoader>	
+				</s:Group>
+				
+			</s:Group>
+		</s:Group>
+		
+		<!-- copy right -->
 		<s:VGroup width="1024" paddingTop="10" paddingLeft="80">
 			<s:HGroup paddingLeft="100"
 					  paddingLeft.main="140">
@@ -290,35 +311,14 @@
 		</s:VGroup>
 	</s:VGroup>
 	
-	
+	<!--
 	<s:Panel width="1024" minHeight="670" horizontalCenter="0" title="munja119.com"  top="40" visible="false">
-		<s:controlBarContent >
-			<s:VGroup>
-				<s:Label color="0x666666" text="상호명 : 유진, 사업자등록번호 : 128-35-09733, 대표자명:최유진, 통신판매업신고번호 : 제2010 경기고양 1467호"/>
-				<s:Label color="0x666666" text="주소 : 경기도 고양시 덕양구 행신동 996-3 주공프라자 1-502, 개인정보관리자 : 김진, 전화번호 : 070-7510-8489 팩스번호 : 031)970-0746 | 메일 : webmaster@munja119.com"/>
-				<s:Label color="0x999999" text="Copyright ⓒ www.munja119.com All right reserved "/>
-			</s:VGroup>
-		</s:controlBarContent>
 
 		<s:HGroup horizontalCenter="0" top="10">
 			
 			<mx:TabNavigator id="tn" width="720" minHeight="520" tabWidth="120" tabHeight="40" paddingBottom="10"
 							 paddingLeft="10" paddingRight="10" paddingTop="10" cornerRadius="4">
-				<s:NavigatorContent label="홈" icon="@Embed(source='assets/images/home.png')">
-					<s:Scroller width="100%" height="100%" minWidth="0" minHeight="0">
-						<s:Group>
-						<mx:ModuleLoader id="mlHome"  url="module/Home.swf" left="0" right="0" top="0" bottom="0">
-							<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
-						</mx:ModuleLoader>
-						</s:Group>
-					</s:Scroller>
-				</s:NavigatorContent>
 				
-				<s:NavigatorContent label="주소록" icon="@Embed(source='assets/images/address.png')">
-					<mx:ModuleLoader id="mlAddress" left="0" right="0" top="0" bottom="0" url="module/Address.swf">
-						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
-					</mx:ModuleLoader>
-				</s:NavigatorContent>
 				
 				<s:NavigatorContent label="엑셀전송" icon="@Embed(source='assets/images/Excel.png')">
 					<mx:ModuleLoader id="mlExcelLoader" left="0" right="0" top="0" bottom="0" url="module/ExcelLoader.swf">
@@ -340,15 +340,16 @@
 			</mx:TabNavigator>
 		</s:HGroup>
 	</s:Panel>
-	
+	-->
 	<s:SkinnableContainer id="costContainer" visible="false" skinClass="skin.IframeSkin" top="60" horizontalCenter="17">
 		<s:Button skinClass="skin.IframeCloseButton" width="46" height="46" top="-40" right="-40" click="this.costContainer.visible=false;" />
 		<billing:Cost />
 	</s:SkinnableContainer>
 	
-	<s:SkinnableContainer id="iframeContainer" visible="false" skinClass="skin.IframeSkin" top="60" horizontalCenter="17">
-		<s:Button id="closeIframe" skinClass="skin.IframeCloseButton" width="46" height="46" top="-40" right="-40" click="this.iframeContainer.visible=false;iframe.visible=false;" />
-		<lib:IFrame id="iframe"
+	<s:SkinnableContainer width="700" id="iframeContainer" visible="false" skinClass="skin.IframeSkin" top="50" left="120">
+		<s:Button id="closeIframe" top="4" right="10" skinClass="skin.IframeCloseButton" width="46" height="46" click="this.iframeContainer.visible=false;iframe.visible=false;" />
+		<s:Label id="popupTitle" left="40" top="13" fontSize="24" fontWeight="bold" color="0xffffff" text="이용약관" />
+		<lib:IFrame id="iframe" top="54"
 					label="Yahoo"
 					visible="false"
 					source="about:blank"

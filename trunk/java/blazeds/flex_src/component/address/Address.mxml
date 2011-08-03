@@ -2,7 +2,16 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:address="component.address.*" xmlns:lib="lib.*"
-		 creationComplete="getAddress()"  width="700" height="460">
+		 creationComplete="getAddress()"  width="100%" height="450">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		.addrDg {
+			alternatingItemColors: #ffffff, #efefef;
+			borderThickness: 1;
+		}
+	</fx:Style>
 	<fx:Script>
 		<![CDATA[
 			import flash.utils.clearTimeout;
@@ -33,10 +42,10 @@
 			#################################*/
 			
 			[Bindable]
-			[Embed(source="/assets/images/folder.png")]
+			[Embed(source="/assets/close_folder.png")]
 			private var PLUS:Class; // 트리아이콘
 			[Bindable]
-			[Embed(source="/assets/images/folder_open.png")]
+			[Embed(source="/assets/open_folder.png")]
 			private var MINUS:Class; // 트리아이콘
 			
 			[Bindable]
@@ -454,34 +463,42 @@
 		]]>
 	</fx:Script>
 	
-	<s:VGroup width="100%" height="100%">
+	<s:VGroup width="100%" height="450">
 		<s:HGroup verticalAlign="middle">
-			<mx:LinkBar borderColor="#9B0303" borderStyle="solid" contentBackgroundColor="#000000"
+			<mx:LinkBar borderStyle="solid"
 						dataProvider="{myViewStack}" fontSize="12" fontWeight="bold" horizontalAlign="left"/>
-			
-			<s:Button label="그룹추가" click="modifyGroup='';groupName.text='';groupPanel.visible=true;"/>
-			<s:Button label="주소추가" id="addAddressBtn" click="addAddressBtn_clickHandler(event)" />
-			<s:Button label="전체전송" id="allBtn" click="allBtn_clickHandler(event)" />
-			<s:TextInput id="search" visible="{this.myViewStack.selectedIndex == 1}"
-						 focusThickness="0" text=""/>
-			<s:Button label="검색" click="search_clickHandler(event)"  visible="{this.myViewStack.selectedIndex == 1}" />
+			<s:Group buttonMode="true" useHandCursor="true" click="modifyGroup='';groupName.text='';groupPanel.visible=true;">
+				<s:BitmapImage source="@Embed(source='assets/add_group.png')"/>
+			</s:Group>
+			<s:Group buttonMode="true" useHandCursor="true" click="addAddressBtn_clickHandler(event)">
+				<s:BitmapImage source="@Embed(source='assets/add_addr.png')"/>
+			</s:Group>
+			<s:Group buttonMode="true" useHandCursor="true" click="allBtn_clickHandler(event)">
+				<s:BitmapImage source="@Embed(source='assets/all_send.png')"/>
+			</s:Group>
+			<s:TextInput id="search" visible="{this.myViewStack.selectedIndex == 1}" focusThickness="0" text=""/>
+			<s:Group buttonMode="true" useHandCursor="true" click="search_clickHandler(event)"  visible="{this.myViewStack.selectedIndex == 1}">
+				<s:BitmapImage source="@Embed(source='assets/search.png')"/>
+			</s:Group>
 		</s:HGroup>
 		
 		
 		<!-- Define the ViewStack and the three child containers -->
-		<mx:ViewStack id="myViewStack" borderStyle="solid" width="100%" height="100%" color="0x323232" change="myViewStack_changeHandler(event)">
+		<mx:ViewStack id="myViewStack" borderStyle="solid" width="100%" height="100%" change="myViewStack_changeHandler(event)">
 			
-			<s:NavigatorContent id="group" label="그룹별 보기" backgroundColor="#000000" fontWeight="bold">
+			<s:NavigatorContent id="group" label="그룹별 보기" fontWeight="bold">
 				<s:Group id="addressBox" left="0" right="0" height="100%">
 					<mx:Tree id="myTree" width="100%" height="100%" change="treeChanged(event)" 
-							 disclosureClosedIcon="{PLUS}" disclosureOpenIcon="{MINUS}" dataProvider="{xml}"
-							 itemRenderer="component.address.AddressTreeItemRenderer" borderColor="#333333" labelField="@label" contentBackgroundColor="#000000" contentBackgroundAlpha="1"
-							 showRoot="true" fontWeight="normal"/>
+							 disclosureClosedIcon="{PLUS}" disclosureOpenIcon="{MINUS}" defaultLeafIcon="{MINUS}" folderClosedIcon="{null}" folderOpenIcon="{null}" dataProvider="{xml}"
+							 itemRenderer="component.address.AddressTreeItemRenderer" labelField="@label"
+							 showRoot="true" fontWeight="normal"
+							 borderStyle="none" depthColors="0xeeeeee" rollOverColor="0xdddddd"
+							 />
 					<lib:Spinner id="spinner" visible="false" left="10"  right="10" bottom="50" top="50" spinnerColor="#666666" spinnerHighlightColor="#cccccc" spinnerLineThickness="6" spinnerType="gradientlines" spinnerAlpha="0.5" />
 				</s:Group>
 			</s:NavigatorContent>
-			<s:NavigatorContent id="address" height="100%" label="주소별 보기" backgroundColor="#000000" fontWeight="bold">
-				<mx:DataGrid id="dg" width="100%" height="100%" draggableColumns="false" resizableColumns="false" fontWeight="normal">
+			<s:NavigatorContent id="address" height="100%" label="주소별 보기" fontWeight="bold">
+				<mx:DataGrid id="dg" width="100%" height="100%" draggableColumns="false" resizableColumns="false" fontWeight="normal" styleName="addrDg" >
 					<mx:columns>
 						<mx:DataGridColumn headerText="번호" sortable="false" labelFunction="fnLabel" width="50"></mx:DataGridColumn>
 						<mx:DataGridColumn dataField="name" headerText="이름" width="100"></mx:DataGridColumn>
@@ -498,44 +515,72 @@
 	
 	
 	
-	<s:Panel id="groupPanel" visible="false" x="173" y="22" title="그룹추가 및 수정">
-		<s:Form>
-			<s:FormItem height="32" label="그룹이름" skinClass="skin.FormItemSkin">
-				<s:TextInput id="groupName"/>
-			</s:FormItem>
-			<s:Label id="validLabel" width="251" text="그룹이름을 입력 후 확인을 누르세요." textAlign="center" verticalAlign="top"/>
-			<s:FormItem height="32">
-				<s:layout>
-					<s:HorizontalLayout/>
-				</s:layout>
-				<s:Button id="checkGroupBtn" label="확인" click="checkGroupBtn_clickHandler(event)"/>
-				<s:Button label="취소" color="#000000" click="groupPanelInit()"/>
-			</s:FormItem>
-		</s:Form>
-	</s:Panel>
+	<s:Group id="groupPanel" width="305" height="147" visible="false" horizontalCenter="0" verticalCenter="0">
+		<s:BitmapImage source="@Embed(source='assets/addr_group_bg.png')"/>
+		<s:Group x="280" y="10" buttonMode="true" click="groupPanelInit()" useHandCursor="true">
+			<s:BitmapImage source="@Embed(source='assets/addr_close.png')"/>
+		</s:Group>
+		<s:VGroup left="0" right="0" top="0" bottom="19" horizontalAlign="center" gap="5" paddingTop="15">
+			<s:HGroup gap="0">
+				<s:Label text="그룹" color="0xff0000" fontSize="14" fontWeight="bold" />
+				<s:Label text="추가 및 수정"  fontSize="14" fontWeight="bold" />
+			</s:HGroup>
+			<s:Form >
+				<s:FormItem width="100%" height="32" label="그룹이름">
+					<s:TextInput id="groupName"/>
+				</s:FormItem>
+				<s:Label id="validLabel" text="그룹이름을 입력 후 확인을 누르세요." textAlign="center" verticalAlign="top"/>
+				<s:FormItem width="100%" height="32">
+					<s:layout>
+						<s:HorizontalLayout/>
+					</s:layout>
+					<s:Group id="checkGroupBtn" buttonMode="true" useHandCursor="true" click="checkGroupBtn_clickHandler(event)">
+						<s:BitmapImage source="@Embed(source='assets/addr_confirm.png')"/>
+					</s:Group>
+					<s:Group buttonMode="true" useHandCursor="true" click="groupPanelInit()">
+						<s:BitmapImage source="@Embed(source='assets/addr_cancel.png')"/>
+					</s:Group>
+				</s:FormItem>
+			</s:Form>
+		</s:VGroup>
+		
+	</s:Group>
 	
-	<s:Panel id="addressPanel" visible="false" x="127" y="0" height="218"
-			 title="주소 추가 및 수정">
-		<s:Form id="form1" x="10" y="-10" width="351" height="155">
-			<s:FormItem height="22" label="그룹선택" skinClass="skin.FormItemSkin">
-				<s:DropDownList id="dropDownGroup" prompt="- 그룹 -"  ></s:DropDownList>
-			</s:FormItem>
-			<s:FormItem height="22" label="전화번호" skinClass="skin.FormItemSkin">
-				<s:TextInput id="textInputPhone"/>
-			</s:FormItem>
-			<s:FormItem height="22" label="이름" skinClass="skin.FormItemSkin">
-				<s:TextInput id="textInputName"/>
-			</s:FormItem>
-			<s:FormItem height="22" label="메모" skinClass="skin.FormItemSkin">
-				<s:TextInput id="textInputMemo" width="266"/>
-			</s:FormItem>
-			<s:FormItem>
-				<s:layout>
-					<s:HorizontalLayout/>
-				</s:layout>
-				<s:Button id="checkAddresBtn" label="확인" click="checkAddresBtn_clickHandler(event)"/>
-				<s:Button label="취소" click="addressPanelInit()"/>
-			</s:FormItem>
-		</s:Form>
-	</s:Panel>
+	<s:Group id="addressPanel" width="305" height="184" visible="false" horizontalCenter="0" verticalCenter="0">
+		<s:BitmapImage source="@Embed(source='assets/addr_addr_bg.png')"/>
+		<s:Group x="280" y="10" buttonMode="true" click="addressPanelInit()" useHandCursor="true">
+			<s:BitmapImage source="@Embed(source='assets/addr_close.png')"/>
+		</s:Group>
+		<s:VGroup left="0" right="0" top="0" bottom="19" horizontalAlign="center" gap="0" paddingTop="15">
+			<s:HGroup gap="0">
+				<s:Label text="주소" color="0xff0000" fontSize="14" fontWeight="bold" />
+				<s:Label text="추가 및 수정"  fontSize="14" fontWeight="bold" />
+			</s:HGroup>
+			<s:Form id="form1" width="100%" skinClass="skin.JoinSkin">
+				<s:FormItem width="100%" height="24" label="그룹선택">
+					<s:DropDownList id="dropDownGroup" prompt="- 그룹 -"  ></s:DropDownList>
+				</s:FormItem>
+				<s:FormItem width="100%" height="24" label="전화번호">
+					<s:TextInput id="textInputPhone"/>
+				</s:FormItem>
+				<s:FormItem width="100%" height="24" label="이름">
+					<s:TextInput id="textInputName"/>
+				</s:FormItem>
+				<s:FormItem width="100%" height="24" label="메모">
+					<s:TextInput id="textInputMemo" width="200"/>
+				</s:FormItem>
+				<s:FormItem width="100%">
+					<s:layout>
+						<s:HorizontalLayout/>
+					</s:layout>
+					<s:Group id="checkAddresBtn" buttonMode="true" useHandCursor="true" click="checkAddresBtn_clickHandler(event)">
+						<s:BitmapImage source="@Embed(source='assets/addr_confirm.png')"/>
+					</s:Group>
+					<s:Group buttonMode="true" useHandCursor="true" click="addressPanelInit()">
+						<s:BitmapImage source="@Embed(source='assets/addr_cancel.png')"/>
+					</s:Group>
+				</s:FormItem>
+			</s:Form>
+		</s:VGroup>
+	</s:Group>
 </s:Group>

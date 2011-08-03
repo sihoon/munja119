@@ -2,6 +2,26 @@
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		  xmlns:s="library://ns.adobe.com/flex/spark" 
 		  xmlns:mx="library://ns.adobe.com/flex/mx" gap="2">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		.dg
+		{
+			headerBackgroundSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_headerBackgroundSkin");
+			columnDropIndicatorSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_columnDropIndicatorSkin");
+			columnResizeSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_columnResizeSkin");
+			headerSeparatorSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_headerSeparatorSkin");
+			sortArrowSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_sortArrowSkin");
+			stretchCursor: Embed(source="assets/flex_skins.swf",symbol="DataGrid_stretchCursor");
+			alternatingItemColors: #464646, #4f4f4f;
+			verticalGridLineColor: #464646;
+			roll-over-color: #666666;
+			selection-color: #333333;
+			font-size: 12;
+		}
+
+	</fx:Style>
 	<fx:Metadata>
 		[Event(name="validValue", type="lib.CustomEvent")]
 	</fx:Metadata>
@@ -93,7 +113,8 @@
 		<s:Button id="addPhoneButton" width="30" label="+" click="addPhoneButton_clickHandler(event)"/>
 	</s:HGroup>
 	<s:BitmapImage source="@Embed('/assets/underbar.png')" />
-	<mx:DataGrid id="sendDG" width="100%" height="90" dataProvider="{al}" showHeaders="false" borderColor="0x000000">
+	<mx:DataGrid id="sendDG" width="100%" height="90" borderColor="0x000000" dataProvider="{al}"
+				 showHeaders="false" styleName="dg">
 		<mx:columns>
 				<mx:DataGridColumn  headerText="이름" dataField="phoneName" width="60"></mx:DataGridColumn>
 				<mx:DataGridColumn  headerText="전화번호" labelFunction="phoneFomat" dataField="phoneNumber"></mx:DataGridColumn>

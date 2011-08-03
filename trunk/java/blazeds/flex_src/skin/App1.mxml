@@ -64,13 +64,7 @@
 		</s:fill>
 	</s:Rect>
 	
-	<s:Rect left="0" width="1024" height="790"  >
-		<s:fill>
-			<s:BitmapFill source="@Embed('/assets/main_left.png')" />
-		</s:fill>
-	</s:Rect>
-	
-	<s:BitmapImage x="40" y="25" source="@Embed('/assets/logo.png')" />
+
 	
 	
     <s:Group left="0" right="0" top="0" bottom="0">
