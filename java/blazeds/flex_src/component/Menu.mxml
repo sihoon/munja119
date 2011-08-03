@@ -14,13 +14,13 @@
 	<s:Group useHandCursor="true" buttonMode="true" click="{parentApplication.moveMenu('module/Address.swf')}">
 		<s:BitmapImage source="@Embed('/assets/menu2.png')" />
 	</s:Group>
-	<s:Group useHandCursor="true" buttonMode="true" click="{parentApplication.moveMenu('module/Address.swf')}">
+	<s:Group useHandCursor="true" buttonMode="true" click="{parentApplication.moveMenu('module/ExcelLoader.swf')}">
 		<s:BitmapImage source="@Embed('/assets/menu3.png')" />
 	</s:Group>
-	<s:Group useHandCursor="true" buttonMode="true" click="{parentApplication.moveMenu('module/Address.swf')}">
+	<s:Group useHandCursor="true" buttonMode="true" click="{parentApplication.moveMenu('module/Sent.swf')}">
 		<s:BitmapImage source="@Embed('/assets/menu4.png')" />
 	</s:Group>
-	<s:Group useHandCursor="true" buttonMode="true" click="{parentApplication.moveMenu('module/Address.swf')}">
+	<s:Group useHandCursor="true" buttonMode="true" click="{parentApplication.moveMenu('module/Billing.swf')}">
 		<s:BitmapImage source="@Embed('/assets/menu5.png')" />
 	</s:Group>
 	

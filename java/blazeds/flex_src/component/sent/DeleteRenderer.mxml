@@ -19,9 +19,13 @@
 
 		]]>
 	</fx:Script>
-	<s:HGroup top="0" bottom="0" left="2" right="2">
-		<s:Button height="20" label="상세" click="detail_clickHandler(event)"/>
-		<s:Button height="20" label="삭제" click="delete_clickHandler(event)"/>
+	<s:HGroup top="0" bottom="0" left="2" right="2" horizontalAlign="center" verticalAlign="middle">
+		<s:Group buttonMode="true" useHandCursor="true" click="detail_clickHandler(event)">
+			<s:BitmapImage source="@Embed(source='/assets/sent_detail.png')"/>
+		</s:Group>
+		<s:Group buttonMode="true" useHandCursor="true" click="delete_clickHandler(event)">
+			<s:BitmapImage source="@Embed(source='/assets/sent_del.png')"/>
+		</s:Group>
 	</s:HGroup>
 	
 </s:MXDataGridItemRenderer>

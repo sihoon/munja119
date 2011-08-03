@@ -184,7 +184,7 @@
 			public function moveMenu(url:String):void {
 				
 				currentState = "sub";
-				if ( this.mlContext != null) this.mlContext.unloadModule();
+				//if ( this.mlContext != null) this.mlContext.unloadModule();
 				this.mlContext.url = url;
 				mlContext.loadModule();
 				
@@ -289,7 +289,7 @@
 			<s:BitmapImage source="@Embed(source='assets/sub_title.png')"/>
 			<s:Group x="307" width="717" height="500">
 				<s:Rect left="0" right="0" top="0" bottom="0" radiusX="15"><s:fill><s:SolidColor color="0xffffff" /></s:fill></s:Rect>
-				<s:Rect left="0" right="0" top="0" bottom="0" radiusX="15"><s:stroke><s:SolidColorStroke weight="2" color="0xf00000" /></s:stroke></s:Rect>
+				<s:Rect left="0" right="0" top="0" bottom="0" radiusX="15"><s:stroke><s:SolidColorStroke weight="2" color="0xe80500" /></s:stroke></s:Rect>
 				<s:Group left="20" right="20" top="20" bottom="20">
 					<s:ModuleLoader left="0" right="0" id="mlContext">
 						<s:unload><![CDATA[ if(parent != null){ parent.removeChild(this); }	]]></s:unload>

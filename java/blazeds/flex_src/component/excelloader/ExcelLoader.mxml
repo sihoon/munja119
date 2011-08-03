@@ -2,8 +2,17 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 creationComplete="init()" width="700" height="460" xmlns:lib="lib.*">
-	
+		 creationComplete="init()" width="675" height="450" xmlns:lib="lib.*">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		.addrDg {
+			alternatingItemColors: #ffffff, #efefef;
+			borderColor: #ffffff;
+			headerColors: #f8f8f8, #e8e8e8;
+		}
+	</fx:Style>
 	<fx:Script>
 		<![CDATA[
 			import component.address.AddressVO;
@@ -292,17 +301,32 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:VGroup>
-	<s:Label id="stepText" text="엑셀 파일 열기를 클릭하여 엑셀 파일을 선택 하세요."/>
-	<s:HGroup width="100%" height="22" gap="10">
-		<s:Button label="엑셀파일열기" toolTip="클릭하여 엑셀 파일을 선택 하십시요." click="this.fur.addFiles()"/>		
-		<s:DropDownList id="excelPhone" enabled="false" width="80"></s:DropDownList>
-		<s:DropDownList id="excelName" enabled="false" width="80"></s:DropDownList>		
-		<s:RadioButton id="radioSendList" chromeColor="#cccccc" label="전송목록" groupName="radiogroup1"/>
-		<s:RadioButton id="radioAddress" chromeColor="#cccccc" label="주소록" groupName="radiogroup1" click="radioAddress_clickHandler(event)"/>
-		<s:DropDownList id="comboBoxGroup" enabled="{this.radioAddressSelected}" width="80" prompt="- 그룹 -"></s:DropDownList>
-		<s:Button id="addOn" label="넣기" toolTip="{this.radioAddressSelected?'선택한 전화번호열과 이름열을 주소록에 저장 합니다.':'선택한 전화번호열과 이름열을 전송목록에 추가 합니다.'}" click="clickAddButton()"/>
-	</s:HGroup>
-	<mx:DataGrid id="excelDg" width="700" height="410" headerHeight="25"></mx:DataGrid>
+		<s:Group width="100%">
+			<s:BitmapImage left="10" source="@Embed(source='assets/excel_title.png')"/>
+			<s:Label top="4" right="0" text=" 홈 &gt; EXCEL/대량전송"/>
+		</s:Group>
+		<s:BitmapImage width="675" source="@Embed(source='assets/sub_title_under.png')" fillMode="scale"/>
+		<s:Group width="100%" height="40">
+			<s:Rect left="0" right="0" top="0" bottom="0"><s:fill><s:SolidColor color="0xefefef" /></s:fill></s:Rect>
+			
+			<s:HGroup gap="10" paddingLeft="5" top="0" width="100%" height="39" verticalAlign="middle">
+				<s:Group buttonMode="true" useHandCursor="true" click="this.fur.addFiles()" toolTip="클릭하여 엑셀 파일을 선택 하십시요." >
+					<s:BitmapImage source="@Embed(source='assets/excel_open.png')"/>
+				</s:Group>		
+				<s:DropDownList id="excelPhone" enabled="false" width="80"></s:DropDownList>
+				<s:DropDownList id="excelName" enabled="false" width="80"></s:DropDownList>		
+				<s:RadioButton id="radioSendList" chromeColor="#cccccc" label="전송목록" groupName="radiogroup1"/>
+				<s:RadioButton id="radioAddress" chromeColor="#cccccc" label="주소록" groupName="radiogroup1" click="radioAddress_clickHandler(event)"/>
+				<s:DropDownList id="comboBoxGroup" enabled="{this.radioAddressSelected}" width="80" prompt="- 그룹 -"></s:DropDownList>
+				
+				<s:Group id="addOn" buttonMode="true" useHandCursor="true" toolTip="{this.radioAddressSelected?'선택한 전화번호열과 이름열을 주소록에 저장 합니다.':'선택한 전화번호열과 이름열을 전송목록에 추가 합니다.'}" click="clickAddButton()" >
+					<s:BitmapImage source="@Embed(source='assets/excel_input.png')"/>
+				</s:Group>
+			</s:HGroup>
+			<s:Rect left="0" right="0" bottom="0" top="39"><s:fill><s:SolidColor color="0xe80500" /></s:fill></s:Rect>
+		</s:Group>
+		<s:Label id="stepText" text="엑셀 파일 열기를 클릭하여 엑셀 파일을 선택 하세요."/>
+	<mx:DataGrid styleName="addrDg" id="excelDg" width="675" height="370" headerHeight="25" verticalGridLines="false"></mx:DataGrid>
 	</s:VGroup>
 	<lib:Spinner id="spinner" visible="false" left="10"  right="10" bottom="10" top="10" spinnerColor="#ff4500" spinnerHighlightColor="#ffffff" spinnerLineThickness="8" spinnerType="gradientlines" spinnerAlpha="0.5" />
 	

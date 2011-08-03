@@ -35,3 +35,8 @@ s|TextArea
 	skinClass: ClassReference('skin.TextAreaSkin');
 	
 }
+
+.addrDg {
+	alternatingItemColors: #ffffff, #efefef;
+	borderColor: #ffffff;
+}
