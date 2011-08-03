@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		   xmlns:s="library://ns.adobe.com/flex/spark" 
-		   xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" xmlns:billing="component.billing.*">
+		   xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="450" xmlns:billing="component.billing.*">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:Scroller width="100%" height="100%" minWidth="0" minHeight="0">
-		<billing:Billing id="billing" />
-	</s:Scroller>
+	<billing:Billing id="billing" />
 </mx:Module>

@@ -2,7 +2,17 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:lib="lib.*"
-		 creationComplete="creationCompleteHandler()" width="700" height="100%">
+		 creationComplete="creationCompleteHandler()" width="675" height="100%">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		.addrDg {
+			alternatingItemColors: #ffffff, #efefef;
+			borderColor: #ffffff;
+			headerColors: #f8f8f8, #e8e8e8;
+		}
+	</fx:Style>
 	<fx:Script>
 		<![CDATA[
 			import lib.BooleanAndDescriptionVO;
@@ -220,52 +230,52 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
+	<s:VGroup width="675" height="100%">
+		<s:Group width="100%">
+			<s:BitmapImage left="10" source="@Embed(source='assets/sent_title.png')"/>
+			<s:Label top="4" right="0" text=" 홈 &gt; 전송내역"/>
+		</s:Group>
+		<s:BitmapImage width="675" source="@Embed(source='assets/sub_title_under.png')" fillMode="scale"/>
 	
-	<s:Group width="700" height="430">
-		<s:VGroup gap="2">
-			<s:HGroup left="0" right="0">
-				<mx:DateField width="95" id="dateField1" yearNavigationEnabled="true" formatString="YYYY-MM-DD" contentBackgroundColor="#333333" color="#ffffff"/>
-				<s:Label text=" ~ " />
-				<mx:DateField width="95" id="dateField2" yearNavigationEnabled="true" formatString="YYYY-MM-DD" contentBackgroundColor="#333333" color="#ffffff"/>
-				<s:Button label="검색" click="submit()"/>
-				<s:Button label="예약보기" click="reservation_submit()"/>
-			</s:HGroup>
+		<s:Group width="675" height="100%">
+	
+			<s:VGroup gap="2">
+				<s:HGroup left="0" right="0">
+					<mx:DateField width="95" id="dateField1" yearNavigationEnabled="true" formatString="YYYY-MM-DD"/>
+					<s:Label text=" ~ " />
+					<mx:DateField width="95" id="dateField2" yearNavigationEnabled="true" formatString="YYYY-MM-DD"/>
+					
+					<s:Group buttonMode="true" useHandCursor="true" click="submit()">
+						<s:BitmapImage source="@Embed(source='assets/sent_search.png')"/>
+					</s:Group>
+					<s:Group buttonMode="true" useHandCursor="true" click="reservation_submit()">
+						<s:BitmapImage source="@Embed(source='assets/sent_res.png')"/>
+					</s:Group>
+				</s:HGroup>
+				
+				<mx:DataGrid id="dgGroup" styleName="addrDg" width="675" height="370" draggableColumns="false" resizableColumns="false" verticalGridLines="false">
+					<mx:columns>
+						<mx:DataGridColumn headerText="번호" sortable="false" labelFunction="fnLabel" width="50"></mx:DataGridColumn>
+						<!--<mx:DataGridColumn dataField="tranType" headerText="형식" width="50"></mx:DataGridColumn>-->
+						<mx:DataGridColumn dataField="timeSend" headerText="전송시간" width="130"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="returnPhone" headerText="회신번호"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="count" headerText="전송건수" width="80"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="message" headerText="메시지"></mx:DataGridColumn>
+						<mx:DataGridColumn headerText="" width="100"  sortable="false" itemRenderer="component.sent.DeleteRenderer" />
+					</mx:columns>
+				</mx:DataGrid>
+				<mx:DataGrid id="dg" styleName="addrDg" visible="false" width="675" height="0" draggableColumns="false" resizableColumns="false" verticalGridLines="false">
+					<mx:columns>
+						<mx:DataGridColumn headerText="번호" sortable="false" width="50" labelFunction="fnLabelDetail"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="phone" headerText="전화번호"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="state" headerText="메시지위치"  itemRenderer="component.sent.SentStateRenderer"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="result" headerText="결과"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="resultDate" headerText="결과시간"></mx:DataGridColumn>
+					</mx:columns>
+				</mx:DataGrid>
+			</s:VGroup>
+			<lib:Spinner id="spinner" visible="false" left="10"  right="10" bottom="50" top="50" spinnerColor="#ff4500" spinnerHighlightColor="#ffffff" spinnerLineThickness="8" spinnerType="gradientlines" spinnerAlpha="0.5" />
+		</s:Group>
 			
-			<mx:DataGrid id="dgGroup" width="700" height="400" draggableColumns="false" resizableColumns="false">
-				<mx:columns>
-					<mx:DataGridColumn headerText="번호" sortable="false" labelFunction="fnLabel" width="50"></mx:DataGridColumn>
-					<!--<mx:DataGridColumn dataField="tranType" headerText="형식" width="50"></mx:DataGridColumn>-->
-					<mx:DataGridColumn dataField="timeSend" headerText="전송시간" width="130"></mx:DataGridColumn>
-					<mx:DataGridColumn dataField="returnPhone" headerText="회신번호"></mx:DataGridColumn>
-					<mx:DataGridColumn dataField="count" headerText="전송건수" width="80"></mx:DataGridColumn>
-					<mx:DataGridColumn dataField="message" headerText="메시지"></mx:DataGridColumn>
-					<mx:DataGridColumn headerText="" width="100"  sortable="false" itemRenderer="component.sent.DeleteRenderer" />
-				</mx:columns>
-			</mx:DataGrid>
-			<mx:DataGrid id="dg" visible="false" width="700" height="0" draggableColumns="false" resizableColumns="false">
-				<mx:columns>
-					<mx:DataGridColumn headerText="번호" sortable="false" width="50" labelFunction="fnLabelDetail"></mx:DataGridColumn>
-					<mx:DataGridColumn dataField="phone" headerText="전화번호"></mx:DataGridColumn>
-					<mx:DataGridColumn dataField="state" headerText="메시지위치"  itemRenderer="component.sent.SentStateRenderer"></mx:DataGridColumn>
-					<mx:DataGridColumn dataField="result" headerText="결과"></mx:DataGridColumn>
-					<mx:DataGridColumn dataField="resultDate" headerText="결과시간"></mx:DataGridColumn>
-				</mx:columns>
-			</mx:DataGrid>
-			<!--
-			<s:HGroup>
-			<s:DropDownList id="list1" labelField="label" prompt="- 선택 -" height="24">
-			<s:ArrayCollection>
-			<fx:Object label="전체" data="1" />
-			<fx:Object label="성공" data="2" />
-			<fx:Object label="실패" data="3" />
-			<fx:Object label="없는번호" data="4" />
-			</s:ArrayCollection>
-			</s:DropDownList>
-			<s:Button label="주소록 저장" />
-			</s:HGroup>
-			-->
-		</s:VGroup>
-		<lib:Spinner id="spinner" visible="false" left="10"  right="10" bottom="50" top="50" spinnerColor="#ff4500" spinnerHighlightColor="#ffffff" spinnerLineThickness="8" spinnerType="gradientlines" spinnerAlpha="0.5" />
-	</s:Group>
-
+	</s:VGroup>
 </s:Group>

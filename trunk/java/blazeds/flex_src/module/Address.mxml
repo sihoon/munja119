@@ -6,5 +6,5 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<local:Address id="address" width="675" height="400"/>
+	<local:Address id="address" width="675" height="450"/>
 </mx:Module>
