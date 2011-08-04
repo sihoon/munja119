@@ -36,6 +36,8 @@
     <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/CashList.swf" optimize="true" sourcePath="flex_src/admin/module/CashList.mxml"/>
     <module application="flex_src/flex.mxml" destPath="module/Emoticon.swf" optimize="true" sourcePath="flex_src/module/Emoticon.mxml"/>
     <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Emoticon.swf" optimize="true" sourcePath="flex_src/admin/module/Emoticon.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/CostInfo.swf" optimize="true" sourcePath="flex_src/module/CostInfo.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Join.swf" optimize="true" sourcePath="flex_src/module/Join.mxml"/>
   </modules>
   <buildCSSFiles/>
   <flashCatalyst validateFlashCatalystCompatibility="false"/>

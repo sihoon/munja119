@@ -1,196 +1,218 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		  xmlns:s="library://ns.adobe.com/flex/spark" 
-		  xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="getMessage('greeting')" width="800" height="370" xmlns:emoticon="component.emoticon.*">
-	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-		@namespace mx "library://ns.adobe.com/flex/mx";
-		@namespace emoticon "component.emoticon.*";
-		global
-		{
-			chrome-color: #333333;
-			color: #CCCCCC;
-			content-background-color: #000000;
-			symbol-color: #000000;
-			roll-over-color: #555555;
-			selection-color: #333333;
-			focus-color: #999999;
-			accent-color: #8C8C8C;
-			fontFamily: "Dotum";
-			fontSize: 12px;
-			
-		}
-		
-		mx|ToggleButtonBar {
-			buttonStyleName: "mytoggleButtonBarButtonStyle";
-			firstButtonStyleName: "mytoggleButtonBarFirstButtonStyle";
-			lastButtonStyleName: "mytoggleButtonBarLastButtonStyle";
-			selectedButtonTextStyleName: "mytoggleButtonBarSelectedButtonStyle";
-		}
-		.mytoggleButtonBarButtonStyle {
-			textRollOverColor: #ffffff;
-		}
-		
-		.mytoggleButtonBarFirstButtonStyle {
-			textRollOverColor: #ffffff;
-		}
-		
-		.mytoggleButtonBarLastButtonStyle {
-			textRollOverColor: #ffffff;
-		}
-		
-		.mytoggleButtonBarSelectedButtonStyle {
-			textRollOverColor: #ffffff;
-		}
-	</fx:Style>
+		  xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="creationCompleteHandler()"  width="800" height="370">
 	<fx:Script>
 		<![CDATA[
 			import lib.RO;
 			
+			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
 			
-			private var al:Array = null;
+			import spark.events.IndexChangeEvent;
+			
+			private var currGubun:String = "테마문자";
+			private var currCate:String = "";
+			private var currPage:int = 0;
+			
 			private var ro:RO = new RO();
 			private var RO_DESTINATION:String = "WEB";
 			
-			private var page:uint = 1;
-			public var curCategory:String = "love";
-			private var maxPage:uint = 0;
+			private var currAC:ArrayCollection = null;
 			
-			protected function getMessage(category:String):void {
-				
-				//spinnerStart();
-				ro.set(RO_DESTINATION, emoticon_ResultEventHandler);
-				ro.method.getEmoti(this.page, category);
-				
-			}
+			private var one_one:ArrayCollection = new ArrayCollection(["감사","계절","공지/안내","기념","날씨","명언/감동","모임","부고/조의","사과/화해","사랑/고백"]);
+			private var one_two:ArrayCollection = new ArrayCollection(["시즌","안부","약속","요일","우정","위로/격려","유머/패러디","종교","초대","축하"]);
+			private var one_three:ArrayCollection = new ArrayCollection(["홍보/행사","기타"]);
 			
-			private function emoticon_ResultEventHandler(event:ResultEvent):void {
-				
-				al = event.result as Array;
-				
-				if (al == null || al.length < 1)
-					page--;
-				else				
-					this.mgEmoti.arrMessage = al;
-			}
+			private var one:ArrayCollection = new ArrayCollection([one_one,one_two,one_three]);
 			
-			protected function tbCategory_itemClickHandler():void
+			
+			private var two_one:ArrayCollection = new ArrayCollection(["가구/인테리어","가전","건강/다이어트","결혼정보","금융","꽃배달","나이트","낚시","노래방"]);
+			private var two_two:ArrayCollection = new ArrayCollection(["대리운전","대출","동물병원","레저/스포츠","렌터카","미용실","병원","보험","부동산"]);
+			private var two_three:ArrayCollection = new ArrayCollection(["쇼핑몰/오픈마켓","스포츠","식품/슈퍼마켓","여행사","옷/의류","유치원/어린이집","유흥"]);
+			private var two_four:ArrayCollection = new ArrayCollection(["음식","이삿짐","자동차","조합/노조","종교","카센터","택배/쿽서비스","통신","학원/학교"]);
+			private var two:ArrayCollection = new ArrayCollection([two_one,two_two,two_three,two_four]);
+			
+			private var three:ArrayCollection = new ArrayCollection();
+			
+			protected function creationCompleteHandler():void
 			{
-				this.page = 1;
-				if (tbCategory.selectedIndex == 0) {
-					getMessage("greeting");
-					curCategory = "greeting";
-				}
-				else if (tbCategory.selectedIndex == 1) {
-					getMessage("humor");
-					curCategory = "humor";
-				}
-				else if (tbCategory.selectedIndex == 2) {
-					getMessage("love");
-					curCategory = "love";
-				}
-				else if (tbCategory.selectedIndex == 3) {
-					getMessage("theme");
-					curCategory = "theme";
+				currAC = one;
+				
+				init_cate();
+				
+				emtTab.selectedIndex = 0;
+				
+				ro.set(RO_DESTINATION, unit_ResultEventHandler);
+				ro.method.getEmotiCate(currGubun, currCate, currPage);
+			}
+			
+			private function unit_ResultEventHandler(event:ResultEvent):void {
+				
+				var arr:Array = event.result as Array;
+				
+				emt1.text = arr[0];
+				emt2.text = arr[1];
+				emt3.text = arr[2];
+				emt4.text = arr[3];
+				emt5.text = arr[4];
+				emt6.text = arr[5];
+				emt7.text = arr[6];
+				emt8.text = arr[7];
+			}
+			
+			protected function pre_clickHandler(event:MouseEvent):void
+			{
+				var idx:int = currAC.getItemIndex( category.dataProvider );
+				if (idx > 0) {
+					category.dataProvider = currAC.getItemAt(idx -1) as ArrayCollection;
+					nextBtn.enabled = true;
+					if (idx -1 == 0) preBtn.enabled = false;
+				} else {
+					preBtn.enabled = false;
 				}
 				
 			}
 			
-			private function prePage():void { if (page > 1)page--; }
-			private function nextPage():void { page++;	}
+			protected function next_clickHandler(event:MouseEvent):void
+			{
+				var idx:int = currAC.getItemIndex( category.dataProvider );
+				if (idx < currAC.length - 1) {
+					category.dataProvider = currAC.getItemAt(idx +1) as ArrayCollection;
+					preBtn.enabled = true;
+					
+					if (idx +1 == currAC.length - 1) nextBtn.enabled = false;
+				} else {
+					nextBtn.enabled = false;
+				}
+			}
+			
+			protected function emti_changeHandler(event:IndexChangeEvent):void
+			{
+				category.visible = true;
+				preBtn.visible = true;
+				nextBtn.visible = true;
+				
+				if (emtTab.selectedIndex == 0) {currAC = one;currGubun = "테마문자";}
+				else if (emtTab.selectedIndex == 1) {currAC = two;currGubun = "업종별문자";}
+				else if (emtTab.selectedIndex == 2) {
+					category.visible = false;
+					preBtn.visible = false;
+					nextBtn.visible = false;
+					currGubun = "등록문자";
+				}
+				currCate = "";
+				currPage = 0;
+				init_cate();
+				ro.method.getEmotiCate(currGubun, currCate, currPage);
+			}
+			
+			private function init_cate():void {
+				category.dataProvider = currAC.getItemAt(0) as ArrayCollection;
+				preBtn.enabled = false;
+				if (currAC.length == 1)nextBtn.enabled = false;
+				else nextBtn.enabled = true;
+			}
+			
+			protected function category_changeHandler(event:IndexChangeEvent):void
+			{
+				currPage = 0;
+				var ac:ArrayCollection = category.dataProvider as ArrayCollection;
+				currCate = ac.getItemAt( category.selectedIndex ) as String;
+				ro.method.getEmotiCate(currGubun, currCate, currPage);
+			}
+			
+			private function prePage():void { if (currPage > 1)currPage--; }
+			private function nextPage():void { currPage++;	}
+			
 		]]>
 	</fx:Script>
+	
 	<fx:Declarations>
-		<fx:Array id="category">
-			<fx:String>감사</fx:String>
-			<fx:String>계절</fx:String>
-			<fx:String>공지/안내</fx:String>
-			<fx:String>기념</fx:String>
-			<fx:String>날씨</fx:String>
-			<fx:String>명언/감동</fx:String>
-			<fx:String>모임</fx:String>
-			<fx:String>부고/조의</fx:String>
-			<fx:String>사과/화해</fx:String>
-			<fx:String>사랑/고백</fx:String>
-			<fx:String>시즌</fx:String>
-			<fx:String>안부</fx:String>
-			<fx:String>약속</fx:String>
-			<fx:String>요일</fx:String>
-			<fx:String>우정</fx:String>
-			<fx:String>위로/격려</fx:String>
-			<fx:String>유머/패러디</fx:String>
-			<fx:String>종교</fx:String>
-			<fx:String>초대</fx:String>
-			<fx:String>축하</fx:String>
-			<fx:String>홍보/행사</fx:String>
-			<fx:String>기타</fx:String>
-		</fx:Array>
-		<fx:Array id="category1">
-			<fx:String>가구/인테리어</fx:String>
-			<fx:String>가전</fx:String>
-			<fx:String>건강/다이어트</fx:String>
-			<fx:String>결혼정보</fx:String>
-			<fx:String>금융</fx:String>
-			<fx:String>꽃배달</fx:String>
-			<fx:String>나이트</fx:String>
-			<fx:String>낚시</fx:String>
-			<fx:String>노래방</fx:String>
-			<fx:String>대리운전</fx:String>
-			<fx:String>대출</fx:String>
-			<fx:String>동물병원</fx:String>
-			<fx:String>레저/스포츠</fx:String>
-			<fx:String>렌터카</fx:String>
-			<fx:String>미용실</fx:String>
-			<fx:String>병원</fx:String>
-			<fx:String>보험</fx:String>
-			<fx:String>부동산</fx:String>
-			<fx:String>쇼핑몰/오픈마켓</fx:String>
-			<fx:String>스포츠</fx:String>
-			<fx:String>식품/슈퍼마켓</fx:String>
-			<fx:String>여행사</fx:String>
-			<fx:String>옷/의류</fx:String>
-			<fx:String>유치원/어린이집</fx:String>
-			<fx:String>유흥</fx:String>
-			<fx:String>음식</fx:String>
-			<fx:String>이삿짐</fx:String>
-			<fx:String>자동차</fx:String>
-			<fx:String>조합/노조</fx:String>
-			<fx:String>종교</fx:String>
-			<fx:String>카센터</fx:String>
-			<fx:String>택배/쿽서비스</fx:String>
-			<fx:String>통신</fx:String>
-			<fx:String>학원/학교</fx:String>
-		</fx:Array>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:SkinnableContainer id="costContainer" visible="true" skinClass="skin.EmoticonSkin" width="800" height="370" top="60" horizontalCenter="17">
-		<s:Button skinClass="skin.IframeCloseButton" width="46" height="46" top="-40" right="-40" click="this.costContainer.visible=false;" />
-		<s:Panel skinClass="skin.HomePanelSkinNoMore" title="이모티콘" left="0" right="0" top="10" bottom="0">
-			<s:layout>
-				<s:VerticalLayout paddingTop="5" paddingLeft="0" paddingRight="0" paddingBottom="5"/>
-			</s:layout>
-			<mx:TabNavigator id="tn" width="720" minHeight="520" tabWidth="120" tabHeight="40" paddingBottom="10"
-							 paddingLeft="10" paddingRight="10" paddingTop="10" cornerRadius="4">
-				<s:NavigatorContent label="테마문자">
-					<s:layout>
-						<s:VerticalLayout paddingTop="5" paddingLeft="0" paddingRight="0" paddingBottom="5"/>
-					</s:layout>
-					<mx:ToggleButtonBar id="tbCategory" width="400"  dataProvider="{category}"  itemClick="tbCategory_itemClickHandler()"></mx:ToggleButtonBar>
-					<s:HGroup width="100%"  verticalAlign="middle">
-						<s:Button label="이전" width="20" top="50" skinClass="component.emoticon.PreButtonSkin" click="{prePage();getMessage(curCategory)}" />	
-						<emoticon:MessageGroup width="100%" height="200" id="mgEmoti" />
-						<s:Button label="다음" skinClass="component.emoticon.NextButtonSkin" click="{nextPage();getMessage(curCategory)}"/>
-					</s:HGroup>
-				</s:NavigatorContent>
-				<s:NavigatorContent label="업종별">
-					<mx:ToggleButtonBar id="tbCategory1" width="100%" dataProvider="{category1}" itemClick="tbCategory_itemClickHandler()"></mx:ToggleButtonBar>
-					<s:HGroup width="100%"  verticalAlign="middle">
-						<s:Button label="이전" width="20" top="50" skinClass="component.emoticon.PreButtonSkin" click="{prePage();getMessage(curCategory)}" />	
-						<emoticon:MessageGroup width="100%" height="200" id="mgEmoti1" />
-						<s:Button label="다음" skinClass="component.emoticon.NextButtonSkin" click="{nextPage();getMessage(curCategory)}"/>
-					</s:HGroup>
-				</s:NavigatorContent>
-			</mx:TabNavigator>
-		</s:Panel>
-	</s:SkinnableContainer>
+<s:SkinnableContainer id="costContainer" visible="true" skinClass="skin.EmoticonSkin" width="726" height="425" top="60" horizontalCenter="17">
+	<s:Button skinClass="skin.IframeCloseButton" width="46" height="46" top="-40" right="-40" click="{parentApplication.unloadEmoticon()}" />
+	<s:Group>
+		<s:layout>
+			<s:VerticalLayout gap="0"/>
+		</s:layout>
+		<s:VGroup gap="10">
+			<s:BitmapImage source="@Embed(source='assets/emoticon_headtext.png')" left="0"/>
+			<s:ButtonBar id="emtTab" skinClass="skin.EmotiButtonBar" change="emti_changeHandler(event)" color="0xffffff" fontWeight="bold">
+				<s:ArrayCollection> 
+					<fx:String>테마문자</fx:String> 
+					<fx:String>업종별문자</fx:String> 
+					<fx:String>등록문자</fx:String> 
+				</s:ArrayCollection> 
+			</s:ButtonBar>	
+		</s:VGroup>
+		
+		<s:Group width="644" height="315">
+			<s:BitmapImage left="0" height="305" source="@Embed(source='assets/emt_main_bg.png')"/>
+			<s:VGroup top="11" left="0" right="0" horizontalAlign="center">
+				<s:HGroup gap="2">
+					<s:Group id="preBtn" buttonMode="true" useHandCursor="true" click="pre_clickHandler(event)">
+						<s:BitmapImage source="@Embed(source='assets/left_emt.png')" left="0"/>
+					</s:Group>
+					<s:ButtonBar id="category" skinClass="skin.EmoticonCateButtonBarSkin" fontSize="11" change="category_changeHandler(event)" />
+					<s:Group id="nextBtn" buttonMode="true" useHandCursor="true" click="next_clickHandler(event)">
+						<s:BitmapImage source="@Embed(source='assets/right_emt.png')" left="0"/>
+					</s:Group>
+				</s:HGroup>
+				<s:HGroup left="10" right="10" fontSize="12" gap="5" horizontalAlign="center" paddingTop="10" verticalAlign="middle">
+					
+					<s:Group width="20" height="31"  buttonMode="true" useHandCursor="true" click="{nextPage();ro.method.getEmotiCate(currGubun, currCate, currPage);}">
+						<s:BitmapImage left="3" source="@Embed(source='assets/pre_emt.png')"/>	
+					</s:Group>
+					
+					<s:VGroup>
+						<s:HGroup>
+							<s:Group width="142" height="118">
+								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+								<s:Label id="emt1" text="" left="12" right="12" top="20" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt1.text)}" />
+							</s:Group>
+							<s:Group width="142" height="118">
+								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+								<s:Label id="emt2" text="" left="12" right="12" top="20" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt2.text)}" />
+							</s:Group>
+							<s:Group width="142" height="118">
+								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+								<s:Label id="emt3" text="" left="12" right="12" top="20" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt3.text)}" />
+							</s:Group>
+							<s:Group width="142" height="118">
+								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+								<s:Label id="emt4" text="" left="12" right="12" top="20" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt4.text)}" />
+							</s:Group>
+						</s:HGroup>
+						<s:HGroup>
+							<s:Group width="142" height="118">
+								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+								<s:Label id="emt5" text="" left="12" right="12" top="20" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt5.text)}" />
+							</s:Group>
+							<s:Group width="142" height="118">
+								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+								<s:Label id="emt6" text="" left="12" right="12" top="20" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt6.text)}" />
+							</s:Group>
+							<s:Group width="142" height="118">
+								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+								<s:Label id="emt7" text="" left="12" right="12" top="20" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt7.text)}" />
+							</s:Group>
+							<s:Group width="142" height="118">
+								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+								<s:Label id="emt8" text="" left="12" right="12" top="20" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt8.text)}" />
+							</s:Group>
+						</s:HGroup>
+					</s:VGroup>
+					
+					
+					<s:Group width="20" height="31" buttonMode="true" useHandCursor="true"  click="{nextPage();ro.method.getEmotiCate(currGubun, currCate, currPage);}">
+						<s:BitmapImage left="3" source="@Embed(source='assets/next_emt.png')"/>	
+					</s:Group>
+				</s:HGroup>
+			</s:VGroup>
+		</s:Group>
+		
+	</s:Group>
+</s:SkinnableContainer>
 </s:Module>

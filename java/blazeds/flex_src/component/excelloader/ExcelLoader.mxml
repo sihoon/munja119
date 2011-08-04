@@ -326,7 +326,7 @@
 			<s:Rect left="0" right="0" bottom="0" top="39"><s:fill><s:SolidColor color="0xe80500" /></s:fill></s:Rect>
 		</s:Group>
 		<s:Label id="stepText" text="엑셀 파일 열기를 클릭하여 엑셀 파일을 선택 하세요."/>
-	<mx:DataGrid styleName="addrDg" id="excelDg" width="675" height="370" headerHeight="25" verticalGridLines="false"></mx:DataGrid>
+	<mx:DataGrid styleName="addrDg" id="excelDg" width="675" height="370" headerHeight="25" verticalGridLines="false" dropShadowVisible="true"></mx:DataGrid>
 	</s:VGroup>
 	<lib:Spinner id="spinner" visible="false" left="10"  right="10" bottom="10" top="10" spinnerColor="#ff4500" spinnerHighlightColor="#ffffff" spinnerLineThickness="8" spinnerType="gradientlines" spinnerAlpha="0.5" />
 	

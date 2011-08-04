@@ -169,8 +169,14 @@
 			
 			public function loadEmoticon():void {
 				
-				this.mlEmoti.url = "module/Emoticon.swf";
-				this.mlEmoti.loadModule();
+					this.mlEmoti.url = "module/Emoticon.swf";
+					this.mlEmoti.loadModule();
+				
+			}
+			
+			public function unloadEmoticon():void {
+				
+				this.mlEmoti.unloadModule();
 			}
 			
 			public function setMessage(msg:String):void {
@@ -183,18 +189,27 @@
 			
 			public function moveMenu(url:String):void {
 				
+				if (bLogin) {
+					currentState = "sub";
+					//if ( this.mlContext != null) this.mlContext.unloadModule();
+					this.mlContext.url = url;
+					mlContext.loadModule();
+				}else {
+					ExternalInterface.call("alert","로그인 후 이용 가능 합니다.");
+				}
+				
+			}
+			
+			public function moveMenuNoLogin(url:String):void {
 				currentState = "sub";
 				//if ( this.mlContext != null) this.mlContext.unloadModule();
 				this.mlContext.url = url;
 				mlContext.loadModule();
-				
 			}
 
-			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	
 	<!-- 삼각형 배경 -->
@@ -211,7 +226,7 @@
 		<s:Group buttonMode="true" useHandCursor="true">
 			<s:BitmapImage source="@Embed(source='assets/home.png')"/>
 		</s:Group>
-		<s:Group buttonMode="true" useHandCursor="true">
+		<s:Group buttonMode="true" useHandCursor="true" click="{moveMenuNoLogin('module/Join.swf')}">
 			<s:BitmapImage source="@Embed(source='assets/join_text.png')"/>
 		</s:Group>
 		<s:Group buttonMode="true" useHandCursor="true">
@@ -223,9 +238,9 @@
 	<component:Menu x="230" y="23" depth="3" />
 	
 	<!-- 단가안내,세금계산서 -->
-	<s:HGroup gap="0"
+	<s:HGroup gap="0" depth="4"
 			  x="770" y="52">
-		<s:Group buttonMode="true" useHandCursor="true">
+		<s:Group buttonMode="true" useHandCursor="true" click="{moveMenuNoLogin('module/CostInfo.swf')}">
 			<s:BitmapImage source="@Embed(source='assets/mini_menu_1.png')"/>
 		</s:Group>
 		<s:Group buttonMode="true" useHandCursor="true">
@@ -301,8 +316,7 @@
 		
 		<!-- copy right -->
 		<s:VGroup width="1024" paddingTop="10" paddingLeft="80">
-			<s:HGroup paddingLeft="100"
-					  paddingLeft.main="140">
+			<s:HGroup paddingLeft="140">
 				<s:Group buttonMode="true" useHandCursor="true" click="{viewIframe('personal')}"><s:BitmapImage source="@Embed(source='assets/personal.png')" /></s:Group>	
 				<s:Group buttonMode="true" useHandCursor="true" click="{viewIframe('promise')}"><s:BitmapImage source="@Embed(source='assets/pramise.png')" /></s:Group>
 				<s:Group buttonMode="true" useHandCursor="true" click="{viewIframe('spam')}"><s:BitmapImage source="@Embed(source='assets/spamUntitled-3.png')" /></s:Group>
@@ -341,12 +355,9 @@
 		</s:HGroup>
 	</s:Panel>
 	-->
-	<s:SkinnableContainer id="costContainer" visible="false" skinClass="skin.IframeSkin" top="60" horizontalCenter="17">
-		<s:Button skinClass="skin.IframeCloseButton" width="46" height="46" top="-40" right="-40" click="this.costContainer.visible=false;" />
-		<billing:Cost />
-	</s:SkinnableContainer>
+
 	
-	<s:SkinnableContainer width="700" id="iframeContainer" visible="false" skinClass="skin.IframeSkin" top="50" left="120">
+	<s:SkinnableContainer width="700" id="iframeContainer" depth="5" visible="false" skinClass="skin.IframeSkin" top="50" left="120">
 		<s:Button id="closeIframe" top="4" right="10" skinClass="skin.IframeCloseButton" width="46" height="46" click="this.iframeContainer.visible=false;iframe.visible=false;" />
 		<s:Label id="popupTitle" left="40" top="13" fontSize="24" fontWeight="bold" color="0xffffff" text="이용약관" />
 		<lib:IFrame id="iframe" top="54"
@@ -356,6 +367,6 @@
 					width="100%"
 					height="100%"/>
 	</s:SkinnableContainer>
-	<mx:ModuleLoader id="mlEmoti" top="30" horizontalCenter="50" />
+	<mx:ModuleLoader id="mlEmoti" left="240" top="32"/>
 	
 </s:Application>

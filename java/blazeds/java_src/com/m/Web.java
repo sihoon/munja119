@@ -1072,6 +1072,43 @@ public class Web extends SessionManagement{
 		return arr;
 	}
 	
+	public String[] getEmotiCate(String gubun, String category, int page) {
+
+		
+		Connection conn = null;
+		String [] arr = null;
+		int count = 8;
+		
+		int from = 0;
+		
+		try {
+			
+			conn = VbyP.getDB();
+			
+			if (page == 0) page = 1;
+			from = count * (page -1);
+			
+			VbyP.accessLog(" >>  이모티콘 요청("+gubun+"/"+category+") "+Integer.toString(from));
+			
+			StringBuffer buf = new StringBuffer();
+			buf.append(VbyP.getSQL("homeEmotiCate"));
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, buf.toString() );
+			pq.setString(1, gubun);
+			pq.setString(2, "%"+category+"%");
+			pq.setInt(3, from);
+			pq.setInt(4, count);
+			
+			arr = pq.ExecuteQuery();
+			
+		}catch (Exception e) {}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getHomeEmotiCate >> conn.close() Exception!"); }
+		}
+		
+		return arr;
+	}
+	
 	public String[] getHomeEmotiCate(String gubun, String category, int page) {
 
 		

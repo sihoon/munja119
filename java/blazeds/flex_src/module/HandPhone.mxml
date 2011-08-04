@@ -38,7 +38,7 @@
 				else if (cPhone.getTotalCount() == 0) validMessage = "전화번호를 입력하세요.";
 				else if (cReturnPhone.returnPhone.length == 0) validMessage = "회신번호를 입력하세요";
 				else {
-					validMessage = "<font color='#25E021'>전송하기</font> 버튼을 누르면 전송 됩니다.";
+					validMessage = "<font color='font-weight:bold'>보내기</font> 버튼을 누르면 전송 됩니다.";
 					sendButton.enabled = true;
 				}
 				
@@ -133,7 +133,6 @@
 					SLibrary.alert(bVO.strDescription);
 				}
 				parentApplication.userInfoInit();
-				parentApplication.sentInit();
 				
 			}
 			
@@ -170,13 +169,18 @@
 				
 				
 			}
-
+			import mx.effects.easing.*;
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<mx:Sequence id="movePauseMove" target="hp">
+			<mx:Move xBy="150" duration="2000" easingFunction="Bounce.easeOut"/>
+			<mx:Pause duration="2000"/>
+			<mx:Move xBy="-150" duration="2000" easingFunction="Bounce.easeIn"/>
+		</mx:Sequence>
 	</fx:Declarations>
-	<s:Group >
+	<s:Group id="hp" >
 		<s:BitmapImage source="@Embed('/assets/phone_bg.png')" />
 		<s:VGroup left="20" top="42" gap="2">
 			<handphone:ReadMe id="cReadMe"/>
@@ -197,7 +201,7 @@
 			</s:HGroup>
 		</s:VGroup>	
 		<!--전송중 카운트-->
-		<s:VGroup id="iAlertContainer" x="38" y="120" width="165" depth="7" focusEnabled="false" visible="false" horizontalAlign="center">
+		<s:VGroup id="iAlertContainer" x="34" y="100" width="165" depth="7" focusEnabled="false" visible="false" horizontalAlign="center">
 			<s:Label text="전송요청!!" fontSize="14" color="0x000000" visible="false"/>
 			<lib:AlertLabel id="iAlert" font_size="40" glow_color="0x000000" text_color="0xFFFFFF" text_label="" effectEnd="this.iAlertContainer.visible=false"/>
 		</s:VGroup>

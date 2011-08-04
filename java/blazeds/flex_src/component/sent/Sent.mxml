@@ -253,7 +253,7 @@
 					</s:Group>
 				</s:HGroup>
 				
-				<mx:DataGrid id="dgGroup" styleName="addrDg" width="675" height="370" draggableColumns="false" resizableColumns="false" verticalGridLines="false">
+				<mx:DataGrid id="dgGroup" styleName="addrDg" width="675" height="370" draggableColumns="false" resizableColumns="false" verticalGridLines="false" dropShadowVisible="true">
 					<mx:columns>
 						<mx:DataGridColumn headerText="번호" sortable="false" labelFunction="fnLabel" width="50"></mx:DataGridColumn>
 						<!--<mx:DataGridColumn dataField="tranType" headerText="형식" width="50"></mx:DataGridColumn>-->
@@ -264,7 +264,7 @@
 						<mx:DataGridColumn headerText="" width="100"  sortable="false" itemRenderer="component.sent.DeleteRenderer" />
 					</mx:columns>
 				</mx:DataGrid>
-				<mx:DataGrid id="dg" styleName="addrDg" visible="false" width="675" height="0" draggableColumns="false" resizableColumns="false" verticalGridLines="false">
+				<mx:DataGrid id="dg" styleName="addrDg" visible="false" width="675" height="0" draggableColumns="false" resizableColumns="false" verticalGridLines="false" dropShadowVisible="true">
 					<mx:columns>
 						<mx:DataGridColumn headerText="번호" sortable="false" width="50" labelFunction="fnLabelDetail"></mx:DataGridColumn>
 						<mx:DataGridColumn dataField="phone" headerText="전화번호"></mx:DataGridColumn>
