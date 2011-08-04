@@ -87,9 +87,9 @@
 			</s:fill>
 		</s:Rect>
 		<s:Group id="disclosureGroup">
-			<s:BitmapImage source="{treeListData.disclosureIcon}" visible="{treeListData.hasChildren}" />
+			<s:BitmapImage source="{treeListData.disclosureIcon}" />
 		</s:Group>
-		<s:BitmapImage source="{treeListData.icon}" />
+		
 		<s:Label id="labelField" width="100" text="{treeListData.label}" paddingTop="2"/>
 		<s:Label width="100" text="{phoneFomat(data.attribute('phone'))}" paddingTop="2"/>
 		<s:Label width="50" text="{data.attribute('memo')}" paddingTop="2"/>

@@ -21,7 +21,7 @@
       @productversion Flex 4
 -->
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
-    xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabled="0.5" width="800" height="370">
+    xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabled="0.5" width="100%" height="100%">
 
     <fx:Metadata>
     <![CDATA[ 
@@ -38,7 +38,7 @@
     </s:states>
     
     <!--- Defines the appearance of the SkinnableContainer class's background. -->
-    <s:BitmapImage source="assets/images/iframeBackgrounds.png" width="800" height="370" left="0" />
+    <s:BitmapImage source="assets/images/iframeBackgrounds.png" width="100%" height="100%" left="0" />
     
     <!--
         Note: setting the minimum size to 0 here so that changes to the host component's

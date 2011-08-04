@@ -25,7 +25,6 @@
 			public function creationCompleteHandler():void
 			{
 				if (!parentApplication.bLogin) {
-					parentApplication.tn.selectedIndex=0;
 					SLibrary.alert("로그인 후 이용 가능합니다.");
 					return;
 				}
@@ -155,21 +154,22 @@
 			</s:HGroup>
 			
 		</s:Panel>
-		<s:Panel width="100%" id="accountPanel" height="300" skinClass="skin.BillingPannerSkin" title="2. 결제 금액">
+		<s:Panel width="100%" id="accountPanel" height="325" skinClass="skin.BillingPannerSkin" title="2. 결제 금액">
 			<s:HGroup id="chargeRadioLabel" visible="false" paddingTop="5" paddingLeft="25" paddingRight="25" paddingBottom="5" width="100%" gap="40" verticalAlign="middle">
 				<s:Label color="#93DAFF" text="{ SLibrary.addComma( String( Number(chargeAccount.selectedValue) + (Number(chargeAccount.selectedValue) * 0.1) ) )+' 원'} " fontSize="16" fontWeight="bold" />
-				<s:Group buttonMode="true" useHandCursor="true" click="accountPanel.height = 300;chargeAccount.selectedValue = null; chargeRadio.visible=true; chargeRadioLabel.visible=false;">
+				<s:Group buttonMode="true" useHandCursor="true" click="accountPanel.height = 325;chargeAccount.selectedValue = null; chargeRadio.visible=true; chargeRadioLabel.visible=false;bCharge = false;">
 					<s:BitmapImage source="@Embed(source='assets/billing_resel.png')"/>
 				</s:Group>
 			</s:HGroup>
 			<s:VGroup id="chargeRadio" gap="0" paddingBottom="5" paddingLeft="25" paddingRight="25"
-					  paddingTop="5">
-				<s:HGroup paddingTop="4" paddingBottom="4" >
-					<s:Label text="선택" width="50" />
-					<s:Label text="발송건/포인트" width="132" textAlign="center" />
-					<s:Label text="적립금" width="132" textAlign="center" />
-					<s:Label text="금액" width="132" textAlign="center" />
-					<s:Label text="단가" width="132" textAlign="center" />
+					  paddingTop="10">
+				<s:Rect width="100%" height="2"><s:fill><s:SolidColor color="0xe80500" /></s:fill></s:Rect>
+				<s:HGroup paddingTop="8" paddingBottom="8" >
+					<s:Label text="선택" width="50" fontWeight="bold" />
+					<s:Label text="발송건/포인트" width="132" textAlign="center"  fontWeight="bold"/>
+					<s:Label text="적립금" width="132" textAlign="center" fontWeight="bold" />
+					<s:Label text="금액" width="132" textAlign="center" fontWeight="bold" />
+					<s:Label text="단가" width="132" textAlign="center" fontWeight="bold" />
 				</s:HGroup>
 				<s:Rect width="100%" height="2" >
 					<s:fill>
@@ -177,7 +177,7 @@
 					</s:fill>
 				</s:Rect>
 				
-				<s:Scroller width="100%" height="220" minWidth="0" minHeight="0">
+				<s:Scroller width="100%" height="240" minWidth="0" minHeight="0">
 					<s:VGroup width="100%" gap="0">
 
 						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" >
@@ -188,7 +188,7 @@
 							<s:Label text="12원/건" width="132" textAlign="center" />
 						</s:SkinnableContainer>
 						
-						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
+						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" backgroundColor="0xefefef">
 							<s:RadioButton id="b5700" chromeColor="#cccccc" width="50" value="5700" groupName="chargeAccount" />
 							<s:Label text="475건/포인트" width="132" textAlign="center" />
 							<s:Label text="57원" width="132" textAlign="center" />
@@ -204,7 +204,7 @@
 							<s:Label text="12원/건" width="132" textAlign="center" />
 						</s:SkinnableContainer>
 						
-						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
+						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" backgroundColor="0xefefef">
 							<s:RadioButton id="b17000" chromeColor="#cccccc" width="50" value="17000" groupName="chargeAccount" />
 							<s:Label text="1,416건/포인트" width="132" textAlign="center" />
 							<s:Label text="170원" width="132" textAlign="center" />
@@ -220,7 +220,7 @@
 							<s:Label text="12원/건" width="132" textAlign="center" />
 						</s:SkinnableContainer>
 						
-						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
+						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" backgroundColor="0xefefef">
 							<s:RadioButton id="b46500" chromeColor="#cccccc" width="50" value="46500" groupName="chargeAccount" />
 							<s:Label text="3,875건/포인트" width="132" textAlign="center" />
 							<s:Label text="465원" width="132" textAlign="center" />
@@ -236,7 +236,7 @@
 							<s:Label text="12원/건" width="132" textAlign="center" />
 						</s:SkinnableContainer>
 						
-						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
+						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" backgroundColor="0xefefef">
 							<s:RadioButton id="b139000" chromeColor="#cccccc" width="50" value="139000" groupName="chargeAccount" />
 							<s:Label text="11,583건/포인트" width="132" textAlign="center" />
 							<s:Label text="1,390원" width="132" textAlign="center" />
@@ -251,7 +251,7 @@
 							<s:Label text="260,000원" width="132" textAlign="center" />
 							<s:Label text="12원/건" width="132" textAlign="center" />
 						</s:SkinnableContainer>
-						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
+						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" backgroundColor="0xefefef">
 							<s:RadioButton id="b375000" chromeColor="#cccccc" width="50" value="375000" groupName="chargeAccount" />
 							<s:Label text="31,250건/포인트" width="132" textAlign="center" />
 							<s:Label text="3,750원" width="132" textAlign="center" />
@@ -267,7 +267,7 @@
 							<s:Label text="12원/건" width="132" textAlign="center" />
 						</s:SkinnableContainer>
 						
-						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
+						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" backgroundColor="0xefefef">
 							<s:RadioButton id="b1150000" chromeColor="#cccccc" width="50" value="1150000" groupName="chargeAccount" />
 							<s:Label text="100,000건/포인트" width="132" textAlign="center" />
 							<s:Label text="11,500원" width="132" textAlign="center" />
@@ -283,7 +283,7 @@
 							<s:Label text="11원/건" width="132" textAlign="center" />
 						</s:SkinnableContainer>
 						
-						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
+						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" backgroundColor="0xefefef">
 							<s:RadioButton id="b5350000" chromeColor="#cccccc" width="50" value="5350000" groupName="chargeAccount" />
 							<s:Label text="500,000건/포인트" width="132" textAlign="center" />
 							<s:Label text="53,500원" width="132" textAlign="center" />
