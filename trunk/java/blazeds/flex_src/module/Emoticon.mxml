@@ -118,7 +118,12 @@
 			{
 				currPage = 0;
 				var ac:ArrayCollection = category.dataProvider as ArrayCollection;
-				currCate = ac.getItemAt( category.selectedIndex ) as String;
+				
+				if ( category.selectedIndex >= 0) 
+					currCate = ac.getItemAt( category.selectedIndex ) as String;
+				else
+					currCate = "";
+				
 				ro.method.getEmotiCate(currGubun, currCate, currPage);
 			}
 			
@@ -162,7 +167,7 @@
 				</s:HGroup>
 				<s:HGroup left="10" right="10" fontSize="12" gap="5" horizontalAlign="center" paddingTop="10" verticalAlign="middle">
 					
-					<s:Group width="20" height="31"  buttonMode="true" useHandCursor="true" click="{nextPage();ro.method.getEmotiCate(currGubun, currCate, currPage);}">
+					<s:Group width="20" height="31"  buttonMode="true" useHandCursor="true" click="{prePage();ro.method.getEmotiCate(currGubun, currCate, currPage);}">
 						<s:BitmapImage left="3" source="@Embed(source='assets/pre_emt.png')"/>	
 					</s:Group>
 					

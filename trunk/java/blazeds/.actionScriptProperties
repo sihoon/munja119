@@ -38,6 +38,7 @@
     <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Emoticon.swf" optimize="true" sourcePath="flex_src/admin/module/Emoticon.mxml"/>
     <module application="flex_src/flex.mxml" destPath="module/CostInfo.swf" optimize="true" sourcePath="flex_src/module/CostInfo.mxml"/>
     <module application="flex_src/flex.mxml" destPath="module/Join.swf" optimize="true" sourcePath="flex_src/module/Join.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/EmoticonCate.swf" optimize="true" sourcePath="flex_src/admin/module/EmoticonCate.mxml"/>
   </modules>
   <buildCSSFiles/>
   <flashCatalyst validateFlashCatalystCompatibility="false"/>

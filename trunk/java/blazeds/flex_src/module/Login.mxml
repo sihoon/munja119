@@ -26,14 +26,20 @@
 			private var RO_DESTINATION:String = "WEB";
 			private var ro:RO = new RO();
 			
+			[Bindable]
+			private var userName:String = "";
+			
+			[Bindable]
+			private var point:String = "0";
+			
 			public function loginOK(vo:UserInformationVO):void {
 				
 				this.setCurrentState( "userInfo" );
 				login.visible = false;
 				loginInfo.visible = true;
 				
-				login_info.text = vo.user_name;
-				point.text = SLibrary.addComma( vo.point );
+				userName = vo.user_name;
+				point = SLibrary.addComma( vo.point );
 				
 				parentApplication.allTabInit();
 			}
@@ -125,11 +131,17 @@
 				}
 			}
 			
+			
+			public function moveState(name:String):void {
+				currentState = name;
+			}
+			
 		]]>
 	</fx:Script>
 	<mx:states>
 		<s:State name="login"/>
 		<s:State name="userInfo"/>
+		<s:State name="userInfosub"/>
 	</mx:states>
 
 	<fx:Declarations>
@@ -148,10 +160,10 @@
 				</s:Group>
 			</s:HGroup>
 			<s:HGroup>
-				<s:Group id="idsearch_button" click="join_button_clickHandler(event)" buttonMode="true" useHandCursor="true">
+				<s:Group id="idsearch_button" click="{ExternalInterface.call('alert','준비중입니다.')}" buttonMode="true" useHandCursor="true">
 					<s:BitmapImage source="@Embed(source='assets/search_id.png')" />
 				</s:Group>
-				<s:Group id="join_button" click="join_button_clickHandler(event)" buttonMode="true" useHandCursor="true">
+				<s:Group id="join_button" click="{parentApplication.moveMenuNoLogin('module/Join.swf')}" buttonMode="true" useHandCursor="true">
 					<s:BitmapImage source="@Embed(source='assets/joint.png')" />
 				</s:Group>	
 			</s:HGroup>
@@ -160,15 +172,28 @@
 		</s:VGroup>
 		<s:VGroup id="loginInfo" top="4" verticalAlign="middle" includeIn="userInfo">
 			<s:HGroup>
-				<s:Label id="login_info" fontSize="12" color="0x1377d4" fontWeight="bold" /><s:Label fontSize="12" text=" 님 안녕하세요." />
+				<s:Label text="{userName}" fontSize="12" color="0x1377d4" fontWeight="bold" /><s:Label fontSize="12" text=" 님 안녕하세요." />
 			</s:HGroup>
 			<s:HGroup verticalAlign="middle">
 				<s:Label text="사용가능건수 : " fontSize="12" />
-				<s:Label id="point" fontWeight="bold" fontSize="12" />
+				<s:Label text="{point}" fontWeight="bold" fontSize="12" />
 				<s:Label text=" 건" fontSize="12" />
 				<s:Button label="충전" />
 			</s:HGroup>
 			<s:Button id="logout_button" label="로그아웃" click="logout_button_clickHandler(event)"/>
+		</s:VGroup>
+		
+		<s:VGroup id="loginInfoSub" top="4" verticalAlign="middle" includeIn="userInfosub">
+			<s:HGroup>
+				<s:Label text="{userName}" fontSize="12" color="0x1377d4" fontWeight="bold" /><s:Label fontSize="12" text=" 님 안녕하세요." />
+			</s:HGroup>
+			<s:HGroup verticalAlign="middle">
+				<s:Label text="사용가능건수 : " fontSize="12" />
+				<s:Label text="{point}" fontWeight="bold" fontSize="12" />
+				<s:Label text=" 건" fontSize="12" />
+				<s:Button label="충전" />
+			</s:HGroup>
+			<s:Button label="로그아웃" click="logout_button_clickHandler(event)"/>
 		</s:VGroup>
 	</s:Group>
 	
