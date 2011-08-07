@@ -640,6 +640,55 @@ public class Admin extends SessionManagement {
 		return arr;
 	}
 	
+	public String[] getEmotiAdmin(String Gubun, String category, int page) {
+		
+
+		Connection conn = null;
+		ArrayList<HashMap<String, String>> al = null;
+		String [] arr = null;
+		
+		int alCount = 0;
+		
+		int count = 20;
+		int from = 0;
+		
+		try {
+			
+			conn = VbyP.getDB();
+			
+			if (page == 0) page = 1;
+			from = count * (page -1);
+			
+			VbyP.accessLog(" >>  관리자 이모티콘 요청("+Gubun+"/"+category+") "+Integer.toString(from));
+			
+			StringBuffer buf = new StringBuffer();
+			buf.append(VbyP.getSQL("adminEmoticonCate"));
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, buf.toString() );
+			pq.setString(1, Gubun);
+			pq.setString(2, "%"+category+"%");
+			pq.setInt(3, from);
+			pq.setInt(4, count);
+			
+			al = pq.ExecuteQueryArrayList();
+			alCount = al.size();
+			HashMap<String, String> hm = null;
+			arr = new String[alCount];
+			
+			for (int i = 0; i < alCount; i++) {
+				hm = al.get(i);
+				arr[i] = SLibrary.padL(hm.get("idx"),7, "0")+hm.get("msg");
+			}
+			
+			
+		}catch (Exception e) {}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getEmoti >> conn.close() Exception!"); }
+		}
+		
+		return arr;
+	}
+	
 	
 	public void updateEmoti(int idx, String msg) {
 		
@@ -713,6 +762,33 @@ public class Admin extends SessionManagement {
 			}catch (Exception e) {}	finally {			
 				try { if ( conn != null ) conn.close();
 				}catch(SQLException e) { VbyP.errorLog("addEmoti >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
+	
+	public void addEmotiCate(String gubun, String cate, String msg) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 이모티콘 추가 "+gubun+"/"+cate+" "+msg);
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminEmoticonInsertCate"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setString(1, gubun);
+				pq.setString(2, cate);
+				pq.setString(3, msg);
+				pq.executeUpdate();
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("addEmotiCate >> conn.close() Exception!"); }
 			}
 		}
 		

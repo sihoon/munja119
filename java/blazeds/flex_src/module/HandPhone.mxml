@@ -184,7 +184,7 @@
 		<s:BitmapImage source="@Embed('/assets/phone_bg.png')" />
 		<s:VGroup left="20" top="42" gap="2">
 			<handphone:ReadMe id="cReadMe"/>
-			<handphone:Message id="cMessage" alert="message1_alertHandler(event)" validValue="validHandler(event)"/>
+			<handphone:Message id="cMessage" width="100%" alert="message1_alertHandler(event)" validValue="validHandler(event)"/>
 			<s:BitmapImage source="@Embed('/assets/underbar.png')" />
 			<handphone:ReturnPhone  id="cReturnPhone" validValue="validHandler(event)"/>
 			<s:BitmapImage source="@Embed('/assets/underbar.png')" />
