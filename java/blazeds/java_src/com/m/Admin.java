@@ -689,6 +689,45 @@ public class Admin extends SessionManagement {
 		return arr;
 	}
 	
+	public ArrayList<HashMap<String, String>> getEmotiAdminHm(String Gubun, String category, int page) {
+		
+
+		Connection conn = null;
+		ArrayList<HashMap<String, String>> al = null;
+
+		int count = 20;
+		int from = 0;
+		
+		try {
+			
+			conn = VbyP.getDB();
+			
+			if (page == 0) page = 1;
+			from = count * (page -1);
+			
+			VbyP.accessLog(" >>  관리자 이모티콘 요청("+Gubun+"/"+category+") "+Integer.toString(from));
+			
+			StringBuffer buf = new StringBuffer();
+			buf.append(VbyP.getSQL("adminEmoticonCate"));
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, buf.toString() );
+			pq.setString(1, Gubun);
+			pq.setString(2, category+"%");
+			pq.setInt(3, from);
+			pq.setInt(4, count);
+			
+			al = pq.ExecuteQueryArrayList();
+			
+			
+			
+		}catch (Exception e) {}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getEmoti >> conn.close() Exception!"); }
+		}
+		
+		return al;
+	}
+	
 	
 	public void updateEmoti(int idx, String msg) {
 		
@@ -711,6 +750,34 @@ public class Admin extends SessionManagement {
 			}catch (Exception e) {}	finally {			
 				try { if ( conn != null ) conn.close();
 				}catch(SQLException e) { VbyP.errorLog("updateEmoti >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
+	
+	public void updateEmotiCate(int idx, String gubun, String category, String msg) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 이모티콘 업데이트 "+Integer.toString(idx));
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminEmoticonUpdate2"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setString(1, gubun);
+				pq.setString(2, category);
+				pq.setString(3, msg);
+				pq.setInt(4, idx);
+				pq.executeUpdate();
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("updateEmotiCate >> conn.close() Exception!"); }
 			}
 		}
 		
