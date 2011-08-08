@@ -8,13 +8,15 @@
 		
 		.dg
 		{
+			/*
 			headerBackgroundSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_headerBackgroundSkin");
 			columnDropIndicatorSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_columnDropIndicatorSkin");
 			columnResizeSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_columnResizeSkin");
 			headerSeparatorSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_headerSeparatorSkin");
 			sortArrowSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_sortArrowSkin");
 			stretchCursor: Embed(source="assets/flex_skins.swf",symbol="DataGrid_stretchCursor");
-			alternatingItemColors: #464646, #4f4f4f;
+			*/
+			alternatingItemColors: #4f4f4f, #4f4f4f;
 			verticalGridLineColor: #464646;
 			roll-over-color: #666666;
 			selection-color: #333333;
@@ -113,8 +115,8 @@
 		<s:Button id="addPhoneButton" width="30" label="+" click="addPhoneButton_clickHandler(event)"/>
 	</s:HGroup>
 	<s:BitmapImage source="@Embed('/assets/underbar.png')" />
-	<mx:DataGrid id="sendDG" width="100%" height="90" borderColor="0x000000" dataProvider="{al}"
-				 showHeaders="false" styleName="dg">
+	<mx:DataGrid id="sendDG" width="100%" height="90" borderVisible="false" dataProvider="{al}" selectable="false" color="0xffffff"
+				 showHeaders="false" styleName="dg" horizontalSeparatorSkin="@Embed('/assets/underbar.png')" verticalGridLines="false" horizontalGridLines="true">
 		<mx:columns>
 				<mx:DataGridColumn  headerText="이름" dataField="phoneName" width="60"></mx:DataGridColumn>
 				<mx:DataGridColumn  headerText="전화번호" labelFunction="phoneFomat" dataField="phoneNumber"></mx:DataGridColumn>

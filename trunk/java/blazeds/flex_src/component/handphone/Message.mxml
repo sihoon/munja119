@@ -46,7 +46,14 @@
 			public function setMessage(message:String):void{ 
 
 				IMessage.text = message;
+				
 				IMessage_ByteCheck();
+				if (bLimitMessage()) {
+					setMessage(cutLimitMessage());
+					ExternalInterface.call ("alert", String(this.maxByte)+" byte 이상 메시지가 삭제 되었습니다.");
+				} else {
+					dispatchEvent(new CustomEvent("validValue", null));
+				}
 			}
 			
 			public function setMessageAdd(message:String):void{
