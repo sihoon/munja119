@@ -14,6 +14,8 @@ import com.m.common.PointManager;
 import com.m.member.MemberVO;
 import com.m.member.SessionManagement;
 import com.m.member.UserInformationVO;
+import com.m.notic.NoticDAO;
+import com.m.notic.NoticVO;
 
 public class Admin extends SessionManagement {
 
@@ -859,5 +861,77 @@ public class Admin extends SessionManagement {
 			}
 		}
 		
+	}
+	
+public int insertNotic(NoticVO vo) {
+		
+		Connection conn = null;
+		NoticDAO nd = null;
+		int rslt = 0;
+		
+		try {
+			
+			nd = new NoticDAO();
+			conn = VbyP.getDB();
+			
+			VbyP.accessLog(" >>  공지사항 추가 요청");
+			
+			rslt = nd.insert(conn, vo);
+			
+		}catch (Exception e) {}	
+		finally {
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("insertNotic >> conn.close() Exception!"); }
+		}
+		
+		return rslt;
+	}
+	
+	public int modifyNotic(NoticVO vo) {
+		
+		Connection conn = null;
+		NoticDAO nd = null;
+		int rslt = 0;
+		
+		try {
+			
+			nd = new NoticDAO();
+			conn = VbyP.getDB();
+			
+			VbyP.accessLog(" >>  공지사항 수정 요청");
+			
+			rslt = nd.modify(conn, vo);
+			
+		}catch (Exception e) {}	
+		finally {
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("modifyNotic >> conn.close() Exception!"); }
+		}
+		
+		return rslt;
+	}
+	
+	public int deleteNotic(int idx) {
+		
+		Connection conn = null;
+		NoticDAO nd = null;
+		int rslt = 0;
+		
+		try {
+			
+			nd = new NoticDAO();
+			conn = VbyP.getDB();
+			
+			VbyP.accessLog(" >>  공지사항 삭제 요청");
+			
+			rslt = nd.delete(conn, idx);
+			
+		}catch (Exception e) {}	
+		finally {
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("deleteNotic >> conn.close() Exception!"); }
+		}
+		
+		return rslt;
 	}
 }

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" width="674" height="450">
+	<fx:Script>
+		<![CDATA[
+			import component.notic.NoticVO;
+			
+			import flashx.textLayout.conversion.TextConverter;
+			
+			import lib.RO;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			private var ro:RO = new RO();
+			private var RO_DESTINATION:String = "WEB";
+			
+			[Bindable] private var dgAc:ArrayCollection = null;
+			
+			
+			
+			protected function datagrid1_creationCompleteHandler(event:FlexEvent):void
+			{
+				ro.set(RO_DESTINATION, notic_ResultEventHandler);
+				ro.method.getNotic();
+			}
+			
+			private function notic_ResultEventHandler(event:ResultEvent):void {
+				
+				var ac:ArrayCollection = event.result as ArrayCollection;
+				this.dgAc = ac;
+				
+				
+				// 메인에서 넘어온 값있을 경우 보기
+				callLater(view_notic);
+			}
+			
+			private function view_notic():void {
+				
+				// 메인에서 넘어온 값있을 경우 보기
+				var idx:int = 0;
+				if (parentApplication.noticIdx != 0) {
+					
+					idx = parentApplication.noticIdx as int;
+					parentApplication.noticIdx = 0;
+				
+				
+					var cnt:int = dgAc.length;
+					var vo:NoticVO = null;
+					var rslt:int = 0;
+					
+					for (var i:int=0; i < cnt; i++) {
+						
+						vo = dgAc.getItemAt(i) as NoticVO;
+						if (idx == vo.idx){
+							rslt = i;
+							break;
+						}
+					}
+					selectView(rslt);
+				}
+			
+			}
+			
+			private function fnLabel(item:Object, column:GridColumn):String {
+				return (dgAc.getItemIndex(item) + 1).toString();
+			}
+			
+			private function fnDate(item:Object, column:GridColumn):String {
+				return item.timeWrite.substr(0,10);
+			}
+			
+			[Bindable] private var _sHtml:String = "";
+			
+			protected function list_clickHandler(event:MouseEvent):void
+			{
+				listBox.percentHeight=50;
+				contextBox.visible = true;
+				contextBox.percentHeight=50;
+				
+				
+				var vo:NoticVO = dgAc.getItemAt( list.selectedIndex ) as NoticVO;
+				
+				this.cTitle.text = vo.title;
+				this.cWriter.text = vo.writer;
+				this.cDate.text = vo.timeWrite;
+				_sHtml = vo.content;
+				
+				ro.set(RO_DESTINATION, cntUpdate_ResultEventHandler);
+				ro.method.updateCntNotic(vo.idx);
+			}
+			
+			protected function preNextclickHandler(next:int):void
+			{
+				if (list.selectedIndex + next > 0 && list.selectedIndex + next < dgAc.length)
+					list.selectedIndex = list.selectedIndex + next;
+				
+				var vo:NoticVO = dgAc.getItemAt( list.selectedIndex ) as NoticVO;
+				
+				this.cTitle.text = vo.title;
+				this.cWriter.text = vo.writer;
+				this.cDate.text = vo.timeWrite;
+				_sHtml = vo.content;
+				
+				ro.set(RO_DESTINATION, cntUpdate_ResultEventHandler);
+				ro.method.updateCntNotic(vo.idx);
+			}
+			
+			protected function selectView(next:int):void
+			{
+				if (next > 0 && next < dgAc.length)
+					list.selectedIndex = next;
+				
+				listBox.percentHeight=50;
+				contextBox.visible = true;
+				contextBox.percentHeight=50;
+				
+				var vo:NoticVO = dgAc.getItemAt( next ) as NoticVO;
+				
+				this.cTitle.text = vo.title;
+				this.cWriter.text = vo.writer;
+				this.cDate.text = vo.timeWrite;
+				_sHtml = vo.content;
+				
+				ro.set(RO_DESTINATION, cntUpdate_ResultEventHandler);
+				ro.method.updateCntNotic(vo.idx);
+			}
+			
+			private function cntUpdate_ResultEventHandler(event:ResultEvent):void {
+				
+			}
+			
+			protected function listClickHandler():void
+			{
+				listBox.percentHeight=100;
+				contextBox.visible = false;
+				contextBox.height=0;
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Group width="100%">
+		<s:BitmapImage left="10" source="@Embed(source='assets/notic_title.png')"/>
+		<s:Label top="4" right="0" text=" 홈 &gt; 공지사항"/>
+	</s:Group>
+	
+	<s:BitmapImage width="675" source="@Embed(source='assets/sub_title_under.png')" fillMode="scale"/>
+	
+	<s:VGroup width="675" height="100%" gap="10">
+		
+		<s:VGroup id="listBox" width="100%" height="100%" gap="0">
+			<s:BitmapImage width="675" source="@Embed(source='assets/notic_ti.png')" fillMode="scale"/>
+			<s:DataGrid id="list" requestedRowCount="4" width="100%" height="100%" creationComplete="datagrid1_creationCompleteHandler(event)" dataProvider="{dgAc}"
+						skinClass="component.notic.ListSkin" focusEnabled="false" selectionMode="singleRow" click="list_clickHandler(event)">
+				<s:columns>
+					<s:ArrayList>
+						<s:GridColumn headerText="번호" width="50" labelFunction="fnLabel"></s:GridColumn>
+						<s:GridColumn dataField="title" width="450" headerText="제목"></s:GridColumn>
+						<s:GridColumn dataField="timeWrite" width="120" headerText="등록일" labelFunction="fnDate"></s:GridColumn>
+						<s:GridColumn dataField="cnt" headerText="조회수" ></s:GridColumn>
+					</s:ArrayList>
+				</s:columns>
+			</s:DataGrid>
+			<s:Rect width="100%" height="2"><s:fill><s:SolidColor color="0xe80500" /></s:fill></s:Rect>
+		</s:VGroup>
+		
+		<s:VGroup id="contextBox" width="100%" height="0" visible="false" gap="0">
+			<s:Rect width="100%" height="2"><s:fill><s:SolidColor color="0xe80500" /></s:fill></s:Rect>
+			
+			<s:HGroup height="20" verticalAlign="middle">
+				<s:Label fontWeight="bold" color="0xe80500" width="70" text="제목"/>
+				<s:Label fontWeight="bold" color="0xe80500" width="20" text="|"/>
+				<s:Label id="cTitle" color="0x333333" text=""/>
+			</s:HGroup>
+			<s:Rect width="100%" height="1"><s:fill><s:SolidColor color="0xeeeeee" /></s:fill></s:Rect>
+			
+			<s:Group height="20" width="100%">
+				<s:HGroup height="20" verticalAlign="middle" left="0">
+					<s:Label fontWeight="bold" color="0xe80500" width="70" text="글쓴이"/>
+					<s:Label fontWeight="bold" color="0xe80500" width="20" text="|"/>
+					<s:Label id="cWriter" color="0x333333" text=""/>	
+				</s:HGroup>
+				
+				<s:HGroup height="20" verticalAlign="middle" right="0">
+					<s:Label fontWeight="bold" color="0xe80500" width="70" text="등록일   |"/>
+					<s:Label id="cDate" color="0x333333" text=""/>	
+				</s:HGroup>
+				
+			</s:Group>
+			<s:Rect width="100%" height="1"><s:fill><s:SolidColor color="0xeeeeee" /></s:fill></s:Rect>
+			
+			<s:HGroup height="150" paddingTop="5">
+				<s:Label fontWeight="bold" color="0xe80500" width="70" text="내용"/>
+				<s:Label fontWeight="bold" color="0xe80500" width="20" text="|"/>
+				
+				<s:TextArea id="cContent" text="{_sHtml}" borderVisible="false" width="570" height="140" editable="false" skinClass="spark.skins.spark.TextAreaSkin" />
+				<!--<mx:Label id="cContent" width="100%" minHeight="150" color="0x333333" htmlText="{_sHtml}"/> -->	
+	
+				
+			</s:HGroup>
+			<s:Rect width="100%" height="1"><s:fill><s:SolidColor color="0xeeeeee" /></s:fill></s:Rect>
+			
+			<s:Group buttonMode="true" useHandCursor="true" click="preNextclickHandler(-1)" >
+				<s:BitmapImage source="@Embed(source='assets/notic_pre.png')"/>
+			</s:Group>
+			<s:Group buttonMode="true" useHandCursor="true" click="preNextclickHandler(1)" >
+				<s:BitmapImage source="@Embed(source='assets/notic_next.png')"/>
+			</s:Group>
+			
+			<s:Rect width="100%" height="1"><s:fill><s:SolidColor color="0xe80500" /></s:fill></s:Rect>
+			
+			<s:Group buttonMode="true" useHandCursor="true" click="listClickHandler()" >
+				<s:BitmapImage source="@Embed(source='assets/notic_listbtn.png')"/>
+			</s:Group>
+		</s:VGroup>
+		
+	</s:VGroup>
+</s:VGroup>

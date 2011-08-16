@@ -16,6 +16,12 @@
 		</properties>
 	</destination>
 	
+	<destination id="DS">
+		<properties>
+		<source>com.m.DS</source>
+		</properties>
+	</destination>
+	
 	<destination id="ADMIN">
 		<properties>
 		<source>com.m.Admin</source>

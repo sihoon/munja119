@@ -30,6 +30,8 @@ import com.m.mobile.LogVO;
 import com.m.mobile.PhoneListVO;
 import com.m.mobile.SMS;
 import com.m.mobile.SMSClientVO;
+import com.m.notic.NoticDAO;
+import com.m.notic.NoticVO;
 import com.m.sent.SentFactory;
 import com.m.sent.SentFactoryAble;
 import com.m.sent.SentGroupVO;
@@ -132,6 +134,9 @@ public class Web extends SessionManagement{
 			}catch(SQLException e) {
 				VbyP.errorLog("login >> conn.close() Exception!"); 
 			}
+			
+			conn = null;
+			
 		}
 		
 		return rvo;
@@ -174,6 +179,7 @@ public class Web extends SessionManagement{
 			}catch(SQLException e) {
 				VbyP.errorLog("getUserInformation >> conn.close() Exception!"); 
 			}
+			conn = null;
 		}
 		
 		return vo;
@@ -347,6 +353,8 @@ public class Web extends SessionManagement{
 			}catch(SQLException e) {
 				VbyP.errorLog("sendSMS >> finally conn.close() or connSMS.close() Exception!"+e.toString()); 
 			}
+			conn = null;
+			connSMS = null;
 		}
 		
 		VbyP.accessLog(user_id+" >> 전송 요청 결과 : "+rvo.getstrDescription());
@@ -437,6 +445,8 @@ public class Web extends SessionManagement{
 		}	finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("addGroup >> conn.close() Exception!"); }
+			
+			conn = null;
 		}
 		
 		return rvo;
@@ -465,6 +475,7 @@ public class Web extends SessionManagement{
 		finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("getAddressOfGroup >> conn.close() Exception!"); }
+			conn = null;
 		}
 		return buf.toString();
 	}
@@ -489,6 +500,7 @@ public class Web extends SessionManagement{
 		finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("getAddress >> conn.close() Exception!"); }
+			conn = null;
 		}
 		return al;
 	}
@@ -515,6 +527,7 @@ public class Web extends SessionManagement{
 		finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("getAddress >> conn.close() Exception!"); }
+			conn = null;
 		}
 		return al;
 	}
@@ -548,6 +561,7 @@ public class Web extends SessionManagement{
 		finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("getAddress >> conn.close() Exception!"); }
+			conn = null;
 		}
 		return buf.toString();
 	}
@@ -584,6 +598,7 @@ public class Web extends SessionManagement{
 		}	finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("addGroup >> conn.close() Exception!"); }
+			conn = null;
 		}
 		
 		return rvo;
@@ -617,6 +632,7 @@ public class Web extends SessionManagement{
 		}	finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("modifyGroup >> conn.close() Exception!"); }
+			conn = null;
 		}
 		
 		return rvo;
@@ -653,6 +669,7 @@ public class Web extends SessionManagement{
 		}	finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("addGroup >> conn.close() Exception!"); }
+			conn = null;
 		}
 		
 		return rvo;
@@ -695,6 +712,7 @@ public class Web extends SessionManagement{
 		}	finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("addGroup >> conn.close() Exception!"); }
+			conn = null;
 		}
 		
 		return rvo;
@@ -740,6 +758,7 @@ public class Web extends SessionManagement{
 		}	finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("addGroup >> conn.close() Exception!"); }
+			conn = null;
 		}
 		
 		return rvo;
@@ -773,6 +792,7 @@ public class Web extends SessionManagement{
 		}	finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("addGroup >> conn.close() Exception!"); }
+			conn = null;
 		}
 		
 		return rvo;
@@ -807,6 +827,7 @@ public class Web extends SessionManagement{
 		}	finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("setCash >> conn.close() Exception!"); }
+			conn = null;
 		}
 		
 		return rvo;
@@ -876,6 +897,7 @@ public class Web extends SessionManagement{
 		}	finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("addGroup >> conn.close() Exception!"); }
+			conn = null;
 		}
 		
 		return rvo;
@@ -902,6 +924,7 @@ public class Web extends SessionManagement{
 		finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("getAddressGroup >> conn.close() Exception!"); }
+			conn = null;
 		}
 		return arr;
 	}
@@ -933,6 +956,7 @@ public class Web extends SessionManagement{
 			}catch (Exception e) {}	finally {			
 				try { if ( conn != null ) conn.close();
 				}catch(SQLException e) { VbyP.errorLog("getSentGroupList >> conn.close() Exception!"); }
+				conn = null;
 			}
 		}
 		
@@ -962,6 +986,7 @@ public class Web extends SessionManagement{
 			}catch (Exception e) {}	finally {			
 				try { if ( connSMS != null ) connSMS.close();
 				}catch(SQLException e) { VbyP.errorLog("getSentGroupList >> conn.close() Exception!"); }
+				connSMS = null;
 			}
 		}
 		
@@ -993,6 +1018,7 @@ public class Web extends SessionManagement{
 			}catch (Exception e) {}	finally {			
 				try { if ( conn != null ) conn.close();
 				}catch(SQLException e) { VbyP.errorLog("getSentGroupList >> conn.close() Exception!"); }
+				conn = null;
 			}
 		}
 		
@@ -1042,6 +1068,8 @@ public class Web extends SessionManagement{
 				if ( conn != null ) conn.close();
 				if (connSMS != null) connSMS.close();
 			}catch(SQLException e) { VbyP.errorLog("cancelSentGroupList >> conn.close() Exception!"); }
+			conn = null;
+			connSMS = null;
 		}
 		return rvo;
 	}
@@ -1067,6 +1095,7 @@ public class Web extends SessionManagement{
 		}catch (Exception e) {}	finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("getHomeEmoti >> conn.close() Exception!"); }
+			conn = null;
 		}
 		
 		return arr;
@@ -1085,7 +1114,7 @@ public class Web extends SessionManagement{
 			
 			conn = VbyP.getDB();
 			
-			if (page == 0) page = 1;
+			page += 1;
 			from = count * (page -1);
 			
 			VbyP.accessLog(" >>  이모티콘 요청("+gubun+"/"+category+") "+Integer.toString(from));
@@ -1102,8 +1131,11 @@ public class Web extends SessionManagement{
 			arr = pq.ExecuteQuery();
 			
 		}catch (Exception e) {}	finally {			
-			try { if ( conn != null ) conn.close();
-			}catch(SQLException e) { VbyP.errorLog("getHomeEmotiCate >> conn.close() Exception!"); }
+			try { 
+				if ( conn != null ) 
+				conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getEmotiCate >> conn.close() Exception!"); }
+			conn = null;
 		}
 		
 		return arr;
@@ -1122,10 +1154,10 @@ public class Web extends SessionManagement{
 			
 			conn = VbyP.getDB();
 			
-			if (page == 0) page = 1;
+			page += 1;
 			from = count * (page -1);
 			
-			VbyP.accessLog(" >>  이모티콘 요청("+gubun+"/"+category+") "+Integer.toString(from));
+			VbyP.accessLog(" >>  홈 이모티콘 요청("+gubun+"/"+category+") "+Integer.toString(from));
 			
 			StringBuffer buf = new StringBuffer();
 			buf.append(VbyP.getSQL("homeEmotiCate"));
@@ -1139,8 +1171,11 @@ public class Web extends SessionManagement{
 			arr = pq.ExecuteQuery();
 			
 		}catch (Exception e) {}	finally {			
-			try { if ( conn != null ) conn.close();
+			try { 
+				if ( conn != null ) 
+					conn.close();
 			}catch(SQLException e) { VbyP.errorLog("getHomeEmotiCate >> conn.close() Exception!"); }
+			conn = null;
 		}
 		
 		return arr;
@@ -1177,11 +1212,94 @@ public class Web extends SessionManagement{
 		}catch (Exception e) {}	finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("getEmoti >> conn.close() Exception!"); }
+			conn = null;
 		}
 		
 		return arr;
 	}
 	
+	
+	
+	// DS
+	public ArrayList<NoticVO> getNotic() {
+		
+		Connection conn = null;
+		ArrayList<NoticVO> rslt = null;
+		NoticDAO nd = null;
+		
+		try {
+			
+			nd = new NoticDAO();
+			conn = VbyP.getDB();
+			
+			VbyP.accessLog(" >>  공지사항 리스트 요청");
+			
+			rslt = nd.getList(conn);
+			
+		}catch (Exception e) {}	
+		finally {
+			try { 
+				if ( conn != null ) 
+					conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getNotic >> conn.close() Exception!"); }
+			conn = null;
+		}
+		
+		return rslt;
+	}
+	
+	public ArrayList<NoticVO> getNoticMain(int cnt) {
+		
+		Connection conn = null;
+		ArrayList<NoticVO> rslt = null;
+		NoticDAO nd = null;
+		
+		try {
+			
+			nd = new NoticDAO();
+			conn = VbyP.getDB();
+			
+			VbyP.accessLog(" >>  공지사항 리스트 요청(main)");
+			
+			rslt = nd.getList(conn,cnt);
+			
+		}catch (Exception e) {}	
+		finally {
+			try { 
+				if ( conn != null ) 
+					conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getNoticMain >> conn.close() Exception!"); }
+			conn = null;
+		}
+		
+		return rslt;
+	}
+	
+	
+	
+	public int updateCntNotic(int idx) {
+		
+		Connection conn = null;
+		NoticDAO nd = null;
+		int rslt = 0;
+		
+		try {
+			
+			nd = new NoticDAO();
+			conn = VbyP.getDB();
+			
+			VbyP.accessLog(" >>  공지사항 카운트 증가 요청");
+			
+			rslt = nd.updateCnt(conn, idx);
+			
+		}catch (Exception e) {}	
+		finally {
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("updateCntNotic >> conn.close() Exception!"); }
+		}
+		
+		return rslt;
+	}
 	
 	
 	
