@@ -1,5 +1,7 @@
 package lib
 {
+	import flash.external.ExternalInterface;
+	
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.remoting.RemoteObject;
@@ -29,7 +31,7 @@ package lib
 		private function remoteObjectFaultEventHandler(event:FaultEvent):void{
 			
 			trace(event.fault);
-			SLibrary.alert(event.fault.faultDetail);
+			ExternalInterface.call("alert",event.fault.faultDetail);
 		}
 		
 		public function get method():RemoteObject {

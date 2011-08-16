@@ -8,7 +8,7 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:Group useHandCursor="true" buttonMode="true" click="{parentApplication.moveMenu('module/Address.swf')}">
+	<s:Group useHandCursor="true" buttonMode="true" click="{parentApplication.currentState = 'main'}">
 		<s:BitmapImage source="@Embed('/assets/menu1.png')"  />
 	</s:Group>
 	<s:Group useHandCursor="true" buttonMode="true" click="{parentApplication.moveMenu('module/Address.swf')}">

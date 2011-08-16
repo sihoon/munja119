@@ -14,10 +14,15 @@
 		<![CDATA[
 			import component.member.Join;
 			import component.member.UserInformationVO;
+			import component.notic.NoticVO;
+			
+			import flash.net.navigateToURL;
 			
 			import lib.CustomEvent;
+			import lib.RO;
 			import lib.SLibrary;
 			
+			import mx.collections.ArrayCollection;
 			import mx.controls.ToolTip;
 			import mx.core.IFlexDisplayObject;
 			import mx.core.IUIComponent;
@@ -29,12 +34,16 @@
 			import mx.managers.ToolTipManager;
 			import mx.modules.IModuleInfo;
 			import mx.modules.ModuleManager;
+			import mx.rpc.events.ResultEvent;
 			
 			[Bindable]
 			public var bLogin:Boolean = false;
 			public var login_id:String = null;
 			private var modules:Array = null;
 			
+			private var ro:RO = new RO();
+			private var RO_DESTINATION:String = "WEB";
+			private var noticIdxArr:Array = new Array();
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
@@ -43,6 +52,34 @@
 				// 회원 가입 Window 띄우기
 				this.mlLogin.child.addEventListener("join", join_button_clickHandler);
 				this.mlLogin.child.addEventListener("login", loginCheckHandler);
+				
+			}
+			
+			public function notic():void {
+				// 공지사항
+				ro.set(RO_DESTINATION, notic_ResultEventHandler);
+				ro.method.getNoticMain(4);
+			}
+			
+			
+			
+			private function notic_ResultEventHandler(event:ResultEvent):void {
+				
+				var ac:ArrayCollection = event.result as ArrayCollection;
+				var vo:NoticVO = null;
+				
+				for (var i:int = 0; i < ac.length; i++) {
+					vo = ac.getItemAt(i) as NoticVO;
+					
+					if (i == 0)	{ notic0.text = "  "+vo.title+"  "+vo.timeWrite.substr(0,10); noticIdxArr.push(vo.idx);}
+					else if ( i == 1) { notic1.text = "  "+vo.title+"  "+vo.timeWrite.substr(0,10); noticIdxArr.push(vo.idx);}
+					else if ( i == 2) { notic2.text = "  "+vo.title+"  "+vo.timeWrite.substr(0,10); noticIdxArr.push(vo.idx);}
+					else if ( i == 3) { notic3.text = "  "+vo.title+"  "+vo.timeWrite.substr(0,10); noticIdxArr.push(vo.idx);}
+					else break;
+					
+				}
+				
+				
 			}
 			// 회원가입 Window
 			protected function join_button_clickHandler(event:MouseEvent):void
@@ -122,16 +159,6 @@
 			}
 			
 			
-			
-			/*
-			// 엑셀전송 초기화
-			public function excelInit():void {
-				if (this.mlExcelLoader != null) {
-					var obj:Object = this.mlExcelLoader.child;
-					obj.excelloader.init();
-				}
-			}
-			*/
 			// 사용자 건수 초기화
 			public function userInfoInit():void {
 				if (this.mlLogin != null) {
@@ -139,27 +166,7 @@
 					obj.creationCompleteHandler();
 				}
 			}
-			/*
-			// 전송내역 초기화
-			public function sentInit():void {
-				
-				if (this.mlSent != null ) {
-					var obj:Object = this.mlSent.child;
-					obj.sent.creationCompleteHandler();
-				}
-				
-			}
 			
-			// 결제하기 초기화
-			public function billingInit():void {
-				
-				if (this.mlBilling != null ) {
-					var obj:Object = this.mlBilling.child;
-					obj.billing.creationCompleteHandler();
-				}
-				
-			}
-			*/
 			public function allTabInit():void {
 				//addressInit();
 				//excelInit();
@@ -206,7 +213,35 @@
 				this.mlContext.url = url;
 				mlContext.loadModule();
 			}
-
+			
+			public function sendEmail():void {
+				var u:URLRequest = new URLRequest("mailto:munja119@qxl.co.kr");
+				
+				navigateToURL(u,"_self");
+			}
+			
+			// family site
+			[Bindable]public var cards:ArrayCollection = new ArrayCollection(
+				[ {label:"eXtreme PC", data:"http://www.extremepc.co.kr"}, 
+					{label:"NS이스토어", data:"http://www.nsestore.com"}, 
+					{label:"QXL", data:"http://www.nsestore.com"} ]);
+			
+			private function changeHandler(event:Event):void {
+				
+				var url:String = ComboBox(event.target).selectedItem.data;
+				
+				var u:URLRequest = new URLRequest(url);
+				navigateToURL(u,"_blank");
+			} 
+			
+			// 선택된 공지사항 인덱스
+			public var noticIdx:int = 0;
+			protected function notic_clickHandler(idx:int):void
+			{
+				noticIdx = noticIdxArr[idx];
+				moveMenuNoLogin('module/Notic.swf');
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -228,7 +263,7 @@
 		<s:Group buttonMode="true" useHandCursor="true" click="{moveMenuNoLogin('module/Join.swf')}">
 			<s:BitmapImage source="@Embed(source='assets/join_text.png')"/>
 		</s:Group>
-		<s:Group buttonMode="true" useHandCursor="true">
+		<s:Group buttonMode="true" useHandCursor="true" click="{sendEmail()}">
 			<s:BitmapImage source="@Embed(source='assets/email.png')"/>
 		</s:Group>
 	</s:HGroup>
@@ -264,7 +299,7 @@
 	
 	<s:VGroup>
 		<!-- 메인 -->
-		<s:Group width="1024" height="710" includeIn="main" depth="2" >
+		<s:Group width="1024" height="740" includeIn="main" depth="2" >
 			<s:BitmapImage y="43" right="15" source="@Embed(source='assets/costinfo.png')"/>
 			<s:Group x="696" y="150" buttonMode="true" useHandCursor="true" click="{moveMenuNoLogin('module/CostInfo.swf')}">
 				<s:BitmapImage source="@Embed(source='assets/view1.png')"/>
@@ -286,23 +321,24 @@
 					<s:BitmapImage source="@Embed(source='assets/soge.png')" />
 					<s:VGroup>
 						<s:BitmapImage source="@Embed(source='assets/notic_text.png')" />
-						<s:Label text="▶ 문자119가 새롭게 개편되었습니다.  2011-08-02" fontSize="11" />
-						<s:Label text="▶ 단가 이벤트가 진행됩니다.  2011-07-27" fontSize="11" />
-						<s:Label text="▶ 주소록 관리가 편해 졌습니다.  2011-07-24" fontSize="11" />
+						<s:Label id="notic0" text="" buttonMode="true" useHandCursor="true" click="notic_clickHandler(0)"  />
+						<s:Label id="notic1" text="" buttonMode="true" useHandCursor="true" click="notic_clickHandler(1)"  />
+						<s:Label id="notic2" text="" buttonMode="true" useHandCursor="true" click="notic_clickHandler(2)"  />
+						<s:Label id="notic3" text="" buttonMode="true" useHandCursor="true" click="notic_clickHandler(3)"  />
 						<s:HGroup>
 							<s:BitmapImage source="@Embed(source='assets/ask_no.png')" />	
 							<s:BitmapImage source="@Embed(source='assets/faq.png')" />	
 						</s:HGroup>
 					</s:VGroup>
 				</s:HGroup>
-				<s:Group x="460" y="12" height="15" buttonMode="true" useHandCursor="true" click="{ExternalInterface.call('alert','준비중입니다.')}">
+				<s:Group x="460" y="12" height="15" buttonMode="true" useHandCursor="true"  click="{moveMenuNoLogin('module/Sangpum.swf')}">
 					<s:BitmapImage source="@Embed(source='assets/sangpum_go.png')"/>
 				</s:Group>
 			</s:Group>
 		</s:Group>
 	
 		<!-- 서브페이지 -->
-		<s:Group width="1024" y="100" includeIn="sub" depth="2">
+		<s:Group width="1024" includeIn="sub" depth="2">
 			<s:layout>
 				<s:VerticalLayout horizontalAlign="right" paddingTop="80" gap="0"/>
 			</s:layout>
@@ -320,47 +356,22 @@
 		</s:Group>
 		
 		<!-- copy right -->
-		<s:VGroup width="1024" paddingTop="10" paddingLeft="80">
-			<s:HGroup paddingLeft="140">
-				<s:Group buttonMode="true" useHandCursor="true" click="{viewIframe('personal')}"><s:BitmapImage source="@Embed(source='assets/personal.png')" /></s:Group>	
-				<s:Group buttonMode="true" useHandCursor="true" click="{viewIframe('promise')}"><s:BitmapImage source="@Embed(source='assets/pramise.png')" /></s:Group>
-				<s:Group buttonMode="true" useHandCursor="true" click="{viewIframe('spam')}"><s:BitmapImage source="@Embed(source='assets/spamUntitled-3.png')" /></s:Group>
-			</s:HGroup>
-			<s:BitmapImage source="@Embed(source='assets/copy_right.png')" />
-		</s:VGroup>
+		<s:Group width="1024">
+			<s:ComboBox change="changeHandler(event);" color="0x000000" dataProvider="{cards}"
+						focusAlpha="0" focusEnabled="false" dropShadowVisible="true" rollOverColor="0xeeeeee" selectedIndex="0"
+						selectionColor="0xeeeeee" alpha="0.5"
+						x="860" y="5"/>
+			<s:VGroup width="1024" paddingTop="10" paddingLeft="80">
+				<s:HGroup paddingLeft="140">
+					<s:Group buttonMode="true" useHandCursor="true" click="{viewIframe('personal')}"><s:BitmapImage source="@Embed(source='assets/personal.png')" /></s:Group>	
+					<s:Group buttonMode="true" useHandCursor="true" click="{viewIframe('promise')}"><s:BitmapImage source="@Embed(source='assets/pramise.png')" /></s:Group>
+					<s:Group buttonMode="true" useHandCursor="true" click="{viewIframe('spam')}"><s:BitmapImage source="@Embed(source='assets/spamUntitled-3.png')" /></s:Group>
+				</s:HGroup>
+				<s:BitmapImage source="@Embed(source='assets/copy_right.png')" />
+			</s:VGroup>
+		</s:Group>
 	</s:VGroup>
 	
-	<!--
-	<s:Panel width="1024" minHeight="670" horizontalCenter="0" title="munja119.com"  top="40" visible="false">
-
-		<s:HGroup horizontalCenter="0" top="10">
-			
-			<mx:TabNavigator id="tn" width="720" minHeight="520" tabWidth="120" tabHeight="40" paddingBottom="10"
-							 paddingLeft="10" paddingRight="10" paddingTop="10" cornerRadius="4">
-				
-				
-				<s:NavigatorContent label="엑셀전송" icon="@Embed(source='assets/images/Excel.png')">
-					<mx:ModuleLoader id="mlExcelLoader" left="0" right="0" top="0" bottom="0" url="module/ExcelLoader.swf">
-						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
-					</mx:ModuleLoader>
-				</s:NavigatorContent>
-				
-				<s:NavigatorContent label="전송내역" icon="@Embed(source='assets/images/sent.png')">
-					<mx:ModuleLoader id="mlSent" left="0" right="0" top="0" bottom="0" url="module/Sent.swf">
-						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
-					</mx:ModuleLoader>
-				</s:NavigatorContent>
-				
-				<s:NavigatorContent label="결제하기" icon="@Embed(source='assets/images/billing.png')">
-					<mx:ModuleLoader id="mlBilling" left="0" right="0" top="0" bottom="0" url="module/Billing.swf">
-						<mx:unload><![CDATA[ if(parent != null){ parent.removeChild(this); } ]]></mx:unload>
-					</mx:ModuleLoader>
-				</s:NavigatorContent>
-			</mx:TabNavigator>
-		</s:HGroup>
-	</s:Panel>
-	-->
-
 	
 	<s:SkinnableContainer width="700" id="iframeContainer" depth="5" visible="false" skinClass="skin.IframeSkin" top="50" left="120">
 		<s:Button id="closeIframe" top="4" right="10" skinClass="skin.IframeCloseButton" width="46" height="46" click="this.iframeContainer.visible=false;iframe.visible=false;" />
