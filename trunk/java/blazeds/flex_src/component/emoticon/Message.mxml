@@ -16,5 +16,5 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:BitmapImage source="@Embed(source='assets/images/emoticon.jpg')" />
-	<s:Label id="label" color="#ffffff" left="5" right="5" top="5" bottom="5" height="99" text=""/>
+	<s:Label id="label" fontFamily="굴림체" color="#ffffff" left="5" right="5" top="5" bottom="5" height="99" text=""/>
 </s:Group>

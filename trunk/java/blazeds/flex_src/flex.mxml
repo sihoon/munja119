@@ -222,13 +222,13 @@
 			
 			// family site
 			[Bindable]public var cards:ArrayCollection = new ArrayCollection(
-				[ {label:"eXtreme PC", data:"http://www.extremepc.co.kr"}, 
+				[ 
 					{label:"NS이스토어", data:"http://www.nsestore.com"}, 
 					{label:"QXL", data:"http://www.nsestore.com"} ]);
-			
+			//{label:"eXtreme PC", data:"http://www.extremepc.co.kr"}, 
 			private function changeHandler(event:Event):void {
 				
-				var url:String = ComboBox(event.target).selectedItem.data;
+				var url:String = DropDownList(event.target).selectedItem.data;
 				
 				var u:URLRequest = new URLRequest(url);
 				navigateToURL(u,"_blank");
@@ -357,8 +357,8 @@
 		
 		<!-- copy right -->
 		<s:Group width="1024">
-			<s:ComboBox change="changeHandler(event);" color="0x000000" dataProvider="{cards}"
-						focusAlpha="0" focusEnabled="false" dropShadowVisible="true" rollOverColor="0xeeeeee" selectedIndex="0"
+			<s:DropDownList change="changeHandler(event);" color="0x000000" dataProvider="{cards}"
+						focusAlpha="0" focusEnabled="false" dropShadowVisible="true" rollOverColor="0xeeeeee" prompt="Family Site"
 						selectionColor="0xeeeeee" alpha="0.5"
 						x="860" y="5"/>
 			<s:VGroup width="1024" paddingTop="10" paddingLeft="80">
