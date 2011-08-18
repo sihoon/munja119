@@ -863,7 +863,33 @@ public class Admin extends SessionManagement {
 		
 	}
 	
-public int insertNotic(NoticVO vo) {
+	public ArrayList<NoticVO> getNotic() {
+		
+		Connection conn = null;
+		ArrayList<NoticVO> rslt = null;
+		NoticDAO nd = null;
+		
+		try {
+			
+			nd = new NoticDAO();
+			conn = VbyP.getDB();
+			
+			VbyP.accessLog(" >>  공지사항 리스트 요청");
+			
+			rslt = nd.getList(conn);
+			
+		}catch (Exception e) {}	
+		finally {
+			try { 
+				if ( conn != null ) 
+					conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getNotic >> conn.close() Exception!"); }
+		}
+		
+		return rslt;
+	}
+	
+	public int insertNotic(NoticVO vo) {
 		
 		Connection conn = null;
 		NoticDAO nd = null;
