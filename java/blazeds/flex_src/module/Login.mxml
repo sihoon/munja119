@@ -136,6 +136,11 @@
 				currentState = name;
 			}
 			
+			protected function charge_clickHandler(event:MouseEvent):void
+			{
+				parentApplication.moveMenu('module/Billing.swf');
+			}
+			
 		]]>
 	</fx:Script>
 	<mx:states>
@@ -178,7 +183,7 @@
 				<s:Label text="사용가능건수 : " fontSize="12" />
 				<s:Label text="{point}" fontWeight="bold" fontSize="12" />
 				<s:Label text=" 건" fontSize="12" />
-				<s:Button label="충전" />
+				<s:Button label="충전"  click="charge_clickHandler(event)" />
 			</s:HGroup>
 			<s:Button id="logout_button" label="로그아웃" click="logout_button_clickHandler(event)"/>
 		</s:VGroup>
@@ -191,7 +196,7 @@
 				<s:Label text="사용가능건수 : " fontSize="12" />
 				<s:Label text="{point}" fontWeight="bold" fontSize="12" />
 				<s:Label text=" 건" fontSize="12" />
-				<s:Button label="충전" click="{parentApplication.moveMenu('module/Billing.swf')}" />
+				<s:Button label="충전" click="charge_clickHandler(event)" />
 			</s:HGroup>
 			<s:Button label="로그아웃" click="logout_button_clickHandler(event)"/>
 		</s:VGroup>

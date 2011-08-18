@@ -29,11 +29,12 @@ s|TitleWindow
 s|TextInput
 {
 	skinClass: ClassReference('skin.TextInputSkin');
+	font-family:"±¼¸²Ã¼";
 }
 s|TextArea
 {
 	skinClass: ClassReference('skin.TextAreaSkin');
-	
+	font-family:"±¼¸²Ã¼";	
 }
 
 .addrDg {

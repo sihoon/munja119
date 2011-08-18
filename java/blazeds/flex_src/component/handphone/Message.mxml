@@ -123,7 +123,7 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:TextArea id="IMessage" height="115" width="100%" verticalScrollPolicy="off" enabled="{_enable}" color="0x000000" keyUp="IMessage_keyUpHandler(event)"></s:TextArea>
+	<s:TextArea id="IMessage" height="115" width="100%" fontFamily="굴림체" verticalScrollPolicy="off" enabled="{_enable}" color="0x000000" keyUp="IMessage_keyUpHandler(event)"></s:TextArea>
 	<s:Group width="100%">
 		<s:Group left="0" buttonMode="true" useHandCursor="true" click="clickHandler(event)" verticalCenter="0">
 			<s:BitmapImage source="@Embed('/assets/emoticon_button.png')" />
