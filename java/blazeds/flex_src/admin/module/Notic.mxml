@@ -19,8 +19,6 @@
 				
 				[Bindable] private var dgAc:ArrayCollection = null;
 				
-				
-				
 				protected function datagrid1_creationCompleteHandler():void
 				{
 					contextNewBox.visible = false;

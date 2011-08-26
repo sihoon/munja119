@@ -65,10 +65,9 @@
 			<s:Rect width="100%" height="2"><s:fill><s:SolidColor color="0xe80500" /></s:fill></s:Rect>
 			<s:HGroup paddingTop="8" paddingBottom="8" >
 				<s:Label text="선택" width="50" fontWeight="bold" />
-				<s:Label text="발송건/포인트" width="132" textAlign="center"  fontWeight="bold"/>
-				<s:Label text="적립금" width="132" textAlign="center" fontWeight="bold" />
-				<s:Label text="금액" width="132" textAlign="center" fontWeight="bold" />
-				<s:Label text="단가" width="132" textAlign="center" fontWeight="bold" />
+				<s:Label text="금액" width="176" textAlign="center" fontWeight="bold" />
+				<s:Label text="발송건/포인트" width="176" textAlign="center"  fontWeight="bold"/>
+				<s:Label text="단가" width="176" textAlign="center" fontWeight="bold" />
 			</s:HGroup>
 			<s:Rect width="100%" height="2" >
 				<s:fill>
@@ -80,115 +79,68 @@
 				<s:VGroup width="100%" gap="0">
 					
 					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" >
-						<s:RadioButton id="b2000" chromeColor="#cccccc" width="50" value="2000" groupName="chargeAccount" />
-						<s:Label text="166건/포인트" width="132" textAlign="center" />
-						<s:Label text="20원" width="132" textAlign="center" />
-						<s:Label text="2,000원" width="132" textAlign="center" />
-						<s:Label text="12원/건" width="132" textAlign="center" />
+						<s:RadioButton id="b5000" chromeColor="#cccccc" width="50" value="5000" groupName="chargeAccount" />
+						<s:Label text="5,000원" width="176" textAlign="center" />
+						<s:Label text="417건/포인트" width="176" textAlign="center" />
+						<s:Label text="12원/건" width="176" textAlign="center" />
+					</s:SkinnableContainer>
+					
+					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" >
+						<s:RadioButton id="b10000" chromeColor="#cccccc" width="50" value="10000" groupName="chargeAccount" />
+						<s:Label text="10,000원" width="176" textAlign="center" />
+						<s:Label text="833건/포인트" width="176" textAlign="center" />
+						<s:Label text="12원/건" width="176" textAlign="center" />
+					</s:SkinnableContainer>
+					
+					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" >
+						<s:RadioButton id="b30000" chromeColor="#cccccc" width="50" value="30000" groupName="chargeAccount" />
+						<s:Label text="30,000원" width="176" textAlign="center" />
+						<s:Label text="4,167건/포인트" width="176" textAlign="center" />
+						<s:Label text="12원/건" width="176" textAlign="center" />
+					</s:SkinnableContainer>
+					
+					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" >
+						<s:RadioButton id="b100000" chromeColor="#cccccc" width="50" value="100000" groupName="chargeAccount" />
+						<s:Label text="100,000원" width="176" textAlign="center" />
+						<s:Label text="8,333건/포인트" width="176" textAlign="center" />
+						<s:Label text="12원/건" width="176" textAlign="center" />
+					</s:SkinnableContainer>
+					
+					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" >
+						<s:RadioButton id="b300000" chromeColor="#cccccc" width="50" value="300000" groupName="chargeAccount" />
+						<s:Label text="300,000원" width="176" textAlign="center" />
+						<s:Label text="25,000건/포인트" width="176" textAlign="center" />
+						<s:Label text="12원/건" width="176" textAlign="center" />
+					</s:SkinnableContainer>
+					
+					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" >
+						<s:RadioButton id="b500000" chromeColor="#cccccc" width="50" value="500000" groupName="chargeAccount" />
+						<s:Label text="500,000원" width="176" textAlign="center" />
+						<s:Label text="41,667건/포인트" width="176" textAlign="center" />
+						<s:Label text="12원/건" width="176" textAlign="center" />
+					</s:SkinnableContainer>
+					
+					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" >
+						<s:RadioButton id="b1000000" chromeColor="#cccccc" width="50" value="1000000" groupName="chargeAccount" />
+						<s:Label text="1,000,000원" width="176" textAlign="center" />
+						<s:Label text="86,957건/포인트" width="176" textAlign="center" />
+						<s:Label text="12원/건" width="176" textAlign="center" />
+					</s:SkinnableContainer>
+					
+					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" >
+						<s:RadioButton id="b3000000" chromeColor="#cccccc" width="50" value="3000000" groupName="chargeAccount" />
+						<s:Label text="3,000,000원" width="176" textAlign="center" />
+						<s:Label text="272,727건/포인트" width="176" textAlign="center" />
+						<s:Label text="12원/건" width="176" textAlign="center" />
 					</s:SkinnableContainer>
 					
 					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" backgroundColor="0xefefef">
-						<s:RadioButton id="b5700" chromeColor="#cccccc" width="50" value="5700" groupName="chargeAccount" />
-						<s:Label text="475건/포인트" width="132" textAlign="center" />
-						<s:Label text="57원" width="132" textAlign="center" />
-						<s:Label text="5,700원" width="132" textAlign="center" />
-						<s:Label text="12원/건" width="132" textAlign="center" />
+						<s:RadioButton id="b5000000" chromeColor="#cccccc" width="50" value="5000000" groupName="chargeAccount" />
+						<s:Label text="5,000,000원" width="176" textAlign="center" />
+						<s:Label text="467,290건/포인트" width="176" textAlign="center" />
+						<s:Label text="12원/건" width="176" textAlign="center" />
 					</s:SkinnableContainer>
 					
-					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
-						<s:RadioButton id="b9000" chromeColor="#cccccc" width="50" value="9000" groupName="chargeAccount" />
-						<s:Label text="750건/포인트" width="132" textAlign="center" />
-						<s:Label text="90원" width="132" textAlign="center" />
-						<s:Label text="9,000원" width="132" textAlign="center" />
-						<s:Label text="12원/건" width="132" textAlign="center" />
-					</s:SkinnableContainer>
-					
-					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" backgroundColor="0xefefef">
-						<s:RadioButton id="b17000" chromeColor="#cccccc" width="50" value="17000" groupName="chargeAccount" />
-						<s:Label text="1,416건/포인트" width="132" textAlign="center" />
-						<s:Label text="170원" width="132" textAlign="center" />
-						<s:Label text="17,000원" width="132" textAlign="center" />
-						<s:Label text="12원/건" width="132" textAlign="center" />
-					</s:SkinnableContainer>
-					
-					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
-						<s:RadioButton id="b24600" chromeColor="#cccccc" width="50" value="24600" groupName="chargeAccount" />
-						<s:Label text="2,050건/포인트" width="132" textAlign="center" />
-						<s:Label text="246원" width="132" textAlign="center" />
-						<s:Label text="24,600원" width="132" textAlign="center" />
-						<s:Label text="12원/건" width="132" textAlign="center" />
-					</s:SkinnableContainer>
-					
-					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" backgroundColor="0xefefef">
-						<s:RadioButton id="b46500" chromeColor="#cccccc" width="50" value="46500" groupName="chargeAccount" />
-						<s:Label text="3,875건/포인트" width="132" textAlign="center" />
-						<s:Label text="465원" width="132" textAlign="center" />
-						<s:Label text="46,500원" width="132" textAlign="center" />
-						<s:Label text="12원/건" width="132" textAlign="center" />
-					</s:SkinnableContainer>
-					
-					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
-						<s:RadioButton id="b74000" chromeColor="#cccccc" width="50" value="74000" groupName="chargeAccount" />
-						<s:Label text="6,166건/포인트" width="132" textAlign="center" />
-						<s:Label text="740원" width="132" textAlign="center" />
-						<s:Label text="74,000원" width="132" textAlign="center" />
-						<s:Label text="12원/건" width="132" textAlign="center" />
-					</s:SkinnableContainer>
-					
-					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" backgroundColor="0xefefef">
-						<s:RadioButton id="b139000" chromeColor="#cccccc" width="50" value="139000" groupName="chargeAccount" />
-						<s:Label text="11,583건/포인트" width="132" textAlign="center" />
-						<s:Label text="1,390원" width="132" textAlign="center" />
-						<s:Label text="139,000원" width="132" textAlign="center" />
-						<s:Label text="12원/건" width="132" textAlign="center" />
-					</s:SkinnableContainer>
-					
-					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
-						<s:RadioButton id="b260000" chromeColor="#cccccc" width="50" value="260000" groupName="chargeAccount" />
-						<s:Label text="21,666건/포인트" width="132" textAlign="center" />
-						<s:Label text="2,600원" width="132" textAlign="center" />
-						<s:Label text="260,000원" width="132" textAlign="center" />
-						<s:Label text="12원/건" width="132" textAlign="center" />
-					</s:SkinnableContainer>
-					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" backgroundColor="0xefefef">
-						<s:RadioButton id="b375000" chromeColor="#cccccc" width="50" value="375000" groupName="chargeAccount" />
-						<s:Label text="31,250건/포인트" width="132" textAlign="center" />
-						<s:Label text="3,750원" width="132" textAlign="center" />
-						<s:Label text="375,000원" width="132" textAlign="center" />
-						<s:Label text="12원/건" width="132" textAlign="center" />
-					</s:SkinnableContainer>
-					
-					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
-						<s:RadioButton id="b600000" chromeColor="#cccccc" width="50" value="600000" groupName="chargeAccount" />
-						<s:Label text="50,000건/포인트" width="132" textAlign="center" />
-						<s:Label text="6,000원" width="132" textAlign="center" />
-						<s:Label text="600,000원" width="132" textAlign="center" />
-						<s:Label text="12원/건" width="132" textAlign="center" />
-					</s:SkinnableContainer>
-					
-					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" backgroundColor="0xefefef">
-						<s:RadioButton id="b1150000" chromeColor="#cccccc" width="50" value="1150000" groupName="chargeAccount" />
-						<s:Label text="100,000건/포인트" width="132" textAlign="center" />
-						<s:Label text="11,500원" width="132" textAlign="center" />
-						<s:Label text="1,150,000원" width="132" textAlign="center" />
-						<s:Label text="11.5원/건" width="132" textAlign="center" />
-					</s:SkinnableContainer>
-					
-					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin">
-						<s:RadioButton id="b3300000" chromeColor="#cccccc" width="50" value="3300000" groupName="chargeAccount" />
-						<s:Label text="300,000건/포인트" width="132" textAlign="center" />
-						<s:Label text="33,000원" width="132" textAlign="center" />
-						<s:Label text="3,300,000원" width="132" textAlign="center" />
-						<s:Label text="11원/건" width="132" textAlign="center" />
-					</s:SkinnableContainer>
-					
-					<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" backgroundColor="0xefefef">
-						<s:RadioButton id="b5350000" chromeColor="#cccccc" width="50" value="5350000" groupName="chargeAccount" />
-						<s:Label text="500,000건/포인트" width="132" textAlign="center" />
-						<s:Label text="53,500원" width="132" textAlign="center" />
-						<s:Label text="5,350,000원" width="132" textAlign="center" />
-						<s:Label text="10.7원/건" width="132" textAlign="center" />
-					</s:SkinnableContainer>
 				</s:VGroup>
 				
 			</s:Scroller>
