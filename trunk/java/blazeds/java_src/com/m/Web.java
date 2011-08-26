@@ -336,7 +336,7 @@ public class Web extends SessionManagement{
 				AdminSMS asms = AdminSMS.getInstance();
 				String tempMessage = ( SLibrary.getByte( message ) > 15 )? SLibrary.cutBytes(message, 20, true, "...") : message ;
 				asms.sendAdmin(conn, 
-						"M[대량발송]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"건\r\n" 
+						"[대량발송]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"건\r\n" 
 						+ tempMessage  );
 			}
 				
@@ -815,9 +815,13 @@ public class Web extends SessionManagement{
 			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
 			billing = Billing.getInstance();
 			
-			VbyP.accessLog(" >> 엑셀로더 주소록 저장 요청 "+ user_id);
+			VbyP.accessLog(" >> 무통장 예약 요청 "+ user_id);
 			
 			rvo = billing.setCash( conn , user_id, account, amount, method, reqname );
+			
+			AdminSMS asms = AdminSMS.getInstance();
+			String tempMessage = "[무통장예약] "+user_id+" , "+reqname+" , "+account+" , "+amount+" , "+method;
+			asms.sendAdmin(conn, tempMessage );
 			
 		}catch (Exception e) {
 			
