@@ -135,7 +135,7 @@
 			// 이름 검색(필터)
 			protected function tiNameFilter_keyUpHandler(event:KeyboardEvent):void
 			{
-				al.filterFunction = checkString;
+				al.filterFunction = checkStringName;
 				al.refresh();
 			}
 			private function checkStringName(item:Object):Boolean {
@@ -143,10 +143,29 @@
 				var _searchString:String = tiNameFilter.text;
 				if(!_searchString) return true;
 				
-				var label:String = item.user_id;
+				var label:String = item.user_name;
 				var pattern:String = ".*"+_searchString+".*";
 				
 				if ( new String(item.user_name).match(pattern) ) return true;
+				
+				return false;
+			}
+			
+			// 주민번호 검색(필터)
+			protected function tiJuminFilter_keyUpHandler(event:KeyboardEvent):void
+			{
+				al.filterFunction = checkStringJumin;
+				al.refresh();
+			}
+			private function checkStringJumin(item:Object):Boolean {
+				
+				var _searchString:String = tiJuminFilter.text;
+				if(!_searchString) return true;
+				
+				var label:String = item.jumin_no;
+				var pattern:String = ".*"+_searchString+".*";
+				
+				if ( new String(item.jumin_no).match(pattern) ) return true;
 				
 				return false;
 			}
@@ -158,8 +177,9 @@
 	</fx:Declarations>
 	<s:Panel width="100%" height="100%" title="회원관리">
 		<s:HGroup top="2">
-			<s:TextInput id="tiIdFilter" keyUp="tiIdFilter_keyUpHandler(event)" toolTip="아이디 검색" />
-			<s:TextInput id="tiNameFilter" keyUp="tiNameFilter_keyUpHandler(event)" toolTip="이름 검색" />
+			<s:TextInput id="tiIdFilter" keyUp="tiIdFilter_keyUpHandler(event)" prompt="아이디 검색" toolTip="아이디 검색" />
+			<s:TextInput id="tiNameFilter" keyUp="tiNameFilter_keyUpHandler(event)" prompt="이름 검색" toolTip="이름 검색" />
+			<s:TextInput id="tiJuminFilter" keyUp="tiJuminFilter_keyUpHandler(event)" prompt="주민번호 검색" toolTip="주민번호 검색" />
 			<s:Button id="refresh" label="다시가져오기" click="spinnerStart();submit();" />
 		</s:HGroup>
 		
