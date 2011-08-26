@@ -228,7 +228,7 @@
 			[Bindable]public var cards:ArrayCollection = new ArrayCollection(
 				[ 
 					{label:"NS이스토어", data:"http://www.nsestore.com"}, 
-					{label:"QXL", data:"http://www.nsestore.com"} ]);
+					{label:"QXL", data:"http://www.qxl.co.kr"} ]);
 			//{label:"eXtreme PC", data:"http://www.extremepc.co.kr"}, 
 			private function changeHandler(event:Event):void {
 				
