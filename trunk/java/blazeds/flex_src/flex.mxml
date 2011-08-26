@@ -188,9 +188,13 @@
 			
 			public function setMessage(msg:String):void {
 				
-				if (this.mlHandPhone != null) {
-					var obj:Object = this.mlHandPhone.child;
-					obj.cMessage.setMessage(msg);
+				if (!bLogin) {
+					ExternalInterface.call("alert","로그인 후 이용 가능 합니다.");
+				} else {
+					if (this.mlHandPhone != null) {
+						var obj:Object = this.mlHandPhone.child;
+						obj.cMessage.setMessage(msg);
+					}
 				}
 			}
 			
