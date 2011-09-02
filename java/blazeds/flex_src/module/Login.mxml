@@ -158,7 +158,7 @@
 			<s:HGroup>
 				<s:VGroup gap="4">
 					<s:TextInput id="login_id" height="16" color="0xaaaaaa" text="id" focusIn="login_id_focusInHandler(event)"/>
-					<s:TextInput id="login_pw" height="16" color="0xaaaaaa" text="password" focusIn="login_pw_focusInHandler(event)"/>	
+					<s:TextInput id="login_pw" height="16" color="0xaaaaaa" text="password" focusIn="login_pw_focusInHandler(event)" enter="login_button_clickHandler(null)"/>	
 				</s:VGroup>
 				<s:Group id="login_button" click="login_button_clickHandler(event)" buttonMode="true" useHandCursor="true">
 					<s:BitmapImage source="@Embed(source='assets/login_button.png')" />

@@ -24,6 +24,7 @@
 			import mx.controls.Alert;
 			import mx.events.CloseEvent;
 			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
 			import mx.formatters.DateFormatter;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
@@ -225,6 +226,11 @@
 				spinner.visible = false;
 			}
 			
+			protected function dgGroup_itemClickHandler(event:ListEvent):void
+			{
+			 	parentApplication.setMessage(al.getItemAt(dgGroup.selectedIndex).message as String);
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -253,7 +259,8 @@
 					</s:Group>
 				</s:HGroup>
 				
-				<mx:DataGrid id="dgGroup" styleName="addrDg" width="675" height="370" draggableColumns="false" resizableColumns="false" verticalGridLines="false" dropShadowVisible="true">
+				<mx:DataGrid id="dgGroup" styleName="addrDg" width="675" height="370" draggableColumns="false" resizableColumns="false" verticalGridLines="false" dropShadowVisible="true"
+							 itemClick="dgGroup_itemClickHandler(event)">
 					<mx:columns>
 						<mx:DataGridColumn headerText="번호" sortable="false" labelFunction="fnLabel" width="50"></mx:DataGridColumn>
 						<!--<mx:DataGridColumn dataField="tranType" headerText="형식" width="50"></mx:DataGridColumn>-->
