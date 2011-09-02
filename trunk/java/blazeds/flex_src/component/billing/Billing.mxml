@@ -196,6 +196,13 @@
 						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" >
 							<s:RadioButton id="b30000" chromeColor="#cccccc" width="50" value="30000" groupName="chargeAccount" />
 							<s:Label text="30,000원" width="176" textAlign="right" paddingRight="40" />
+							<s:Label text="2,500건/포인트" width="176" textAlign="right" paddingRight="40" />
+							<s:Label text="12원/건" width="176" textAlign="right" paddingRight="40" />
+						</s:SkinnableContainer>
+						
+						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" >
+							<s:RadioButton id="b50000" chromeColor="#cccccc" width="50" value="50000" groupName="chargeAccount" />
+							<s:Label text="50,000원" width="176" textAlign="right" paddingRight="40" />
 							<s:Label text="4,167건/포인트" width="176" textAlign="right" paddingRight="40" />
 							<s:Label text="12원/건" width="176" textAlign="right" paddingRight="40" />
 						</s:SkinnableContainer>
@@ -225,21 +232,21 @@
 							<s:RadioButton id="b1000000" chromeColor="#cccccc" width="50" value="1000000" groupName="chargeAccount" />
 							<s:Label text="1,000,000원" width="176"  textAlign="right" paddingRight="40"/>
 							<s:Label text="86,957건/포인트" width="176" textAlign="right" paddingRight="40" />
-							<s:Label text="12원/건" width="176" textAlign="right" paddingRight="40" />
+							<s:Label text="11.5원/건" width="176" textAlign="right" paddingRight="40" />
 						</s:SkinnableContainer>
 						
 						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" >
 							<s:RadioButton id="b3000000" chromeColor="#cccccc" width="50" value="3000000" groupName="chargeAccount" />
 							<s:Label text="3,000,000원" width="176" textAlign="right" paddingRight="40" />
 							<s:Label text="272,727건/포인트" width="176" textAlign="right" paddingRight="40" />
-							<s:Label text="12원/건" width="176" textAlign="right" paddingRight="40" />
+							<s:Label text="11원/건" width="176" textAlign="right" paddingRight="40" />
 						</s:SkinnableContainer>
 						
 						<s:SkinnableContainer width="100%" skinClass="skin.BillingRowSkin" backgroundColor="0xefefef">
 							<s:RadioButton id="b5000000" chromeColor="#cccccc" width="50" value="5000000" groupName="chargeAccount" />
 							<s:Label text="5,000,000원" width="176" textAlign="right" paddingRight="40" />
 							<s:Label text="467,290건/포인트" width="176" textAlign="right" paddingRight="40" />
-							<s:Label text="12원/건" width="176" textAlign="right" paddingRight="40" />
+							<s:Label text="10.7원/건" width="176" textAlign="right" paddingRight="40" />
 						</s:SkinnableContainer>
 					</s:VGroup>
 					
@@ -252,7 +259,7 @@
 					<s:VerticalLayout paddingTop="5" paddingLeft="25" paddingRight="5" paddingBottom="5"/>
 				</s:layout>
 				<s:SkinnableContainer width="100%" skinClass="skin.HomeRowSkin" >
-					<s:RadioButton chromeColor="#cccccc" verticalCenter="0" fontWeight="bold" color="#93DAFF" label="국민 - 최유진 243701-04-053435" value="국민 - 최유진 243701-04-053435" groupName="cash" selected="true" />
+					<s:RadioButton chromeColor="#cccccc" verticalCenter="0" fontWeight="bold" color="#93DAFF" label="국민 - 최유진 517101-01-253003" value="국민 - 최유진 517101-01-253003" groupName="cash" selected="true" />
 				</s:SkinnableContainer>
 				<s:SkinnableContainer width="100%" skinClass="skin.HomeRowSkin">
 					<s:RadioButton chromeColor="#cccccc" verticalCenter="0" fontWeight="bold" color="#93DAFF" label="농협 - 최유진 302-0270-9608-11" value="농협 - 최유진 302-0270-9608-11" groupName="cash" />
