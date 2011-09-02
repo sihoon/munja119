@@ -216,8 +216,9 @@ public class SentFactory implements SentFactoryAble {
 		try {
 			
 			String[] sentGroupInfo =  selectTimeAndCountSentGroupData(conn, mvo.getUser_id(), idx);
-			
-			if (sentGroupInfo.length == 2 && SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") < SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + CANCEL_GAP )
+			VbyP.debugLog(sentGroupInfo[0]);
+			VbyP.debugLog("@@@"+SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss")+" "+Long.toString((SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + CANCEL_GAP)*1000));
+			if (sentGroupInfo.length == 2 && SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + CANCEL_GAP)*1000 )
 				throw new Exception( "발송 "+CANCEL_GAP/60+"분전 예약은 취소 할 수 없습니다." );
 			
 			int tranResultCount = deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
