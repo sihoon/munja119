@@ -228,7 +228,7 @@ public class SentFactory implements SentFactoryAble {
 			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  로그테이블 건수(수신거부,중복등등) : "+Integer.toString(failResultCount) );	
 			
 			if ( sentGroupInfo.length == 2 && SLibrary.parseInt(sentGroupInfo[1]) != (tranResultCount +  failResultCount) ) 
-				throw new Exception( "삭제된 발송 테이터와 예약 건수가 달라 데이터 삭제만 되었습니다.("+Integer.toString(tranResultCount +  failResultCount)+"/"+sentGroupInfo[1]+") 1544-6123으로 연락 주세요." ); 
+				throw new Exception( "삭제된 발송 테이터와 예약 건수가 달라 데이터 삭제만 되었습니다.("+Integer.toString(tranResultCount +  failResultCount)+"/"+sentGroupInfo[1]+") 연락 주세요." ); 
 			
 			int updateResultCount = updateSentGroup(conn, mvo.getUser_id(), idx, "cancel");
 			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  전송그룹테이블 업데이트 : "+Integer.toString(updateResultCount) );
