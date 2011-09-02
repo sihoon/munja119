@@ -207,9 +207,11 @@
 				
 				if (bvo.bResult) {
 					SLibrary.alert("삭제 되었습니다.");
+					if (bRes)
+						parentApplication.userInfoInit();
 					creationCompleteHandler();
 				}else {
-					SLibrary.alert("삭제에 실패 하였습니다.");
+					SLibrary.alert("삭제에 실패 하였습니다. "+bvo.strDescription);
 				}
 				
 				
