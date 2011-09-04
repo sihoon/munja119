@@ -194,6 +194,19 @@
 					if (this.mlHandPhone != null) {
 						var obj:Object = this.mlHandPhone.child;
 						obj.cMessage.setMessage(msg);
+						
+					}
+				}
+			}
+			
+			public function setMessageAdd(msg:String):void {
+				
+				if (!bLogin) {
+					ExternalInterface.call("alert","로그인 후 이용 가능 합니다.");
+				} else {
+					if (this.mlHandPhone != null) {
+						var obj:Object = this.mlHandPhone.child;
+						obj.cMessage.setMessageAdd(msg);
 					}
 				}
 			}
@@ -244,6 +257,15 @@
 			{
 				noticIdx = noticIdxArr[idx];
 				moveMenuNoLogin('module/Notic.swf');
+			}
+			
+			public function refreshMy():void {
+				
+				if (this.mlEmoti != null) {
+					var obj:Object = this.mlEmoti.child;
+					obj.refreshMy();
+				}
+			
 			}
 			
 		]]>
@@ -309,9 +331,9 @@
 				<s:BitmapImage source="@Embed(source='assets/view1.png')"/>
 			</s:Group>
 			<s:BitmapImage y="200" right="15" source="@Embed(source='assets/function_info.png')"/>
-			<s:Group x="543" y="202" buttonMode="true" useHandCursor="true" click="{ExternalInterface.call('alert','준비중입니다.')}">
+			<!--<s:Group x="543" y="202" buttonMode="true" useHandCursor="true" click="{ExternalInterface.call('alert','준비중입니다.')}">
 				<s:BitmapImage source="@Embed(source='assets/view1.png')"/>
-			</s:Group>
+			</s:Group>-->
 			<component:MainEmoticon x="361" y="320" />
 			<s:Group width="940" x="66" y="570">
 				<s:Rect left="0" right="0" top="0" bottom="0" radiusX="15"><s:fill><s:SolidColor color="0xffffff" /></s:fill></s:Rect>
@@ -330,8 +352,10 @@
 						<s:Label id="notic2" text="" buttonMode="true" useHandCursor="true" click="notic_clickHandler(2)"  />
 						<s:Label id="notic3" text="" buttonMode="true" useHandCursor="true" click="notic_clickHandler(3)"  />
 						<s:HGroup>
-							<s:BitmapImage source="@Embed(source='assets/ask_no.png')" />	
-							<s:BitmapImage source="@Embed(source='assets/faq.png')" />	
+							<s:BitmapImage source="@Embed(source='assets/ask_no.png')" />
+							<!--<s:Group buttonMode="true" useHandCursor="true" click="{moveMenuNoLogin('module/Faq.swf');}">-->
+								<s:BitmapImage source="@Embed(source='assets/faq.png')"  />	
+							<!--</s:Group>-->
 						</s:HGroup>
 					</s:VGroup>
 				</s:HGroup>
