@@ -161,6 +161,7 @@
 						radioAddress.enabled = false;
 						comboBoxGroup.enabled = false;
 						addOn.enabled = false;
+						excelDg.dataProvider = null;
 						break;
 					case SELECT:
 					case METHOD:
@@ -322,6 +323,8 @@
 				<s:Group id="addOn" buttonMode="true" useHandCursor="true" toolTip="{this.radioAddressSelected?'선택한 전화번호열과 이름열을 주소록에 저장 합니다.':'선택한 전화번호열과 이름열을 전송목록에 추가 합니다.'}" click="clickAddButton()" >
 					<s:BitmapImage source="@Embed(source='assets/excel_input.png')"/>
 				</s:Group>
+				
+				<s:Button label="초기화" click="{setStep(FILEUPLOAD)}" />
 			</s:HGroup>
 			<s:Rect left="0" right="0" bottom="0" top="39"><s:fill><s:SolidColor color="0xe80500" /></s:fill></s:Rect>
 		</s:Group>

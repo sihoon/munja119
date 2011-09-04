@@ -151,7 +151,7 @@
 			<s:ArrayCollection> 
 				<fx:String>테마문자</fx:String> 
 				<fx:String>업종별문자</fx:String> 
-				<fx:String>등록문자</fx:String> 
+				<!--<fx:String>등록문자</fx:String> -->
 			</s:ArrayCollection> 
 		</s:ButtonBar>	
 	</s:VGroup>
