@@ -35,6 +35,31 @@ public class NoticDAO {
 		return rslt;
 	}
 	
+	public ArrayList<NoticVO> getListFAQ(Connection conn) {
+		
+		ArrayList<HashMap<String, String>> al = null;
+		
+		ArrayList<NoticVO> rslt = null;
+		
+		try {
+			
+			
+			
+			StringBuffer buf = new StringBuffer();
+			buf.append(VbyP.getSQL("faqList"));
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, buf.toString() );
+			
+			al = pq.ExecuteQueryArrayList();
+			
+			rslt = changeVO(al);
+			
+		}catch (Exception e) {}
+		
+		
+		return rslt;
+	}
+	
 	public ArrayList<NoticVO> getList(Connection conn, int cnt) {
 		
 		ArrayList<HashMap<String, String>> al = null;
