@@ -165,7 +165,7 @@
 				</s:Group>
 			</s:HGroup>
 			<s:HGroup>
-				<s:Group id="idsearch_button" click="{ExternalInterface.call('alert','준비중입니다.')}" buttonMode="true" useHandCursor="true">
+				<s:Group id="idsearch_button" click="{ExternalInterface.call('alert','고객센터로 연락 주시기 바랍니다.')}" buttonMode="true" useHandCursor="true">
 					<s:BitmapImage source="@Embed(source='assets/search_id.png')" />
 				</s:Group>
 				<s:Group id="join_button" click="{parentApplication.moveMenuNoLogin('module/Join.swf')}" buttonMode="true" useHandCursor="true">

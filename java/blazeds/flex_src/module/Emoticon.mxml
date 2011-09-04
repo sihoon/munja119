@@ -4,6 +4,7 @@
 		  xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="creationCompleteHandler()"  width="800" height="370">
 	<fx:Script>
 		<![CDATA[
+			import lib.BooleanAndDescriptionVO;
 			import lib.RO;
 			
 			import mx.events.FlexEvent;
@@ -50,7 +51,7 @@
 			private function unit_ResultEventHandler(event:ResultEvent):void {
 				
 				var arr:Array = event.result as Array;
-				
+				delBtnfalse();
 				if (arr.length == 0) {
 					currPage -=1;
 				} else {
@@ -63,6 +64,11 @@
 					emt7.text = arr[6];
 					emt8.text = arr[7];
 				}
+				preMsgBtn.removeEventListener(MouseEvent.CLICK, preMsgBtnMy_clickHandler);
+				preMsgBtn.addEventListener(MouseEvent.CLICK, preMsgBtn_clickHandler);
+				
+				nextMsgBtn.removeEventListener(MouseEvent.CLICK, nextMsgBtnMy_clickHandler);
+				nextMsgBtn.addEventListener(MouseEvent.CLICK, nextMsgBtn_clickHandler);
 			}
 			
 			protected function pre_clickHandler(event:MouseEvent):void
@@ -104,11 +110,66 @@
 					preBtn.visible = false;
 					nextBtn.visible = false;
 					currGubun = "등록문자";
+				}else {
+					emtTab.selectedIndex = 0;
 				}
 				currCate = "";
 				currPage = 0;
 				init_cate();
-				ro.method.getEmotiCate(currGubun, currCate, currPage);
+				if (emtTab.selectedIndex == 2) {
+					ro.set(RO_DESTINATION, save_ResultEventHandler);
+					ro.method.getMymsg(currPage);
+				} else {
+					ro.set(RO_DESTINATION, unit_ResultEventHandler);
+					ro.method.getEmotiCate(currGubun, currCate, currPage);
+				}
+			}
+			
+			
+			private var arrIdx:Array = null;
+			private function save_ResultEventHandler(event:ResultEvent):void {
+				
+				var arr:ArrayCollection = event.result as ArrayCollection;
+				
+				if (arr == null || arr.length == 0) {
+					if (currPage != 0)currPage -=1;
+				} else {
+					
+					var obj:Object = null;
+					emt1.text = "";
+					emt2.text = "";
+					emt3.text = "";
+					emt4.text = "";
+					emt5.text = "";
+					emt6.text = "";
+					emt7.text = "";
+					emt8.text = "";
+					
+					arrIdx = new Array();
+					
+					for (var i:int = 0; i < arr.length; i++) {
+						obj = arr.getItemAt(i);
+						arrIdx.push(obj.idx);
+						if (i == 0)	{emt1.text = obj.msg;}
+						else if (i == 1) {emt2.text = obj.msg;}
+						else if (i == 2) {emt3.text = obj.msg;}
+						else if (i == 3) {emt4.text = obj.msg;}
+						else if (i == 4) {emt5.text = obj.msg;}
+						else if (i == 5) {emt6.text = obj.msg;}
+						else if (i == 6) {emt7.text = obj.msg;}
+						else if (i == 7) {emt8.text = obj.msg;}
+					}
+				}
+				
+				
+				
+				preMsgBtn.removeEventListener(MouseEvent.CLICK, preMsgBtn_clickHandler);
+				preMsgBtn.addEventListener(MouseEvent.CLICK, preMsgBtnMy_clickHandler);
+				
+				nextMsgBtn.removeEventListener(MouseEvent.CLICK, nextMsgBtn_clickHandler);
+				nextMsgBtn.addEventListener(MouseEvent.CLICK, nextMsgBtnMy_clickHandler);
+				
+				callLater(delBtntrue);
 			}
 			
 			private function init_cate():void {
@@ -133,6 +194,125 @@
 			
 			private function prePage():void { if (currPage > 0)currPage--; }
 			private function nextPage():void { currPage++;	}
+			
+			private function delBtnfalse():void {
+				emtdel1.visible = false;
+				emtdel2.visible = false;
+				emtdel3.visible = false;
+				emtdel4.visible = false;
+				emtdel5.visible = false;
+				emtdel6.visible = false;
+				emtdel7.visible = false;
+				
+			}
+			
+			private function delBtntrue():void {
+				if (emt1.text.length >0) emtdel1.visible = true;
+				if (emt2.text.length >0) emtdel2.visible = true;
+				if (emt3.text.length >0) emtdel3.visible = true;
+				if (emt4.text.length >0) emtdel4.visible = true;
+				if (emt5.text.length >0) emtdel5.visible = true;
+				if (emt6.text.length >0) emtdel6.visible = true;
+				if (emt7.text.length >0) emtdel7.visible = true;
+			}
+			
+			private function deleteMsg1():void {
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.delMymsg(new int(arrIdx[0]));
+			}
+			private function deleteMsg2():void {
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.delMymsg(new int(arrIdx[1]));
+			}
+			private function deleteMsg3():void {
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.delMymsg(new int(arrIdx[2]));
+			}
+			private function deleteMsg4():void {
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.delMymsg(new int(arrIdx[3]));
+			}
+			private function deleteMsg5():void {
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.delMymsg(new int(arrIdx[4]));
+			}
+			private function deleteMsg6():void {
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.delMymsg(new int(arrIdx[5]));
+			}
+			private function deleteMsg7():void {
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.delMymsg(new int(arrIdx[6]));
+			}
+			private function deleteMsg8():void {
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.delMymsg(new int(arrIdx[7]));
+			}
+			
+			
+			private function delete_ResultEventHandler(event:ResultEvent):void {
+				
+				var b:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
+				
+				if (b.bResult == true) {
+					ExternalInterface.call("alert","삭제 되었습니다.");
+					
+					category.visible = true;
+					preBtn.visible = true;
+					nextBtn.visible = true;
+					
+					
+						category.visible = false;
+						preBtn.visible = false;
+						nextBtn.visible = false;
+						currGubun = "등록문자";
+					
+					currCate = "";
+					currPage = 0;
+					init_cate();
+					
+						ro.set(RO_DESTINATION, save_ResultEventHandler);
+						ro.method.getMymsg(currPage);
+				}
+			}
+			
+			protected function preMsgBtn_clickHandler(event:MouseEvent):void
+			{
+				prePage();
+				ro.set(RO_DESTINATION, unit_ResultEventHandler);
+				ro.method.getEmotiCate(currGubun, currCate, currPage);
+			}
+			
+			protected function nextMsgBtn_clickHandler(event:MouseEvent):void
+			{
+				nextPage();
+				ro.set(RO_DESTINATION, unit_ResultEventHandler);
+				ro.method.getEmotiCate(currGubun, currCate, currPage);
+			}
+			
+			protected function preMsgBtnMy_clickHandler(event:MouseEvent):void
+			{
+				prePage();
+				ro.set(RO_DESTINATION, save_ResultEventHandler);
+				ro.method.getMymsg(currPage);
+			}
+			
+			protected function nextMsgBtnMy_clickHandler(event:MouseEvent):void
+			{
+				nextPage();
+				ro.set(RO_DESTINATION, save_ResultEventHandler);
+				ro.method.getMymsg(currPage);
+			}
+			
+			
+			public function refreshMy():void {
+				
+				if (emtTab.selectedIndex == 2){
+					currPage = 0;
+					ro.set(RO_DESTINATION, save_ResultEventHandler);
+					ro.method.getMymsg(currPage);
+				}
+			}
 			
 		]]>
 	</fx:Script>
@@ -171,7 +351,7 @@
 				</s:HGroup>
 				<s:HGroup left="10" right="10" fontSize="12" gap="5" horizontalAlign="center" paddingTop="10" verticalAlign="middle">
 					
-					<s:Group width="20" height="31"  buttonMode="true" useHandCursor="true" click="{prePage();ro.method.getEmotiCate(currGubun, currCate, currPage);}">
+					<s:Group id="preMsgBtn" width="20" height="31"  buttonMode="true" useHandCursor="true" click="preMsgBtn_clickHandler(event)">
 						<s:BitmapImage left="3" source="@Embed(source='assets/pre_emt.png')"/>	
 					</s:Group>
 					
@@ -180,42 +360,50 @@
 							<s:Group width="142" height="118">
 								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
 								<s:Label id="emt1" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt1.text)}" />
+								<s:Button id="emtdel1" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg1()" />
 							</s:Group>
 							<s:Group width="142" height="118">
 								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
 								<s:Label id="emt2" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt2.text)}" />
+								<s:Button id="emtdel2" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg2()" />
 							</s:Group>
 							<s:Group width="142" height="118">
 								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
 								<s:Label id="emt3" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt3.text)}" />
+								<s:Button id="emtdel3" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg3()" />
 							</s:Group>
 							<s:Group width="142" height="118">
 								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
 								<s:Label id="emt4" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt4.text)}" />
+								<s:Button id="emtdel4" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg4()" />
 							</s:Group>
 						</s:HGroup>
 						<s:HGroup>
 							<s:Group width="142" height="118">
 								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
 								<s:Label id="emt5" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt5.text)}" />
+								<s:Button id="emtdel5" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg5()" />
 							</s:Group>
 							<s:Group width="142" height="118">
 								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
 								<s:Label id="emt6" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt6.text)}" />
+								<s:Button id="emtdel6" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg6()" />
 							</s:Group>
 							<s:Group width="142" height="118">
 								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
 								<s:Label id="emt7" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt7.text)}" />
+								<s:Button id="emtdel7" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg7()" />
 							</s:Group>
 							<s:Group width="142" height="118">
 								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
 								<s:Label id="emt8" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt8.text)}" />
+								<s:Button id="emtdel8" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg8()" />
 							</s:Group>
 						</s:HGroup>
 					</s:VGroup>
 					
 					
-					<s:Group width="20" height="31" buttonMode="true" useHandCursor="true"  click="{nextPage();ro.method.getEmotiCate(currGubun, currCate, currPage);}">
+					<s:Group id="nextMsgBtn" width="20" height="31" buttonMode="true" useHandCursor="true"  click="nextMsgBtn_clickHandler(event)">
 						<s:BitmapImage left="3" source="@Embed(source='assets/next_emt.png')"/>	
 					</s:Group>
 				</s:HGroup>
