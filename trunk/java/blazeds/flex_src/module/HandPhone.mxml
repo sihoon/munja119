@@ -180,6 +180,7 @@
 			<mx:Move xBy="-150" duration="2000" easingFunction="Bounce.easeIn"/>
 		</mx:Sequence>
 	</fx:Declarations>
+	<handphone:SpecChar id="spcBox" visible="false" x="210" y="0" />
 	<s:Group id="hp" >
 		<s:BitmapImage source="@Embed('/assets/phone_bg.png')" />
 		<s:VGroup left="20" top="42" gap="2">
