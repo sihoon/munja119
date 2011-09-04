@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" width="674" height="450" creationComplete="creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import component.notic.NoticVO;
+			
+			import flashx.textLayout.conversion.TextConverter;
+			
+			import lib.RO;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			private var ro:RO = new RO();
+			private var RO_DESTINATION:String = "WEB";
+			
+			[Bindable] private var dgAc:ArrayCollection = null;
+			
+			
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				ro.set(RO_DESTINATION, notic_ResultEventHandler);
+				ro.method.getFaq();
+			}
+			
+			private function notic_ResultEventHandler(event:ResultEvent):void {
+				
+				var ac:ArrayCollection = event.result as ArrayCollection;
+				this.dgAc = ac;
+				setFaq();
+			}
+			
+			[Bindable] private var _sHtml:String = "";
+			
+			
+			private function setFaq():void {
+				
+				var obj:Object = null;
+				var fq:FaqQ = null;
+				var fa:FaqA = null;
+				
+				
+				for(var i:int = 0; i < dgAc.length; i++ ){
+					obj = dgAc.getItemAt(i);
+					fq = new FaqQ();
+					fq.msg = obj.title;
+					fa = new FaqA();
+					fa.msg = obj.content;
+					
+					contextBox.addChild(fq);
+					contextBox.addChild(fa);
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Group width="100%">
+		<s:BitmapImage left="10" source="@Embed(source='assets/faq_title.png')"/>
+		<s:Label top="4" right="0" text=" 홈 &gt; FAQ"/>
+	</s:Group>
+	
+	<s:BitmapImage width="675" source="@Embed(source='assets/sub_title_under.png')" fillMode="scale"/>
+	
+	<s:VGroup width="675" height="100%" gap="10">
+		<s:Rect width="100%" height="1"><s:fill><s:SolidColor color="0xe80500" /></s:fill></s:Rect>
+				
+		<s:VGroup id="contextBox" width="100%" height="0" visible="false" gap="0">
+			
+		</s:VGroup>
+		
+	</s:VGroup>
+</s:VGroup>

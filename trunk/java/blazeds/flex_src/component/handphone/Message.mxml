@@ -9,10 +9,13 @@
 	</fx:Metadata>
 	<fx:Script>
 		<![CDATA[
+			import lib.BooleanAndDescriptionVO;
 			import lib.CustomEvent;
+			import lib.RO;
 			import lib.SLibrary;
 			
 			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
 			
 			private var _message:String;
 			private var _maxByte:int = 80;
@@ -60,6 +63,13 @@
 				
 				IMessage.text += message;
 				IMessage_ByteCheck();
+				if (bLimitMessage()) {
+					setMessage(cutLimitMessage());
+					ExternalInterface.call ("alert", String(this.maxByte)+" byte 이상 메시지가 삭제 되었습니다.");
+				} else {
+					dispatchEvent(new CustomEvent("validValue", null));
+				}
+				
 			}
 			
 			public function getLimitMessageByte():Number{ return _maxByte; } 
@@ -115,8 +125,43 @@
 
 			protected function clickHandler(event:Event):void
 			{
-				parentApplication.loadEmoticon();
+				if (parentApplication.bLogin == true)
+					parentApplication.loadEmoticon();
+				else 
+					ExternalInterface.call("alert","로그인 후 이용 가능 합니다.");
 			}
+			
+			protected function clickHandlerSpc():void
+			{
+				parentDocument.spcBox.visible=true;
+			}
+			
+			private var ro:RO = new RO();
+			private var RO_DESTINATION:String = "WEB";
+			
+			protected function clickHandlerSave():void
+			{
+				if (parentApplication.bLogin == true){
+					ro.set(RO_DESTINATION, save_ResultEventHandler);
+					ro.method.addMymsg(IMessage.text);
+				}
+				else 
+					ExternalInterface.call("alert","로그인 후 이용 가능 합니다.");
+				
+			}
+			
+			private function save_ResultEventHandler(event:ResultEvent):void {
+				
+				var bvo:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
+				
+				if (bvo.bResult == true) {
+					ExternalInterface.call("alert","저장되었습니다.");
+					parentApplication.refreshMy();
+				}else {
+					ExternalInterface.call("alert","저장실패 : "+ bvo.strDescription);
+				}
+			}
+
 			
 		]]>
 	</fx:Script>
@@ -126,7 +171,13 @@
 	<s:TextArea id="IMessage" height="115" width="100%" fontFamily="굴림체" verticalScrollPolicy="off" enabled="{_enable}" color="0x000000" keyUp="IMessage_keyUpHandler(event)"></s:TextArea>
 	<s:Group width="100%">
 		<s:Group left="0" buttonMode="true" useHandCursor="true" click="clickHandler(event)" verticalCenter="0">
-			<s:BitmapImage source="@Embed('/assets/emoticon_button.png')" />
+			<s:BitmapImage source="@Embed('/assets/emt.png')" />
+		</s:Group>
+		<s:Group left="55" buttonMode="true" useHandCursor="true" click="clickHandlerSpc()" verticalCenter="0">
+			<s:BitmapImage source="@Embed('/assets/spchar.png')" />
+		</s:Group>
+		<s:Group left="110" buttonMode="true" useHandCursor="true" click="clickHandlerSave()" verticalCenter="0">
+			<s:BitmapImage source="@Embed('/assets/savemsg.png')" />
 		</s:Group>
 		<!--
 		<s:Group buttonMode="true" useHandCursor="true">
