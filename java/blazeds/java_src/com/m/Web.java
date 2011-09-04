@@ -1145,6 +1145,49 @@ public class Web extends SessionManagement{
 		return arr;
 	}
 	
+	public ArrayList<HashMap<String, String>> getMymsg(int page) {
+
+		
+		Connection conn = null;
+		ArrayList<HashMap<String, String>> al = null;
+		int count = 8;
+		
+		int from = 0;
+		
+		try {
+			
+
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			
+			conn = VbyP.getDB();
+			
+			page += 1;
+			from = count * (page -1);
+			
+			VbyP.accessLog(" >>  등록문자 요청 "+Integer.toString(from));
+			
+			StringBuffer buf = new StringBuffer();
+			buf.append(VbyP.getSQL("select_mymsg"));
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, buf.toString() );
+			pq.setString(1, user_id);
+			pq.setInt(2, from);
+			pq.setInt(3, count);
+			
+			al = pq.ExecuteQueryArrayList();
+			
+		}catch (Exception e) {}	finally {			
+			try { 
+				if ( conn != null ) 
+				conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getMymsg >> conn.close() Exception!"); }
+			conn = null;
+		}
+		
+		return al;
+	}
+	
 	public String[] getHomeEmotiCate(String gubun, String category, int page) {
 
 		
@@ -1179,6 +1222,48 @@ public class Web extends SessionManagement{
 				if ( conn != null ) 
 					conn.close();
 			}catch(SQLException e) { VbyP.errorLog("getHomeEmotiCate >> conn.close() Exception!"); }
+			conn = null;
+		}
+		
+		return arr;
+	}
+	
+	public String[] getHomeMymsg(int page) {
+
+		
+		Connection conn = null;
+		String [] arr = null;
+		int count = 4;
+		
+		int from = 0;
+		
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			
+			conn = VbyP.getDB();
+			
+			page += 1;
+			from = count * (page -1);
+			
+			VbyP.accessLog(" >>  홈 등록문자 요청 "+Integer.toString(from));
+			
+			StringBuffer buf = new StringBuffer();
+			buf.append(VbyP.getSQL("select_mymsg"));
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, buf.toString() );
+			pq.setPrepared( conn, buf.toString() );
+			pq.setString(1, user_id);
+			pq.setInt(2, from);
+			pq.setInt(3, count);
+			
+			arr = pq.ExecuteQuery();
+			
+		}catch (Exception e) {}	finally {			
+			try { 
+				if ( conn != null ) 
+					conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getHomeMymsg >> conn.close() Exception!"); }
 			conn = null;
 		}
 		
@@ -1252,6 +1337,34 @@ public class Web extends SessionManagement{
 		return rslt;
 	}
 	
+	// FAQ
+	public ArrayList<NoticVO> getFaq() {
+			
+		Connection conn = null;
+		ArrayList<NoticVO> rslt = null;
+		NoticDAO nd = null;
+		
+		try {
+			
+			nd = new NoticDAO();
+			conn = VbyP.getDB();
+			
+			VbyP.accessLog(" >>  FAQ 리스트 요청");
+			
+			rslt = nd.getListFAQ(conn);
+			
+		}catch (Exception e) {}	
+		finally {
+			try { 
+				if ( conn != null ) 
+					conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getFaq >> conn.close() Exception!"); }
+			conn = null;
+		}
+		
+		return rslt;
+	}
+	
 	public ArrayList<NoticVO> getNoticMain(int cnt) {
 		
 		Connection conn = null;
@@ -1303,6 +1416,84 @@ public class Web extends SessionManagement{
 		}
 		
 		return rslt;
+	}
+	
+	/**
+	 * 등록 문자 저장
+	 */
+	public BooleanAndDescriptionVO addMymsg(String msg) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 등록문자 추가 "+msg);
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		
+
+		try {
+			conn = VbyP.getDB();
+			
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			
+			StringBuffer buf = new StringBuffer();
+			buf.append(VbyP.getSQL("insert_mymsg"));
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, buf.toString() );
+			pq.setString(1, user_id);
+			pq.setString(2, msg);
+			pq.executeUpdate();
+			
+			rvo.setbResult(true);
+		}catch (Exception e) {
+			
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			
+		}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("addMymsg >> conn.close() Exception!"); }
+		}
+
+		return rvo;
+		
+	}
+	
+	/**
+	 * 등록 문자 삭제
+	 */
+	public BooleanAndDescriptionVO delMymsg(int idx) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 등록문자 삭제 "+idx);
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		
+
+		try {
+			conn = VbyP.getDB();
+			
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			
+			StringBuffer buf = new StringBuffer();
+			buf.append(VbyP.getSQL("delete_mymsg"));
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, buf.toString() );
+			pq.setString(1, user_id);
+			pq.setInt(2, idx);
+			pq.executeUpdate();
+			
+			rvo.setbResult(true);
+		}catch (Exception e) {
+			
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			
+		}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("delMymsg >> conn.close() Exception!"); }
+		}
+
+		return rvo;
+		
 	}
 	
 	
