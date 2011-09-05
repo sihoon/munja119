@@ -115,6 +115,32 @@ public class NoticDAO {
 		return rslt;
 	}
 	
+	public int modifyFAQ(Connection conn, NoticVO vo) {
+		
+		
+		int rslt = 0;
+		
+		try {
+			
+			
+			
+			StringBuffer buf = new StringBuffer();
+			buf.append(VbyP.getSQL("faqUpdate"));
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, buf.toString() );
+			pq.setString(1, vo.getTitle());
+			pq.setString(2, vo.getContent());
+			pq.setInt(3, vo.getIdx());
+			
+			
+			rslt = pq.executeUpdate();
+			
+		}catch (Exception e) {}
+		
+		
+		return rslt;
+	}
+	
 	public int delete(Connection conn, int idx) {
 		
 		
@@ -126,6 +152,30 @@ public class NoticDAO {
 			
 			StringBuffer buf = new StringBuffer();
 			buf.append(VbyP.getSQL("noticDelete"));
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, buf.toString() );
+			pq.setInt(1, idx);
+			
+			
+			rslt = pq.executeUpdate();
+			
+		}catch (Exception e) {}
+		
+		
+		return rslt;
+	}
+	
+	public int deleteFAQ(Connection conn, int idx) {
+		
+		
+		int rslt = 0;
+		
+		try {
+			
+			
+			
+			StringBuffer buf = new StringBuffer();
+			buf.append(VbyP.getSQL("faqDelete"));
 			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 			pq.setPrepared( conn, buf.toString() );
 			pq.setInt(1, idx);
@@ -155,6 +205,31 @@ public class NoticDAO {
 			pq.setString(1, vo.getTitle());
 			pq.setString(2, vo.getContent());
 			pq.setString(3, vo.getWriter());
+			
+			
+			rslt = pq.executeUpdate();
+			
+		}catch (Exception e) {}
+		
+		
+		return rslt;
+	}
+	
+	public int insertFAQ(Connection conn, NoticVO vo) {
+		
+		
+		int rslt = 0;
+		
+		try {
+			
+			
+			
+			StringBuffer buf = new StringBuffer();
+			buf.append(VbyP.getSQL("faqInsert"));
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, buf.toString() );
+			pq.setString(1, vo.getTitle());
+			pq.setString(2, vo.getContent());
 			
 			
 			rslt = pq.executeUpdate();
