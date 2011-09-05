@@ -51,8 +51,11 @@
 					fa = new FaqA();
 					fa.msg = obj.content;
 					
-					contextBox.addChild(fq);
-					contextBox.addChild(fa);
+					contextBox.addElement(fq);
+					contextBox.addElement(fa);
+					
+					/* contextBox.addChild(fq);
+					contextBox.addChild(fa); */
 				}
 			}
 			
@@ -70,10 +73,11 @@
 	
 	<s:VGroup width="675" height="100%" gap="10">
 		<s:Rect width="100%" height="1"><s:fill><s:SolidColor color="0xe80500" /></s:fill></s:Rect>
+		<s:Scroller width="100%" height="100%">
+			<s:VGroup id="contextBox" width="100%" height="100%" visible="true" gap="0">
 				
-		<s:VGroup id="contextBox" width="100%" height="0" visible="false" gap="0">
-			
-		</s:VGroup>
-		
+			</s:VGroup>	
+		</s:Scroller>		
+				
 	</s:VGroup>
 </s:VGroup>

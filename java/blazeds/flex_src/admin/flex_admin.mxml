@@ -78,6 +78,7 @@
 					<fx:Object label="전송관리" url="admin/module/Sent.swf"></fx:Object>
 					<fx:Object label="이모티콘관리" url="admin/module/EmoticonCate.swf"></fx:Object>
 					<fx:Object label="공지사항관리" url="admin/module/Notic.swf"></fx:Object>
+					<fx:Object label="FAQ관리" url="admin/module/Faq.swf"></fx:Object>
 					<!--<fx:Object label="통계" url="admin/module/Stats.swf"></fx:Object>-->
 				</fx:Array>
 			</mx:dataProvider>
@@ -89,7 +90,7 @@
 			<s:HorizontalLayout/>
 		</s:layout>
 		<s:TextInput id="login_id"/>
-		<s:TextInput id="login_pw" displayAsPassword="true"/>
-		<s:Button id="login_button" label="로그인" click="login_button_clickHandler(event)"/>
+		<s:TextInput id="login_pw" displayAsPassword="true" enter="login_button_clickHandler(null)"/>
+		<s:Button id="login_button" label="로그인"  click="login_button_clickHandler(event)"/>
 	</s:Group>
 </s:Application>
