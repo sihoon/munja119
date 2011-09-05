@@ -960,4 +960,103 @@ public class Admin extends SessionManagement {
 		
 		return rslt;
 	}
+	
+	// FAQ
+	public ArrayList<NoticVO> getFAQ() {
+		
+		Connection conn = null;
+		ArrayList<NoticVO> rslt = null;
+		NoticDAO nd = null;
+		
+		try {
+			
+			nd = new NoticDAO();
+			conn = VbyP.getDB();
+			
+			VbyP.accessLog(" >>  FAQ 리스트 요청");
+			
+			rslt = nd.getListFAQ(conn);
+			
+		}catch (Exception e) {}	
+		finally {
+			try { 
+				if ( conn != null ) 
+					conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getFAQ >> conn.close() Exception!"); }
+		}
+		
+		return rslt;
+	}
+	
+	public int insertFAQ(NoticVO vo) {
+		
+		Connection conn = null;
+		NoticDAO nd = null;
+		int rslt = 0;
+		
+		try {
+			
+			nd = new NoticDAO();
+			conn = VbyP.getDB();
+			
+			VbyP.accessLog(" >>  FAQ 추가 요청");
+			
+			rslt = nd.insertFAQ(conn, vo);
+			
+		}catch (Exception e) {}	
+		finally {
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("insertFAQ >> conn.close() Exception!"); }
+		}
+		
+		return rslt;
+	}
+	
+	public int modifyFAQ(NoticVO vo) {
+		
+		Connection conn = null;
+		NoticDAO nd = null;
+		int rslt = 0;
+		
+		try {
+			
+			nd = new NoticDAO();
+			conn = VbyP.getDB();
+			
+			VbyP.accessLog(" >>  FAQ 수정 요청");
+			
+			rslt = nd.modifyFAQ(conn, vo);
+			
+		}catch (Exception e) {}	
+		finally {
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("modifyFAQ >> conn.close() Exception!"); }
+		}
+		
+		return rslt;
+	}
+	
+	public int deleteFAQ(int idx) {
+		
+		Connection conn = null;
+		NoticDAO nd = null;
+		int rslt = 0;
+		
+		try {
+			
+			nd = new NoticDAO();
+			conn = VbyP.getDB();
+			
+			VbyP.accessLog(" >>  FAQ 삭제 요청");
+			
+			rslt = nd.deleteFAQ(conn, idx);
+			
+		}catch (Exception e) {}	
+		finally {
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("deleteFAQ >> conn.close() Exception!"); }
+		}
+		
+		return rslt;
+	}
 }
