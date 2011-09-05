@@ -353,9 +353,9 @@
 						<s:Label id="notic3" text="" buttonMode="true" useHandCursor="true" click="notic_clickHandler(3)"  />
 						<s:HGroup>
 							<s:BitmapImage source="@Embed(source='assets/ask_no.png')" />
-							<!--<s:Group buttonMode="true" useHandCursor="true" click="{moveMenuNoLogin('module/Faq.swf');}">-->
+							<s:Group buttonMode="true" useHandCursor="true" click="{moveMenuNoLogin('module/Faq.swf');}">
 								<s:BitmapImage source="@Embed(source='assets/faq.png')"  />	
-							<!--</s:Group>-->
+							</s:Group>
 						</s:HGroup>
 					</s:VGroup>
 				</s:HGroup>

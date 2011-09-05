@@ -120,9 +120,11 @@
 					dg.visible = false;
 					dg.height = 0;
 					dgGroup.percentHeight=100;
+					var df:DateFormatter = new DateFormatter();
+					df.formatString = "YYYY-MM-DD";
 					
 					ro.set(RO_DESTINATION, reservation_submit_ResultEventHandler);
-					ro.method.getAddress( );
+					ro.method.getSentGroupList( df.format(dateField1.selectedDate), df.format(dateField2.selectedDate), true);
 					
 					spinnerStart();
 				}
@@ -131,7 +133,7 @@
 					var al:ArrayCollection = event.result as ArrayCollection;
 					
 					if (al != null) {
-						
+						dgGroup.dataProvider = al;
 					}
 					callLater(spinnerStop);
 				}
