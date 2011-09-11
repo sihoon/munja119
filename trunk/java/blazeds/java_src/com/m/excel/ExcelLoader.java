@@ -35,7 +35,7 @@ public class ExcelLoader extends ExcelManagerByPOI36  implements ExcelLoaderAble
 		for (int i = 0; i < rowCount; i++) {
 			
 			hm = new HashMap<String, String>();
-			hm.put("0", Integer.toString(i+1) );
+			hm.put("/", Integer.toString(i+1) );
 			for (int j = 0; j < countMaxColumn; j++) {
 				
 				hm.put( this.getExcelColumnTitle(j+1), ( j >= rslt[i].length  )?"":rslt[i][j] );
