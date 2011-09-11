@@ -4,7 +4,7 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:flexiframe="http://code.google.com/p/flex-iframe/"
 			   creationComplete="creationCompleteHandler(event)"
-			   minWidth="1024" minHeight="790" skinClass="skin.App1" xmlns:lib="lib.*" xmlns:billing="component.billing.*" xmlns:component="component.*">
+			   minWidth="400" minHeight="300" skinClass="skin.App1" xmlns:lib="lib.*" xmlns:billing="component.billing.*" xmlns:component="component.*">
 	<fx:Style source="flex.css"/>
 	<s:states>
 		<s:State name="main"/>
