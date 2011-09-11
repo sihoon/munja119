@@ -90,15 +90,15 @@ public class ExcelManagerByPOI36 {
 			if (countColumn > limitColumn) { countColumn = limitColumn-1; bLimitColumn = true;}
 			result[i] = new String[countColumn];
 			
-			for (int j = row.getFirstCellNum(); j < countColumn; j++) {
-				
+			//for (int j = row.getFirstCellNum(); j < countColumn; j++) {
+			for (int j = 0 ; j < countColumn; j++) {
 				countReadColumn++;
 				
 				
 				Cell cell = row.getCell(j);
 
 				if (cell == null)
-					break;
+					continue;
 
 				int cellType = cell.getCellType();
 				
