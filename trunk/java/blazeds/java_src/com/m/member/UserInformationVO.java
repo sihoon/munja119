@@ -16,6 +16,8 @@ public class UserInformationVO implements Serializable {
 	String point = "";
 	String levaeYN = "";
 	int unit_cost = 0;
+	String hp = "";
+	String jumin_no = "";
 
 	public void setHashMap(HashMap<String, String> hm) {
 
@@ -25,7 +27,25 @@ public class UserInformationVO implements Serializable {
 		line = SLibrary.IfNull(hm, "line");
 		point = SLibrary.IfNull(hm, "point");
 		levaeYN = SLibrary.IfNull(hm, "levaeYN");
+		hp = SLibrary.IfNull(hm, "hp");
+		jumin_no = SLibrary.IfNull(hm, "jumin_no");
 		unit_cost = SLibrary.intValue(SLibrary.IfNull(hm, "unit_cost"));
+	}
+
+	public String getJumin_no() {
+		return jumin_no;
+	}
+
+	public void setJumin_no(String jumin_no) {
+		this.jumin_no = jumin_no;
+	}
+
+	public String getHp() {
+		return hp;
+	}
+
+	public void setHp(String hp) {
+		this.hp = hp;
 	}
 
 	public String getUser_id() {
