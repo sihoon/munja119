@@ -103,6 +103,31 @@ public class Web extends SessionManagement{
 		return bvo;
 	}
 	
+	public BooleanAndDescriptionVO modify(String user_id, String password, String password_re, String name, String jumin, String hp, String returnPhone) {
+		
+		BooleanAndDescriptionVO bvo = new BooleanAndDescriptionVO();
+		Join join = new Join();
+		
+		JoinVO vo = new JoinVO();
+		vo.setUser_id(user_id);
+		vo.setPassword(password);
+		vo.setName(name);
+		vo.setJumin(jumin);
+		vo.setHp(hp);
+		vo.setReturnPhone(returnPhone);
+		
+		int rslt = join.update(vo);
+		//PointManager.getInstance().initPoint( user_id, 0);
+		
+		if (rslt < 1) {
+			bvo.setbResult(false);
+			bvo.setstrDescription("실패 하였습니다.");
+		}else {
+			bvo.setbResult(true);
+		}
+		return bvo;
+	}
+	
 	
 	
 	/*###############################
