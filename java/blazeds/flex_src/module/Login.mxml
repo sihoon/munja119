@@ -121,6 +121,12 @@
 				ro.method.logout_session();
 			}
 			
+			protected function modify_button_clickHandler(event:MouseEvent):void
+			{
+				ro.set(RO_DESTINATION, logout_ResultEventHandler);
+				ro.method.logout_session();
+			}
+			
 			private function logout_ResultEventHandler(event:ResultEvent):void {
 				
 				var bVO:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
@@ -185,7 +191,10 @@
 				<s:Label text=" 건" fontSize="12" />
 				<s:Button label="충전"  click="charge_clickHandler(event)" />
 			</s:HGroup>
-			<s:Button id="logout_button" label="로그아웃" click="logout_button_clickHandler(event)"/>
+			<s:HGroup verticalAlign="middle">
+				<s:Button label="정보수정" click="{parentApplication.moveMenu('module/Modify.swf')}"/>
+				<s:Button label="로그아웃" click="logout_button_clickHandler(event)"/>	
+			</s:HGroup>
 		</s:VGroup>
 		
 		<s:VGroup id="loginInfoSub" top="4" verticalAlign="middle" includeIn="userInfosub">
@@ -198,7 +207,11 @@
 				<s:Label text=" 건" fontSize="12" />
 				<s:Button label="충전" click="charge_clickHandler(event)" />
 			</s:HGroup>
-			<s:Button label="로그아웃" click="logout_button_clickHandler(event)"/>
+			<s:HGroup verticalAlign="middle">
+				<s:Button label="정보수정" click="{parentApplication.moveMenu('module/Modify.swf')}"/>
+				<s:Button label="로그아웃" click="logout_button_clickHandler(event)"/>	
+			</s:HGroup>
+			
 		</s:VGroup>
 	</s:Group>
 	
