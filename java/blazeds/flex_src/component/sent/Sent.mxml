@@ -15,7 +15,11 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
+			import com.as3xls.xls.ExcelFile;
+			import com.as3xls.xls.Sheet;
+			
 			import lib.BooleanAndDescriptionVO;
+			import lib.KoreaPhoneNumberFormatter;
 			import lib.RO;
 			import lib.SLibrary;
 			
@@ -94,7 +98,7 @@
 				dg.height = 0;
 				dgGroup.height=400;
 				
-				var obj:Object = this.getDate(this.dateField1.selectedDate , this.dateField2.selectedDate );
+				var obj:Object = this.getDate(this.dateField1.selectedDate , this.dateField2.selectedDate ); 
 				
 				var df:DateFormatter = new DateFormatter();
 				df.formatString = "YYYY-MM-DD";
@@ -134,6 +138,7 @@
 				
 				dgGroup.height=200;
 				dg.visible = true;
+				excelButton.visible = true;
 				dg.height = 200;
 				callLater(spinnerStop);
 			}
@@ -233,6 +238,34 @@
 			 	parentApplication.setMessage(al.getItemAt(dgGroup.selectedIndex).message as String);
 			}
 			
+			
+			protected function excelButton_clickHandler(event:MouseEvent):void
+			{
+				var sheet:Sheet = new Sheet();
+				var dataProviderCollection:ArrayCollection = dg.dataProvider as ArrayCollection;
+				var rowCount:int =  dataProviderCollection.length;
+				sheet.resize(rowCount+4,6);
+				sheet.setCell(0,0,"전화번호");
+				sheet.setCell(0,1,"결과");
+				sheet.setCell(0,2,"결과시간");
+				
+				var kpnf:KoreaPhoneNumberFormatter = new KoreaPhoneNumberFormatter();
+				for(var r:int=0;r<rowCount;r++)
+				{
+					var record:Object = dataProviderCollection.getItemAt(r);
+					sheet.setCell(r+1,0,kpnf.format(String(record.phone)));
+					sheet.setCell(r+1,1,record.result);
+					sheet.setCell(r+1,2,record.resultDate);
+				}
+				var xls:ExcelFile = new ExcelFile();
+				xls.sheets.addItem(sheet);
+				
+				var bytes: ByteArray = xls.saveToByteArray();
+				var fr:FileReference = new FileReference();
+				fr.save(bytes,"119.xls");
+
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -259,6 +292,8 @@
 					<s:Group buttonMode="true" useHandCursor="true" click="reservation_submit()">
 						<s:BitmapImage source="@Embed(source='assets/sent_res.png')"/>
 					</s:Group>
+					
+					<s:Button right="0"  id="excelButton" visible="false" label="엑셀 받기(상세)" click="excelButton_clickHandler(event)" />
 				</s:HGroup>
 				
 				<mx:DataGrid id="dgGroup" styleName="addrDg" width="675" height="370" draggableColumns="false" resizableColumns="false" verticalGridLines="false" dropShadowVisible="true"
@@ -282,6 +317,7 @@
 						<mx:DataGridColumn dataField="resultDate" headerText="결과시간"></mx:DataGridColumn>
 					</mx:columns>
 				</mx:DataGrid>
+				
 			</s:VGroup>
 			<lib:Spinner id="spinner" visible="false" left="10"  right="10" bottom="50" top="50" spinnerColor="#ff4500" spinnerHighlightColor="#ffffff" spinnerLineThickness="8" spinnerType="gradientlines" spinnerAlpha="0.5" />
 		</s:Group>
