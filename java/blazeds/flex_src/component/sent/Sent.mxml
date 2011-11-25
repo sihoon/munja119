@@ -250,19 +250,24 @@
 				sheet.setCell(0,2,"결과시간");
 				
 				var kpnf:KoreaPhoneNumberFormatter = new KoreaPhoneNumberFormatter();
+				var record:Object = null;
 				for(var r:int=0;r<rowCount;r++)
 				{
-					var record:Object = dataProviderCollection.getItemAt(r);
+					record = dataProviderCollection.getItemAt(r);
 					sheet.setCell(r+1,0,kpnf.format(String(record.phone)));
 					sheet.setCell(r+1,1,record.result);
 					sheet.setCell(r+1,2,record.resultDate);
 				}
+				
+				var fileName:String = "119.xlx";
+				if (record) fileName = String(record.sentGroupIndex)+".xls";
+					
 				var xls:ExcelFile = new ExcelFile();
 				xls.sheets.addItem(sheet);
 				
 				var bytes: ByteArray = xls.saveToByteArray();
 				var fr:FileReference = new FileReference();
-				fr.save(bytes,"119.xls");
+				fr.save(bytes, fileName);
 
 			}
 			
