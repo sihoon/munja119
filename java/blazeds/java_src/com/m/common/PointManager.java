@@ -59,8 +59,14 @@ public class PointManager {
 	
 	public int insertUserPoint(Connection conn, UserInformationVO mvo, int code, int point ) {
 		
-		if ( insertPointLog(conn, mvo, code, point) == 1 )
-			return insertPoint(conn, mvo.getUser_id(), code, point);
+		System.out.println(mvo.getUser_id() + " insertUserPoint->"+ Integer.toString(code)+ "/ " +Integer.toString(point));
+		int pcount = insertPointLog(conn, mvo, code, point);
+		System.out.println(mvo.getUser_id() + " pointLog->"+ Integer.toString(pcount));
+		if ( pcount == 1 ) {
+			pcount = insertPoint(conn, mvo.getUser_id(), code, point);
+			System.out.println(mvo.getUser_id() + "point->"+ Integer.toString(pcount));
+			return pcount;
+		}
 		else
 			return 0;
 	}
