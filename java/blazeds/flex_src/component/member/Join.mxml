@@ -283,7 +283,7 @@
 			<s:layout>
 				<s:HorizontalLayout/>
 			</s:layout>
-			<s:TextInput id="tiId" keyUp="tiId_keyUpHandler(event)"/><s:Label id="idHelp" text="" />
+			<s:TextInput id="tiId" keyUp="tiId_keyUpHandler(event)" restrict="a-z0-9"/><s:Label id="idHelp" text="" />
 		</s:FormItem>
 		<s:FormItem label="비밀번호" skinClass="skin.FormItemSkin">
 			<s:layout>
