@@ -169,6 +169,25 @@
 				
 				return false;
 			}
+			
+			// 휴대폰 검색(필터)
+			protected function tiHpFilter_keyUpHandler(event:KeyboardEvent):void
+			{
+				al.filterFunction = checkStringHp;
+				al.refresh();
+			}
+			private function checkStringHp(item:Object):Boolean {
+				
+				var _searchString:String = tiHpFilter.text;
+				if(!_searchString) return true;
+				
+				var label:String = item.hp;
+				var pattern:String = ".*"+_searchString+".*";
+				
+				if ( new String(item.hp).match(pattern) ) return true;
+				
+				return false;
+			}
 
 		]]>
 	</fx:Script>
@@ -180,6 +199,7 @@
 			<s:TextInput id="tiIdFilter" keyUp="tiIdFilter_keyUpHandler(event)" prompt="아이디 검색" toolTip="아이디 검색" />
 			<s:TextInput id="tiNameFilter" keyUp="tiNameFilter_keyUpHandler(event)" prompt="이름 검색" toolTip="이름 검색" />
 			<s:TextInput id="tiJuminFilter" keyUp="tiJuminFilter_keyUpHandler(event)" prompt="주민번호 검색" toolTip="주민번호 검색" />
+			<s:TextInput id="tiHpFilter" keyUp="tiHpFilter_keyUpHandler(event)" prompt="휴대폰 검색" toolTip="휴대폰 검색" />
 			<s:Button id="refresh" label="다시가져오기" click="spinnerStart();submit();" />
 		</s:HGroup>
 		
@@ -191,8 +211,8 @@
 				<mx:DataGridColumn dataField="passwd" headerText="비밀번호" editable="false"></mx:DataGridColumn>
 				<mx:DataGridColumn dataField="user_name" headerText="이름"></mx:DataGridColumn>
 				<mx:DataGridColumn dataField="jumin_no" headerText="주민등록번호" ></mx:DataGridColumn>
-				<mx:DataGridColumn dataField="phone_return" headerText="회신번호"></mx:DataGridColumn>
 				<mx:DataGridColumn dataField="hp" headerText="휴대폰"></mx:DataGridColumn>
+				<mx:DataGridColumn dataField="phone_return" headerText="회신번호"></mx:DataGridColumn>
 				<mx:DataGridColumn dataField="unit_cost" headerText="단가"></mx:DataGridColumn>
 				<mx:DataGridColumn dataField="line" headerText="전송라인"></mx:DataGridColumn>
 				<mx:DataGridColumn dataField="memo" headerText="메모"></mx:DataGridColumn>

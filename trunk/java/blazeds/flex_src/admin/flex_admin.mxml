@@ -85,12 +85,33 @@
 		</mx:LinkBar>
 		<mx:ModuleLoader id="ml" width="100%" height="100%"></mx:ModuleLoader>
 	</s:Group>
-	<s:Group id="loginNo" width="100%" height="100%" horizontalCenter="0" visible="false">
-		<s:layout>
-			<s:HorizontalLayout/>
-		</s:layout>
-		<s:TextInput id="login_id"/>
-		<s:TextInput id="login_pw" displayAsPassword="true" enter="login_button_clickHandler(null)"/>
-		<s:Button id="login_button" label="로그인"  click="login_button_clickHandler(event)"/>
+	<s:Group id="loginNo" verticalCenter="0" horizontalCenter="0" width="300" height="100" visible="true">
+		<s:Rect id="background" left="0" right="0" top="0" bottom="0">
+			<s:fill>
+				<!--- @private -->
+				<s:SolidColor id="bgFill" color="#FFFFFF"/>
+			</s:fill>
+		</s:Rect>
+		<s:Rect left="0" right="0" top="0" bottom="0" radiusX="5" radiusY="5">
+			<s:stroke>
+				<s:LinearGradientStroke weight="2"/>
+			</s:stroke>
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:entries>
+						<s:GradientEntry color="0xEEEEEE"/>
+						<s:GradientEntry color="0xDDDDDD" alpha=".8" />
+					</s:entries>
+				</s:LinearGradient>    
+			</s:fill>
+		</s:Rect>
+		<s:HGroup verticalCenter="0" horizontalCenter="0">
+			<s:VGroup>
+				<s:TextInput id="login_id"/>
+				<s:TextInput id="login_pw" displayAsPassword="true" enter="login_button_clickHandler(null)"/>	
+			</s:VGroup>
+			<s:Button id="login_button" label="로그인" height="100%"  click="login_button_clickHandler(event)"/>
+		</s:HGroup>
+		
 	</s:Group>
 </s:Application>
