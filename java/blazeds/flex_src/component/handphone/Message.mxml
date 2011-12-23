@@ -18,7 +18,7 @@
 			import mx.rpc.events.ResultEvent;
 			
 			private var _message:String;
-			private var _maxByte:int = 80;
+			private var _maxByte:int = 90;
 			private var _currentByte:int = 0;
 			
 			[Bindable]private var _enable:Boolean = true;
@@ -184,7 +184,7 @@
 			<s:BitmapImage source="@Embed('/assets/spec_button.png')" />
 		</s:Group>
 		-->
-		<s:Label id="IByteLabel" right="0" text="80" width="14" textAlign="right" color="0xffffff" fontSize="11" verticalCenter="0"/>	
+		<s:Label id="IByteLabel" right="0" text="90" width="14" textAlign="right" color="0xffffff" fontSize="11" verticalCenter="0"/>	
 	</s:Group>
 	
 </s:VGroup>
