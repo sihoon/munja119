@@ -8,6 +8,7 @@ import java.util.List;
 import com.common.VbyP;
 import com.common.db.PreparedExecuteQueryManager;
 import com.common.util.SLibrary;
+import com.m.billing.Billing;
 import com.m.billing.BillingVO;
 import com.m.common.BooleanAndDescriptionVO;
 import com.m.common.PointManager;
@@ -278,6 +279,36 @@ public class Admin extends SessionManagement {
 			}
 		}
 		return rslt;
+	}
+	
+	public BooleanAndDescriptionVO setCash(String user_id, int amount, int point, boolean bSMS) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 관리자 충전");
+
+		BooleanAndDescriptionVO badvo = null;
+		
+		if (isLogin().getbResult()) {		
+			
+			try {
+				conn = VbyP.getDB();
+				BillingVO bvo = new BillingVO();
+				bvo.setUser_id(user_id);
+				bvo.setAdmin_id("admin");
+				bvo.setAmount( amount );
+				bvo.setMemo("");
+				bvo.setMethod("cash");
+				bvo.setOrder_no("");
+				
+				badvo = Billing.getInstance().setCashBilling(conn, bvo, point, bSMS);
+				
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("setCash >> conn.close() Exception!"); }
+			}
+		}
+		return badvo;
 	}
 	
 	public List<HashMap<String, String>> getPointLog() {
