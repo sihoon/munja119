@@ -5,6 +5,7 @@
 		   layout="absolute" width="100%" height="100%" xmlns:lib="lib.*">
 	<fx:Script>
 		<![CDATA[
+			import lib.BooleanAndDescriptionVO;
 			import lib.RO;
 			
 			import mx.collections.ArrayCollection;
@@ -122,6 +123,53 @@
 			}
 			
 			
+			protected function chAmount_keyUpHandler(event:KeyboardEvent):void
+			{
+				var amount:int = 0;
+				if (chAmount.text != "") amount = new int( chAmount.text);
+				var unit:int = 0;
+				
+					
+				if (amount < 1100000 ) unit = 12;
+				else if (amount < 3300000) unit = 11.5;
+				else if (amount < 5500000) unit = 11;
+				else if (amount >= 5500000 ) unit = 10.7;
+				else unit = 12;
+				
+				if (chUnitCheck.selected == true) {
+					
+					unit = new int(chUnit.text);
+				}
+					
+				chUnit.text = new String(unit); 
+				chCount.text = new String( Math.round( amount / (unit+(unit*0.1)) ) );
+				
+			}
+			
+			protected function chButton_clickHandler(event:MouseEvent):void
+			{
+				ro.set(RO_DESTINATION, charge_set_submit_ResultEventHandler);
+				ro.method.setCash(chId.text, new int(chAmount.text), chCount.text, chNoti.selected);
+				spinnerStart();
+			}
+			
+			
+			private function charge_set_submit_ResultEventHandler(event:ResultEvent):void {
+				
+				var rslt:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
+				
+				if (rslt.bResult == true) {
+					Alert.show("충전 되었습니다.");
+					spinnerStart();
+					chargePanel.visible = false;
+				}
+				else {
+					Alert.show("충전 실패 :"+rslt.strDescription);
+				}
+				
+				callLater(spinnerStop);
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -131,6 +179,7 @@
 		<s:HGroup top="2">
 			<s:TextInput id="tiIdFilter" keyUp="tiIdFilter_keyUpHandler(event)" toolTip="아이디 검색" />
 			<s:Button id="refresh" label="다시가져오기" click="spinnerStart();submit();" />
+			<s:Button id="chargeViewButton" label="충전하기" click="chargePanel.visible=true" />
 		</s:HGroup>
 		<mx:DataGrid id="dgGroup" left="0" right="0" top="25" bottom="0" draggableColumns="false"
 					 resizableColumns="false">
@@ -149,5 +198,34 @@
 			
 		</mx:DataGrid>
 		<lib:Spinner id="spinner" visible="false" left="10"  right="10" bottom="50" top="50" spinnerColor="#ff4500" spinnerHighlightColor="#ffffff" spinnerLineThickness="8" spinnerType="gradientlines" spinnerAlpha="0.5" />
+	</s:Panel>
+	<s:Panel id="chargePanel" title="충전하기" visible="false" horizontalCenter="0" verticalCenter="0">
+		<s:Form horizontalCenter="0" >
+			<s:FormItem label="아이디">
+				<s:TextInput id="chId"/>
+			</s:FormItem>
+			<s:FormItem label="금액(vat 포함)">
+				<s:TextInput id="chAmount" keyUp="chAmount_keyUpHandler(event)" restrict="0-9"/>
+			</s:FormItem>
+			<s:FormItem label="단가(vat 미포함)">
+				<s:HGroup>
+					<s:TextInput id="chUnit" text="12.0" editable="{chUnitCheck.selected}" restrict="0-9 ."/>
+					<s:CheckBox id="chUnitCheck" label="수동단가"/>	
+				</s:HGroup>
+			</s:FormItem>
+			<s:FormItem label="건수">
+				<s:TextInput id="chCount" restrict="0-9"/>
+			</s:FormItem>
+			<s:FormItem label="충전정보발송">
+				<s:CheckBox id="chNoti" label="발송함"/>
+			</s:FormItem>
+			<s:FormItem>
+				<s:HGroup>
+					<s:Button id="chButton" label="충전" click="chButton_clickHandler(event)"/>
+					<s:Button id="chCancelButton" label="취소" click="chargePanel.visible=false"/>	
+				</s:HGroup>
+				
+			</s:FormItem>
+		</s:Form>
 	</s:Panel>
 </mx:Module>
