@@ -1524,10 +1524,10 @@ public class Web extends SessionManagement{
 	/*###############################
 	#	coupon						#
 	###############################*/
-	public boolean setCoupon(String key) {
+	public String setCoupon(String key) {
 		
 		Connection conn = null;
-		boolean bResult = false;
+		String resultString = "";
 		
 		try {
 			String user_id = getSession();
@@ -1552,7 +1552,7 @@ public class Web extends SessionManagement{
 			pq.setString(1, key);
 			
 			String keyCheck = pq.ExecuteQueryString();
-			if (!SLibrary.isNull(keyCheck)) {
+			if (SLibrary.isNull(keyCheck)) {
 				VbyP.accessLog(" >> 쿠폰 요청 "+ user_id+" : 사용되거나 없는 key "+ usedKey);
 				throw new Exception("존재하지 않거나 사용된 쿠폰입니다.");
 			}
@@ -1574,15 +1574,18 @@ public class Web extends SessionManagement{
 			if (rslt != 1)
 				throw new Exception("건수 충전에 실패 하였습니다.");
 			
-			bResult = true;
 			
-		}catch (Exception e) { VbyP.errorLogDaily("setCoupon >>"+e.toString()); }	
+			
+		}catch (Exception e) {
+			resultString = e.getMessage();
+			VbyP.errorLogDaily("setCoupon >>"+e.toString()); 
+		}	
 		finally {			
 			try { if ( conn != null ) conn.close();
 			}catch(SQLException e) { VbyP.errorLog("setCoupon >> conn.close() Exception!"); }
 			conn = null;
 		}
-		return bResult;
+		return resultString;
 	}
 	
 }
