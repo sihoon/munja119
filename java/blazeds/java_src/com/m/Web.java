@@ -1521,6 +1521,68 @@ public class Web extends SessionManagement{
 		
 	}
 	
-	
+	/*###############################
+	#	coupon						#
+	###############################*/
+	public boolean setCoupon(String key) {
+		
+		Connection conn = null;
+		boolean bResult = false;
+		
+		try {
+			String user_id = getSession();
+			if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
+			conn = VbyP.getDB();
+			if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");
+			if (SLibrary.isNull(key)) throw new Exception("쿠폰번호를 입력하세요.");
+			
+			VbyP.accessLog(" >> 쿠폰 요청 "+ user_id+" : "+ key);
+			
+			String SQL = VbyP.getSQL( "couponUserSelect" );
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared(conn, SQL);
+			pq.setString(1, user_id);
+			String usedKey = pq.ExecuteQueryString();
+			if (!SLibrary.isNull(usedKey)) {
+				VbyP.accessLog(" >> 쿠폰 요청 "+ user_id+" : 사용한 key "+ usedKey);
+				throw new Exception("고객님 id는 쿠폰을 사용 하셨습니다.");
+			}
+			SQL = VbyP.getSQL( "couponKeySelect" );
+			pq.setPrepared(conn, SQL);
+			pq.setString(1, key);
+			
+			String keyCheck = pq.ExecuteQueryString();
+			if (!SLibrary.isNull(keyCheck)) {
+				VbyP.accessLog(" >> 쿠폰 요청 "+ user_id+" : 사용되거나 없는 key "+ usedKey);
+				throw new Exception("존재하지 않거나 사용된 쿠폰입니다.");
+			}
+			
+			SQL = VbyP.getSQL( "couponUse" );
+			pq.setPrepared(conn, SQL);
+			pq.setString(1, user_id);
+			pq.setString(2, key);
+			int rslt = pq.executeUpdate();
+			
+			if (rslt < 1) throw new Exception("쿠폰 등록에 실패하였습니다.");
+			
+			int addCount = SLibrary.intValue( VbyP.getValue("couponCount") );
+			
+			UserInformationVO uvo = new SessionManagement().getUserInformation(conn, user_id);
+			PointManager pm = PointManager.getInstance();
+			rslt = pm.insertUserPoint(conn, uvo, 96, addCount * PointManager.DEFULT_POINT);
+			
+			if (rslt != 1)
+				throw new Exception("건수 충전에 실패 하였습니다.");
+			
+			bResult = true;
+			
+		}catch (Exception e) { VbyP.errorLogDaily("setCoupon >>"+e.toString()); }	
+		finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("setCoupon >> conn.close() Exception!"); }
+			conn = null;
+		}
+		return bResult;
+	}
 	
 }
