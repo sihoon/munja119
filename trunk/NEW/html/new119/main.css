@@ -1,0 +1,32 @@
+/*전체 Box*/
+div.context {width:950px; height:auto; overflow-x:hidden;margin:0px auto;}
+
+#topSub {float:right;}
+#logo {clear:both;width:950px; height:65px;background:url("images/main_03.png") no-repeat;text-indent:-1000px;}
+#menu {background:url("images/main_05.png") repeat-x; width:900px;height:44px; padding-left:50px}
+#menu li {display:block;float:left;text-indent:-1000px;}
+#menu .sms {width:120px; height:44px;margin-right:40px;background:url("images/main_07.png") no-repeat; text-indent:-1000px;}
+#menu .lmsmms {width:155px; height:44px;margin-right:40px;background:url("images/main_09.png") no-repeat; text-indent:-1000px;}
+#menu .billing {width:73px; height:44px;margin-right:90px;background:url("images/main_11.png") no-repeat; text-indent:-1000px;}
+#menu .sent {width:116px; height:44px;background:url("images/main_13.png") no-repeat; text-indent:-1000px;}
+#menu .excel {width:134px; height:44px;background:url("images/main_14.png") no-repeat; text-indent:-1000px;}
+#menu .address {width:119px; height:44px;background:url("images/main_15.png") no-repeat; text-indent:-1000px;}
+
+/*메인*/
+#main {}
+#main .introduce {width:950px;height:154px; overflow:hidden;}
+#main .introduce li {display:block;float:left;height:154px;text-indent:-1000px;}
+#main .introduce .intro1 {width:237px;background:url("images/main_17.png") no-repeat;}
+#main .introduce .intro2 {width:238px;background:url("images/main_18.png") no-repeat;}
+#main .introduce .intro3 {width:239px;background:url("images/main_19.png") no-repeat;}
+#main .introduce .intro4 {width:236px;background:url("images/main_20.png") no-repeat;}
+
+#main .login {float:left;width:200px;height:170px;border:5px solid #ccc;margin-top:10px;}
+#main #mobile {float:right;width:276px;height:535px;background:url("images/main_0.png") no-repeat;text-indent:-1000px;}
+#main .function {display:block;float:right;width:450px;height:446px;background:url("images/main_22.png") no-repeat;text-indent:-9000px;}
+#main .smart {display:block;float:right;width:380px;height:80px;background:url("images/main_57.png") no-repeat;text-indent:-9000px;}
+
+#main .cost {display:block;float:left;width:210px;height:143px;background:url("images/main_37.png") no-repeat;text-indent:-1000px;margin-top:10px;}
+
+#main .custom {display:block;float:left;width:210px;height:164px;background:url("images/main_54.png") no-repeat;text-indent:-1000px;margin-top:10px;}
+
