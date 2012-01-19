@@ -17,7 +17,7 @@ ul,ol {margin:0;padding:0;list-style:none;}
 li, dl, dd, dt { margin:0; padding:0;}
 legend, hr, caption{visibility:hidden;overflow:hidden;position:absolute;width:0;height:0;font-size:0;line-height:0;}
 td *, div *, li *, span *, p * { vertical-align: middle;}
-button {cursor:pointer;}
+button {cursor:pointer;padding:0px;margin:0px;}
 
 input.type_img, li img { vertical-align: middle; /* For IE image margin */}
 input.inputText, textarea, select {border: 1px solid #c9c9c9;background: #fff;}

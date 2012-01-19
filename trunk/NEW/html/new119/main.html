@@ -72,10 +72,11 @@
             </fieldset>
             <fieldset class="phoneBox">
                 <legend>받는사람</legend>
+				<label for="firstPhone" class="phonelabel">받는사람</label>
                 <button class="address">주소록</button>
                 <button class="sent">최근발신</button>
                 <ol class="listBox">
-                    <li><input type="text" value="adfasdf" /><button>x</button></li>
+                    <li><input type="text" id="firstPhone"/><button>x</button></li>
                     <li><input type="text" /><button>x</button></li>
                     <li><input type="text" /><button>x</button></li>
                     <li><input type="text" /><button>x</button></li>
@@ -93,7 +94,7 @@
                 <legend>전송</legend>
                 <input type="checkbox" name="reservation" id="reservation"/><label for="reservation">예약</label>
                 <input type="checkbox" name="interval" id="interval"/><label for="interval">시간차발송</label>
-                <button class="send">전송</button>
+                <button class="send">보내기</button>
                 <button class="cancel">취소</button>
             </fieldset>
         </div><!-- 핸드폰 End-->
@@ -103,9 +104,8 @@
 
         <p class="custom">Custom Center : 070-7510-8489, Fax: 031)970-8489</p>
 
-        
-        
-        <fieldset><!--이모티콘 Start-->
+
+        <fieldset id="emoticon"><!--이모티콘 Start-->
             <legend>이모티콘</legend>
             <button>더보기</button>
             <ul>
