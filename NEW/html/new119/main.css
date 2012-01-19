@@ -14,6 +14,7 @@ div.context {width:950px; height:auto; overflow-x:hidden;margin:0px auto;}
 
 /*메인*/
 #main {}
+#main button{display:block;}
 #main .introduce {width:950px;height:154px; overflow:hidden;}
 #main .introduce li {display:block;float:left;height:154px;text-indent:-1000px;}
 #main .introduce .intro1 {width:237px;background:url("images/main_17.png") no-repeat;}
@@ -22,40 +23,40 @@ div.context {width:950px; height:auto; overflow-x:hidden;margin:0px auto;}
 #main .introduce .intro4 {width:236px;background:url("images/main_20.png") no-repeat;}
 
 #main .login {float:left;width:172px;height:132px;padding:19px 14px;border:5px solid #ccc;margin-top:10px;}
-#main .login input{ width:118px;margin-bottom:10px;}
-#main .login .idlabel {float:left;display:block;margin-right:5px;margin-bottom:10px;border:none;width:44px;height:18px;background:url("images/main_24.png") no-repeat;text-indent:-9000px;}
-#main .login .pwlabel {float:left;display:block;margin-right:5px;margin-bottom:10px;border:none;width:44px;height:18px;background:url("images/main_27.png") no-repeat;text-indent:-9000px;}
-#main .login .loginBtn {border:none; width:172px;height:33px;margin-top:5px;margin-bottom:10px;background:url("images/main_29.png") no-repeat;text-indent:-9000px;}
-#main .login .joinBtn {border:none; width:83px;height:24px;background:url("images/main_32.png") no-repeat;text-indent:-9000px;}
-#main .login .findBtn {border:none; width:83px;height:24px;background:url("images/main_34.png") no-repeat;text-indent:-9000px;}
+#main .login input{ display:block;float:left;width:120px;margin-bottom:10px;}
+#main .login .idlabel {float:left;display:block;margin-bottom:10px;border:none;width:44px;height:18px;background:url("images/main_24.png") no-repeat;text-indent:-9000px;}
+#main .login .pwlabel {float:left;display:block;margin-bottom:10px;border:none;width:44px;height:18px;background:url("images/main_27.png") no-repeat;text-indent:-9000px;}
+#main .login .loginBtn {clear:left;display:block;border:none; width:172px;height:33px;margin-top:5px;margin-bottom:10px;background:url("images/main_29.png") no-repeat;text-indent:-9000px;}
+#main .login .joinBtn {border:none;float:left; width:83px;height:24px;background:url("images/main_32.png") no-repeat;text-indent:-9000px;}
+#main .login .findBtn {border:none;float:right; width:83px;height:24px;background:url("images/main_34.png") no-repeat;text-indent:-9000px;}
 
 #main #mobile {float:right;width:248px;height:445px;padding-left:28px;padding-top:90px; background:url("images/main_0.png") no-repeat;text-indent:-1000px;}
-#main #mobile .messageBox{width:220px;height:180px;}
-#main #mobile .messageBox textarea {display:block;width:210px;height:112px;padding:5px;background: transparent;}
-#main #mobile .messageBox .emoti {float:left;margin-left:5px;margin-right:5px;display:block;border:none;width:51px;height:20px;background:url("images/main_40.png") no-repeat;text-indent:-9000px}
+#main #mobile .messageBox{width:220px;height:180px;display:block;}
+#main #mobile .messageBox textarea {display:block;width:210px;height:112px;padding:5px;background: transparent;border:0px}
+#main #mobile .messageBox .emoti {float:left;margin-left:5px !important;margin-left:2px;margin-right:5px;display:block;border:none;width:51px;height:20px;background:url("images/main_40.png") no-repeat;text-indent:-9000px}
 #main #mobile .messageBox .char {float:left;display:block;border:none;width:51px;height:20px;background:url("images/main_42.png") no-repeat;text-indent:-9000px}
 #main #mobile .messageBox .byte {float:right;margin-right:5px;display:block;width:100px;height:20px;text-indent:0px;text-align:right;}
-#main #mobile .messageBox .image {margin-top:12px;float:left;display:block;border:1px solid;font-size:11px;width:px;height:20px;background:url("images/main_.png") no-repeat;background-color:#aaa;}
-#main #mobile .messageBox .review {margin-top:12px;float:left;display:block;border:1px solid;font-size:11px;width:px;height:20px;background:url("images/main_.png") no-repeat;background-color:#aaa;}
-#main #mobile .messageBox .reset {margin-top:12px;float:left;display:block;border:1px solid;font-size:11px;width:px;height:20px;background:url("images/main_.png") no-repeat;background-color:#aaa;}
+#main #mobile .messageBox .image {margin-top:12px;float:left;display:block;border:1px solid;font-size:11px;width:49px;height:20px;background:url("images/main_.png") no-repeat;background-color:#aaa;text-indent:0px}
+#main #mobile .messageBox .review {margin-top:12px;float:left;display:block;border:1px solid;font-size:11px;width:49px;height:20px;background:url("images/main_.png") no-repeat;background-color:#aaa;text-indent:0px}
+#main #mobile .messageBox .reset {margin-top:12px;float:left;display:block;border:1px solid;font-size:11px;width:49px;height:20px;background:url("images/main_.png") no-repeat;background-color:#aaa;text-indent:0px}
 #main #mobile .messageBox .save {margin-top:12px;float:right;display:block;border:none;width:62px;height:20px;background:url("images/main_47.png") no-repeat;text-indent:-9000px}
 
-#main #mobile .phoneBox {width:220px;margin-top:5px;}
-#main #mobile .phoneBox legend {margin-bottom:5px;display:block;float:left;width:50px;height:18px;color:white;visibility:visible;overflow:hidden;position:static;font-size:12px;line-height:18px;text-indent: 0px;}
-#main #mobile .phoneBox .address {float:left;display:block;border:none;width:56px;height:18px;background:url("images/main_50.png") no-repeat;text-indent:-9000px}
+#main #mobile .phoneBox {display:block;width:220px;margin-top:5px;}
+#main #mobile .phoneBox .phonelabel {margin-bottom:5px;display:block;float:left;width:50px;height:18px;color:white;text-indent:0px;}
+#main #mobile .phoneBox .address {float:left;display:block;border:none;width:56px;height:18px;background:url("images/main_50.png") no-repeat;text-indent:-9000px;}
 #main #mobile .phoneBox .sent {float:left;display:block;border:none;width:62px;height:18px;background:url("images/main_51.png") no-repeat;text-indent:-9000px}
 #main #mobile .phoneBox .listBox {clear:both;display:block;width:220px;height:135px;overflow-y: scroll;}
-#main #mobile .phoneBox .listBox li{border:1px solid #333;height:18px;background-color:#aaa;margin-bottom:3px;}
-#main #mobile .phoneBox .listBox li input{float:left;diaplay:block;border:none;height:18px;width:176px;padding-left:4px;color:white;background-color:#aaa;}
-#main #mobile .phoneBox .listBox li button{display:block;border:none;width:20px;height:18px;background-color:#aaa;color:white;}
-#main #mobile .phoneBox .dup{float:right;margin-top:4px;display:block;border:1px solid;background-color:#aaa;font-size:11px;text-indent:0px;}
-#main #mobile .phoneBox .many{float:right;margin-top:4px;display:block;border:1px solid;background-color:#aaa;font-size:11px;text-indent:0px;}
+#main #mobile .phoneBox .listBox li{display:block;border:1px solid #333;width:200px;height:18px;background-color:#aaa;margin-bottom:3px;overflow:hidden;}
+#main #mobile .phoneBox .listBox li input{float:left;display:block;border:0px;height:18px;width:170px;padding-left:4px;color:white;background-color:#aaa;}
+#main #mobile .phoneBox .listBox li button{display:block;float:left;border:0px;width:20px;height:18px;background-color:#aaa;color:white;text-indent:0px}
+#main #mobile .phoneBox .dup{float:right;margin-top:2px;display:block;border:1px solid;width:80px;height:20px;background-color:#aaa;font-size:11px;text-indent:0px;}
+#main #mobile .phoneBox .many{float:right;margin-top:2px;display:block;border:1px solid;width:100px;height:20px;background-color:#aaa;font-size:11px;text-indent:0px;}
 
 #main #mobile .sendBox {display:block;width:220px;height:50px;margin-top:10px;}
-#main #mobile .sendBox label{display:block;float:left;color:white;text-indent:0px;margin-right:20px;}
+#main #mobile .sendBox label{display:block;float:left;color:white;text-indent:0px;margin-right:20px;width:60px;}
 #main #mobile .sendBox input{display:block;float:left;text-indent:0px;}
-#main #mobile .sendBox .send{clear:left;float:left;margin-left:20px;margin-right:10px;display:block;border:none;width:84px;height:29px;background:url("images/main_60.png") no-repeat;text-indent:-9000px;}
-#main #mobile .sendBox .cancel{float:left;display:block;border:none;width:84px;height:29px;}
+#main #mobile .sendBox .send{float:left;margin-left:20px !important;margin-left:10px;margin-right:10px;display:block;border:none;width:84px;height:29px;background:url("images/main_60.png") no-repeat;text-indent:-9000px}
+#main #mobile .sendBox .cancel{float:left;display:block;border:0px;width:84px;height:29px;text-indent:0px;margin-left:10px;}
 
 #main .adBox {float:right;width:450px;}
 #main .adBox .function {display:block;width:450px;height:446px;background:url("images/main_22.png") no-repeat;text-indent:-9000px;border:none;font-size:0px;line-height:0;}
@@ -65,3 +66,4 @@ div.context {width:950px; height:auto; overflow-x:hidden;margin:0px auto;}
 
 #main .custom {display:block;float:left;width:210px;height:164px;background:url("images/main_54.png") no-repeat;text-indent:-1000px;margin-top:10px;}
 
+#main #emoticon {display:block;clear:both;}
