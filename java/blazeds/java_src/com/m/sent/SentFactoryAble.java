@@ -15,6 +15,6 @@ public interface SentFactoryAble {
 	
 	BooleanAndDescriptionVO deleteSentGroupList(Connection conn, String user_id, int idx );
 	BooleanAndDescriptionVO deleteSentGroupList(Connection conn, String user_id);
-	BooleanAndDescriptionVO cancelSentGroupList(Connection conn, Connection connSMS, UserInformationVO mvo, int idx) throws Exception ;
+	BooleanAndDescriptionVO cancelSentGroupList(Connection conn, Connection connSMS, UserInformationVO mvo, int idx, String sendLine) throws Exception ;
 	
 }

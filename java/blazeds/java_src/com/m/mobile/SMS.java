@@ -64,7 +64,16 @@ public class SMS implements SMSAble {
 		
 		int resultCount = 0;
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-		pq.setPrepared( connSMS, VbyP.getSQL("insertClient") );
+		String resultStateCode = "2";
+		if (SLibrary.IfNull(via).equals("sk")) {
+			pq.setPrepared( connSMS, VbyP.getSQL("insertClientSK") );
+			resultStateCode = "9";
+		}
+		else
+			pq.setPrepared( connSMS, VbyP.getSQL("insertClient") );
+		
+		
+		
 		
 		int count = al.size();
 		SMSClientVO vo = null;
@@ -84,7 +93,7 @@ public class SMS implements SMSAble {
 				vo = al.get(i);
 				
 				if (hashTable.containsKey(vo.TR_PHONE)){
-					insertSMSClientPqSetter_fail(pq, vo, "99"); 	
+					insertSMSClientPqSetter_fail(pq, vo,resultStateCode, "99"); 	
 				}else {
 					hashTable.put(vo.TR_PHONE, "");
 					insertSMSClientPqSetter(pq, vo);
@@ -121,7 +130,14 @@ public class SMS implements SMSAble {
 		
 		int resultCount = 0;
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-		pq.setPrepared( connSMS, VbyP.getSQL("insertClient") );
+		
+		String resultStateCode = "2";
+		if (SLibrary.IfNull(via).equals("sk")) {
+			pq.setPrepared( connSMS, VbyP.getSQL("insertClientSK") );
+			resultStateCode = "9";
+		}
+		else
+			pq.setPrepared( connSMS, VbyP.getSQL("insertClient") );
 		
 		int count = al.size();
 		SMSClientVO vo = null;
@@ -140,11 +156,11 @@ public class SMS implements SMSAble {
 				vo = al.get(i);
 				//수신거부
 				if (Refuse.isRefuse(hashTable_refuse, vo.TR_PHONE)){
-					insertSMSClientPqSetter_fail(pq, vo, "98");
+					insertSMSClientPqSetter_fail(pq, vo,resultStateCode, "98");
 				}					
 				//중복 실패
 				else if (hashTable.containsKey(vo.TR_PHONE)){
-					insertSMSClientPqSetter_fail(pq, vo, "99");
+					insertSMSClientPqSetter_fail(pq, vo,resultStateCode, "99");
 				}else {
 					hashTable.put(vo.TR_PHONE, "");
 					insertSMSClientPqSetter(pq, vo);
@@ -244,7 +260,7 @@ public class SMS implements SMSAble {
 			vo.setTR_ETC2( mvo.getUser_id() );
 			vo.setTR_ETC3( ip );
 			vo.setTR_ETC4( TRAN_TYPE_CODE );
-			vo.setTR_ETC5( "" );
+			vo.setTR_ETC5( (bReservation)?"R":"I" );
 			vo.setTR_ETC6( Integer.toString(SMSLogKey) );
 			//vo.setTR_ETC7( getPayTypeCode(mvo.getPay_type())+"|"+SLibrary.getUnixtimeStringSecond());
 			
@@ -362,7 +378,7 @@ public class SMS implements SMSAble {
 		pq.setString(15, vo.getTR_SENDDATE());
 	}
 	
-	private void insertSMSClientPqSetter_fail(PreparedExecuteQueryManager pq, SMSClientVO vo, String code) {
+	private void insertSMSClientPqSetter_fail(PreparedExecuteQueryManager pq, SMSClientVO vo, String state, String code) {
 		
 		pq.setString(1, vo.getTR_SENDDATE());
 		pq.setString(2, vo.getTR_ID());
@@ -376,7 +392,7 @@ public class SMS implements SMSAble {
 		pq.setString(10, vo.getTR_ETC5());
 		pq.setString(11, vo.getTR_ETC6());
 		//TR_SENDSTAT, TR_RSLTSTAT, TR_RSLTDATE, TR_MODIFIED
-		pq.setString(12, "2");
+		pq.setString(12, state);
 		pq.setString(13, code);
 		pq.setString(14, vo.getTR_SENDDATE());
 		pq.setString(15, vo.getTR_SENDDATE());

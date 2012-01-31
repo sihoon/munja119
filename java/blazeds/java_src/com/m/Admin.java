@@ -442,12 +442,12 @@ public class Admin extends SessionManagement {
 				if (user_id != null && !user_id.equals("")) {
 							
 					PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-					pq.setPrepared( connSMS, VbyP.getSQL("selectSentData") );
+					if (SLibrary.IfNull(line).equals("sk")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataSK") );
+					else pq.setPrepared( connSMS, VbyP.getSQL("selectSentData") );
 					pq.setString(1, user_id);
 					pq.setString(2, Integer.toString(groupIndex));
 					pq.setString(3, user_id);
 					pq.setString(4, Integer.toString(groupIndex));
-					
 					
 					al = pq.ExecuteQueryArrayList();
 
