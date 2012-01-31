@@ -1076,7 +1076,7 @@ public class Web extends SessionManagement{
 				
 				connSMS = VbyP.getDB(sendLine);
 				if (connSMS == null) throw new Exception("SMS DB연결이 되어 있지 않습니다.("+sendLine+")");
-				rvo = sf.cancelSentGroupList(conn, connSMS, vo, idx);
+				rvo = sf.cancelSentGroupList(conn, connSMS, vo, idx, sendLine);
 				
 				
 				if (rvo.getbResult()) {
