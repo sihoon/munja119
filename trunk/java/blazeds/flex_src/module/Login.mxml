@@ -147,6 +147,29 @@
 				parentApplication.moveMenu('module/Billing.swf');
 			}
 			
+			protected function coupon_clickHandler(event:MouseEvent):void
+			{
+				var key:String = couponText.text;
+				if (key == "") {
+					ExternalInterface.call("alert","쿠폰번호를 입력 하세요.");
+				}else {
+					ro.set(RO_DESTINATION, coupon_ResultEventHandler);
+					ro.method.setCoupon(key);	
+				}
+				
+			}
+			
+			protected function coupon_ResultEventHandler(event:ResultEvent):void
+			{
+				var rslt:String = event.result as String;
+				if (rslt == null || rslt == "") {
+					ExternalInterface.call("alert", "등록 되었습니다.");
+					creationCompleteHandler();
+				} else {
+					ExternalInterface.call("alert", rslt);
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	<mx:states>
@@ -194,6 +217,10 @@
 			<s:HGroup verticalAlign="middle">
 				<s:Button label="정보수정" click="{parentApplication.moveMenu('module/Modify.swf')}"/>
 				<s:Button label="로그아웃" click="logout_button_clickHandler(event)"/>	
+			</s:HGroup>
+			<s:HGroup verticalAlign="middle">
+				<s:TextInput id="couponText" />
+				<s:Button label="쿠폰입력" click="coupon_clickHandler(event)" />
 			</s:HGroup>
 		</s:VGroup>
 		

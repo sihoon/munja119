@@ -187,6 +187,7 @@
 				<mx:DataGrid id="dgGroup" width="100%" height="100%" draggableColumns="false" resizableColumns="false">
 					<mx:columns>
 						<mx:DataGridColumn headerText="번호" sortable="false" labelFunction="fnLabel" width="50"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="line" headerText="라인" width="50"></mx:DataGridColumn>
 						<mx:DataGridColumn dataField="user_id" headerText="아이디" width="100"></mx:DataGridColumn>
 						<mx:DataGridColumn dataField="timeSend" headerText="전송시간" width="130"></mx:DataGridColumn>
 						<mx:DataGridColumn dataField="returnPhone" headerText="회신번호"></mx:DataGridColumn>
