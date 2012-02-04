@@ -1,5 +1,6 @@
-/*Ï†ÑÏ≤¥ Box*/
-div.context {width:950px; height:auto; overflow-x:hidden;margin:0px auto;}
+#banner {position: absolute;top: 0;right: -100px;width:106px;height:106px;background:url("images/scroll.gif") no-repeat;}
+/*¿¸√º Box*/
+div.context {position: relative;width:950px; height:auto; overflow-x:hidden;margin:0px auto;}
 .ti {text-indent:-1000px;}
 #topSub {float:right;}
 #topSub a{font-size:11px;}
@@ -14,7 +15,7 @@ div.context {width:950px; height:auto; overflow-x:hidden;margin:0px auto;}
 #menu .address {width:130px; height:44px;background:url("images/m06.jpg") 0 0 no-repeat; }
 #menu a:hover {background-position: 0 -44px;}
 
-/*Î©îÏù∏*/
+/*∏ﬁ¿Œ*/
 #main {}
 #main button{display:block;}
 #main .introduce {width:950px;height:154px; overflow:hidden;}
@@ -89,7 +90,7 @@ div.context {width:950px; height:auto; overflow-x:hidden;margin:0px auto;}
 #main #emoticon .middle .subTitle a.pre {width:16px;height:19px;background:url("images/icon_left.gif") no-repeat;overflow:hidden;text-indent:-1000px;margin-right:10px;}
 #main #emoticon .middle .subTitle a.next {float:right;width:16px;height:19px;background:url("images/icon_right.gif") no-repeat;overflow:hidden;text-indent:-1000px;}
 #main #emoticon .emtibox {margin-left:12px;width:925px;overflow:hidden;margin-top:10px;overflow-y:auto;}
-#main #emoticon .emtibox .emti {display:block;float:left;width:117px; height:115px;padding:0 30px; padding-top:25px;background:url("images/pro_bg.gif") no-repeat;margin-right:8px;margin-bottom:10px;font-size: 10pt;font-family: 'Íµ¥Î¶ºÏ≤¥';color: black;}
+#main #emoticon .emtibox .emti {display:block;float:left;width:117px; height:115px;padding:0 30px; padding-top:25px;background:url("images/pro_bg.gif") no-repeat;margin-right:8px;margin-bottom:10px;font-size: 10pt;font-family: '±º∏≤√º';color: black;}
 
 #main .potomore {margin-top:10px;display:block;float:right;width:46px;height:16px;background:url("images/more.gif") no-repeat;text-indent:-1000px;}
 #main #poto {width:950px; height:230px;padding-top:20px; background:url("images/hit_title.gif") no-repeat;overflow-y:auto;}

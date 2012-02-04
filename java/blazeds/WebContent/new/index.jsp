@@ -10,10 +10,23 @@
     <title> new 119 </title>
     <link type="text/css" rel="stylesheet" href="base.css?ver=1.0"/>
     <link type="text/css" rel="stylesheet" href="main.css?ver=1.1"/>
-    </head>
+    <script type="text/javascript"  language="javascript" src="js/jquery-1.7.1.min.js?ver=1.0"></script>
+    <script type="text/javascript">
+	$(function() {
+		$(window).scroll(function() {
+			_top = $(document).scrollTop();
+			setTimeout(function() {
+				$('#sideBanner').stop().animate({ top: _top }, 500, 'easeOutBack');
+			}, 500);
+		});
+	});
+	</script>
+</head>
 
 <body>
+
 <div class="context">
+	<div id="sideBanner"></div>
     <div id="topSub"><!--top-sub-->
         <a href="">로그인</a> | <a href="">회원가입</a> | <a href="">마이119</a> | <a href="">고객센터</a> | <img src="images/add.gif" />
     </div>
