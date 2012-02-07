@@ -93,10 +93,16 @@ public class SMS implements SMSAble {
 				vo = al.get(i);
 				
 				if (hashTable.containsKey(vo.TR_PHONE)){
-					insertSMSClientPqSetter_fail(pq, vo,resultStateCode, "99"); 	
+					if (SLibrary.IfNull(via).equals("sk")) 
+						insertSMSClientPqSetter_failSK(pq, vo,resultStateCode, "99", i);
+					else
+						insertSMSClientPqSetter_fail(pq, vo,resultStateCode, "99");
 				}else {
 					hashTable.put(vo.TR_PHONE, "");
-					insertSMSClientPqSetter(pq, vo);
+					if (SLibrary.IfNull(via).equals("sk")) 
+						insertSMSClientPqSetterSK(pq, vo, i);
+					else
+						insertSMSClientPqSetter(pq, vo);
 				}
 				
 				pq.addBatch();
@@ -110,11 +116,13 @@ public class SMS implements SMSAble {
 					resultCount += pq.executeBatch();
 					
 					try { if ( connSMS != null ) connSMS.close(); } 
-					catch(Exception e) {System.out.println( "connSMS close Error!!!!" + e.toString());}
+					catch(Exception e) {System.out.println( via+"connSMS close Error!!!!" + e.toString());}
 					
 					connSMS = VbyP.getDB(via);					
-					if (connSMS != null) System.out.println("connSMS connection!!!!");
-					pq.setPrepared( connSMS, VbyP.getSQL("insertClient") );
+					if (connSMS != null) System.out.println(via+"connSMS connection!!!!");
+					
+					if (SLibrary.IfNull(via).equals("sk")) pq.setPrepared( connSMS, VbyP.getSQL("insertClientSK") );
+					else pq.setPrepared( connSMS, VbyP.getSQL("insertClient") );
 				}
 				
 			}
@@ -378,6 +386,27 @@ public class SMS implements SMSAble {
 		pq.setString(15, vo.getTR_SENDDATE());
 	}
 	
+	private void insertSMSClientPqSetterSK(PreparedExecuteQueryManager pq, SMSClientVO vo, int num) {
+		
+		pq.setString(1, vo.getTR_SENDDATE());
+		pq.setString(2, vo.getTR_ID());
+		pq.setString(3, vo.getTR_PHONE());
+		pq.setString(4, vo.getTR_CALLBACK());
+		pq.setString(5, vo.getTR_MSG());
+		pq.setString(6, vo.getTR_ETC1());
+		pq.setString(7, vo.getTR_ETC2());
+		pq.setString(8, vo.getTR_ETC3());
+		pq.setString(9, vo.getTR_ETC4());
+		pq.setString(10, vo.getTR_ETC5());
+		pq.setString(11, vo.getTR_ETC6());
+		//TR_SENDSTAT, TR_RSLTSTAT, TR_RSLTDATE, TR_MODIFIED
+		pq.setString(12, "0");
+		pq.setString(13, "00");
+		pq.setString(14, vo.getTR_SENDDATE());
+		pq.setString(15, vo.getTR_SENDDATE());
+		pq.setString(16, vo.getTR_ETC6()+Integer.toString(num));
+	}
+	
 	private void insertSMSClientPqSetter_fail(PreparedExecuteQueryManager pq, SMSClientVO vo, String state, String code) {
 		
 		pq.setString(1, vo.getTR_SENDDATE());
@@ -396,6 +425,27 @@ public class SMS implements SMSAble {
 		pq.setString(13, code);
 		pq.setString(14, vo.getTR_SENDDATE());
 		pq.setString(15, vo.getTR_SENDDATE());
+	}
+	
+	private void insertSMSClientPqSetter_failSK(PreparedExecuteQueryManager pq, SMSClientVO vo, String state, String code, int num) {
+		
+		pq.setString(1, vo.getTR_SENDDATE());
+		pq.setString(2, vo.getTR_ID());
+		pq.setString(3, vo.getTR_PHONE());
+		pq.setString(4, vo.getTR_CALLBACK());
+		pq.setString(5, vo.getTR_MSG());
+		pq.setString(6, vo.getTR_ETC1());
+		pq.setString(7, vo.getTR_ETC2());
+		pq.setString(8, vo.getTR_ETC3());
+		pq.setString(9, vo.getTR_ETC4());
+		pq.setString(10, vo.getTR_ETC5());
+		pq.setString(11, vo.getTR_ETC6());
+		//TR_SENDSTAT, TR_RSLTSTAT, TR_RSLTDATE, TR_MODIFIED
+		pq.setString(12, state);
+		pq.setString(13, code);
+		pq.setString(14, vo.getTR_SENDDATE());
+		pq.setString(15, vo.getTR_SENDDATE());
+		pq.setString(16, vo.getTR_ETC6()+Integer.toString(num));
 	}
 	
 	public ArrayList<String[]> getPhone(Connection conn, String user_id, ArrayList<PhoneListVO> al) {
