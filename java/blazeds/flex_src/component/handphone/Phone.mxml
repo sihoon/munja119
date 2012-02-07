@@ -103,6 +103,30 @@
 			private function phoneFomat(item:Object, column:DataGridColumn):String	{ 
 				return Kpf.format(item.phoneNumber); 
 			}
+			
+			private function duplicateCheck():void {
+				var cnt:int = phoneList.length;
+				var arr:ArrayCollection = new ArrayCollection();
+				var tempStr:String = "";
+				var dupCnt:Number = 0;
+				
+				var vo:PhoneListVO = null;
+				for (var i:int = 0; i < cnt; i++) {
+					
+					vo = phoneList.getItemAt(i) as PhoneListVO;
+					if (tempStr.search(vo.phoneNumber) == -1) {
+						//중복체크용 문자열에 값이 없으면 새로운 배열에 추가
+						arr.addItem(vo);
+						tempStr += vo.phoneNumber + " ";
+					}else {
+						dupCnt++;
+					}
+					
+				}
+				al = arr;
+				ExternalInterface.call("alert", dupCnt + " 건의 중복번호가 제거 되었습니다.");
+			}
+
 
 		]]>
 	</fx:Script>
@@ -123,7 +147,10 @@
 				<mx:DataGridColumn  sortable="false" itemRenderer="component.handphone.DeleteRenderer" width="20" ></mx:DataGridColumn>
 		</mx:columns>
 	</mx:DataGrid>
-	<s:HGroup>
-		<s:Label text="총인원 : " fontSize="11" color="0xffffff"/><s:Label fontSize="11" id="totalCount" text="" width="120" textAlign="right" color="0xffffff"></s:Label><s:Label fontSize="11" color="0xffffff" text="명" />	
+	<s:HGroup verticalAlign="middle">
+		<s:Button label="중복제거" click="duplicateCheck()"/>
+		<s:Label text="총인원 : " fontSize="11" color="0xffffff"/>
+		<s:Label fontSize="11" id="totalCount" text="" width="50" textAlign="right" color="0xffffff"></s:Label>
+		<s:Label fontSize="11" color="0xffffff" text="명" />	
 	</s:HGroup>
 </s:VGroup>
