@@ -404,7 +404,7 @@ public class SMS implements SMSAble {
 		pq.setString(13, "00");
 		pq.setString(14, vo.getTR_SENDDATE());
 		pq.setString(15, vo.getTR_SENDDATE());
-		pq.setString(16, vo.getTR_ETC6()+Integer.toString(num));
+		//pq.setString(16, vo.getTR_ETC6()+Integer.toString(num));
 	}
 	
 	private void insertSMSClientPqSetter_fail(PreparedExecuteQueryManager pq, SMSClientVO vo, String state, String code) {
@@ -445,7 +445,7 @@ public class SMS implements SMSAble {
 		pq.setString(13, code);
 		pq.setString(14, vo.getTR_SENDDATE());
 		pq.setString(15, vo.getTR_SENDDATE());
-		pq.setString(16, vo.getTR_ETC6()+Integer.toString(num));
+		//pq.setString(16, vo.getTR_ETC6()+Integer.toString(num));
 	}
 	
 	public ArrayList<String[]> getPhone(Connection conn, String user_id, ArrayList<PhoneListVO> al) {
