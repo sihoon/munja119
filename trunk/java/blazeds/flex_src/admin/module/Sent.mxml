@@ -130,7 +130,7 @@
 				}
 				private function reservation_submit_ResultEventHandler(event:ResultEvent):void {
 					
-					var al:ArrayCollection = event.result as ArrayCollection;
+					al = event.result as ArrayCollection;
 					
 					if (al != null) {
 						dgGroup.dataProvider = al;
