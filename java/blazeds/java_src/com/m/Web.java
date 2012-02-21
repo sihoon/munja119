@@ -313,11 +313,18 @@ public class Web extends SessionManagement{
 			#		Process					#
 			###############################*/
 			
+			
+			
 			returnPhone = SLibrary.replaceAll(returnPhone, "-", "");
 			phoneAndNameArrayList = sms.getPhone(conn, mvo.getUser_id(), al);		
 			sendCount = phoneAndNameArrayList.size();
 			//message 개행문자 변경
 			message = SLibrary.replaceAll(message, "\r", "\r\n");
+			
+			// sk라인 일경우 80바이트가 넘으면 유플러스로 변경함
+			if (mvo.getLine().equals("sk") && SLibrary.getByte(message) > 80) {
+				mvo.setLine("sms1");
+			}
 			
 			checkSMSSend( conn, sendCount, mvo, message, requestIp );
 			
