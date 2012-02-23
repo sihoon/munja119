@@ -80,6 +80,40 @@ public class Refuse {
 		return hashTable;
 	}
 	
+	public static Hashtable<String, String> getRefusePhoneFromDB() {
+		
+		Connection conn = null;
+		Hashtable<String, String> hashTable = new Hashtable<String, String>();
+		
+		try {
+			String sql = VbyP.getSQL("getRefuse");
+			conn = VbyP.getDB();
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared(conn, sql);
+			//pq.setString(1, user_id);
+			String [] arrRefuse = pq.ExecuteQuery();
+			
+			if (arrRefuse != null){
+				
+				int cnt = arrRefuse.length;		
+				for (int i = 0; i < cnt; i++)	
+					hashTable.put(arrRefuse[i], "");			
+			}
+		}catch (Exception e) {
+			
+		}
+		finally {
+			
+			try {
+				if ( conn != null ) conn.close();
+			}catch(SQLException e) {
+				VbyP.errorLog("getRefusePhoneFromDB >> finally conn.close() Exception!"+e.toString()); 
+			}
+		}
+		
+		return hashTable;
+	}
+	
 	public static boolean isRefuseID(String user_id) {
 		
 		ReadPropertiesAble rp = ReadProperties.getInstance();		

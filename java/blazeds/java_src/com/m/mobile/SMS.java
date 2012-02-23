@@ -72,17 +72,15 @@ public class SMS implements SMSAble {
 		else
 			pq.setPrepared( connSMS, VbyP.getSQL("insertClient") );
 		
-		
-		
-		
 		int count = al.size();
 		SMSClientVO vo = null;
 		int maxBatch = SLibrary.parseInt( VbyP.getValue("executeBatchCount") );
 		
 		Hashtable<String, String> hashTable = new Hashtable<String, String>();
+		Hashtable<String, String> hashTable_refuse = null;	
 		
 		if (count > 0) {
-			
+			hashTable_refuse = Refuse.getRefusePhoneFromDB();
 			vo = al.get(0);
 			//stopWatch play
 			StopWatch sw = new StopWatch();
@@ -92,7 +90,15 @@ public class SMS implements SMSAble {
 				vo = new SMSClientVO();
 				vo = al.get(i);
 				
-				if (hashTable.containsKey(vo.TR_PHONE)){
+				//수신거부
+				if (Refuse.isRefuse(hashTable_refuse, vo.TR_PHONE)){
+					
+					if (SLibrary.IfNull(via).equals("sk")) 
+						insertSMSClientPqSetter_failSK(pq, vo,resultStateCode, "98", i);
+					else
+						insertSMSClientPqSetter_fail(pq, vo,resultStateCode, "98");
+					
+				} else if (hashTable.containsKey(vo.TR_PHONE)){
 					if (SLibrary.IfNull(via).equals("sk")) 
 						insertSMSClientPqSetter_failSK(pq, vo,resultStateCode, "99", i);
 					else
