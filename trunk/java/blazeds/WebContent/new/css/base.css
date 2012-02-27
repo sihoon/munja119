@@ -1,6 +1,6 @@
 *{margin:0; padding:0;font-size:1em;}
 html, body {height: 100%; /* Required */}
-body{background: #fff;color:#666; font:0.75em/1.6 ë‹ì›€,Dotum,AppleGothic,sans-serif; }
+body{background: #fff;color:#666; font:0.75em/1.6 µ¸¿ò,Dotum,AppleGothic,sans-serif; }
 * html body {font-size: 12px;}
 
 a:link, a:visited { color: #555; text-decoration: none;}
@@ -25,5 +25,5 @@ input, select, textarea {vertical-align: middle; font-family:inherit;font-size: 
 input.type-text, input.type-file, textarea { color: #003; border: 1px solid #CECECE;}
 input.type-text, input.type-file, textarea, select { background-color: #FFF;}
 input.type-text, input.type-file { padding-left: 2px;}
-/*ie 6ì´í•˜ ë²„ì „ì—ì„œì˜ ë°°ê²½ ìœ„ì¹˜ë³€ê²½ê´€ë ¨ í•µ*/
+/*ie 6ÀÌÇÏ ¹öÀü¿¡¼­ÀÇ ¹è°æ À§Ä¡º¯°æ°ü·Ã ÇÙ*/
 html {_filter: expression(document.execCommand("BackgroundImageCache", false, true));}
