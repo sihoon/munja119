@@ -19,38 +19,39 @@
 <div class="context">
 	
     <div id="topSub"><!--top-sub-->
-        <a href="">로그인</a> | <a href="">회원가입</a> | <a href="">마이119</a> | <a href="">고객센터</a> | <img src="images/add.gif" />
+        <a href="">로그인</a> | <a href="?content=join">회원가입</a> | <a href="">마이119</a> | <a href="">고객센터</a> | <img src="images/add.gif" />
     </div>
 
     <h1 id="logo" class="ti">MUNJA119</h1>
 
     <div id="menu"><!--메뉴-->
-        <a href="" class="sms ti">일반문자보내기</a>
+        <a href="?content=normal" class="sms ti">일반문자보내기</a>
         <a href="" class="lmsmms ti">장문/포토보내기</a>
         <a href="" class="billing ti">충전하기</a>
         <a href="" class="sent ti">전송내역</a>
         <a href="" class="excel ti">EXCEL/대량전송</a>
         <a href="" class="address ti">주소록관리</a>
     </div>
+    
 	<jsp:include page="body.jsp" flush="false"/>
 	
 	<div id="copyright">
-            <a href="" class="company">회사소개</a>
-            <a href="" class="personal">개인정보보호정책</a>
-            <a href="" class="use">이용약관</a>
-            <a href="" class="spam">광고스팸문자</a>
-            <div class="link">
-                <a href="" class="homeLink">HOME</a>
-                <a href="" class="topLink">Top</a>
-            </div>
-            <div class="copyRight">copy right</div>
-
-            <select class="family">
-				<option>::::패밀리싸이트::::</option>
-				<option>NS이스토어</option>
-				<option>QXL</option>
-			</select>
-        </div>
+	    <a href="" class="company">회사소개</a>
+	    <a href="" class="personal">개인정보보호정책</a>
+	    <a href="" class="use">이용약관</a>
+	    <a href="" class="spam">광고스팸문자</a>
+	    <div class="link">
+	        <a href="" class="homeLink">HOME</a>
+	        <a href="" class="topLink">Top</a>
+	    </div>
+	    <div class="copyRight">copy right</div>
+	
+	    <select class="family">
+			<option>::::패밀리싸이트::::</option>
+			<option>NS이스토어</option>
+			<option>QXL</option>
+		</select>
+	</div>
     
 </div>
 </body>

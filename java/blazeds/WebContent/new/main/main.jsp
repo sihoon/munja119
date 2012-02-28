@@ -7,7 +7,7 @@
             <li class="intro4 ti">이젠 스마트폰이다</li>
         </ul>
 
-        <fieldset class="login"><!-- 로그인 -->
+        <fieldset id="login"><!-- 로그인 -->
             <legend>로그인</legend>
             <label class="idlabel ti" for="user_id">아이디</label><input type="text" id="user_id" name="user_id" />
             <label class="pwlabel ti" for="user_pw">비밀번호</label><input type="text" id="user_pw" name="user_pw" />
@@ -73,9 +73,9 @@
         </div><!-- 핸드폰 End-->
         
 
-        <a class="cost ti" href="">저렴하고 안정적인 문자서비스를 찾으십니까? 단가표 보기</a>
+        <a id="cost" class="ti" href="">저렴하고 안정적인 문자서비스를 찾으십니까? 단가표 보기</a>
 
-        <p class="custom ti">Custom Center : 070-7510-8489, Fax: 031)970-8489</p>
+        <p id="custom" class="ti">Custom Center : 070-7510-8489, Fax: 031)970-8489</p>
 
         <fieldset id="emoticon">
             <ul class="title">
