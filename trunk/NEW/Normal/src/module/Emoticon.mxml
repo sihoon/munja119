@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Module xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  width="655" height="550" creationComplete="creationCompleteHandler()" currentState="thema">
+	<fx:Script>
+		<![CDATA[
+			import lib.BooleanAndDescriptionVO;
+			import lib.RO;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.IndexChangeEvent;
+			
+			private var currGubun:String = "테마문자";
+			private var currCate:String = "";
+			private var currPage:int = 0;
+			
+			private var ro:RO = new RO();
+			private var RO_DESTINATION:String = "WEB";
+			
+			private var currAC:ArrayCollection = null;
+			
+			private var one_one:ArrayCollection = new ArrayCollection(["감사","계절","공지/안내","기념","날씨","명언/감동","모임","부고/조의","사과/화해","사랑/고백"]);
+			private var one_two:ArrayCollection = new ArrayCollection(["시즌","안부","약속","요일","우정","위로/격려","유머/패러디","종교","초대","축하"]);
+			private var one_three:ArrayCollection = new ArrayCollection(["홍보/행사","기타"]);
+			
+			private var one:ArrayCollection = new ArrayCollection([one_one,one_two,one_three]);
+			
+			
+			private var two_one:ArrayCollection = new ArrayCollection(["가구/인테리어","가전","건강/다이어트","결혼정보","금융","꽃배달","나이트","낚시","노래방"]);
+			private var two_two:ArrayCollection = new ArrayCollection(["대리운전","대출","동물병원","레저/스포츠","렌터카","미용실","병원","보험","부동산"]);
+			private var two_three:ArrayCollection = new ArrayCollection(["쇼핑몰/오픈마켓","스포츠","식품/슈퍼마켓","여행사","옷/의류","유치원/어린이집","유흥"]);
+			private var two_four:ArrayCollection = new ArrayCollection(["음식","이삿짐","자동차","조합/노조","종교","카센터","택배/쿽서비스","통신","학원/학교"]);
+			private var two:ArrayCollection = new ArrayCollection([two_one,two_two,two_three,two_four]);
+			
+			private var three:ArrayCollection = new ArrayCollection();
+			
+			protected function creationCompleteHandler():void
+			{
+				currAC = one;
+				
+				init_cate();
+				emti_changeHandler(0);
+				
+				ro.set(RO_DESTINATION, unit_ResultEventHandler);
+				ro.method.getEmotiCate(currGubun, currCate, currPage);
+			}
+			
+			private function unit_ResultEventHandler(event:ResultEvent):void {
+				
+				var arr:Array = event.result as Array;
+				delBtnfalse();
+				if (arr.length == 0) {
+					currPage -=1;
+				} else {
+					emt1.text = arr[0];
+					emt2.text = arr[1];
+					emt3.text = arr[2];
+					emt4.text = arr[3];
+					emt5.text = arr[4];
+					emt6.text = arr[5];
+					emt7.text = arr[6];
+					emt8.text = arr[7];
+				}
+				preMsgBtn.removeEventListener(MouseEvent.CLICK, preMsgBtnMy_clickHandler);
+				preMsgBtn.addEventListener(MouseEvent.CLICK, preMsgBtn_clickHandler);
+				
+				nextMsgBtn.removeEventListener(MouseEvent.CLICK, nextMsgBtnMy_clickHandler);
+				nextMsgBtn.addEventListener(MouseEvent.CLICK, nextMsgBtn_clickHandler);
+			}
+			
+			protected function pre_clickHandler(event:MouseEvent):void
+			{
+				var idx:int = currAC.getItemIndex( category.dataProvider );
+				if (idx > 0) {
+					category.dataProvider = currAC.getItemAt(idx -1) as ArrayCollection;
+					nextBtn.enabled = true;
+					if (idx -1 == 0) preBtn.enabled = false;
+				} else {
+					preBtn.enabled = false;
+				}
+				
+			}
+			
+			protected function next_clickHandler(event:MouseEvent):void
+			{
+				var idx:int = currAC.getItemIndex( category.dataProvider );
+				if (idx < currAC.length - 1) {
+					category.dataProvider = currAC.getItemAt(idx +1) as ArrayCollection;
+					preBtn.enabled = true;
+					
+					if (idx +1 == currAC.length - 1) nextBtn.enabled = false;
+				} else {
+					nextBtn.enabled = false;
+				}
+			}
+			
+			protected function emti_changeHandler(idx:Number):void
+			{
+				category.visible = true;
+				preBtn.visible = true;
+				nextBtn.visible = true;
+				
+				if (idx == 0) {currAC = one;currGubun = "테마문자"; currentState="thema";}
+				else if (idx == 1) {currAC = two;currGubun = "업종별문자"; currentState="upjong";}
+				else if (idx == 2) {
+					category.visible = false;
+					preBtn.visible = false;
+					nextBtn.visible = false;
+					currGubun = "등록문자";
+					currentState="save";
+				}
+				
+				currCate = "";
+				currPage = 0;
+				init_cate();
+				if (idx == 2) {
+					ro.set(RO_DESTINATION, save_ResultEventHandler);
+					ro.method.getMymsg(currPage);
+				} else {
+					ro.set(RO_DESTINATION, unit_ResultEventHandler);
+					ro.method.getEmotiCate(currGubun, currCate, currPage);
+				}
+			}
+			
+			
+			private var arrIdx:Array = null;
+			private function save_ResultEventHandler(event:ResultEvent):void {
+				
+				var arr:ArrayCollection = event.result as ArrayCollection;
+				
+				if (arr == null || arr.length == 0) {
+					if (currPage != 0)currPage -=1;
+				} else {
+					
+					var obj:Object = null;
+					emt1.text = "";
+					emt2.text = "";
+					emt3.text = "";
+					emt4.text = "";
+					emt5.text = "";
+					emt6.text = "";
+					emt7.text = "";
+					emt8.text = "";
+					
+					arrIdx = new Array();
+					
+					for (var i:int = 0; i < arr.length; i++) {
+						obj = arr.getItemAt(i);
+						arrIdx.push(obj.idx);
+						if (i == 0)	{emt1.text = obj.msg;}
+						else if (i == 1) {emt2.text = obj.msg;}
+						else if (i == 2) {emt3.text = obj.msg;}
+						else if (i == 3) {emt4.text = obj.msg;}
+						else if (i == 4) {emt5.text = obj.msg;}
+						else if (i == 5) {emt6.text = obj.msg;}
+						else if (i == 6) {emt7.text = obj.msg;}
+						else if (i == 7) {emt8.text = obj.msg;}
+					}
+				}
+				
+				
+				
+				preMsgBtn.removeEventListener(MouseEvent.CLICK, preMsgBtn_clickHandler);
+				preMsgBtn.addEventListener(MouseEvent.CLICK, preMsgBtnMy_clickHandler);
+				
+				nextMsgBtn.removeEventListener(MouseEvent.CLICK, nextMsgBtn_clickHandler);
+				nextMsgBtn.addEventListener(MouseEvent.CLICK, nextMsgBtnMy_clickHandler);
+				
+				callLater(delBtntrue);
+			}
+			
+			private function init_cate():void {
+				category.dataProvider = currAC.getItemAt(0) as ArrayCollection;
+				preBtn.enabled = false;
+				if (currAC.length == 1)nextBtn.enabled = false;
+				else nextBtn.enabled = true;
+			}
+			
+			protected function category_changeHandler(event:IndexChangeEvent):void
+			{
+				currPage = 0;
+				var ac:ArrayCollection = category.dataProvider as ArrayCollection;
+				
+				if ( category.selectedIndex >= 0) 
+					currCate = ac.getItemAt( category.selectedIndex ) as String;
+				else
+					currCate = "";
+				
+				ro.method.getEmotiCate(currGubun, currCate, currPage);
+			}
+			
+			private function prePage():void { if (currPage > 0)currPage--; }
+			private function nextPage():void { currPage++;	}
+			
+			private function delBtnfalse():void {
+				emtdel1.visible = false;
+				emtdel2.visible = false;
+				emtdel3.visible = false;
+				emtdel4.visible = false;
+				emtdel5.visible = false;
+				emtdel6.visible = false;
+				emtdel7.visible = false;
+				
+			}
+			
+			private function delBtntrue():void {
+				if (emt1.text.length >0) emtdel1.visible = true;
+				if (emt2.text.length >0) emtdel2.visible = true;
+				if (emt3.text.length >0) emtdel3.visible = true;
+				if (emt4.text.length >0) emtdel4.visible = true;
+				if (emt5.text.length >0) emtdel5.visible = true;
+				if (emt6.text.length >0) emtdel6.visible = true;
+				if (emt7.text.length >0) emtdel7.visible = true;
+			}
+			
+			private function deleteMsg1():void {
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.delMymsg(new int(arrIdx[0]));
+			}
+			private function deleteMsg2():void {
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.delMymsg(new int(arrIdx[1]));
+			}
+			private function deleteMsg3():void {
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.delMymsg(new int(arrIdx[2]));
+			}
+			private function deleteMsg4():void {
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.delMymsg(new int(arrIdx[3]));
+			}
+			private function deleteMsg5():void {
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.delMymsg(new int(arrIdx[4]));
+			}
+			private function deleteMsg6():void {
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.delMymsg(new int(arrIdx[5]));
+			}
+			private function deleteMsg7():void {
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.delMymsg(new int(arrIdx[6]));
+			}
+			private function deleteMsg8():void {
+				ro.set(RO_DESTINATION, delete_ResultEventHandler);
+				ro.method.delMymsg(new int(arrIdx[7]));
+			}
+			
+			
+			private function delete_ResultEventHandler(event:ResultEvent):void {
+				
+				var b:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
+				
+				if (b.bResult == true) {
+					ExternalInterface.call("alert","삭제 되었습니다.");
+					
+					category.visible = true;
+					preBtn.visible = true;
+					nextBtn.visible = true;
+					
+					
+					category.visible = false;
+					preBtn.visible = false;
+					nextBtn.visible = false;
+					currGubun = "등록문자";
+					
+					currCate = "";
+					currPage = 0;
+					init_cate();
+					
+					ro.set(RO_DESTINATION, save_ResultEventHandler);
+					ro.method.getMymsg(currPage);
+				}
+			}
+			
+			protected function preMsgBtn_clickHandler(event:MouseEvent):void
+			{
+				prePage();
+				ro.set(RO_DESTINATION, unit_ResultEventHandler);
+				ro.method.getEmotiCate(currGubun, currCate, currPage);
+			}
+			
+			protected function nextMsgBtn_clickHandler(event:MouseEvent):void
+			{
+				nextPage();
+				ro.set(RO_DESTINATION, unit_ResultEventHandler);
+				ro.method.getEmotiCate(currGubun, currCate, currPage);
+			}
+			
+			protected function preMsgBtnMy_clickHandler(event:MouseEvent):void
+			{
+				prePage();
+				ro.set(RO_DESTINATION, save_ResultEventHandler);
+				ro.method.getMymsg(currPage);
+			}
+			
+			protected function nextMsgBtnMy_clickHandler(event:MouseEvent):void
+			{
+				nextPage();
+				ro.set(RO_DESTINATION, save_ResultEventHandler);
+				ro.method.getMymsg(currPage);
+			}
+			
+			
+			public function refreshMy():void {
+				
+				if (currentState == "save"){
+					currPage = 0;
+					ro.set(RO_DESTINATION, save_ResultEventHandler);
+					ro.method.getMymsg(currPage);
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="upjong"/>
+		<s:State name="thema"/>
+		<s:State name="save"/>
+	</s:states>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Group top="20">
+		
+		<s:Group top="37" width="655" height="480">
+			<s:Rect left="0" right="0" top="0" bottom="0" >
+				<s:stroke>
+					<!--- @private -->
+					<s:SolidColorStroke color="0xEEE3DD" weight="2" />
+				</s:stroke>
+			</s:Rect>
+			
+			<s:VGroup top="11" left="0" right="0" horizontalAlign="center">
+				<s:Group width="90%">
+					<s:Rect left="0" right="0" top="0" bottom="0" >
+						<s:fill>
+							<!--- @private -->
+							<s:SolidColor color="0xEEE3DD"/>
+						</s:fill>
+					</s:Rect>
+					<s:HGroup top="5" bottom="5" left="5" right="5" gap="2" >
+						<s:Image id="preBtn" source="images/icon_left.gif" buttonMode="true" useHandCursor="true" click="pre_clickHandler(event)"/>
+						<s:ButtonBar id="category" skinClass="skin.EmoticonCateButtonBarSkin" fontSize="11" change="category_changeHandler(event)" />
+						<s:Image id="nextBtn" source="images/icon_right.gif" buttonMode="true" useHandCursor="true" click="next_clickHandler(event)"/>
+					</s:HGroup>
+				</s:Group>
+				
+				<s:HGroup fontSize="12" gap="5" horizontalAlign="center" paddingTop="2" verticalAlign="middle">
+					
+					<s:Group id="preMsgBtn" width="20" height="31"  buttonMode="true" useHandCursor="true" click="preMsgBtn_clickHandler(event)">
+						<s:BitmapImage left="3" source="images/pre_emt.png"/>	
+					</s:Group>
+					
+					<s:VGroup>
+						<s:HGroup gap="15">
+							<s:Group width="177" height="135">
+								<s:BitmapImage source="images/pro_bg.gif" left="0"/>
+								<s:Label id="emt1" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt1.text)}" />
+								<s:Button id="emtdel1" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg1()" />
+							</s:Group>
+							<s:Group width="177" height="135">
+								<s:BitmapImage source="images/pro_bg.gif" left="0"/>
+								<s:Label id="emt2" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt2.text)}" />
+								<s:Button id="emtdel2" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg2()" />
+							</s:Group>
+							<s:Group width="177" height="135">
+								<s:BitmapImage source="images/pro_bg.gif" left="0"/>
+								<s:Label id="emt3" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt3.text)}" />
+								<s:Button id="emtdel3" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg3()" />
+							</s:Group>
+						</s:HGroup>
+						<s:HGroup gap="15">
+							<s:Group width="177" height="135">
+								<s:BitmapImage source="images/pro_bg.gif" left="0"/>
+								<s:Label id="emt4" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt4.text)}" />
+								<s:Button id="emtdel4" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg4()" />
+							</s:Group>
+							<s:Group width="177" height="135">
+								<s:BitmapImage source="images/pro_bg.gif" left="0"/>
+								<s:Label id="emt5" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt5.text)}" />
+								<s:Button id="emtdel5" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg5()" />
+							</s:Group>
+							<s:Group width="177" height="135">
+								<s:BitmapImage source="images/pro_bg.gif" left="0"/>
+								<s:Label id="emt6" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt6.text)}" />
+								<s:Button id="emtdel6" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg6()" />
+							</s:Group>
+						</s:HGroup>
+						<s:HGroup gap="15">
+							<s:Group width="177" height="135">
+								<s:BitmapImage source="images/pro_bg.gif" left="0"/>
+								<s:Label id="emt7" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt7.text)}" />
+								<s:Button id="emtdel7" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg7()" />
+							</s:Group>
+							<s:Group width="177" height="135">
+								<s:BitmapImage source="images/pro_bg.gif" left="0"/>
+								<s:Label id="emt8" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt8.text)}" />
+								<s:Button id="emtdel8" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg8()" />
+							</s:Group>
+						</s:HGroup>
+					</s:VGroup>
+					
+					<s:Group id="nextMsgBtn" width="20" height="31" buttonMode="true" useHandCursor="true"  click="nextMsgBtn_clickHandler(event)">
+						<s:BitmapImage left="3" source="images/next_emt.png"/>	
+					</s:Group>
+					
+				</s:HGroup>
+			</s:VGroup>
+		</s:Group>
+		
+		<s:HGroup gap="0">
+			<s:Image source="images/center_m01.gif" source.thema="images/center_m01_.gif" click="emti_changeHandler(0)" />
+			<s:Image source="images/center_m02.gif" source.upjong="images/center_m02_.gif" click="emti_changeHandler(1)" />
+			<s:Image source="images/center_m03.gif" source.save="images/center_m03_.gif" click="emti_changeHandler(2)" />
+		</s:HGroup>
+	</s:Group>
+</s:Module>

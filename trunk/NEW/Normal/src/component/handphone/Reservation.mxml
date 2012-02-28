@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" height="20" xmlns:handphone="component.handphone.*">
+	<fx:Script>
+		<![CDATA[
+			import lib.CustomEvent;
+			public function get bReservation():Boolean { return (reservationText.text.length > 0)?true:false; }
+			
+			public function get strReservation():String { return this.reservationText.text; }
+			
+			protected function setResButton_clickHandler(event:MouseEvent):void
+			{
+				this.resLayer.visible = true;
+			}
+			
+			protected function resLayer_setReservationHandler(event:CustomEvent):void
+			{
+				reservationText.text = String(event.obj);
+			}
+			
+			protected function canResButton_clickHandler(event:MouseEvent):void
+			{
+				this.reservationText.text = "";
+				
+			}
+			
+			protected function checkbox1_changeHandler(event:Event):void
+			{
+				if (cb.selected) {
+					setResButton_clickHandler(null);
+				}else {
+					canResButton_clickHandler(null);
+				}
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:HGroup width="100%" height="100%" verticalAlign="middle">
+		<s:HGroup verticalAlign="middle" gap="0">
+			<s:CheckBox id="cb" fontSize="11" change="checkbox1_changeHandler(event)" />
+			<s:Label text="예약하기" color="0xffffff"/>
+		</s:HGroup>
+		<s:Label id="reservationText" fontSize="12" fontWeight="bold" color="#ed6c1f" />	
+	</s:HGroup>
+	<handphone:ReservationLayer id="resLayer" visible="false" x="-15" y="-275" setReservation="resLayer_setReservationHandler(event)" />
+</s:Group>
