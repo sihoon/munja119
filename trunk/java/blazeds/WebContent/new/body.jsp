@@ -10,8 +10,10 @@
 	 
 	if ( SLibrary.isNull(strContent) )  includeURL = "main/main.jsp";
 	else {
-		if ( strContent.equals("send") ) 			includeURL = "send/send.jsp";
-		else if ( strContent.equals("sent") ) 		includeURL = "sent/sent.jsp";
+		if ( strContent.equals("join") ) 			includeURL = "member/join.jsp";
+		else if ( strContent.equals("join2") ) 		includeURL = "member/join2.jsp";
+		else if ( strContent.equals("join3") ) 		includeURL = "member/join3.jsp";
+		else if ( strContent.equals("normal") ) 		includeURL = "normal/normal.jsp";
 	}
 %>
 
