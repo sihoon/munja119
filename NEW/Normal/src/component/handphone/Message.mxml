@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  creationComplete="vgroup1_creationCompleteHandler(event)" horizontalAlign="center" gap="2">
+	<fx:Metadata>
+		[Event(name="alert", type="lib.CustomEvent")]
+		[Event(name="validValue", type="lib.CustomEvent")]
+	</fx:Metadata>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		.txt {
+			backgroundAlpha:0;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import lib.BooleanAndDescriptionVO;
+			import lib.CustomEvent;
+			import lib.RO;
+			import lib.SLibrary;
+			
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			private var _message:String;
+			private var _maxByte:int = 90;
+			private var _currentByte:int = 0;
+			
+			[Bindable]private var _enable:Boolean = true;
+			
+			private var byteDisplayHeight:int = 22;
+			
+			public function get currentByte():int {	return _currentByte; }
+			public function set currentByte(value:int):void	{ _currentByte = value; this.IByteLabel.text = String( value );	}
+			
+			public function get maxByte():int { return _maxByte; }
+			public function set maxByte(value:int):void	{ _maxByte = value; }
+			
+			
+			public function cutLimitByte():String { return SLibrary.cutByteTo(this._message , this._maxByte ); }			
+			
+			/* style */
+			public function get enable():Boolean { return _enable; }			
+			public function set enable(value:Boolean):void { _enable = value; }
+			
+			
+			/**
+			 * MaxBytes를 세팅 해줍니다.
+			 */
+			public function setMaxByteFields(maxByteSetting:Number):void {	IByteLabel.text = String(maxByteSetting); }
+			
+			public function getMessage():String{ return IMessage.text; }
+			
+			public function setMessage(message:String):void{ 
+
+				IMessage.text = message;
+				
+				IMessage_ByteCheck();
+				if (bLimitMessage()) {
+					setMessage(cutLimitMessage());
+					ExternalInterface.call ("alert", String(this.maxByte)+" byte 이상 메시지가 삭제 되었습니다.");
+				} else {
+					dispatchEvent(new CustomEvent("validValue", null));
+				}
+			}
+			
+			public function setMessageAdd(message:String):void{
+				
+				IMessage.text += message;
+				IMessage_ByteCheck();
+				if (bLimitMessage()) {
+					setMessage(cutLimitMessage());
+					ExternalInterface.call ("alert", String(this.maxByte)+" byte 이상 메시지가 삭제 되었습니다.");
+				} else {
+					dispatchEvent(new CustomEvent("validValue", null));
+				}
+				
+			}
+			
+			public function getLimitMessageByte():Number{ return _maxByte; } 
+			
+			/**
+			 * 리미트 메시지 바이트를 세팅합니다.
+			 */
+			public function setLimitMessageByte(num:Number):void{
+				
+				_maxByte = num;
+				setMaxByteFields(num);
+			}
+			
+			/**
+			 * 리미트 바이트를 넘었는지 여부에 대해 반환 합니다.
+			 */
+			public function bLimitMessage():Boolean { return this.currentByte < 0; }
+			
+			
+			/**
+			 * limitMessageByte로 message를 자른 후 반환
+			 *
+			 */
+			public function cutLimitMessage():String{ return SLibrary.cutByteTo(IMessage.text, _maxByte); }
+			
+			public function IMessage_ByteCheck():void {
+				
+				this.currentByte = SLibrary.remainByte( SLibrary.getByte(this.getMessage()),this.maxByte);
+			}
+			
+			public function IMessage_ByteCheckAddSelected(addByte:int):void {
+				
+				this.currentByte = SLibrary.remainByte( SLibrary.getByte(this.getMessage())+ addByte,this.maxByte);
+			}
+
+
+			protected function IMessage_keyUpHandler(event:KeyboardEvent):void
+			{
+				IMessage_ByteCheck();
+				if (bLimitMessage()) {
+					setMessage(cutLimitMessage());
+					dispatchEvent(new CustomEvent("alert", String(this.maxByte)+" byte 이상 메시지가 삭제 되었습니다."));
+				} else {
+					dispatchEvent(new CustomEvent("validValue", null));
+				}
+			}
+
+
+			protected function vgroup1_creationCompleteHandler(event:FlexEvent):void
+			{
+				this._currentByte = 0;
+			}
+
+			protected function clickHandler(event:Event):void
+			{
+				if (parentApplication.bLogin == true)
+					parentApplication.loadEmoticon();
+				else 
+					ExternalInterface.call("alert","로그인 후 이용 가능 합니다.");
+			}
+			
+			protected function clickHandlerSpc():void
+			{
+				parentDocument.spcBox.visible=true;
+			}
+			
+			private var ro:RO = new RO();
+			private var RO_DESTINATION:String = "WEB";
+			
+			protected function clickHandlerSave():void
+			{
+				if (parentApplication.bLogin == true){
+					ro.set(RO_DESTINATION, save_ResultEventHandler);
+					ro.method.addMymsg(IMessage.text);
+				}
+				else 
+					ExternalInterface.call("alert","로그인 후 이용 가능 합니다.");
+				
+			}
+			
+			private function save_ResultEventHandler(event:ResultEvent):void {
+				
+				var bvo:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
+				
+				if (bvo.bResult == true) {
+					ExternalInterface.call("alert","저장되었습니다.");
+					parentApplication.refreshMy();
+				}else {
+					ExternalInterface.call("alert","저장실패 : "+ bvo.strDescription);
+				}
+			}
+
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:TextArea id="IMessage" skinClass="skin.TextAreaSkinBG" width="200" height="120" fontFamily="굴림체" fontSize="16" verticalScrollPolicy="off" enabled="{_enable}" color="0x000000" keyUp="IMessage_keyUpHandler(event)"></s:TextArea>
+	<s:Group width="100%">
+		<s:Image source="images/main_40.png" left="0" buttonMode="true" useHandCursor="true" click="clickHandler(event)" verticalCenter="0" />
+		
+		<s:Image source="images/main_42.png" left="55" buttonMode="true" useHandCursor="true" click="clickHandlerSpc()" verticalCenter="0" />
+		
+		<s:Label id="IByteLabel" right="30" fontSize="14" fontWeight="bold" text="90" width="30" textAlign="right" color="0x000000" verticalCenter="3"/>
+		<s:Label right="0" fontSize="14" text="byte" width="30" textAlign="right" color="0x000000" verticalCenter="3"/>
+	</s:Group>
+	<s:HGroup paddingTop="5" verticalAlign="middle">
+		<s:Image source="images/btn_photo.gif" left="110" buttonMode="true" useHandCursor="true"/>
+		<s:Image source="images/btn_preview.gif" left="110" buttonMode="true" useHandCursor="true"/>
+		<s:Image source="images/btn_again.gif" left="110" buttonMode="true" useHandCursor="true"/>
+		<s:Image source="images/main_47.png" left="110" buttonMode="true" useHandCursor="true" click="clickHandlerSave()" verticalCenter="0"/>
+	</s:HGroup>
+	
+</s:VGroup>

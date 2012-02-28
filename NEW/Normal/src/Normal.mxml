@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"  xmlns:handphone="component.handphone.*" xmlns:lib="lib.*"
+			   width="950" height="550">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace handphone "component.handphone.*";
+		@namespace lib "lib.*";
+		*
+		{
+			font-family: Dotum;
+			color:#000000;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import lib.BooleanAndDescriptionVO;
+			import lib.CustomEvent;
+			import lib.SLibrary;
+			
+			import mx.collections.ArrayList;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.remoting.RemoteObject;
+			
+			/*###############################
+			#	variable & Attribute		#
+			###############################*/
+			private var ro:RemoteObject = null;
+			private var RO_DESTINATION:String = "WEB";
+			private var ro_sub:RemoteObject = null;
+			
+			protected function creationCompleteHandler(event:FlexEvent):void {
+				sendButton.enabled = false;
+				isValid();
+			}
+			
+			public function isValid():void {
+				
+				var validMessage:String = "";
+				
+				//if ( Boolean(parentApplication.bLogin) == false ) validMessage = "로그인 후 이용 가능 합니다.";
+				if (cMessage.getMessage() == "" ) validMessage = "메시지를 입력 하세요.";
+				else if (cMessage.bLimitMessage()) validMessage = "메시지가 " +cMessage.getLimitMessageByte()+ "byte를 초과 하였습니다.";
+				else if (cPhone.getTotalCount() == 0) validMessage = "전화번호를 입력하세요.";
+				else if (cReturnPhone.returnPhone.length == 0) validMessage = "회신번호를 입력하세요";
+				else {
+					validMessage = "<font color='font-weight:bold'>보내기</font> 버튼을 누르면 전송 됩니다.";
+					sendButton.enabled = true;
+				}
+				
+			}
+			
+			public function alert(s:String, mode:int=0):void {
+				
+				this.iAlert.text_label = s;
+				this.iAlert.end();
+				this.iAlertContainer.visible = true;
+				this.iAlert.play_glow(); 
+			}
+			
+			protected function message1_alertHandler(event:CustomEvent):void {
+				
+				trace(event.obj);
+			}
+			
+			
+			protected function validHandler(event:CustomEvent):void	{
+				isValid();
+			}
+			
+			
+			/*###############################
+			#	RemoteObject				#
+			###############################*/
+			private function remoteObjectInit():void {
+				
+				ro = new RemoteObject();
+				ro.showBusyCursor = true;
+				ro.destination = RO_DESTINATION;
+				ro.addEventListener(FaultEvent.FAULT, remoteObjectFaultEventHandler); 
+			}
+			private function remoteObjectInit_sub():void {
+				
+				ro_sub = new RemoteObject();
+				ro_sub.destination = RO_DESTINATION;
+				ro_sub.addEventListener(FaultEvent.FAULT, remoteObjectFaultEventHandler); 
+			}
+			
+			private function remoteObjectFaultEventHandler(event:FaultEvent):void{
+				
+				isValid();
+				trace(event.fault);
+				SLibrary.alert(event.fault.faultString);
+			}
+			
+			protected function sendButton_clickHandler(event:MouseEvent):void
+			{
+				sendButton.enabled = false;
+				remoteObjectInit();
+				
+				ro.addEventListener(ResultEvent.RESULT,send_ResultEventHandler);
+				
+				ro.sendSMS( cMessage.getMessage(),
+					cPhone.phoneList,
+					cReturnPhone.returnPhone ,
+					cReservation.bReservation ? cReservation.strReservation +":00" : "" );
+				
+				//sending count
+				if (sendingCount_intervalID)
+					clearInterval(sendingCount_intervalID);
+				remoteObjectInit_sub();
+				ro_sub.addEventListener(ResultEvent.RESULT, getSendingCount_ResultEventHandler);
+				sendingCount_intervalID = setInterval(getSendingCount,duration);
+			}
+			
+			private function send_ResultEventHandler(e:ResultEvent):void {
+				
+				if (sendingCount_intervalID) clearInterval(sendingCount_intervalID);
+				
+				var bVO:BooleanAndDescriptionVO = e.result as BooleanAndDescriptionVO;
+				if (bVO.bResult) {
+					
+					cPhone.init();
+					
+					isValid();
+					
+					var result:Array = String(bVO.strDescription).split(/\,/);
+					var cnt:int = result.length;
+					if (cnt > 0)
+						SLibrary.alert( result[0]+" 건 전송 요청이 완료 되었습니다." );
+					else
+						SLibrary.alert( "0 건 전송 요청이 완료 되었습니다." );
+					
+				} else {
+					
+					isValid();
+					SLibrary.alert(bVO.strDescription);
+				}
+				//parentApplication.userInfoInit();
+				
+			}
+			
+			
+			/*###############################
+			#	Sending Count				#
+			###############################*/
+			private var sendingCount_intervalID:uint;
+			private var duration:Number = 500;
+			private function getSendingCount():void {
+				
+				ro_sub.getState( parentApplication.login_id );
+			}
+			private function getSendingCount_ResultEventHandler(e:ResultEvent):void {
+				
+				alert( String(e.result) );
+			}
+			
+			
+			protected function cancelButton_clickHandler(event:MouseEvent):void
+			{
+				this.cPhone.init();
+			}
+			
+			private function test_ResultEventHandler(e:ResultEvent):void {
+				
+				trace(11111);
+				
+			}
+			
+			private function test2_ResultEventHandler(e:ResultEvent):void {
+				
+				trace(22222);
+			}
+			import mx.effects.easing.*;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:HGroup width="100%" gap="19">
+		<s:Group id="hp" left="0" width="276" height="535">
+			<s:Image source="images/main_0.png" />
+			<s:VGroup left="31" top="95" gap="2">
+				<handphone:Message id="cMessage" width="100%" alert="message1_alertHandler(event)" validValue="validHandler(event)"/>
+				<handphone:ReturnPhone id="cReturnPhone" validValue="validHandler(event)"/>
+				<handphone:Phone id="cPhone" validValue="validHandler(event)"/>
+				
+				<handphone:Reservation id="cReservation" width="187"/>
+				<s:HGroup horizontalAlign="center" gap="10" width="100%">
+					<s:Image id="sendButton" buttonMode="true" useHandCursor="true" click="sendButton_clickHandler(event)" source="@Embed('images/main_60.png')" />
+					<s:Button id="cancelButton" click="cancelButton_clickHandler(event)" label="취소"/>
+				</s:HGroup>
+			</s:VGroup>
+			<!--전송중 카운트-->
+			<s:VGroup id="iAlertContainer" x="34" y="100" width="165" depth="7" focusEnabled="false" visible="false" horizontalAlign="center">
+				<s:Label text="전송요청!!" fontSize="14" color="0x000000" visible="false"/>
+				<lib:AlertLabel id="iAlert" font_size="40" glow_color="0x000000" text_color="0xFFFFFF" text_label="" effectEnd="this.iAlertContainer.visible=false"/>
+			</s:VGroup>
+		</s:Group>
+		
+		<s:ModuleLoader  id="ml" width="655" height="550" url="module/Emoticon.swf"/>
+		
+	</s:HGroup>
+	
+</s:Application>
