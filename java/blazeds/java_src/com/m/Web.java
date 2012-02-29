@@ -27,6 +27,8 @@ import com.m.member.JoinVO;
 import com.m.member.SessionManagement;
 import com.m.member.UserInformationVO;
 import com.m.mobile.LogVO;
+import com.m.mobile.MMS;
+import com.m.mobile.MMSClientVO;
 import com.m.mobile.PhoneListVO;
 import com.m.mobile.SMS;
 import com.m.mobile.SMSClientVO;
@@ -35,6 +37,7 @@ import com.m.notic.NoticVO;
 import com.m.sent.SentFactory;
 import com.m.sent.SentFactoryAble;
 import com.m.sent.SentGroupVO;
+import com.m.sent.SentLMSFactory;
 import com.m.sent.SentVO;
 
 import flex.messaging.FlexContext;
@@ -393,6 +396,162 @@ public class Web extends SessionManagement{
 		return rvo;
 	}
 	
+	public BooleanAndDescriptionVO sendLMS(String message, ArrayList<PhoneListVO> al, String returnPhone, String reservationDate ) {
+		
+		Connection conn = null;
+		Connection connLMS = null;
+		MMS lms = MMS.getInstance();
+		String user_id = null;
+		UserInformationVO mvo = null;
+		int sendCount = 0;
+		int year = 0;
+		int month = 0;
+		boolean bReservation = false;
+		LogVO lvo = null;
+		ArrayList<MMSClientVO> alClientVO = null;
+		int logKey = 0;
+		ArrayList<String[]> phoneAndNameArrayList = null;
+		String requestIp = null;
+		
+		
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		
+		try {
+			
+			/*###############################
+			#		validity check			#
+			###############################*/
+			//stopWatch play
+			StopWatch sw = new StopWatch();
+			sw.play();
+			
+			if (!isLogin()) throw new Exception("로그인 되어 있지 않습니다.");
+			user_id = getSession();
+			requestIp = FlexContext.getHttpRequest().getRemoteAddr();
+			
+			//발송카운트 초기화
+			M.setState(user_id, 0);
+			
+			if (al == null)
+				throw new Exception("전송목록이 비어 있습니다.");
+			
+			VbyP.accessLog(user_id+" >> LMS 전송 요청 : " + requestIp + " => ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"]");
+			
+			if ( !SLibrary.isNull(reservationDate.trim()) )
+				bReservation = true;
+			if ( bReservation && SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") == 0 )
+				throw new Exception("잘못된 형식의 예약 날짜 입니다.");
+			
+			if ( bReservation ) {
+				
+				year = SLibrary.parseInt( SLibrary.getDateTimeStringStandard(reservationDate, "yyyy") );
+				month = SLibrary.parseInt( SLibrary.getDateTimeStringStandard(reservationDate, "MM") );
+				
+				if ( year < SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) )
+					throw new Exception("과거년으로 전송 하실 수 없습니다.");
+				
+				if ( year == SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) && month < SLibrary.parseInt( SLibrary.getDateTimeString("MM")) )
+					throw new Exception("과거월로 전송 하실 수 없습니다.");
+			}else {
+				
+				year = SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") );
+				month = SLibrary.parseInt( SLibrary.getDateTimeString("MM") );
+				reservationDate = SLibrary.getDateTimeString("yyyy-MM-dd HH:mm:ss");							
+			}
+				
+			if (year == 0 || month == 0)
+				throw new Exception("해당 년월을 가져 오지 못했습니다.");
+			
+			conn = VbyP.getDB();
+			if (conn == null)
+				throw new Exception("DB연결에 실패 하였습니다.");
+			
+			
+			mvo = getUserInformation( conn );
+			
+			mvo.setLine("mms");
+			
+			connLMS = VbyP.getDB("sms1");
+								
+			if (connLMS == null)
+				throw new Exception("LMS DB연결에 실패 하였습니다.");
+			
+			/*###############################
+			#		Process					#
+			###############################*/
+			
+			returnPhone = SLibrary.replaceAll(returnPhone, "-", "");
+			phoneAndNameArrayList = lms.getPhone(conn, mvo.getUser_id(), al);		
+			sendCount = phoneAndNameArrayList.size();
+			//message 개행문자 변경
+			message = SLibrary.replaceAll(message, "\r", "\r\n");
+			
+			checkLMSSend( conn, sendCount, mvo, message, requestIp );
+			
+			/* Send Process */
+			//step1
+			lvo = lms.getLogVO( mvo, bReservation, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp);
+			logKey = lms.insertLMSLog(conn, lvo, year, month);
+			if ( logKey == 0 )
+				throw new Exception("전송내역 로그가 삽입 되지 않았습니다.");
+			VbyP.accessLog(user_id+" >> LMS 전송 요청 : 로그 삽입 성공 ("+logKey+")"+ "경과 시간 : "+sw.getTime());
+			
+			//step2
+			if ( lms.sendLMSPointPut(conn, mvo, sendCount *-1 ) != 1 )
+				throw new Exception("건수 차감이 되지 않았습니다.");
+			VbyP.accessLog(user_id+" >> LMS 전송 요청 : 건수 차감 성공" + "경과 시간 : "+sw.getTime());
+			
+			//step3	
+			alClientVO = lms.getClientVO(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp);
+			VbyP.accessLog(user_id+" >> LMS 전송 요청 : getLMSClientVO 생성" + "경과 시간 : "+sw.getTime());
+			
+			//timeout 방지를 위해 닫는다.
+			try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
+			
+			int clientResult = 0;
+			
+			clientResult = lms.insertClient(connLMS, alClientVO, "sms1");
+			
+			VbyP.accessLog(user_id+" >> LMS 전송 요청 : 전송테이블 삽입 성공" + "경과 시간 : "+sw.getTime());
+			
+			if ( clientResult != sendCount)
+				throw new Exception("전송테이블 입력 : "+ Integer.toString(clientResult)+" 발송데이터 : "+ Integer.toString( alClientVO.size() ) );
+			else{
+				rvo.setbResult(true);
+				rvo.setstrDescription(Integer.toString(clientResult)+","+year+","+month+","+logKey+",lms");
+			}
+			
+			//대량발송 모니터링 
+			if ( Integer.parseInt(VbyP.getValue("moniterSendCount")) < sendCount ){
+				
+				conn = VbyP.getDB();
+				AdminSMS asms = AdminSMS.getInstance();
+				String tempMessage = ( SLibrary.getByte( message ) > 15 )? SLibrary.cutBytes(message, 20, true, "...") : message ;
+				asms.sendAdmin(conn, 
+						"[LMS대량발송]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"건\r\n" 
+						+ tempMessage  );
+			}
+				
+		}catch (Exception e) {
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			System.out.println(e.toString());
+		}
+		finally {
+			
+			try {
+				if ( conn != null ) conn.close();
+				if ( connLMS != null ) connLMS.close();
+			}catch(SQLException e) {
+				VbyP.errorLog("sendLMS >> finally conn.close() or connLMS.close() Exception!"+e.toString()); 
+			}
+		}
+		
+		VbyP.accessLog(user_id+" >> LMS 전송 요청 결과 : "+rvo.getstrDescription());
+		return rvo;
+	}
+	
 	private void checkSMSSend( Connection conn, int sendCount, UserInformationVO mvo, String message, String requestIp ) throws Exception {
 		
 		//최대 발송건수
@@ -408,6 +567,56 @@ public class Web extends SessionManagement{
 		if( Integer.parseInt(mvo.getPoint()) < sendCount )
 			throw new Exception("잔여건수가 부족합니다. ( "+ Integer.toString(sendCount)+" / "+ mvo.getPoint()+" )");
 		
+		//message 필터링
+		if ( Integer.parseInt(VbyP.getValue("filterMinCount")) <= sendCount  ) {
+			
+			String filterMessage = null;
+			String bGlobal = "";
+			filterMessage = Filtering.globalMessageFiltering(message);
+			if (filterMessage == null )
+				filterMessage = Filtering.messageFiltering(mvo.getUser_id(), message);
+			else
+				bGlobal = "전체";
+			
+			if (filterMessage != null) {
+				
+				VbyP.accessLog(mvo.getUser_id() +" >> 전송 요청 : 스팸필터 ("+filterMessage+")");
+				AdminSMS asms = AdminSMS.getInstance();
+				asms.sendAdmin(conn, 
+						"M["+bGlobal+"스팸필터]\r\n" + mvo.getUser_id() + "\r\n" 
+						+ filterMessage  );
+				throw new Exception("스팸성 문구가 발견 되었습니다.");
+			}
+		}
+		//ip 필터링
+		if ( Filtering.ipFiltering(mvo.getUser_id(), requestIp) != null ) {
+			VbyP.accessLog(mvo.getUser_id() +" >> 전송 요청 : IP필터 ("+Filtering.ipFiltering(mvo.getUser_id(), requestIp)+")");
+			throw new Exception("고객님은 현재 발송이 제한되어 있습니다.");
+		}
+		
+		//메시지 이통사 미적용 한글 확인
+		String isMessage = SMS.getInstance().isMessage(message);
+		if ( isMessage != null )
+			throw new Exception("["+isMessage+"] 문자가 맞춤법에 어긋납니다.수정하세요.");
+		
+	}
+	
+	private void checkLMSSend( Connection conn, int sendCount, UserInformationVO mvo, String message, String requestIp ) throws Exception {
+		
+		//최대 발송건수
+		if ( Integer.parseInt(VbyP.getValue("maxSendCount")) < sendCount )
+			throw new Exception( VbyP.getValue("maxSendCount")+" 건 이상 발송 하실 수 없습니다.");
+		
+		if( mvo.getLevaeYN().equals("Y") ){
+			logout_session();
+			throw new Exception("잘못된 접근입니다.");
+		}
+		
+		//건수 체크
+		if( Integer.parseInt(mvo.getPoint()) < sendCount * MMS.LMS_POINT_COUNT )
+			throw new Exception("잔여건수가 부족합니다. ( "+ Integer.toString(sendCount)+" / "+ mvo.getPoint()+" )");
+	
+	
 		//message 필터링
 		if ( Integer.parseInt(VbyP.getValue("filterMinCount")) <= sendCount  ) {
 			
@@ -1010,8 +1219,12 @@ public class Web extends SessionManagement{
 		if (isLogin()) {		
 		
 			try {
+				if (line.equals("mms")) {	
+					connSMS = VbyP.getDB("sms1");
+					sf = SentLMSFactory.getInstance();
+				}
+				else connSMS = VbyP.getDB(line);
 				
-				connSMS = VbyP.getDB(line);
 				String user_id = getSession();
 				VbyP.accessLog(user_id+" >> "+line+" 전송내역 요청 :"+ Integer.toString(groupIndex));
 				
@@ -1068,7 +1281,7 @@ public class Web extends SessionManagement{
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
 		rvo.setbResult(false);
 		
-		SentFactory sf = null;
+		SentFactoryAble sf = null;
 		sf = SentFactory.getInstance();
 		
 		try {	
@@ -1077,11 +1290,16 @@ public class Web extends SessionManagement{
 				VbyP.accessLog(user_id+" >> 예약 취소 요청 :"+idx+","+sendLine);			
 				
 				conn = VbyP.getDB();
+				
 				if (conn == null) throw new Exception("DB연결이 되어 있지 않습니다.");								
 					
 				UserInformationVO vo = getUserInformation();
 				
-				connSMS = VbyP.getDB(sendLine);
+				if (sendLine.equals("mms")) {	
+					connSMS = VbyP.getDB("sms1");
+					sf = SentLMSFactory.getInstance();
+				}else connSMS = VbyP.getDB(sendLine);
+				
 				if (connSMS == null) throw new Exception("SMS DB연결이 되어 있지 않습니다.("+sendLine+")");
 				rvo = sf.cancelSentGroupList(conn, connSMS, vo, idx, sendLine);
 				
