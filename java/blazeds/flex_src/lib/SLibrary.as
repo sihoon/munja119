@@ -1,6 +1,7 @@
 package lib
 {
 	import flash.events.TimerEvent;
+	import flash.external.ExternalInterface;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	import flash.utils.Timer;
@@ -162,10 +163,7 @@ package lib
 		}
 		
 		public static function alert(msg:String):void {
-			
-			var myPattern:RegExp = /\'/g;
-			var u:URLRequest = new URLRequest("javascript:alert('" + msg.replace(myPattern,"\\'") + "')");
-			navigateToURL(u,"_self");
+			ExternalInterface.call("alert",msg);
 		}
 		
 		public static function javascript(msg:String):void {
