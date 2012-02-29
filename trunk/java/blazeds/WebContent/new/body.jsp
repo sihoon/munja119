@@ -14,6 +14,11 @@
 		else if ( strContent.equals("join2") ) 		includeURL = "member/join2.jsp";
 		else if ( strContent.equals("join3") ) 		includeURL = "member/join3.jsp";
 		else if ( strContent.equals("normal") ) 		includeURL = "normal/normal.jsp";
+		else if ( strContent.equals("photo") ) 		includeURL = "photo/photo.jsp";
+		else if ( strContent.equals("billing") ) 		includeURL = "billing/billing.jsp";
+		else if ( strContent.equals("sent") ) 		includeURL = "sent/sent.jsp";
+		else if ( strContent.equals("excel") ) 		includeURL = "excel/excel.jsp";
+		else if ( strContent.equals("address") ) 		includeURL = "address/address.jsp";
 	}
 %>
 
