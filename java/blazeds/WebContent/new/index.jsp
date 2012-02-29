@@ -26,11 +26,11 @@
 
     <div id="menu"><!--메뉴-->
         <a href="?content=normal" class="sms ti">일반문자보내기</a>
-        <a href="" class="lmsmms ti">장문/포토보내기</a>
-        <a href="" class="billing ti">충전하기</a>
-        <a href="" class="sent ti">전송내역</a>
-        <a href="" class="excel ti">EXCEL/대량전송</a>
-        <a href="" class="address ti">주소록관리</a>
+        <a href="?content=mms" class="lmsmms ti">장문/포토보내기</a>
+        <a href="?content=billing" class="billing ti">충전하기</a>
+        <a href="?content=sent" class="sent ti">전송내역</a>
+        <a href="?content=excel" class="excel ti">EXCEL/대량전송</a>
+        <a href="?content=address" class="address ti">주소록관리</a>
     </div>
     
 	<jsp:include page="body.jsp" flush="false"/>

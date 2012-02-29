@@ -145,3 +145,6 @@ div.context {width:950px; height:auto; margin:0px auto;}
 #joinBox .inputTable span {font:normal 11px/20px 'dotum';}
 
 #normaTitle {float:right;margin-top:10px;width:712px;height:154px;background:url("../images/top_img01.jpg") no-repeat;}
+
+#sentBox {float:right;width:712px;height:auto;}
+#sentBox .sentTitle {margin-top:10px;width:712px;height:58px;background:url("../images/title_sendlist.gif") no-repeat;border-bottom:1px solid red}
