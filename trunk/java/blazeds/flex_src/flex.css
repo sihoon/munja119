@@ -14,9 +14,7 @@ s|Button {
 
 s|Panel
 {
-	skinClass: ClassReference('skin.Panel');
-	corner-radius : 10;
-	background-color : #000000;
+	
 }
 
 s|TitleWindow

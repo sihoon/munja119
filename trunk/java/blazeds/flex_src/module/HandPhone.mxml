@@ -96,10 +96,19 @@
 				
 				ro.addEventListener(ResultEvent.RESULT,send_ResultEventHandler);
 				
-				ro.sendSMS( cMessage.getMessage(),
-					cPhone.phoneList,
-					cReturnPhone.returnPhone ,
-					cReservation.bReservation ? cReservation.strReservation +":00" : "" );
+				if (cMessage.maxByte == 2000) {
+					
+					ro.sendLMS( cMessage.getMessage(),
+						cPhone.phoneList,
+						cReturnPhone.returnPhone ,
+						cReservation.bReservation ? cReservation.strReservation +":00" : "" );
+				}else {
+					
+					ro.sendSMS( cMessage.getMessage(),
+						cPhone.phoneList,
+						cReturnPhone.returnPhone ,
+						cReservation.bReservation ? cReservation.strReservation +":00" : "" );
+				}
 				
 				//sending count
 				if (sendingCount_intervalID)
