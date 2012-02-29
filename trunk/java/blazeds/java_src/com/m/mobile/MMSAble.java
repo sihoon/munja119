@@ -23,8 +23,8 @@ public interface MMSAble {
 	
 	int insertClient(Connection conn, ArrayList<MMSClientVO> al, String via);
 	int insertClientRefuse(Connection connMMS, ArrayList<MMSClientVO> al, String via);
-	int sendLMSPointPut(Connection conn, String user_id, String pay_type, int cnt);
-	int sendMMSPointPut(Connection conn, String user_id, String pay_type, int cnt);
+	int sendLMSPointPut(Connection conn, UserInformationVO mvo, int cnt);
+	int sendMMSPointPut(Connection conn, UserInformationVO mvo, int cnt);
 	
 	LogVO getLogVO( UserInformationVO mvo, Boolean bReservation, String message, ArrayList<String[]> phoneAndNameArrayList, String returnPhone, String reservationDate, String ip) throws Exception;
 	LogVO getLogVOMearge( UserInformationVO mvo, Boolean bReservation, String message, String phone, String returnPhone, String reservationDate, int count, String ip) throws Exception;
