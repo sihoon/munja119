@@ -8,9 +8,9 @@
 <!--     <button class="findBtn ti">아이디찾기</button> -->
 <!-- </fieldset> -->
 <!-- <div id="sentBox"> -->
-<!-- 	<p class="sentTitle ti">전송내역</p> -->
+<!-- 	<p class="sentTitle ti">엑셀</p> -->
 	<script type="text/javascript" src="flexlib/swfobject.js"></script>
-	<script type="text/javascript" src="sent/sent.js"></script>
+	<script type="text/javascript" src="excel/excel.js"></script>
 	<div id="flashContent" style="display:none;">
 	    <p>
 	        To view this page ensure that Adobe Flash Player version 
