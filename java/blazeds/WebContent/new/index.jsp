@@ -22,7 +22,7 @@
         <a href="">로그인</a> | <a href="?content=join">회원가입</a> | <a href="">마이119</a> | <a href="">고객센터</a> | <img src="images/add.gif" />
     </div>
 
-    <h1 id="logo" class="ti">MUNJA119</h1>
+    <h1 id="logo" class="ti" onclick="window.location.href='?'" style="cursor:pointer">MUNJA119</h1>
 
     <div id="menu"><!--메뉴-->
         <a href="?content=normal" class="sms ti">일반문자보내기</a>
