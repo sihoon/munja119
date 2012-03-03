@@ -21,5 +21,5 @@
 		else if ( strContent.equals("address") ) 		includeURL = "address/address.jsp";
 	}
 %>
-
+<div style="width:100%;height:26px;background:url('images/topbg.png') 0 0 repeat-x;"></div>
 <jsp:include page="<%=includeURL%>" flush="false" />

@@ -8,11 +8,11 @@ params.bgcolor = "#ffffff";
 params.allowscriptaccess = "sameDomain";
 params.allowfullscreen = "true";
 var attributes = {};
-attributes.id = "Sent";
-attributes.name = "Sent";
+attributes.id = "Excel";
+attributes.name = "Excel";
 attributes.align = "middle";
 swfobject.embedSWF(
-    "sent/Sent.swf", "flashContent", 
+    "excel/Excel.swf", "flashContent", 
     "950", "700", 
     swfVersionStr, xiSwfUrlStr, 
     flashvars, params, attributes);

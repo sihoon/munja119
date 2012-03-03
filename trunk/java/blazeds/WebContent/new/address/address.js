@@ -8,11 +8,11 @@ params.bgcolor = "#ffffff";
 params.allowscriptaccess = "sameDomain";
 params.allowfullscreen = "true";
 var attributes = {};
-attributes.id = "Sent";
-attributes.name = "Sent";
+attributes.id = "Address";
+attributes.name = "Address";
 attributes.align = "middle";
 swfobject.embedSWF(
-    "sent/Sent.swf", "flashContent", 
+    "address/Address.swf", "flashContent", 
     "950", "700", 
     swfVersionStr, xiSwfUrlStr, 
     flashvars, params, attributes);
