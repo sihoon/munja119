@@ -10,12 +10,12 @@
     <title> new 119 </title>
     <link type="text/css" rel="stylesheet" href="css/base.css?ver=1.0"/>
     <link type="text/css" rel="stylesheet" href="css/main.css?ver=1.2"/>
-
+	<script type="text/javascript"  language="javascript" src="js/jquery-1.7.1.min.js?ver=1.0"></script>
     
 </head>
 
 <body>
-
+<iframe src="" id="nobody" name="nobody" frameborder="0" width="0" height="0" style="display:none"></iframe>
 <div class="context">
 	
     <div id="topSub"><!--top-sub-->
