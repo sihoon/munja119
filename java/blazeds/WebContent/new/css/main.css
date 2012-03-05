@@ -150,3 +150,12 @@ div.context {width:950px; height:auto; margin:0px auto;}
 
 #sentBox {float:right;width:712px;height:auto;}
 #sentBox .sentTitle {margin-top:10px;width:712px;height:58px;background:url("../images/title_sendlist.gif") no-repeat;border-bottom:1px solid red}
+
+#billingTitle {float:right;margin-top:10px;width:712px;height:154px;background:url("../images/top_img03.jpg") no-repeat;}
+#billingBox {float:right; margin-top:10px;width:712px;height:auto; }
+#billingBox .txtMethod {font-size:14px;font-weight:bold}
+#billingBox .selMethod { width:712px; text-align:center; padding:50px 0px}
+#billingBox .selMethod label { font-size:16px; font-weight:bold; }
+#billingBox .txtAmount {font-size:14px;font-weight:bold;margin-bottom:5px;}
+#billingBox .title {height:36px;background:url("../images/pay_top.gif") no-repeat;}
+#billingBox td {font-size:14px;font-weight:bold;height:36px;text-align:center;border-bottom:1px solid gray;}

@@ -1,4 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="com.common.util.SLibrary"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%
+
+if(!SLibrary.IfNull( (String)session.getAttribute("munja119JoinStep") ).equals("step1@Session")) {
+	session.removeAttribute("munja119JoinStep");
+	out.println(SLibrary.alertScript("잘못된 접근 입니다.", "window.location.href='/';"));
+	return;
+}
+request.getSession().setAttribute("munja119JoinStep","step2@Session");
+%>
+<script type="text/javascript" src="js/member.js"></script>
 <fieldset id="login"><!-- 로그인 -->
     <legend>로그인</legend>
     <label class="idlabel ti" for="user_id">아이디</label><input type="text" id="user_id" name="user_id" />
