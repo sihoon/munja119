@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<actionScriptProperties analytics="false" mainApplicationPath="Normal.mxml" projectUUID="4f86eea7-e675-4fbe-91ba-92d25cb258b6" version="10">
+  <compiler additionalCompilerArguments="-services &quot;D:\Workspace\google119\blazeds\WebContent\WEB-INF\flex\services-config.xml&quot; -locale en_US" autoRSLOrdering="true" copyDependentFiles="true" flexSDK="Flex 4.5.1A" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderLocation="D:/Workspace/google119/blazeds/WebContent/New-debug" outputFolderPath="bin-debug" removeUnusedRSL="true" rootURL="" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+    <compilerSourcePath/>
+    <libraryPath defaultLinkType="0">
+      <libraryPathEntry kind="4" path="">
+        <excludedEntries>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flex.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/core.swc" useDefaultLinkType="false"/>
+        </excludedEntries>
+      </libraryPathEntry>
+      <libraryPathEntry kind="1" linkType="1" path="libs"/>
+    </libraryPath>
+    <sourceAttachmentPath/>
+  </compiler>
+  <applications>
+    <application path="Normal.mxml"/>
+    <application path="Sent.mxml"/>
+    <application path="Excel.mxml"/>
+    <application path="Address.mxml"/>
+    <application path="Photo.mxml"/>
+  </applications>
+  <modules>
+    <module application="src/Normal.mxml" destPath="module/MSent.swf" optimize="false" sourcePath="src/module/MSent.mxml"/>
+    <module application="src/Normal.mxml" destPath="module/MPhone.swf" optimize="false" sourcePath="src/module/MPhone.mxml"/>
+    <module application="src/Normal.mxml" destPath="module/MPhoto.swf" optimize="false" sourcePath="src/module/MPhoto.mxml"/>
+    <module application="src/Normal.mxml" destPath="module/MAddress.swf" optimize="false" sourcePath="src/module/MAddress.mxml"/>
+    <module application="src/Normal.mxml" destPath="module/MExcel.swf" optimize="false" sourcePath="src/module/MExcel.mxml"/>
+    <module application="src/Normal.mxml" destPath="module/MEmoticon.swf" optimize="false" sourcePath="src/module/MEmoticon.mxml"/>
+  </modules>
+  <buildCSSFiles/>
+  <flashCatalyst validateFlashCatalystCompatibility="false"/>
+</actionScriptProperties>
