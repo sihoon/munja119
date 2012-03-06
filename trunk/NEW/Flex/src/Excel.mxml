@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:component="component.*"
+			   width="950" height="700">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		*
+		{
+			font-family: Dotum;
+			color:#000000;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import component.member.UserInformationVO;
+			
+			import lib.CustomEvent;
+			
+			import module.IModuleInterface_Phone;
+			
+			import mx.events.FlexEvent;
+			import mx.events.ModuleEvent;
+			[Bindable]
+			public var bLogin:Boolean = false;
+			public var login_id:String = null;
+			
+			// phone 이외의 모듈에서 phone 함수 호출
+			public function phoneFunction(code:String, obj:Object):void {
+				var ichild:* = mPhone.child as IModuleInterface_Phone;
+				
+				if (mPhone.child != null) {
+					
+					if (code == "message") ichild.setMessage(obj as String); 
+					else if (code == "addPhone") ichild.addList(obj as String);
+					else if (code == "addPhoneArray") ichild.addListArray(obj as Array);
+					
+					
+				}else ExternalInterface.call("alert", "phone 모듈을 찾을 수 없습니다.");
+			}
+			
+			
+			// 모듈에서 서브 호출 하는 공통 함수
+			public function subLoad(sub:String):void {
+				
+				mSub.unloadModule();
+				if (sub == "address") mSub.loadModule("module/MAddress.swf");
+				else if (sub == "excel") ExternalInterface.call("alert","활성화 되어 있습니다.");
+				else if (sub == "photo") mSub.loadModule("module/MPhoto.swf");
+				else if (sub == "sent") mSub.loadModule("module/MSent.swf");
+			}
+			
+			// 로그인 되어 있을 경우 처리
+			protected function loginCheckHandler(event:CustomEvent):void
+			{
+				var uvo:UserInformationVO = UserInformationVO(event.obj)
+				loginBox.loginOK( uvo );
+				login_id = uvo.user_id;
+				bLogin = true;
+				
+				var obj2:Object = this.mPhone.child;
+				obj2.isValid();
+				obj2.cReturnPhone.returnPhoneTextInput.text = uvo.phone_return;
+				
+				Object(this.mExcel.child).init();
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:VGroup width="100%" gap="0">
+		<s:Group width="100%">
+			<component:LoginBox id="loginBox" left="0" login="loginCheckHandler(event)"  />
+			<s:Image right="0" source="images/top_img01.jpg" />
+		</s:Group>
+		
+		<s:Group width="100%">
+			<s:ModuleLoader id="mPhone" left="0" width="276" height="535" url="module/MPhone.swf"/>
+			<s:ModuleLoader id="mExcel" right="0" top="10" url="module/MExcel.swf"/>
+		</s:Group>
+	</s:VGroup>
+	<s:SkinnableContainer id="subContainer" visible="false" skinClass="skin.SkinableContainerSub" verticalCenter="0" horizontalCenter="0">
+		<s:Image source="images/AdvancedCloseBtn.png" buttonMode="true" useHandCursor="true" right="0" click="subContainer.visible=false" />
+		<s:ModuleLoader id="mSub" ready="subContainer.visible=true;"/>
+	</s:SkinnableContainer>
+</s:Application>
