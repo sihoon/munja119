@@ -35,6 +35,13 @@ div.context {width:950px; height:auto; margin:0px auto;}
 #login .joinBtn {border:none;float:left; width:83px;height:24px;background:url("../images/main_32.png") no-repeat;}
 #login .findBtn {border:none;float:right; width:83px;height:24px;background:url("../images/main_34.png") no-repeat;}
 
+#loginInfo {color:black;float:left;width:172px;height:132px;padding:19px 14px;border:5px solid #ccc;margin-top:10px;}
+#loginInfo .name {color:#1377d4;font-weight:bold;}
+#loginInfo .cnt {color:black;font-size:26px;font-weight:bold;}
+#loginInfo .function {float:right;margin-bottom:10px;}
+#loginInfo .cuponBox {}
+
+
 #main #mobile {float:right;width:248px;height:445px;padding-left:28px;padding-top:90px; background:url("../images/main_0.png") no-repeat;}
 #main #mobile .messageBox{width:223px;height:180px;display:block;}
 #main #mobile .messageBox textarea {display:block;width:210px;height:112px;padding:5px;background: transparent;border:0px}
@@ -80,7 +87,9 @@ div.context {width:950px; height:auto; margin:0px auto;}
 #main #emoticon {display:block;clear:both;width:950px;border-bottom:2px solid #DAB4A8;overflow-x:hidden;border-top:none;}
 #main #emoticon .title {width:950px;height:39px;background:url("../images/center_bg.gif") repeat-x;}
 #main #emoticon .title li {display:block;float:left;width:152px;height:39px;cursor:pointer;text-indent:-9999px;}
-#main #emoticon .title .business {background:url("../images/center_m02_.gif") no-repeat;}
+#main #emoticon .title .businessover {background:url("../images/center_m02_.gif") no-repeat;}
+#main #emoticon .title .business {background:url("../images/center_m02.gif") no-repeat;}
+#main #emoticon .title .themaover {background:url("../images/center_m01_.gif") no-repeat;}
 #main #emoticon .title .thema {background:url("../images/center_m01.gif") no-repeat;}
 #main #emoticon .title .popular {background:url("../images/center_m03.gif") no-repeat;}
 #main #emoticon .title .poto {background:url("../images/center_m04.gif") no-repeat;}
@@ -91,8 +100,11 @@ div.context {width:950px; height:auto; margin:0px auto;}
 #main #emoticon .middle .subTitle a {display:block;width:75px;overflow:auto;float:left;margin-top:10px;font-weight:bold;text-align:center;}
 #main #emoticon .middle .subTitle a.pre {width:16px;height:19px;background:url("../images/icon_left.gif") no-repeat;overflow:hidden;text-indent:-9999px;margin-right:10px;}
 #main #emoticon .middle .subTitle a.next {float:right;width:16px;height:19px;background:url("../images/icon_right.gif") no-repeat;overflow:hidden;text-indent:-9999px;}
-#main #emoticon .emtibox {margin-left:12px;width:925px;overflow:hidden;margin-top:10px;overflow-y:auto;}
-#main #emoticon .emtibox .emti {display:block;float:left;width:117px; height:115px;padding:0 30px; padding-top:25px;background:url("../images/pro_bg.gif") no-repeat;margin-right:8px;margin-bottom:10px;font-size: 10pt;font-family: '굴림체';color: black;}
+#main #emoticon .emtibox1 {margin-left:15px;width:925px;overflow:hidden;margin-top:10px;overflow-y:auto;}
+#main #emoticon .emtibox {width:940px;overflow:hidden;margin-top:10px;overflow-y:auto;text-align:center;}
+#main #emoticon .emtibox .emti1 {overflow:hidden;background: transparent;border:0px;display:block;float:left;width:117px; height:111px;padding:0 28px; padding-top:25px;background:url("../images/pro_bg.gif") no-repeat;margin-right:8px;margin-bottom:10px;font-size: 10pt;font-family: '굴림체';color: black;}
+#main #emoticon .emtibox .emti {background: transparent;border:0px;width:117px; height:115px;padding:0 30px; padding-top:29px;background:url("../images/pro_bg.gif") no-repeat;font-size: 14px; font-family: '굴림체';color: black;overflow:hidden;}
+
 
 #main .potomore {margin-top:10px;display:block;float:right;width:46px;height:16px;background:url("../images/more.gif") no-repeat;text-indent:-9999px;}
 #main #poto {width:950px; height:230px;padding-top:20px; background:url("../images/hit_title.gif") no-repeat;overflow-y:auto;}

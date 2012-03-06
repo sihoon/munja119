@@ -1,4 +1,63 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.m.home.Home"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="com.m.member.SessionManagement"%>
+<%@page import="com.m.member.UserInformationVO"%>
+<%@page import="com.common.VbyP"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="com.common.util.SLibrary"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%
+
+	String user_id = SLibrary.IfNull((String)session.getAttribute("user_id"));
+	Connection conn = null;
+	UserInformationVO vo = null;
+	SessionManagement ses = null;
+	Home home = null;
+	String[] arrEmt = null;
+	String gubun = VbyP.getGET(request.getParameter("gubun"));
+	ArrayList<HashMap<String, String>> notihm = null;
+	
+	try {
+		conn = VbyP.getDB();
+		
+		if ( SLibrary.isNull(gubun) ) gubun = "업종별문자";
+		home = Home.getInstance();
+		arrEmt = home.getMainEmt(conn, gubun, 0, 15);
+		
+		notihm = home.getNotices(conn);
+		
+		ses = new SessionManagement();
+		if ( !SLibrary.IfNull( (String)session.getAttribute("user_id") ).equals("") )
+			vo = ses.getUserInformation(conn, SLibrary.IfNull( (String)session.getAttribute("user_id") ));
+	}catch (Exception e) {}
+	finally {
+		
+		try {
+			if ( conn != null )	conn.close();
+		}catch(SQLException e) {
+			VbyP.errorLog("getUserInformation >> conn.close() Exception!"); 
+		}
+		conn = null;
+	}
+	
+%>
+<script type="text/javascript">
+
+	function logincheck() {
+		var f = document.loginForm;
+		if (!f.user_id.value) {
+			alert("아이디를 입력하세요.");
+			return;
+		}else if (!f.user_pw.value) {
+			alert("비밀번호를 입력하세요.");
+			return;
+		}else {
+			f.submit();
+		}
+	}
+
+</script>
 <div id="main"><!--main Start-->
         <ul class="introduce"><!--소개-->
             <li class="intro1 ti">업계최저가격 10.7</li>
@@ -6,15 +65,32 @@
             <li class="intro3 ti">장문문자발송가능</li>
             <li class="intro4 ti">이젠 스마트폰이다</li>
         </ul>
-
-        <fieldset id="login"><!-- 로그인 -->
+        <% if (vo == null) { %>
+		<form name="loginForm" method="post" target="nobody" action="member/_login.jsp" >
+		<fieldset id="login"><!-- 로그인 -->
             <legend>로그인</legend>
             <label class="idlabel ti" for="user_id">아이디</label><input type="text" id="user_id" name="user_id" />
-            <label class="pwlabel ti" for="user_pw">비밀번호</label><input type="text" id="user_pw" name="user_pw" />
-            <button class="loginBtn ti">로그인</button>
+            <label class="pwlabel ti" for="user_pw">비밀번호</label><input type="password" id="user_pw" name="user_pw" />
+            <button class="loginBtn ti" onclick="logincheck()">로그인</button>
             <button class="joinBtn ti">회원가입</button>
             <button class="findBtn ti">아이디찾기</button>
         </fieldset>
+        </form>
+        <%
+        } else {
+        	%>
+        <fieldset id="loginInfo"><!-- 로그인 -->
+            <legend>로그인정보</legend>
+            <span class="name"><%=vo.getUser_name() %></span> 님 안녕하세요.<br/>사용가능건수
+           	<div><span class="cnt"><%=SLibrary.addComma( vo.getPoint() ) %></span>건 <a href="">충전하기</a></div>
+            <div class="function"><a href="">정보수정</a> <a href="member/_logout.jsp">로그아웃</a></div>
+            <div class="cuponBox"><input type="text" name="cupon" />&nbsp;&nbsp;<a href="">등록</a></div>
+        </fieldset>
+        	<%
+        }
+        %>
+        
+        
         
         <div class="adBox">
 	        <pre class="function ti">
@@ -79,61 +155,49 @@
 
         <fieldset id="emoticon">
             <ul class="title">
-                <li class="business">업종별문자</li>
-                <li class="thema">테마별문자</li>
-                <li class="popular">인기문자</li>
-                <li class="poto">포토문자</li>
-                <li class="more">더보기</li>
+                <li class="<%=(gubun.equals("업종별문자"))?"businessover":"business" %>" onclick="window.location.href='?gubun=업종별문자'">업종별문자</li>
+                <li class="<%=(gubun.equals("테마문자"))?"themaover":"thema" %>" onclick="window.location.href='?gubun=테마문자'">테마별문자</li>
+<!--                 <li class="popular" onclick="window.location.href='?gubun=업종별문자'">인기문자</li> -->
+<!--                 <li class="poto">포토문자</li> -->
+                <li class="more" onclick="window.location.href='?content=normal'">더보기</li>
             </ul>
             <div class="middle">
-                <div class="subTitle">
-                    <a href="" class="pre">이전</a>
-                    <a href="">감사</a>
-                    <a href="">계절</a>
-                    <a href="">공지/안내</a>
-                    <a href="">기념</a>
-                    <a href="">날씨</a>
-                    <a href="">명언/감동</a>
-                    <a href="">모임</a>
-                    <a href="">부고/조의</a>
-                    <a href="">사과/화해</a>
-                    <a href="">사랑/고백</a>
-                    <a href="">시즌/안부</a>
-                    <a href="" class="next">다음</a>
-                </div>
+<!--                 <div class="subTitle"> -->
+<!--                     <a href="" class="pre">이전</a> -->
+<!--                     <a href="">감사</a> -->
+<!--                     <a href="">계절</a> -->
+<!--                     <a href="">공지/안내</a> -->
+<!--                     <a href="">기념</a> -->
+<!--                     <a href="">날씨</a> -->
+<!--                     <a href="">명언/감동</a> -->
+<!--                     <a href="">모임</a> -->
+<!--                     <a href="">부고/조의</a> -->
+<!--                     <a href="">사과/화해</a> -->
+<!--                     <a href="">사랑/고백</a> -->
+<!--                     <a href="">시즌/안부</a> -->
+<!--                     <a href="" class="next">다음</a> -->
+<!--                 </div> -->
                 <div class="emtibox">
-                    <pre class="emti">   ///// 
- (( > < b 
-에취! ∑ \") 
-  (☞☜) 
-환절기감기조심!</pre>
-                    <pre class="emti">ㄸㅓㄴㅏ고ㅍㅏ
-☆┏━━┓♥☆ 
-┏┛□□┗┓♥ 
-┗⊙━━⊙┛==3 
-ㄱrㅊiㄱrㄲr♡</pre>
-                    <pre class="emti">갑자기추워진날씨
-♧ )) ♧ 따뜻한
-┃(( *┣┓차한잔
-┃* ♠┣┛마시고
-┗━━┛힘내</pre>
-                    <pre class="emti">이모티콘</pre>
-                    <pre class="emti">이모티콘</pre>
-                    <pre class="emti">이모티콘</pre>
-                    <pre class="emti">이모티콘</pre>
-                    <pre class="emti">이모티콘</pre>
-                    <pre class="emti">이모티콘</pre>
-                    <pre class="emti">이모티콘</pre>
-                    <pre class="emti">이모티콘</pre>
-                    <pre class="emti">이모티콘</pre>
-                    <pre class="emti">이모티콘</pre>
-                    <pre class="emti">이모티콘</pre>
-                    <pre class="emti">이모티콘</pre>
+                    <textarea class="emti" readonly ><%=arrEmt[0] %></textarea>
+                    <textarea class="emti" readonly><%=arrEmt[1] %></textarea>
+                    <textarea class="emti" readonly><%=arrEmt[2] %></textarea>
+                    <textarea class="emti" readonly><%=arrEmt[3] %></textarea>
+                    <textarea class="emti" readonly><%=arrEmt[4] %></textarea>
+                    <textarea class="emti" readonly><%=arrEmt[5] %></textarea>
+                    <textarea class="emti" readonly><%=arrEmt[6] %></textarea>
+                    <textarea class="emti" readonly><%=arrEmt[7] %></textarea>
+                    <textarea class="emti" readonly><%=arrEmt[8] %></textarea>
+                    <textarea class="emti" readonly><%=arrEmt[9] %></textarea>
+                    <textarea class="emti" readonly><%=arrEmt[10] %></textarea>
+                    <textarea class="emti" readonly><%=arrEmt[11] %></textarea>
+                    <textarea class="emti" readonly><%=arrEmt[12] %></textarea>
+                    <textarea class="emti" readonly><%=arrEmt[13] %></textarea>
+                    <textarea class="emti" readonly><%=arrEmt[14] %></textarea>
                 </div>
             </div>
         </fieldset>
 
-        <a href="" class="potomore">더보기</a>
+        <a href="javascript:return false;" class="potomore" onclick="window.location.href='?content=photo'">더보기</a>
         <fieldset id="poto">
             <legend>인기포토문자</legend>
             <div class="potoBox">
@@ -152,11 +216,18 @@
         <fieldset id="noti">
             <legend>공지사항</legend>
             <a href="" class="more">more</a>
-            <div class="content"><a href="" class="title">공지사항입니다.</a><span class="notiDate">2012-01-02</span></div>
-            <div class="content"><a href="" class="title">공지사항입니다.</a><span class="notiDate">2012-01-02</span></div>
-            <div class="content"><a href="" class="title">공지사항입니다.</a><span class="notiDate">2012-01-02</span></div>
-            <div class="content"><a href="" class="title">공지사항입니다.</a><span class="notiDate">2012-01-02</span></div>
-            <div class="content"><a href="" class="title">공지사항입니다.</a><span class="notiDate">2012-01-02</span></div>
+            <%
+            	if (notihm != null) {
+            		int size = notihm.size();
+            		HashMap<String, String> hm = null;
+            		for (int i = 0; i < size; i++) {
+            			hm = notihm.get(i);
+            			%>
+            			<div class="content"><a href="" class="title"><%=SLibrary.IfNull(hm, "title") %></a><span class="notiDate"></span></div>
+            			<%
+            		}
+            	}
+            %>
         </fieldset>
 
         <a href="" class="bank">입금계좌</a>
