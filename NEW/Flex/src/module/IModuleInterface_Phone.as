@@ -6,5 +6,8 @@ package module
 		function setMessage(msg:String):void;
 		function addList(phone:String):void;
 		function addListArray(arr:Array):void;
+		function changeLMS():void;
+		function changeSMS():void;
+		function changeMMS():void;
 	}
 }

@@ -4,6 +4,7 @@
 		  xmlns:mx="library://ns.adobe.com/flex/mx"
 		  implements="module.IModuleInterface_Phone"
 		  width="276" height="535"
+		  creationComplete="creationCompleteHandler(event)"
 		  xmlns:handphone="component.handphone.*" xmlns:lib="lib.*">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -28,6 +29,8 @@
 			import mx.rpc.events.ResultEvent;
 			import mx.rpc.remoting.RemoteObject;
 			
+			private var defMode:String = "SMS";
+			
 			public function setMessage(msg:String):void {
 				
 				cMessage.setMessage(msg);
@@ -40,6 +43,16 @@
 				this.cPhone.addListArray(arr);
 			}
 			
+			public function changeSMS():void {
+				defMode = "SMS";
+			}
+			public function changeLMS():void {
+				defMode = "LMS";
+			}
+			public function changeMMS():void {
+				defMode = "MMS";
+			}
+			
 			/*###############################
 			#	variable & Attribute		#
 			###############################*/
@@ -48,6 +61,9 @@
 			private var ro_sub:RemoteObject = null;
 			
 			protected function creationCompleteHandler(event:FlexEvent):void {
+				if (defMode == "SMS")this.cMessage.changeSMS();
+				else if (defMode == "LMS")this.cMessage.changeLMS();
+				else if (defMode == "MMS")this.cMessage.changeMMS();
 				sendButton.enabled = false;
 				isValid();
 			}
@@ -118,11 +134,19 @@
 				
 				ro.addEventListener(ResultEvent.RESULT,send_ResultEventHandler);
 				
-				ro.sendSMS( cMessage.getMessage(),
-					cPhone.phoneList,
-					cReturnPhone.returnPhone ,
-					cReservation.bReservation ? cReservation.strReservation +":00" : "" );
-				
+				if (cMessage.maxByte == 2000) {
+					
+					ro.sendLMS( cMessage.getMessage(),
+						cPhone.phoneList,
+						cReturnPhone.returnPhone ,
+						cReservation.bReservation ? cReservation.strReservation +":00" : "" );
+				}else {
+					ro.sendSMS( cMessage.getMessage(),
+						cPhone.phoneList,
+						cReturnPhone.returnPhone ,
+						cReservation.bReservation ? cReservation.strReservation +":00" : "" );
+				}
+					
 				//sending count
 				if (sendingCount_intervalID)
 					clearInterval(sendingCount_intervalID);
@@ -179,16 +203,6 @@
 				this.cPhone.init();
 			}
 			
-			private function test_ResultEventHandler(e:ResultEvent):void {
-				
-				trace(11111);
-				
-			}
-			
-			private function test2_ResultEventHandler(e:ResultEvent):void {
-				
-				trace(22222);
-			}
 			import mx.effects.easing.*;
 		]]>
 	</fx:Script>
@@ -204,7 +218,7 @@
 		<handphone:Reservation id="cReservation" width="187"/>
 		<s:HGroup horizontalAlign="center" gap="10" width="100%">
 			<s:Image id="sendButton" buttonMode="true" useHandCursor="true" click="sendButton_clickHandler(event)" source="@Embed('images/main_60.png')" />
-			<s:Button id="cancelButton" click="cancelButton_clickHandler(event)" label="취소" height="29"/>
+			<s:Image id="cancelButton" buttonMode="true" useHandCursor="true" click="cancelButton_clickHandler(event)" source="@Embed('images/btn_cancle2.gif')" />
 		</s:HGroup>
 	</s:VGroup>
 	<!--전송중 카운트-->
