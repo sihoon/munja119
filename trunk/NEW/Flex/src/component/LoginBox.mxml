@@ -202,24 +202,23 @@
 				<s:Image id="join_button" source="images/main_32.png" click="{parentApplication.moveMenuNoLogin('module/Join.swf')}" buttonMode="true" useHandCursor="true"/>
 			</s:HGroup>
 		</s:VGroup>
-		<s:VGroup id="loginInfo" includeIn="userInfo"  left="19" right="19" top="14" bottom="14" horizontalAlign="left" gap="10" >
+		<s:VGroup id="loginInfo" includeIn="userInfo"  left="19" right="19" top="13" bottom="13" horizontalAlign="left" gap="4" >
 			<s:HGroup width="100%">
-				<s:Label text="{userName}" fontSize="12" color="0x1377d4" fontWeight="bold" /><s:Label fontSize="12" text=" 님 안녕하세요." />	
-			</s:HGroup>
-			
-			<s:Label text="사용가능건수" fontSize="12" />
-			<s:HGroup verticalAlign="middle">
-				<s:Label text="{point}" fontWeight="bold" fontSize="26" />
-				<s:Label text=" 건" fontSize="12" />
-				<s:Label text="충전하기" buttonMode="true" useHandCursor="true" click="charge_clickHandler(event)" />
-			</s:HGroup>
-			<s:HGroup width="100%" verticalAlign="middle" horizontalAlign="right">
-				<s:Label text="정보수정" click="{parentApplication.moveMenu('module/Modify.swf')}" buttonMode="true" useHandCursor="true"/>
-				<s:Label text="로그아웃" click="logout_button_clickHandler(event)" buttonMode="true" useHandCursor="true"/>	
+				<s:Label text="{userName}" fontSize="12" color="0x5F4910" fontWeight="bold" /><s:Label fontSize="12" text=" 님 안녕하세요." />	
 			</s:HGroup>
 			<s:HGroup verticalAlign="middle">
-				<s:TextInput id="couponText" prompt="쿠폰번호 입력.." />
-				<s:Label text="등록" click="coupon_clickHandler(event)" />
+				<s:Image source="images/usenum.gif" />
+				<s:Label text="{point}" fontWeight="bold" fontSize="22" />
+				<s:Image source="images/cnt.gif" />
+			</s:HGroup>
+			<s:Image source="images/btn_cashbuy.gif" useHandCursor="true" click="charge_clickHandler(event)" />
+			<s:HGroup verticalAlign="middle" horizontalAlign="center">
+				<s:Image source="images/edit.gif" useHandCursor="true" />
+				<s:Image source="images/logout.gif" useHandCursor="true" />	
+			</s:HGroup>
+			<s:HGroup verticalAlign="middle">
+				<s:TextInput id="couponText" width="115" prompt="쿠폰번호 입력.." />
+				<s:Image source="images/btn_coupon.gif" click="coupon_clickHandler(event)" useHandCursor="true" />
 			</s:HGroup>
 		</s:VGroup>
 		

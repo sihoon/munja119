@@ -138,12 +138,12 @@
 		<s:VGroup gap="2">
 			<s:HGroup width="100%" gap="0">
 				<s:Image source="@Embed('images/main_50.png')" buttonMode="true" useHandCursor="true" click="parentApplication.subLoad('address')"/>
-				<s:Button label="엑셀" click="parentApplication.subLoad('excel')" width="45" height="18"/>
+				<s:Image source="@Embed('images/btn_ex.gif')" buttonMode="true" useHandCursor="true" click="parentApplication.subLoad('excel')"/>
 				<s:Image source="@Embed('images/main_51.png')" buttonMode="true" useHandCursor="true" click="parentApplication.subLoad('sent')"/>
 			</s:HGroup>
-			<s:HGroup>
-				<s:TextInput id="phoneTextInput" width="107" enter="addPhoneButton_clickHandler(null)" />
-				<s:Button id="addPhoneButton" width="50" label="추가" click="addPhoneButton_clickHandler(event)"/>
+			<s:HGroup verticalAlign="middle">
+				<s:TextInput id="phoneTextInput" width="125" enter="addPhoneButton_clickHandler(null)" />
+				<s:Image id="addPhoneButton" source="images/btn_addd.gif" click="addPhoneButton_clickHandler(event)" useHandCursor="true" buttonMode="true"/>
 			</s:HGroup>
 		</s:VGroup>
 	</s:HGroup>

@@ -53,6 +53,6 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:Label text="보낸사람" fontSize="11" color="0xffffff"/>
-	<s:TextInput id="returnPhoneTextInput" height="20"  width="107" keyUp="returnPhoneTextInput_keyUpHandler(event)"/>
-	<s:Button id="saveReturnBtn" click="saveReturnBtn_clickHandler(event)" label="저장" width="50" />
+	<s:TextInput id="returnPhoneTextInput" height="20"  width="125" keyUp="returnPhoneTextInput_keyUpHandler(event)"/>
+	<s:Image id="saveReturnBtn" click="saveReturnBtn_clickHandler(event)" source="images/btn_savesave.gif" buttonMode="true" useHandCursor="true" />
 </s:HGroup>
