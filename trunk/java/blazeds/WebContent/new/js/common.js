@@ -11,6 +11,7 @@ function radioValue(obj) {
 	for( var i = 0; i < obj.length; i++){
 		if(obj[i].checked) rslt = obj[i].value;
 	}
+
 	return rslt;
 }
 
@@ -29,8 +30,22 @@ function billingMethod() {
 }
 
 function billingCheck() {
-	
+
+	var f = document.form;
 	var method = radioValue(f.method);
-	var amount = radioValue(f.amount); 
+	var amount = radioValue(f.amount);
+	if (method=="") {
+		alert("결제방식이 없습니다.");
+		return;
+	}
+	
+	if (amount == "") {
+		alert("결제금액이 없습니다.");
+		return;
+	}
+	
+	document.formBilling.smethod.value = method;
+	document.formBilling.amount.value = amount;
+	document.formBilling.submit();
 	
 }

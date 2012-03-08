@@ -1,4 +1,36 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="com.common.VbyP"%>
+<%@page import="com.m.member.SessionManagement"%>
+<%@page import="com.m.member.UserInformationVO"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="com.common.util.SLibrary"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%
+
+String user_id = SLibrary.IfNull((String)session.getAttribute("user_id"));
+Connection conn = null;
+UserInformationVO vo = null;
+SessionManagement ses = null;
+
+try {
+	conn = VbyP.getDB();
+	
+	ses = new SessionManagement();
+	if ( !SLibrary.IfNull( (String)session.getAttribute("user_id") ).equals("") )
+		vo = ses.getUserInformation(conn, SLibrary.IfNull( (String)session.getAttribute("user_id") ));
+}catch (Exception e) {}
+finally {
+	
+	try {
+		if ( conn != null )	conn.close();
+	}catch(SQLException e) {
+		VbyP.errorLog("billing.jsp >> conn.close() Exception!"); 
+	}
+	conn = null;
+}
+
+%>
+
+<% if (vo == null) { %>
 <fieldset id="login"  style="padding:9px 16px;">
     <legend>로그인</legend>
     <label class="idlabel ti" for="user_id">아이디</label><input type="text" id="user_id" name="user_id" />
@@ -7,8 +39,17 @@
     <button class="joinBtn ti">회원가입</button>
     <button class="findBtn ti">아이디찾기</button>
 </fieldset>
+<% } else { %>
+<fieldset id="loginInfo" style="padding:9px 16px;">
+    <legend>로그인정보</legend>
+    <span class="name"><%=vo.getUser_name() %></span> 님 안녕하세요.<br/>사용가능건수
+   	<div><span class="cnt"><%=SLibrary.addComma( vo.getPoint() ) %></span>건 <a href="">충전하기</a></div>
+    <div class="function"><a href="">정보수정</a> <a href="member/_logout.jsp">로그아웃</a></div>
+    <div class="cuponBox"><input type="text" name="cupon" />&nbsp;&nbsp;<a href="">등록</a></div>
+</fieldset>
+<% }%>
 
-<form name="formBilling" target="nobody" mehtod="post" action="" >
+<form name="formBilling" target="nobody" mehtod="post" action="billing/payreq.jsp" >
 	<input type="hidden" name="smethod" value="" />
 	<input type="hidden" name="amount" value="" />
 </form>

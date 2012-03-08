@@ -7,13 +7,15 @@ div.context {width:950px; height:auto; margin:0px auto;}
 #logo {clear:both;width:950px; height:65px;background:url("../images/main_03.png") no-repeat;}
 #menu { width:950px;height:44px;}
 #menu a {display:block;float:left;overflow:hidden;display:inline;}
-#menu .sms {width:201px; height:44px;background:url("../images/m01.jpg") 0 0 no-repeat; }
-#menu .lmsmms {width:196px; height:44px;background:url("../images/m02.jpg") 0 0 no-repeat; }
-#menu .billing {width:174px; height:44px;background:url("../images/m03.jpg") 0 0 no-repeat; }
+#menu .sms {width:149px; height:44px;background:url("../images/tpm_01.jpg") 0 0 no-repeat; }
+#menu .lms {width:129px; height:44px;background:url("../images/tpm_02.jpg") 0 0 no-repeat; }
+#menu .mms {width:173px; height:44px;background:url("../images/tpm_03.jpg") 0 0 no-repeat; }
+#menu .billing {width:120px; height:44px;background:url("../images/tpm_04.jpg") 0 0 no-repeat; }
 #menu .sent {width:118px; height:44px;background:url("../images/m04.jpg") 0 0 no-repeat; }
 #menu .excel {width:131px; height:44px;background:url("../images/m05.jpg") 0 0 no-repeat; }
 #menu .address {width:130px; height:44px;background:url("../images/m06.jpg") 0 0 no-repeat; }
 #menu a:hover {background-position: 0 -44px;}
+#menu .over {background-position: 0 -44px;}
 
 #flashContent {margin-top:10px;}
 
@@ -44,7 +46,7 @@ div.context {width:950px; height:auto; margin:0px auto;}
 
 #main #mobile {float:right;width:248px;height:445px;padding-left:28px;padding-top:90px; background:url("../images/main_0.png") no-repeat;}
 #main #mobile .messageBox{width:223px;height:180px;display:block;}
-#main #mobile .messageBox textarea {display:block;width:210px;height:112px;padding:5px;background: transparent;border:0px}
+#main #mobile .messageBox textarea {display:block;width:210px;height:112px;padding:5px;background: transparent;border:0px;display: block;font-size: 10pt;font-family: '굴림체';overflow:hidden}
 #main #mobile .messageBox .emoti {float:left;margin-left:5px !important;margin-left:2px;margin-right:5px;display:block;border:none;width:51px;height:20px;background:url("../images/main_40.png") no-repeat;}
 #main #mobile .messageBox .char {float:left;display:block;border:none;width:51px;height:20px;background:url("../images/main_42.png") no-repeat;}
 #main #mobile .messageBox .byte {float:right;margin-right:5px;display:block;width:100px;height:20px;text-indent:0px;text-align:right;}
@@ -57,11 +59,15 @@ div.context {width:950px; height:auto; margin:0px auto;}
 
 #main #mobile .messageBox .save {margin-top:12px;float:right;display:block;border:none;width:62px;height:20px;background:url("../images/main_47.png") no-repeat;}
 
+#main #mobile .returnPhoneBox {display:block;width:220px;}
+#main #mobile .returnPhoneBox .label {margin-bottom:5px;display:block;float:left;margin-right:3px;width:50px;height:18px;color:white;text-indent:0px;}
+#main #mobile .returnPhoneBox input {border:0px;height:18px;width:162px;padding-left:4px;color:white;background-color:#aaa;}
+
 #main #mobile .phoneBox {display:block;width:220px;margin-top:5px;}
 #main #mobile .phoneBox .phonelabel {margin-bottom:5px;display:block;float:left;width:50px;height:18px;color:white;text-indent:0px;}
 #main #mobile .phoneBox .address {float:left;display:block;border:none;width:56px;height:18px;background:url("../images/main_50.png") no-repeat;}
 #main #mobile .phoneBox .sent {float:left;display:block;border:none;width:62px;height:18px;background:url("../images/main_51.png") no-repeat;}
-#main #mobile .phoneBox .listBox {clear:both;display:block;width:220px;height:135px;overflow-y: scroll;}
+#main #mobile .phoneBox .listBox {clear:both;display:block;width:220px;height:110px;overflow-y: scroll;}
 #main #mobile .phoneBox .listBox li{display:block;border:1px solid #333;width:200px;height:18px;background-color:#aaa;margin-bottom:3px;overflow:hidden;}
 #main #mobile .phoneBox .listBox li input{float:left;display:block;border:0px;height:18px;width:170px;padding-left:4px;color:white;background-color:#aaa;}
 #main #mobile .phoneBox .listBox li button{display:block;float:left;border:0px;width:20px;height:18px;background-color:#aaa;color:white;text-indent:0px}
@@ -96,8 +102,9 @@ div.context {width:950px; height:auto; margin:0px auto;}
 #main #emoticon .title .more {float:right;background:url("../images/more.gif") 105px 15px no-repeat;cursor:pointer}
 
 #main #emoticon .middle {width:946px;height:auto;border-left:2px solid #DAB4A8;border-right:2px solid #DAB4A8;overflow-y:auto;padding-bottom:5px;}
-#main #emoticon .middle .subTitle {margin-left:12px;width:890px;height:38px;overflow:hidden;background-color:#EEE3DD;margin-top:10px;padding:0px 15px;}
-#main #emoticon .middle .subTitle a {display:block;width:75px;overflow:auto;float:left;margin-top:10px;font-weight:bold;text-align:center;}
+#main #emoticon .middle .subTitle {margin-left:12px;width:880px;padding:10px 20px;background-color:#EEE3DD;margin-top:10px;}
+#main #emoticon .middle .subTitle a {width:75px;overflow:auto;text-align:center;}
+#main #emoticon .middle .subTitle .de {font-weight:bold;}
 #main #emoticon .middle .subTitle a.pre {width:16px;height:19px;background:url("../images/icon_left.gif") no-repeat;overflow:hidden;text-indent:-9999px;margin-right:10px;}
 #main #emoticon .middle .subTitle a.next {float:right;width:16px;height:19px;background:url("../images/icon_right.gif") no-repeat;overflow:hidden;text-indent:-9999px;}
 #main #emoticon .emtibox1 {margin-left:15px;width:925px;overflow:hidden;margin-top:10px;overflow-y:auto;}
