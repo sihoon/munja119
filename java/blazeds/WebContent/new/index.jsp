@@ -1,4 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="com.common.util.SLibrary"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%
+	String strContent = SLibrary.IfNull(request.getParameter("content"));
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -26,12 +29,13 @@
     <h1 id="logo" class="ti" onclick="window.location.href='?'" style="cursor:pointer">MUNJA119</h1>
 
     <div id="menu"><!--메뉴-->
-        <a href="?content=normal" class="sms ti">일반문자보내기</a>
-        <a href="?content=photo" class="lmsmms ti">장문/포토보내기</a>
-        <a href="?content=billing" class="billing ti">충전하기</a>
-        <a href="?content=sent" class="sent ti">전송내역</a>
-        <a href="?content=excel" class="excel ti">EXCEL/대량전송</a>
-        <a href="?content=address" class="address ti">주소록관리</a>
+        <a href="?content=normal" class="sms ti <%=(strContent.equals("normal"))?"over":""%>">단문문자보내기</a>
+        <a href="?content=lms" class="lms ti <%=(strContent.equals("lms"))?"over":""%>">장문문자보내기</a>
+        <a href="?content=photo" class="mms ti <%=(strContent.equals("photo"))?"over":""%>">포토(MMS)문자보내기</a>
+        <a href="?content=billing" class="billing ti <%=(strContent.equals("billing"))?"over":""%>">충전하기</a>
+        <a href="?content=sent" class="sent ti <%=(strContent.equals("sent"))?"over":""%>">전송내역</a>
+        <a href="?content=excel" class="excel ti <%=(strContent.equals("excel"))?"over":""%>">EXCEL/대량전송</a>
+        <a href="?content=address" class="address ti <%=(strContent.equals("address"))?"over":""%>">주소록관리</a>
     </div>
     
 	<jsp:include page="body.jsp" flush="false"/>

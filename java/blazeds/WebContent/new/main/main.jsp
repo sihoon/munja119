@@ -15,7 +15,9 @@
 	SessionManagement ses = null;
 	Home home = null;
 	String[] arrEmt = null;
-	String gubun = VbyP.getGET(request.getParameter("gubun"));
+	String[] arrCate = null;
+	String gubun = SLibrary.IfNull( VbyP.getGET(request.getParameter("gubun")) );
+	String cate = SLibrary.IfNull( VbyP.getGET(request.getParameter("cate")) );
 	ArrayList<HashMap<String, String>> notihm = null;
 	
 	try {
@@ -23,7 +25,9 @@
 		
 		if ( SLibrary.isNull(gubun) ) gubun = "업종별문자";
 		home = Home.getInstance();
-		arrEmt = home.getMainEmt(conn, gubun, 0, 15);
+		arrEmt = home.getMainEmt(conn, gubun, "%"+cate+"%", 0, 15);
+		arrCate = home.getMainCate(conn, gubun);
+		
 		
 		notihm = home.getNotices(conn);
 		
@@ -119,6 +123,11 @@
                 <a href="" class="reset">다시쓰기</a>
                 <button class="save ti">등록저장</button>
             </fieldset>
+            <fieldset class="returnPhoneBox">
+            	<legend>보낸사람</legend>
+            	<label for="firstPhone" class="label">보낸사람</label>
+            	<input type="text" name="returnPhone" />
+            </fieldset>
             <fieldset class="phoneBox">
                 <legend>받는사람</legend>
 				<label for="firstPhone" class="phonelabel">받는사람</label>
@@ -162,21 +171,18 @@
                 <li class="more" onclick="window.location.href='?content=normal'">더보기</li>
             </ul>
             <div class="middle">
-<!--                 <div class="subTitle"> -->
-<!--                     <a href="" class="pre">이전</a> -->
-<!--                     <a href="">감사</a> -->
-<!--                     <a href="">계절</a> -->
-<!--                     <a href="">공지/안내</a> -->
-<!--                     <a href="">기념</a> -->
-<!--                     <a href="">날씨</a> -->
-<!--                     <a href="">명언/감동</a> -->
-<!--                     <a href="">모임</a> -->
-<!--                     <a href="">부고/조의</a> -->
-<!--                     <a href="">사과/화해</a> -->
-<!--                     <a href="">사랑/고백</a> -->
-<!--                     <a href="">시즌/안부</a> -->
-<!--                     <a href="" class="next">다음</a> -->
-<!--                 </div> -->
+                <div class="subTitle"><%
+                
+            	if (arrCate != null) {
+            		int catCnt = arrCate.length;
+            		for (int c = 0; c < catCnt; c++) {
+            	%>
+                	<a href="?gubun=<%=gubun %>&cate=<%=arrCate[c] %>" class="<%=(arrCate[c].equals(cate))?"de":""%>"><%=arrCate[c] %></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <%
+                	}
+                }
+                %>
+                </div>
                 <div class="emtibox">
                     <textarea class="emti" readonly ><%=arrEmt[0] %></textarea>
                     <textarea class="emti" readonly><%=arrEmt[1] %></textarea>

@@ -17,10 +17,10 @@ try {
 	
 	sm = new SessionManagement();
 	user_id = (String)session.getAttribute("user_id");
-	if (SLibrary.isNull(user_id)) new Exception("로그인 되어 있지 않습니다.");
+	if (SLibrary.isNull(user_id)) throw new Exception("로그인 되어 있지 않습니다.");
 	
 	amount = SLibrary.IfNull(request.getParameter("amount"));
-	if (SLibrary.intValue(amount) == 0) new Exception("결제 금액이 없습니다.");
+	if (SLibrary.intValue(amount) == 0) throw new Exception("결제 금액이 없습니다.");
 	
 	uvo = sm.getUserInformation(user_id);
     /*
