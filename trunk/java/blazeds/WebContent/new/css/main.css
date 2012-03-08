@@ -1,4 +1,5 @@
 /*#sideBanner {position: absolute;top: 0;left:0;width:106px;height:106px;background:url("../images/scroll.gif") no-repeat;}*/
+.hand {cursor:pointer}
 /*전체 Box*/
 div.context {width:950px; height:auto; margin:0px auto;}
 .ti {text-indent:-9999px;}
@@ -38,10 +39,11 @@ div.context {width:950px; height:auto; margin:0px auto;}
 #login .findBtn {border:none;float:right; width:83px;height:24px;background:url("../images/main_34.png") no-repeat;}
 
 #loginInfo {color:black;float:left;width:172px;height:132px;padding:19px 14px;border:5px solid #ccc;margin-top:10px;}
-#loginInfo .name {color:#1377d4;font-weight:bold;}
-#loginInfo .cnt {color:black;font-size:26px;font-weight:bold;}
-#loginInfo .function {float:right;margin-bottom:10px;}
-#loginInfo .cuponBox {}
+
+#loginInfo .name {color:#5F4910;font-weight:bold;}
+#loginInfo .cnt {color:#5F4910;font-size:22px;font-weight:bold;}
+#loginInfo .function {margin:5px 0px;text-align:center}
+#loginInfo .cuponInput {width:110px;}
 
 
 #main #mobile {float:right;width:248px;height:445px;padding-left:28px;padding-top:90px; background:url("../images/main_0.png") no-repeat;}

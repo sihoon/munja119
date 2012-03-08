@@ -9,7 +9,7 @@
 <!-- </fieldset> -->
 <!-- <p id="normaTitle" class="ti">일반문자 보내기</p> -->
 <script type="text/javascript" src="flexlib/swfobject.js"></script>
-<script type="text/javascript" src="normal/normal.js"></script>
+<script type="text/javascript" src="lms/lms.js"></script>
 <div id="flashContent" style="display:none;border:1px solid red;">
     <p>
         To view this page ensure that Adobe Flash Player version 
