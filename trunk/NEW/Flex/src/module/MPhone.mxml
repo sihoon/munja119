@@ -209,7 +209,7 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:Image source="images/hpbg.png" />
+	<s:Image source="images/hpbgTr.png" />
 	<s:VGroup left="31" top="95" gap="2">
 		<handphone:Message id="cMessage" width="100%" alert="message1_alertHandler(event)" validValue="validHandler(event)"/>
 		<handphone:ReturnPhone id="cReturnPhone" validValue="validHandler(event)"/>
