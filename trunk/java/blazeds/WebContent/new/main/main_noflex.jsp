@@ -69,10 +69,99 @@
             <li class="intro3 ti">장문문자발송가능</li>
             <li class="intro4 ti">이젠 스마트폰이다</li>
         </ul>
+        <% if (vo == null) { %>
+		<form name="loginForm" method="post" target="nobody" action="member/_login.jsp" >
+		<fieldset id="login"><!-- 로그인 -->
+            <legend>로그인</legend>
+            <label class="idlabel ti" for="user_id">아이디</label><input type="text" id="user_id" name="user_id" />
+            <label class="pwlabel ti" for="user_pw">비밀번호</label><input type="password" id="user_pw" name="user_pw" />
+            <button class="loginBtn ti" onclick="logincheck()">로그인</button>
+            <button class="joinBtn ti">회원가입</button>
+            <button class="findBtn ti">아이디찾기</button>
+        </fieldset>
+        </form>
+        <%
+        } else {
+        	%>
+        <fieldset id="loginInfo"><!-- 로그인 -->
+            <legend>로그인정보</legend>
+            <span class="name"><%=vo.getUser_name() %></span> 님 안녕하세요.
+           	<div><img src="images/usenum.gif" alt="사용가능건수" /> <span class="cnt"><%=SLibrary.addComma( vo.getPoint() ) %></span> <img src="images/cnt.gif" alt="건" /></div>
+           	<img src="images/btn_cashbuy.gif" class="hand" alt="충전하기"  onclick="window.location.href='?content=billing'"/>
+            <div class="function"><img src="images/edit.gif" class="hand" alt="정보수정"/> <img src="images/logout.gif" class="hand" alt="로그아웃" onclick="window.location.href='member/_logout.jsp'"/></div>
+            <div class="cuponBox"><input type="text" name="cupon" class="cuponInput" />&nbsp;&nbsp;<img src="images/btn_coupon.gif" class="hand" alt="쿠폰등록" /></div>
+        </fieldset>
+        	<%
+        }
+        %>
         
-		<div id="flashContent" style="display:none;border:1px solid red;"></div>
-		<script type="text/javascript" src="flexlib/swfobject.js"></script>
-		<script type="text/javascript" src="normal/normal.js"></script>
+        
+        
+        <div class="adBox">
+	        <pre class="function ti">
+	문자119에서 업체 최저 가격으로 간편하고 쉬운 문자서비스를 못보세요.
+	일반문자 10.7원(부가세별도)
+	장문문자 30원(부가세별도)
+	포토문자 180원(부가세별도)
+	
+	예약발송기능 , 업계최저가격 10.7원
+	중복번호 한번만 보내기 , 안정적인 문자발송 시스템
+	대량문자 엑셀 등록 가능 , 90Byte까지 장문문자 발송 가능
+	최대 20만건까지 일괄전송, 간편주소록 관리
+	다양한MMS 포토문자 디자인, 카드/무통장 시스템
+	        </pre>
+	        <a class="smart ti" href="">스마트폰 멀티문자로 효율적으로 광고하세요.</a>
+		</div>
+        <div id="mobile"><!-- 핸드폰 Start-->
+            <fieldset class="messageBox">
+                <legend>메시지 입력</legend>
+                <textarea></textarea>
+                <button class="emoti ti">이모티콘</button>
+                <button class="char ti">특수문자</button>
+                <p class="byte"><b>20 /</b> 90 Byte</p>
+                <a href="" class="image">사진첨부</a>
+                <a href="" class="review">미리보기</a>
+                <a href="" class="reset">다시쓰기</a>
+                <button class="save ti">등록저장</button>
+            </fieldset>
+            <fieldset class="returnPhoneBox">
+            	<legend>보낸사람</legend>
+            	<label for="firstPhone" class="label">보낸사람</label>
+            	<input type="text" name="returnPhone" />
+            </fieldset>
+            <fieldset class="phoneBox">
+                <legend>받는사람</legend>
+				<label for="firstPhone" class="phonelabel">받는사람</label>
+                <button class="address ti">주소록</button>
+                <button class="sent ti">최근발신</button>
+                <ol class="listBox">
+                    <li><input type="text" id="firstPhone"/><button>x</button></li>
+                    <li><input type="text" /><button>x</button></li>
+                    <li><input type="text" /><button>x</button></li>
+                    <li><input type="text" /><button>x</button></li>
+                    <li><input type="text" /><button>x</button></li>
+                    <li><input type="text" /><button>x</button></li>
+                    <li><input type="text" /><button>x</button></li>
+                    <li><input type="text" /><button>x</button></li>
+                    <li><input type="text" /><button>x</button></li>
+                    <li><input type="text" /><button>x</button></li>
+                </ol>
+                <a href="" class="many">10건이상 보내기</a>
+                <a href="" class="dup">중복번호제거</a>
+            </fieldset>
+            <fieldset class="sendBox">
+                <legend>전송</legend>
+                <input type="checkbox" name="reservation" id="reservation"/><label for="reservation">예약</label>
+                <input type="checkbox" name="interval" id="interval"/><label for="interval">시간차발송</label>
+                <button class="send ti">보내기</button>
+                <button class="cancel">취소</button>
+            </fieldset>
+        </div><!-- 핸드폰 End-->
+        
+
+        <a id="cost" class="ti" href="">저렴하고 안정적인 문자서비스를 찾으십니까? 단가표 보기</a>
+
+        <p id="custom" class="ti">Custom Center : 070-7510-8489, Fax: 031)970-8489</p>
 
         <fieldset id="emoticon">
             <ul class="title">
