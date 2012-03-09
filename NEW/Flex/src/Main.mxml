@@ -2,7 +2,7 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
-			   width="950" height="1100" xmlns:component="component.*"
+			   width="950" height="540" xmlns:component="component.*"
 			   >
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -37,9 +37,6 @@
 					if (code == "message") ichild.setMessage(obj as String); 
 					else if (code == "addPhone") ichild.addList(obj as String);
 					else if (code == "addPhoneArray") ichild.addListArray(obj as Array);
-					else if (code == "sms") ichild.changeSMS();
-					else if (code == "lms") ichild.changeLMS();
-					else if (code == "mms") ichild.changeMMS();
 					
 					
 				}else ExternalInterface.call("alert", "phone 모듈을 찾을 수 없습니다.");
@@ -72,35 +69,27 @@
 			}
 			
 			
-			protected function mPhone_readyHandler(event:ModuleEvent):void
-			{
-				phoneFunction("lms",null);
-			}
-			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:VGroup width="100%" gap="0">
-		<s:Group width="100%">
+	<s:Group width="100%">
+		<s:VGroup left="0">
 			<component:LoginBox id="loginBox" left="0" login="loginCheckHandler(event)" />
-			<s:Image right="0" source="images/top_img03.jpg" />
-		</s:Group>
+			<s:Image source="images/sub_left02.jpg" />
+			<s:Image source="images/sub_left03.jpg" />
+		</s:VGroup>
 		
-		<s:HGroup width="100%" gap="19">
-			<s:VGroup horizontalAlign="center">
-				<s:ModuleLoader id="mPhone" width="276" height="535" url="module/MPhone.swf" ready="mPhone_readyHandler(event)"/>
-				<s:Image source="images/sub_left02.jpg" />
-				<s:Image source="images/sub_left03.jpg" />
-			</s:VGroup>
-			
-			<s:ModuleLoader id="mEmoticon" url="module/MEmoticon.swf"/>
-		</s:HGroup>
-	</s:VGroup>
+		<s:Group right="0">
+			<s:Image source="images/center_bg.jpg" />
+			<s:Image source="images/banner.jpg" right="0" />
+			<s:ModuleLoader id="mPhone" left="15" width="276" height="535" url="module/MPhone.swf"/>
+		</s:Group>
+	</s:Group>
 	
 	<s:SkinnableContainer id="subContainer" visible="false" skinClass="skin.SkinableContainerSub" verticalCenter="0" horizontalCenter="0">
 		<s:Image source="images/AdvancedCloseBtn.png" buttonMode="true" useHandCursor="true" right="0" click="subContainer.visible=false" />
 		<s:ModuleLoader id="mSub" ready="subContainer.visible=true;"/>
 	</s:SkinnableContainer>
-</s:Application>
+</s:Application>	

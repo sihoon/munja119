@@ -36,6 +36,9 @@
 					if (code == "message") ichild.setMessage(obj as String); 
 					else if (code == "addPhone") ichild.addList(obj as String);
 					else if (code == "addPhoneArray") ichild.addListArray(obj as Array);
+					else if (code == "sms") ichild.changeSMS();
+					else if (code == "lms") ichild.changeLMS();
+					else if (code == "mms") ichild.changeMMS();
 					
 					
 				}else ExternalInterface.call("alert", "phone 모듈을 찾을 수 없습니다.");
@@ -67,6 +70,10 @@
 				obj2.cReturnPhone.returnPhoneTextInput.text = uvo.phone_return;
 			}
 			
+			protected function mPhone_readyHandler(event:ModuleEvent):void
+			{
+				phoneFunction("mms",null);
+			}
 			
 		]]>
 	</fx:Script>
@@ -76,11 +83,11 @@
 	<s:VGroup width="100%" gap="0">
 		<s:Group width="100%">
 			<component:LoginBox id="loginBox" left="0" login="loginCheckHandler(event)" />
-			<s:Image right="0" source="images/top_img01.jpg" />
+			<s:Image right="0" source="images/top_img02.jpg" />
 		</s:Group>
 		
 		<s:HGroup width="100%" gap="19">
-			<s:ModuleLoader id="mPhone" width="276" height="535" url="module/MPhone.swf"/>
+			<s:ModuleLoader id="mPhone" width="276" height="535" url="module/MPhone.swf" ready="mPhone_readyHandler(event)"/>
 			<s:ModuleLoader id="mPhoto" url="module/MPhoto.swf"/>
 		</s:HGroup>
 	</s:VGroup>
