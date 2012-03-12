@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import com.common.VbyP;
 import com.common.db.PreparedExecuteQueryManager;
+import com.common.util.SLibrary;
 
 
 public class Home {
@@ -21,11 +22,43 @@ public class Home {
 	public ArrayList<HashMap<String, String>> getNotices(Connection conn) {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-		pq.setPrepared( conn, VbyP.getSQL("selectNotices") );
+		pq.setPrepared( conn, VbyP.getSQL("noticList") );
 		
 		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
 		al = pq.ExecuteQueryArrayList();
 		return al;
 
+	}
+	
+	public String[] getMainEmt(Connection conn, String gubun, String cate, int from, int count) {
+		
+		String[] rslt = new String[count];
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared( conn, VbyP.getSQL("selectMainEmt") );
+		pq.setString(1, gubun);
+		pq.setString(2, cate);
+		pq.setInt(3, from);
+		pq.setInt(4, count);
+		
+		String[] temp = pq.ExecuteQuery();
+		
+		for (int i = 0; i < rslt.length; i++) {
+			rslt[i] = SLibrary.IfNull( (temp.length > i)?temp[i]:"" );
+		}
+		return rslt;
+	}
+	
+	public String[] getMainCate(Connection conn, String gubun) {
+		
+		String[] rslt = null;
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared( conn, VbyP.getSQL("selectMainEmtCate") );
+		pq.setString(1, gubun);
+		
+		rslt = pq.ExecuteQuery();
+		
+		return rslt;
 	}
 }
