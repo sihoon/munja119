@@ -185,8 +185,8 @@
 				<s:SolidColorStroke color="0xCCCCCC" weight="5" />
 			</s:stroke>
 		</s:Rect>
-		<s:VGroup id="login" includeIn="login" left="19" right="19" top="14" bottom="14" horizontalAlign="center" >
-			<s:VGroup gap="10">
+		<s:VGroup id="login" includeIn="login" left="19" right="19" top="18" bottom="14" horizontalAlign="center" >
+			<s:VGroup gap="8">
 				<s:HGroup>
 					<s:Image source="images/main_24.png" />
 					<s:TextInput id="login_id" width="120" prompt="id"/>
@@ -206,9 +206,12 @@
 			<s:HGroup width="100%">
 				<s:Label text="{userName}" fontSize="12" color="0x5F4910" fontWeight="bold" /><s:Label fontSize="12" text=" 님 안녕하세요." />	
 			</s:HGroup>
-			<s:HGroup verticalAlign="middle">
-				<s:Image source="images/usenum.gif" />
-				<s:Label text="{point}" fontWeight="bold" fontSize="22" />
+			<s:HGroup verticalAlign="middle" width="100%" gap="0">
+				<s:HGroup verticalAlign="middle">
+					<s:Image source="images/usenum.gif" />
+					<s:Label text="{point}" fontWeight="bold" fontSize="22" />	
+				</s:HGroup>
+				
 				<s:Image source="images/cnt.gif" />
 			</s:HGroup>
 			<s:Image source="images/btn_cashbuy.gif" useHandCursor="true" click="charge_clickHandler(event)" />

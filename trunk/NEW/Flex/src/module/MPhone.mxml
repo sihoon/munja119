@@ -36,6 +36,11 @@
 				cMessage.setMessage(msg);
 			}
 			
+			public function setPhoto(source:String):void {
+				
+				cMessage.setPhoto(source);
+			}
+			
 			public function addList(phone:String):void{
 				this.cPhone.addList(phone);
 			}
@@ -134,7 +139,14 @@
 				
 				ro.addEventListener(ResultEvent.RESULT,send_ResultEventHandler);
 				
-				if (cMessage.maxByte == 2000) {
+				if (cMessage.maxByte == 2000 && cMessage.mode.text == "MMS") {
+					
+					ro.sendMMS( cMessage.mmsImage, cMessage.getMessage(),
+						cPhone.phoneList,
+						cReturnPhone.returnPhone ,
+						cReservation.bReservation ? cReservation.strReservation +":00" : "" );
+					
+				} else if (cMessage.maxByte == 2000 && cMessage.mode.text == "LMS") {
 					
 					ro.sendLMS( cMessage.getMessage(),
 						cPhone.phoneList,
@@ -203,7 +215,6 @@
 				this.cPhone.init();
 			}
 			
-			import mx.effects.easing.*;
 		]]>
 	</fx:Script>
 	<fx:Declarations>

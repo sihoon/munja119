@@ -71,7 +71,7 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:HGroup width="100%" gap="0">
+	<s:HGroup width="100%" gap="15">
 		<s:VGroup horizontalAlign="center">
 			<component:LoginBox id="loginBox" left="0" login="loginCheckHandler(event)"  />
 			<s:ModuleLoader id="mPhone" left="0" width="276" height="535" url="module/MPhone.swf"/>

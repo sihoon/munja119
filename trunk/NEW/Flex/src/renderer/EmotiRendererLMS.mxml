@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				autoDrawBackground="true" width="177" height="200">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			protected function emt_creationCompleteHandler(event:FlexEvent):void
+			{
+				emt.text = data.msg;	
+			}
+			
+		]]>
+	</fx:Script>
+
+	<s:Image source="images/pro_bg.gif" left="0"/>
+	<s:Label id="emt" left="16" right="16" top="30" bottom="4" useHandCursor="true" click="{parentApplication.phoneFunction('message',data.msg)}" creationComplete="emt_creationCompleteHandler(event)" />
+</s:ItemRenderer>
