@@ -12,16 +12,19 @@ import com.common.VbyP;
 import com.common.db.PreparedExecuteQueryManager;
 import com.common.util.SLibrary;
 import com.common.util.StopWatch;
+import com.common.util.Thumbnail;
 import com.m.M;
 import com.m.address.Address;
 import com.m.address.AddressVO;
 import com.m.billing.Billing;
 import com.m.common.AdminSMS;
 import com.m.common.BooleanAndDescriptionVO;
+import com.m.common.FileUtils;
 import com.m.common.Filtering;
 import com.m.common.PointManager;
 import com.m.excel.ExcelLoader;
 import com.m.excel.ExcelLoaderResultVO;
+import com.m.home.Home;
 import com.m.member.Join;
 import com.m.member.JoinVO;
 import com.m.member.SessionManagement;
@@ -322,7 +325,7 @@ public class Web extends SessionManagement{
 			phoneAndNameArrayList = sms.getPhone(conn, mvo.getUser_id(), al);		
 			sendCount = phoneAndNameArrayList.size();
 			//message 개행문자 변경
-			message = SLibrary.replaceAll(message, "\r", "\r\n");
+			message = SLibrary.replaceAll(message, "\r", "\n");
 			
 			// sk라인 일경우 80바이트가 넘으면 유플러스로 변경함
 			if (mvo.getLine().equals("sk") && SLibrary.getByte(message) > 80) {
@@ -485,7 +488,7 @@ public class Web extends SessionManagement{
 			phoneAndNameArrayList = lms.getPhone(conn, mvo.getUser_id(), al);		
 			sendCount = phoneAndNameArrayList.size();
 			//message 개행문자 변경
-			message = SLibrary.replaceAll(message, "\r", "\r\n");
+			message = SLibrary.replaceAll(message, "\r", "\n");
 			
 			checkLMSSend( conn, sendCount, mvo, message, requestIp );
 			
@@ -549,6 +552,166 @@ public class Web extends SessionManagement{
 		}
 		
 		VbyP.accessLog(user_id+" >> LMS 전송 요청 결과 : "+rvo.getstrDescription());
+		return rvo;
+	}
+	
+	public BooleanAndDescriptionVO sendMMS(String image, String message, ArrayList<PhoneListVO> al, String returnPhone, String reservationDate ) {
+		
+		Connection conn = null;
+		Connection connLMS = null;
+		MMS mms = MMS.getInstance();
+		String user_id = null;
+		UserInformationVO mvo = null;
+		int sendCount = 0;
+		int year = 0;
+		int month = 0;
+		boolean bReservation = false;
+		LogVO lvo = null;
+		ArrayList<MMSClientVO> alClientVO = null;
+		int logKey = 0;
+		ArrayList<String[]> phoneAndNameArrayList = null;
+		String requestIp = null;
+		
+		String imagePath = VbyP.getValue("mmsSource")+image;
+		
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		
+		try {
+			
+			/*###############################
+			#		validity check			#
+			###############################*/
+			//stopWatch play
+			StopWatch sw = new StopWatch();
+			sw.play();
+			
+			if (!isLogin()) throw new Exception("로그인 되어 있지 않습니다.");
+			user_id = getSession();
+			requestIp = FlexContext.getHttpRequest().getRemoteAddr();
+			
+			//발송카운트 초기화
+			M.setState(user_id, 0);
+			
+			if (al == null) throw new Exception("전송목록이 비어 있습니다.");
+			
+			VbyP.accessLog(user_id+" >> MMS 전송 요청 : " + requestIp + " =>["+image+"] ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"]");
+			
+			if (SLibrary.isNull(imagePath) || !SLibrary.isFile(imagePath)) throw new Exception("이미지가 없습니다.");
+
+			
+			
+			if ( !SLibrary.isNull(reservationDate.trim()) )
+				bReservation = true;
+			if ( bReservation && SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") == 0 )
+				throw new Exception("잘못된 형식의 예약 날짜 입니다.");
+			
+			if ( bReservation ) {
+				
+				year = SLibrary.parseInt( SLibrary.getDateTimeStringStandard(reservationDate, "yyyy") );
+				month = SLibrary.parseInt( SLibrary.getDateTimeStringStandard(reservationDate, "MM") );
+				
+				if ( year < SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) )
+					throw new Exception("과거년으로 전송 하실 수 없습니다.");
+				
+				if ( year == SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) && month < SLibrary.parseInt( SLibrary.getDateTimeString("MM")) )
+					throw new Exception("과거월로 전송 하실 수 없습니다.");
+			}else {
+				
+				year = SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") );
+				month = SLibrary.parseInt( SLibrary.getDateTimeString("MM") );
+				reservationDate = SLibrary.getDateTimeString("yyyy-MM-dd HH:mm:ss");							
+			}
+				
+			if (year == 0 || month == 0)
+				throw new Exception("해당 년월을 가져 오지 못했습니다.");
+			
+			conn = VbyP.getDB();
+			if (conn == null)
+				throw new Exception("DB연결에 실패 하였습니다.");
+			
+			
+			mvo = getUserInformation( conn );
+			
+			mvo.setLine("mms");
+			
+			connLMS = VbyP.getDB("sms1");
+								
+			if (connLMS == null)
+				throw new Exception("MMS DB연결에 실패 하였습니다.");
+			
+			/*###############################
+			#		Process					#
+			###############################*/
+			
+			returnPhone = SLibrary.replaceAll(returnPhone, "-", "");
+			phoneAndNameArrayList = mms.getPhone(conn, mvo.getUser_id(), al);		
+			sendCount = phoneAndNameArrayList.size();
+			//message 개행문자 변경
+			message = SLibrary.replaceAll(message, "\r", "\n");
+			
+			checkLMSSend( conn, sendCount, mvo, message, requestIp );
+			
+			/* Send Process */
+			//step1
+			lvo = mms.getMMSLogVO( mvo, bReservation, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp);
+			logKey = mms.insertLMSLog(conn, lvo, year, month);
+			if ( logKey == 0 )
+				throw new Exception("전송내역 로그가 삽입 되지 않았습니다.");
+			VbyP.accessLog(user_id+" >> MMS 전송 요청 : 로그 삽입 성공 ("+logKey+")"+ "경과 시간 : "+sw.getTime());
+			
+			//step2
+			if ( mms.sendMMSPointPut(conn, mvo, sendCount *-1 ) != 1 )
+				throw new Exception("건수 차감이 되지 않았습니다.");
+			VbyP.accessLog(user_id+" >> MMS 전송 요청 : 건수 차감 성공" + "경과 시간 : "+sw.getTime());
+			
+			//step3	
+			alClientVO = mms.getClientVO(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, imagePath, requestIp);
+			VbyP.accessLog(user_id+" >> MMS 전송 요청 : getLMSClientVO 생성" + "경과 시간 : "+sw.getTime());
+			
+			//timeout 방지를 위해 닫는다.
+			try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
+			
+			int clientResult = 0;
+			
+			clientResult = mms.insertClient(connLMS, alClientVO, "sms1");
+			
+			VbyP.accessLog(user_id+" >> MMS 전송 요청 : 전송테이블 삽입 성공" + "경과 시간 : "+sw.getTime());
+			
+			if ( clientResult != sendCount)
+				throw new Exception("전송테이블 입력 : "+ Integer.toString(clientResult)+" 발송데이터 : "+ Integer.toString( alClientVO.size() ) );
+			else{
+				rvo.setbResult(true);
+				rvo.setstrDescription(Integer.toString(clientResult)+","+year+","+month+","+logKey+",mms");
+			}
+			
+			//대량발송 모니터링 
+			if ( Integer.parseInt(VbyP.getValue("moniterSendCount")) < sendCount ){
+				
+				conn = VbyP.getDB();
+				AdminSMS asms = AdminSMS.getInstance();
+				String tempMessage = ( SLibrary.getByte( message ) > 15 )? SLibrary.cutBytes(message, 20, true, "...") : message ;
+				asms.sendAdmin(conn, 
+						"[MMS대량발송]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"건\r\n" 
+						+ tempMessage  );
+			}
+				
+		}catch (Exception e) {
+			rvo.setbResult(false);
+			rvo.setstrDescription(e.getMessage());
+			System.out.println(e.toString());
+		}
+		finally {
+			
+			try {
+				if ( conn != null ) conn.close();
+				if ( connLMS != null ) connLMS.close();
+			}catch(SQLException e) {
+				VbyP.errorLog("sendMMS >> finally conn.close() or connLMS.close() Exception!"+e.toString()); 
+			}
+		}
+		
+		VbyP.accessLog(user_id+" >> MMS 전송 요청 결과 : "+rvo.getstrDescription());
 		return rvo;
 	}
 	
@@ -1355,6 +1518,77 @@ public class Web extends SessionManagement{
 		return arr;
 	}
 	
+	public String[] getEmotiCateList(String gubun) {
+		
+		Connection conn = null;
+		Home home = null;
+		String [] arr = null;
+		try {
+			conn = VbyP.getDB();
+			home = Home.getInstance();
+			arr = home.getMainCate(conn, gubun);
+			
+		}catch (Exception e) {}	finally {			
+			try { if ( conn != null ) conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getEmotiCateList >> conn.close() Exception!"); }
+			conn = null;
+		}
+		
+		return arr;
+	}
+	
+	public ArrayList<HashMap<String, String>> getEmotiCatePage(String gubun, String category, int page, int count) {
+		
+		Connection conn = null;
+		ArrayList<HashMap<String, String>> al = null;
+		
+		int from = 0;
+		
+		try {
+			
+			conn = VbyP.getDB();
+			
+			page += 1;
+			from = count * (page -1);
+			
+			VbyP.accessLog(" >>  이모티콘 page 요청("+gubun+"/"+category+"/"+page+"/"+count+") "+Integer.toString(from));
+			
+			StringBuffer buf = new StringBuffer();
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			if (!gubun.equals("my")) {
+				buf.append(VbyP.getSQL("homeEmotiCatePage"));
+				
+				pq.setPrepared( conn, buf.toString() );
+				pq.setString(1, gubun);
+				pq.setString(2, "%"+category+"%");
+				pq.setString(3, gubun);
+				pq.setString(4, "%"+category+"%");
+				pq.setInt(5, from);
+				pq.setInt(6, count);
+			} else {
+				buf.append(VbyP.getSQL("select_mymsgPage"));
+				
+				pq.setPrepared( conn, buf.toString() );
+				pq.setString(1, SLibrary.IfNull( super.getSession() ));
+				pq.setString(2, SLibrary.IfNull( super.getSession() ));
+				pq.setInt(3, from);
+				pq.setInt(4, count);
+			}
+			
+			
+			al = pq.ExecuteQueryArrayList();
+			
+		}catch (Exception e) {}	finally {			
+			try { 
+				if ( conn != null ) 
+				conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getEmotiCatePage >> conn.close() Exception!"); }
+			conn = null;
+		}
+		
+		return al;
+	}
+	
 	public String[] getEmotiCate(String gubun, String category, int page) {
 
 		
@@ -1813,4 +2047,32 @@ public class Web extends SessionManagement{
 		return resultString;
 	}
 	
+	
+	public BooleanAndDescriptionVO setMMSUpload(byte[] bytes, String fileName){
+		
+		VbyP.accessLog(" >> MMS 업로드 요청 ");
+		String path = VbyP.getValue("mmsOrgPath");
+		BooleanAndDescriptionVO bvo = new BooleanAndDescriptionVO();
+		bvo.setbResult(false);
+		
+		try {
+			FileUtils fu = new FileUtils();
+			//파일 확장자가 대분자일경우를 대비해서 소문자로 변환
+			fileName = fileName.toLowerCase();
+			fileName.endsWith(".jpg");
+			if ( !fileName.endsWith(".jpg") ) throw new Exception("jpg 확장자만 지원 합니다.");
+			
+			String uploadName = fu.doUploadRename(bytes, path, fileName);
+			Thumbnail tmb = new Thumbnail();
+			tmb.createThumbnail(path+uploadName, VbyP.getValue("mmsPath")+ uploadName, 176);
+			bvo.setstrDescription( VbyP.getValue("mmsURL")+uploadName );
+			bvo.setbResult(true);
+			
+		}catch(Exception e){
+			bvo.setbResult(false);
+			bvo.setstrDescription("이미지 파일이 업로드 되지 않았습니다.\r\n"+e.getMessage());
+		}
+	    
+		return bvo;
+	}
 }

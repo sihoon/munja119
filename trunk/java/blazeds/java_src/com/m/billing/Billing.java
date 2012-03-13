@@ -1,6 +1,8 @@
 package com.m.billing;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.common.VbyP;
 import com.common.db.PreparedExecuteQueryManager;
@@ -13,10 +15,56 @@ import com.m.member.UserInformationVO;
 
 public class Billing {
 
+	public int totalCnt = 0;
 	static Billing bill = new Billing();
 	Billing(){}
 	public static Billing getInstance(){
 		return bill;
+	}
+	
+	public HashMap<String, String> getBilling(Connection conn, int idx) {
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();	
+		pq.setPrepared(conn, VbyP.getSQL("selectBillingTax") );
+		pq.setInt(1, idx);
+		
+		return pq.ExecuteQueryCols();
+	}
+	
+	public int setTax(Connection conn,int billing_idx, String user_id, String comp_name, String comp_no, String name, String addr, String upte, String upjong, String email, String yn) {
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();	
+		pq.setPrepared(conn, VbyP.getSQL("insertTax") );
+		pq.setString(1, user_id);
+		pq.setInt(2, billing_idx);
+		pq.setString(3, comp_name);
+		pq.setString(4, comp_no);
+		pq.setString(5, name);
+		pq.setString(6, addr);
+		pq.setString(7, upte);
+		pq.setString(8, upjong);
+		pq.setString(9, email);
+		pq.setString(10, yn);
+
+		return pq.executeUpdate();
+	}
+	
+	public ArrayList<HashMap<String, String>> getBillingList(Connection conn, String userId, int start, int end) {
+
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();	
+		pq.setPrepared(conn, VbyP.getSQL("selectBillingCnt") );
+		pq.setString(1, userId);
+		this.totalCnt = pq.ExecuteQueryNum();
+		
+		pq.setPrepared(conn, VbyP.getSQL("selectBilling") );
+		pq.setString(1, userId);
+		pq.setInt(2, start);
+		pq.setInt(3, end);
+		
+		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
+		al = pq.ExecuteQueryArrayList();
+		
+		return al;
 	}
 	
 	public BooleanAndDescriptionVO setCash(Connection conn, String user_id, String account, String amount, String method, String reqName) {
@@ -211,4 +259,6 @@ public class Billing {
 		
 		return pq.executeUpdate();
 	}
+	
+	
 }

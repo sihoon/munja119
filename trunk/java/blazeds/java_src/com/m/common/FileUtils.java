@@ -29,7 +29,7 @@ public class FileUtils {
    public String doUploadRename(byte[] bytes, String path, String fileName) throws Exception {
 	   
        fileName = path + fileName;  
-       File f = new File(fileName);  
+       File f = new File(fileName);
        f = this.rename(f);       
        FileOutputStream fos = new FileOutputStream(f);  
        fos.write(bytes);

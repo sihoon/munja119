@@ -10,6 +10,29 @@ import com.common.db.PreparedExecuteQueryManager;
 
 public class NoticDAO {
 
+	public int totalCnt = 0;
+	
+	public ArrayList<HashMap<String, String>> getListPage(Connection conn, int start, int end) {
+		
+		ArrayList<HashMap<String, String>> al = null;
+		
+		try {
+
+			StringBuffer buf = new StringBuffer();
+			buf.append(VbyP.getSQL("noticListPage"));
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, buf.toString() );
+			pq.setInt(1, start);
+			pq.setInt(2, end);
+			
+			al = pq.ExecuteQueryArrayList();
+			
+		}catch (Exception e) {}
+		
+		
+		return al;
+	}
+	
 	public ArrayList<NoticVO> getList(Connection conn) {
 		
 		ArrayList<HashMap<String, String>> al = null;
