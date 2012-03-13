@@ -1,10 +1,14 @@
 package com.common.util;
- 
+
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.ParseException;
@@ -28,18 +32,16 @@ public class SLibrary {
 	public final static String remarksAll = "#";
 	public final static String remarksFrom = "//";
 	public final static String CRLF = "\r\n";
-	
+
 	/**
-	 * Formater 
+	 * Formater
 	 */
-	public static DecimalFormat fmtBy = new DecimalFormat(
-	"##############0");
+	public static DecimalFormat fmtBy = new DecimalFormat("##############0");
 	public static DecimalFormat fmtBy0 = new DecimalFormat(
 			"###,###,###,###,##0");
 	public static DecimalFormat fmtBy1 = new DecimalFormat(
 			"###,###,###,###,##0.0");
 	public static DecimalFormat fmtBy2 = new DecimalFormat("###,###,###,##0.00");
-
 
 	/**
 	 * KSC5601 -> 8859_1
@@ -72,14 +74,14 @@ public class SLibrary {
 		}
 		try {
 			// 적용
-			//en = new String(en.getBytes("8859_1"), "KSC5601");
+			// en = new String(en.getBytes("8859_1"), "KSC5601");
 			// 미적용
 			return en;
 		} catch (Exception e) {
-			//return en;
+			// return en;
 		}
 		return en;
-		
+
 	}
 
 	/**
@@ -96,9 +98,10 @@ public class SLibrary {
 		else
 			return str;
 	}
-	
+
 	/**
 	 * 주어진 문자열이 null일 경우 ""을 리턴한다.
+	 * 
 	 * @param str
 	 * @return "" 또는 str
 	 */
@@ -124,28 +127,30 @@ public class SLibrary {
 		else
 			return false;
 	}
-	
+
 	public static String getDateTimeString() {
 		return getDateTimeString("yyyy-MM-dd HH:mm:ss");
 	}
-	
+
 	public static String getDateTimeString(String format) {
 
 		return getDateTimeString(format, System.currentTimeMillis());
 	}
-	
+
 	public static String getUnixtimeStringSecond() {
-		
+
 		String unix = Long.toString(System.currentTimeMillis());
-		return unix.substring(0, unix.length()-3);
+		return unix.substring(0, unix.length() - 3);
 	}
 
 	/**
 	 * 주어진 포맷에 따라 일자형 데이터를 포맷된 문자열로 리턴한다.
 	 * 
-	 * @param date 포맷할 일자값
+	 * @param date
+	 *            포맷할 일자값
 	 * 
-	 * @param format 일자형 데이터 포맷 문자열
+	 * @param format
+	 *            일자형 데이터 포맷 문자열
 	 * 
 	 * @return 포맷된 일자 값
 	 */
@@ -157,9 +162,11 @@ public class SLibrary {
 	/**
 	 * 주어진 포맷에 따라 일자형 데이터를 포맷된 문자열로 리턴한다.
 	 * 
-	 * @param date 포맷할 일자값
+	 * @param date
+	 *            포맷할 일자값
 	 * 
-	 * @param format 일자형 데이터 포맷 문자열
+	 * @param format
+	 *            일자형 데이터 포맷 문자열
 	 * 
 	 * @return 포맷된 일자 값
 	 */
@@ -174,7 +181,8 @@ public class SLibrary {
 	/**
 	 * String에 대한 Time을 return 한다.
 	 * 
-	 * @param data 문자열
+	 * @param data
+	 *            문자열
 	 * 
 	 * @return yyyy-MM-dd형의 unixTime long값
 	 */
@@ -185,8 +193,11 @@ public class SLibrary {
 
 	/**
 	 * String에 대한 Time을 return 한다.
-	 * @param data 문자열
-	 * @param format 일자형 데이터 포맷 문자열
+	 * 
+	 * @param data
+	 *            문자열
+	 * @param format
+	 *            일자형 데이터 포맷 문자열
 	 * @return unixTime long값
 	 */
 	public static long getTime(String dateString, String format) {
@@ -199,162 +210,187 @@ public class SLibrary {
 			return 0;
 		}
 	}
-	
+
 	/**
 	 * String에 대한 Time을 return 한다.
-	 * @param data 문자열
-	 * @param format 일자형 데이터 포맷 문자열
+	 * 
+	 * @param data
+	 *            문자열
+	 * @param format
+	 *            일자형 데이터 포맷 문자열
 	 * @return unixTime String값
 	 */
 	public static String getTimeSecond(String dateString, String format) {
-		
+
 		String rslt = "";
 		SimpleDateFormat df = new SimpleDateFormat(format, Locale.getDefault());
 		try {
 			Date d = df.parse(dateString);
-			rslt = Long.toString( d.getTime() );
+			rslt = Long.toString(d.getTime());
 		} catch (ParseException e) {
 		}
-		
-		return rslt.substring(0, rslt.length()-3);
+
+		return rslt.substring(0, rslt.length() - 3);
 	}
-	
+
 	/**
 	 * String에 대한 Time을 일정 format으로 return 한다.
-	 * @param data 문자열 yyyyMMddhhmmss
-	 * @param format 일자형 데이터 포맷 문자열
+	 * 
+	 * @param data
+	 *            문자열 yyyyMMddhhmmss
+	 * @param format
+	 *            일자형 데이터 포맷 문자열
 	 * @return unixTime long값
 	 */
 	public static String getDateTimeString(String dateString, String format) {
-		
+
 		long dLong = 0;
-		
-		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
+
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss",
+				Locale.getDefault());
 		try {
 			Date d = df.parse(dateString);
 			dLong = d.getTime();
 		} catch (ParseException e) {
 			dLong = 0;
 		}
-		return getDateTimeString(format, dLong );
+		return getDateTimeString(format, dLong);
 	}
-	
+
 	/**
 	 * String에 대한 Time을 일정 format으로 return 한다.
-	 * @param data 문자열 yyyy-MM-dd hh:mm:ss
-	 * @param format 일자형 데이터 포맷 문자열
+	 * 
+	 * @param data
+	 *            문자열 yyyy-MM-dd hh:mm:ss
+	 * @param format
+	 *            일자형 데이터 포맷 문자열
 	 * @return unixTime long값
 	 */
-	public static String getDateTimeStringStandard(String dateString, String format) {
-		
+	public static String getDateTimeStringStandard(String dateString,
+			String format) {
+
 		long dLong = 0;
-		
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+				Locale.getDefault());
 		try {
 			Date d = df.parse(dateString);
 			dLong = d.getTime();
 		} catch (ParseException e) {
 			dLong = 0;
 		}
-		return getDateTimeString(format, dLong );
+		return getDateTimeString(format, dLong);
 	}
-	
+
 	/**
 	 * String에 대한 Time을 일정 format으로 return 한다.
-	 * @param data 문자열 yyyyMMddhhmmss
-	 * @param format 일자형 데이터 포맷 문자열
+	 * 
+	 * @param data
+	 *            문자열 yyyyMMddhhmmss
+	 * @param format
+	 *            일자형 데이터 포맷 문자열
 	 * @return unixTime long값
 	 */
-	public static String getDateTimeString(String dateString, String format, String parmFormat) {
-		
+	public static String getDateTimeString(String dateString, String format,
+			String parmFormat) {
+
 		long dLong = 0;
-		
-		SimpleDateFormat df = new SimpleDateFormat(parmFormat, Locale.getDefault());
+
+		SimpleDateFormat df = new SimpleDateFormat(parmFormat,
+				Locale.getDefault());
 		try {
 			Date d = df.parse(dateString);
 			dLong = d.getTime();
 		} catch (ParseException e) {
 			dLong = 0;
 		}
-		return getDateTimeString(format, dLong );
+		return getDateTimeString(format, dLong);
 	}
-	
-	/**  
-	* 현재 기준으로 n달 전후 날짜 반환
-	* @param n - 적용 달
-	* @param format 
-	* @return String 
-	*/
-	public static String diffOfMonth(int n , String format){
-		
+
+	/**
+	 * 현재 기준으로 n달 전후 날짜 반환
+	 * 
+	 * @param n
+	 *            - 적용 달
+	 * @param format
+	 * @return String
+	 */
+	public static String diffOfMonth(int n, String format) {
+
 		Calendar cal = Calendar.getInstance();
-		cal.add ( Calendar.MONTH, n );
+		cal.add(Calendar.MONTH, n);
 		return SLibrary.getDateTimeString(format, cal.getTime());
 	}
-	
-	/**  
-	* 현재 기준으로 n일 전후 날짜 반환
-	* @param n - 적용 일
-	* @param format 
-	* @return String 
-	*/
-	public static String diffOfDay(int n , String format){
-		
+
+	/**
+	 * 현재 기준으로 n일 전후 날짜 반환
+	 * 
+	 * @param n
+	 *            - 적용 일
+	 * @param format
+	 * @return String
+	 */
+	public static String diffOfDay(int n, String format) {
+
 		Calendar cal = Calendar.getInstance();
-		cal.add ( Calendar.DATE, n );
+		cal.add(Calendar.DATE, n);
 		return SLibrary.getDateTimeString(format, cal.getTime());
 	}
-	
-	/**  
-	* 현재 기준으로 n달 전후 날짜 반환
-	* @param n - 적용 달
-	* @param format 
-	* @return String 
-	*/
-	public static String diffOfHour(int n , String format){
-		
+
+	/**
+	 * 현재 기준으로 n달 전후 날짜 반환
+	 * 
+	 * @param n
+	 *            - 적용 달
+	 * @param format
+	 * @return String
+	 */
+	public static String diffOfHour(int n, String format) {
+
 		Calendar cal = Calendar.getInstance();
-		cal.add ( Calendar.HOUR, n );
+		cal.add(Calendar.HOUR, n);
 		return SLibrary.getDateTimeString(format, cal.getTime());
 	}
-	
+
 	/**
 	 * 해당 년 월의 말일을 구한다.
 	 */
-	public static int getLastDate( int year , int month){
-		
+	public static int getLastDate(int year, int month) {
+
 		Calendar calendar = Calendar.getInstance();
-			  
+
 		month = month - 1;
 		calendar.set(year, month, 1);
 		int lastDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-			
+
 		return lastDayOfMonth;
 	}
-	
+
 	/**
 	 * 해당 년 월의 말일을 구한다.
 	 */
-	public static int getLastDate( String pyear , String pmonth){
-		
+	public static int getLastDate(String pyear, String pmonth) {
+
 		int year = Integer.parseInt(pyear);
 		int month = Integer.parseInt(pmonth);
-		
+
 		Calendar calendar = Calendar.getInstance();
-			  
+
 		month = month - 1;
 		calendar.set(year, month, 1);
 		int lastDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-			
+
 		return lastDayOfMonth;
 	}
 
 	/**
 	 * 문자열을 오른쪽에서 덧붙여 일정한 길이를 만든다
 	 * 
-	 * @param src 원형 문자열
+	 * @param src
+	 *            원형 문자열
 	 * 
-	 * @param length 리턴받을 길이
+	 * @param length
+	 *            리턴받을 길이
 	 * 
 	 * @return 만들어낸 문자열
 	 */
@@ -365,11 +401,14 @@ public class SLibrary {
 	/**
 	 * 문자열을 오른쪽에서 덧붙여 일정한 길이를 만든다
 	 * 
-	 * @param src 원형 문자열
+	 * @param src
+	 *            원형 문자열
 	 * 
-	 * @param unit 덧붙여질 원소 문자열
+	 * @param unit
+	 *            덧붙여질 원소 문자열
 	 * 
-	 * @param length 리턴받을 길이
+	 * @param length
+	 *            리턴받을 길이
 	 * 
 	 * @return 만들어낸 문자열
 	 */
@@ -390,9 +429,11 @@ public class SLibrary {
 	/**
 	 * 문자열을 왼쪽에서 덧붙여 일정한 길이를 만든다
 	 * 
-	 * @param src 원형 문자열
+	 * @param src
+	 *            원형 문자열
 	 * 
-	 * @param length 리턴받을 길이
+	 * @param length
+	 *            리턴받을 길이
 	 * 
 	 * @return 만들어낸 문자열
 	 */
@@ -403,11 +444,14 @@ public class SLibrary {
 	/**
 	 * 문자열을 왼쪽에서 덧붙여 일정한 길이를 만든다
 	 * 
-	 * @param src 원형 문자열
+	 * @param src
+	 *            원형 문자열
 	 * 
-	 * @param unit 덧붙여질 원소 문자열
+	 * @param unit
+	 *            덧붙여질 원소 문자열
 	 * 
-	 * @param length 리턴받을 길이
+	 * @param length
+	 *            리턴받을 길이
 	 * 
 	 * @return 만들어낸 문자열
 	 */
@@ -432,11 +476,14 @@ public class SLibrary {
 	/**
 	 * 원형 문자열로 부터 일정한 부분을 찾아 목적하는 문자열로 모두 대치한다.
 	 * 
-	 * @param originalString 원형 문자열
+	 * @param originalString
+	 *            원형 문자열
 	 * 
-	 * @param findString 찾아낼 문자열
+	 * @param findString
+	 *            찾아낼 문자열
 	 * 
-	 * @param replacString 대치할 문자열
+	 * @param replacString
+	 *            대치할 문자열
 	 * 
 	 * @return 만들어낸 문자열
 	 */
@@ -462,13 +509,17 @@ public class SLibrary {
 	 * 대상문자열(strTarget)에서 특정문자열(strSearch)을 찾아 지정문자열(strReplace 배열 Object[])로
 	 * 치환하여 변경한 문자열을 반환한다.
 	 * 
-	 * @param strTarget 대상문자열
+	 * @param strTarget
+	 *            대상문자열
 	 * 
-	 * @param strSearch 변경대상의 특정문자열
+	 * @param strSearch
+	 *            변경대상의 특정문자열
 	 * 
-	 * @param strReplace 변경 시키는 지정문자열 배열 Object[]
+	 * @param strReplace
+	 *            변경 시키는 지정문자열 배열 Object[]
 	 * 
-	 * @param isWhere 조건문임을 나타내는 스트링. 단, 대소문자 구분이 없다. 예) where
+	 * @param isWhere
+	 *            조건문임을 나타내는 스트링. 단, 대소문자 구분이 없다. 예) where
 	 * 
 	 * @return 변경완료된 문자열
 	 */
@@ -520,11 +571,14 @@ public class SLibrary {
 	 * 대상문자열(strTarget)에서 특정문자열(strSearch)을 찾아 지정문자열(strReplace 배열 Object[])로
 	 * 치환하여 변경한 문자열을 반환한다.
 	 * 
-	 * @param strTarget 대상문자열
+	 * @param strTarget
+	 *            대상문자열
 	 * 
-	 * @param strSearch 변경대상의 특정문자열
+	 * @param strSearch
+	 *            변경대상의 특정문자열
 	 * 
-	 * @param strReplace 변경 시키는 지정문자열 배열 Object[]
+	 * @param strReplace
+	 *            변경 시키는 지정문자열 배열 Object[]
 	 * 
 	 * @return 변경완료된 문자열
 	 */
@@ -562,11 +616,14 @@ public class SLibrary {
 	/**
 	 * 패턴을 검사하여 특정 문자열로 변경한다
 	 * 
-	 * @param strTarget 대상문자열
+	 * @param strTarget
+	 *            대상문자열
 	 * 
-	 * @param pattern 패턴
+	 * @param pattern
+	 *            패턴
 	 * 
-	 * @param pattern 변경문자열
+	 * @param pattern
+	 *            변경문자열
 	 * 
 	 * @return 변경완료된 문자열
 	 */
@@ -581,9 +638,11 @@ public class SLibrary {
 	/**
 	 * 패턴검사
 	 * 
-	 * @param strTarget 대상문자열
+	 * @param strTarget
+	 *            대상문자열
 	 * 
-	 * @param pattern 패턴
+	 * @param pattern
+	 *            패턴
 	 * 
 	 * @return 매치 결과
 	 */
@@ -599,9 +658,11 @@ public class SLibrary {
 	 * 쿼리문자열(strTarget)에서 특정문자열(?)을 찾아 지정문자열(strReplace 배열 Object[])로 치환하여 변경한
 	 * 문자열을 반환한다.
 	 * 
-	 * @param strTarget 대상문자열
+	 * @param strTarget
+	 *            대상문자열
 	 * 
-	 * @param strReplace 변경 시키는 지정문자열 배열 Object[]
+	 * @param strReplace
+	 *            변경 시키는 지정문자열 배열 Object[]
 	 * 
 	 * @return 변경완료된 문자열
 	 */
@@ -640,9 +701,11 @@ public class SLibrary {
 	 * 
 	 * @return int
 	 * 
-	 * @param allPage int
+	 * @param allPage
+	 *            int
 	 * 
-	 * @param list_num int
+	 * @param list_num
+	 *            int
 	 */
 	public static int getMaxNum(int allPage, int list_num) {
 		if ((allPage % list_num) == 0) {
@@ -839,7 +902,8 @@ public class SLibrary {
 	 * 
 	 * @return java.lang.String
 	 * 
-	 * @param s java.lang.String
+	 * @param s
+	 *            java.lang.String
 	 */
 	public static String removeMask(String s) {
 		String format = "-0123456789";
@@ -940,7 +1004,8 @@ public class SLibrary {
 	 * 
 	 * @return String Comma가 삭제된 String
 	 * 
-	 * @param value String Comma가 있는 String
+	 * @param value
+	 *            String Comma가 있는 String
 	 */
 	public static String commaRemove(String value) {
 		String newValue = "";
@@ -954,9 +1019,13 @@ public class SLibrary {
 	/**
 	 * 대상문자열(strTarget)에서 구분문자열(strDelim)을 기준으로 문자열을 분리하여 각 분리된 문자열을 배열에 할당하여
 	 * 반환한다.
-	 * @param strTarget 분리 대상 문자열
-	 * @param strDelim 구분시킬 문자열로서 결과 문자열에는 포함되지 않는다.
-	 * @param bContainNull 구분되어진 문자열중 공백문자열의 포함여부. true : 포함, false : 포함하지 않음.
+	 * 
+	 * @param strTarget
+	 *            분리 대상 문자열
+	 * @param strDelim
+	 *            구분시킬 문자열로서 결과 문자열에는 포함되지 않는다.
+	 * @param bContainNull
+	 *            구분되어진 문자열중 공백문자열의 포함여부. true : 포함, false : 포함하지 않음.
 	 * @return 분리된 문자열을 순서대로 배열에 격납하여 반환한다.
 	 */
 
@@ -991,9 +1060,11 @@ public class SLibrary {
 	/**
 	 * 대상문자열(strTarget)에서 지정문자열(strSearch)이 검색된 횟수를, 지정문자열이 없으면 0 을 반환한다.
 	 * 
-	 * @param strTarget 대상문자열
+	 * @param strTarget
+	 *            대상문자열
 	 * 
-	 * @param strSearch 검색할 문자열
+	 * @param strSearch
+	 *            검색할 문자열
 	 * 
 	 * @return 지정문자열이 검색되었으면 검색된 횟수를, 검색되지 않았으면 0 을 반환한다.
 	 */
@@ -1035,45 +1106,51 @@ public class SLibrary {
 			return false;
 		else {
 			for (int i = 0; i < r.length; i++)
-				if (r[i] == 0)return false;
+				if (r[i] == 0)
+					return false;
 		}
 		return true;
 	}
-	
+
 	/**
 	 * 문자배열을 숫자 배열로 변화
-	 * @param String [] 문자 배열
+	 * 
+	 * @param String
+	 *            [] 문자 배열
 	 * @return int [] 정수 배열
 	 */
-	public static int[] changeIntArrayToStringArray(String [] strArray) {
-		
-		int [] rslt = null;
+	public static int[] changeIntArrayToStringArray(String[] strArray) {
+
+		int[] rslt = null;
 		if (strArray != null) {
-			
+
 			rslt = new int[strArray.length];
 			int cnt = strArray.length;
 			for (int i = 0; i < cnt; i++) {
-				
+
 				rslt[i] = SLibrary.intValue(strArray[i]);
 			}
 		}
 		return rslt;
 	}
-	
+
 	/**
 	 * 문자배열을 숫자 배열로 변화
-	 * @param String [] 문자 배열
+	 * 
+	 * @param String
+	 *            [] 문자 배열
 	 * @return int [] 정수 배열
 	 */
-	public static int[] changeIntArrayToStringArray(String [] strArray , int returnlength) {
-		
-		int [] rslt = null;
+	public static int[] changeIntArrayToStringArray(String[] strArray,
+			int returnlength) {
+
+		int[] rslt = null;
 		if (strArray != null) {
-			
+
 			rslt = new int[returnlength];
 			int cnt = strArray.length;
 			for (int i = 0; i < cnt; i++) {
-				
+
 				rslt[i] = SLibrary.intValue(strArray[i]);
 			}
 		}
@@ -1128,7 +1205,7 @@ public class SLibrary {
 
 		return rslt;
 	}
-	
+
 	/**
 	 * 문자열을 숫자로 변환
 	 */
@@ -1154,7 +1231,7 @@ public class SLibrary {
 	/**
 	 * 구분자로 나누어 첫 배열의 중복을 제거&정렬 후 return
 	 */
-	public static String [] removeDupList(String list, String strSplit) {
+	public static String[] removeDupList(String list, String strSplit) {
 
 		String[] phoneList = list.split("\\r\\n");
 		StringTokenizer st;
@@ -1164,8 +1241,8 @@ public class SLibrary {
 		StringBuffer result = new StringBuffer();
 		StringBuffer dupList = new StringBuffer();
 		boolean b = false;
-		
-		String [] arrResult = new String[2]; 
+
+		String[] arrResult = new String[2];
 
 		for (int i = 0; i < phoneList.length; i++) {
 			st = new StringTokenizer(phoneList[i], strSplit);
@@ -1182,45 +1259,45 @@ public class SLibrary {
 					name += st.nextToken();
 				}
 			}
-			if (hashTable.containsKey(phone)){
-				dupList.append(" + "+phone + " " + name + "\\r\\n");
-			}
-			else {
+			if (hashTable.containsKey(phone)) {
+				dupList.append(" + " + phone + " " + name + "\\r\\n");
+			} else {
 				hashTable.put(phone, name);
 				result.append(phone + " " + name + "\\r\\n");
 			}
 		}
-		
+
 		/*
-		Enumeration keys = hashTable.keys();
-
-		while (keys.hasMoreElements()) {
-
-			key = (String) keys.nextElement();
-			result.append(key + " " + (String) hashTable.get(key) + "\\r\\n");
-
-		}
-		*/
+		 * Enumeration keys = hashTable.keys();
+		 * 
+		 * while (keys.hasMoreElements()) {
+		 * 
+		 * key = (String) keys.nextElement(); result.append(key + " " + (String)
+		 * hashTable.get(key) + "\\r\\n");
+		 * 
+		 * }
+		 */
 		arrResult[0] = result.toString();
 		arrResult[1] = dupList.toString();
 		return arrResult;
 	}
-	
+
 	/**
 	 * 구분자로 나누어 첫 배열의 중복을 제거&정렬 후 return
 	 */
-	public static String [] removeCheckDeletList(String list, Hashtable<String, String> hs) {
+	public static String[] removeCheckDeletList(String list,
+			Hashtable<String, String> hs) {
 
 		String[] phoneList = list.split("\\r\\n");
 		StringTokenizer st;
 		String phone = null;
 		String name = null;
-		//String key = null;
+		// String key = null;
 		StringBuffer result = new StringBuffer();
 		StringBuffer noList = new StringBuffer();
 		boolean b = false;
-		
-		String [] arrResult = new String[2]; 
+
+		String[] arrResult = new String[2];
 
 		for (int i = 0; i < phoneList.length; i++) {
 			st = new StringTokenizer(phoneList[i]);
@@ -1237,24 +1314,23 @@ public class SLibrary {
 					name += st.nextToken();
 				}
 			}
-			if (hs.containsKey(phone)){
-				noList.append(" + "+phone + " " + name + "\\r\\n");
-			}
-			else {
+			if (hs.containsKey(phone)) {
+				noList.append(" + " + phone + " " + name + "\\r\\n");
+			} else {
 				result.append(phone + " " + name + "\\r\\n");
 			}
 		}
-		
+
 		/*
-		Enumeration keys = hashTable.keys();
-
-		while (keys.hasMoreElements()) {
-
-			key = (String) keys.nextElement();
-			result.append(key + " " + (String) hashTable.get(key) + "\\r\\n");
-
-		}
-		*/
+		 * Enumeration keys = hashTable.keys();
+		 * 
+		 * while (keys.hasMoreElements()) {
+		 * 
+		 * key = (String) keys.nextElement(); result.append(key + " " + (String)
+		 * hashTable.get(key) + "\\r\\n");
+		 * 
+		 * }
+		 */
 		arrResult[0] = result.toString();
 		arrResult[1] = noList.toString();
 		return arrResult;
@@ -1263,19 +1339,19 @@ public class SLibrary {
 	/**
 	 * 기본 구분자로 나누어 첫 배열의 중복을 제거&정렬 후 return
 	 */
-	public static String [] removeDupList(String list) {
+	public static String[] removeDupList(String list) {
 
 		String[] phoneList = list.split("\\r\\n");
 		StringTokenizer st;
 		Hashtable<String, String> hashTable = new Hashtable<String, String>();
 		String phone = null;
 		String name = null;
-		//String key = null;
+		// String key = null;
 		StringBuffer result = new StringBuffer();
 		StringBuffer dupList = new StringBuffer();
 		boolean b = false;
-		
-		String [] arrResult = new String[2]; 
+
+		String[] arrResult = new String[2];
 
 		for (int i = 0; i < phoneList.length; i++) {
 			st = new StringTokenizer(phoneList[i]);
@@ -1292,45 +1368,47 @@ public class SLibrary {
 					name += st.nextToken();
 				}
 			}
-			if (hashTable.containsKey(phone)){
-				dupList.append(" + "+phone + " " + name + "\\r\\n");
-			}
-			else {
+			if (hashTable.containsKey(phone)) {
+				dupList.append(" + " + phone + " " + name + "\\r\\n");
+			} else {
 				hashTable.put(phone, name);
 				result.append(phone + " " + name + "\\r\\n");
 			}
 		}
-		
+
 		/*
-		Enumeration keys = hashTable.keys();
-
-		while (keys.hasMoreElements()) {
-
-			key = (String) keys.nextElement();
-			result.append(key + " " + (String) hashTable.get(key) + "\\r\\n");
-
-		}
-		*/
+		 * Enumeration keys = hashTable.keys();
+		 * 
+		 * while (keys.hasMoreElements()) {
+		 * 
+		 * key = (String) keys.nextElement(); result.append(key + " " + (String)
+		 * hashTable.get(key) + "\\r\\n");
+		 * 
+		 * }
+		 */
 		arrResult[0] = result.toString();
 		arrResult[1] = dupList.toString();
 		return arrResult;
 	}
-	
+
 	/**
 	 * 문자열의 byte를 구한다.
+	 * 
 	 * @param strSource
 	 * @return
 	 */
 	public static int getByte(String strSource) {
-		
+
 		int byteSize = 0;
 		char[] charArray = strSource.toCharArray();
-		for (int i = 0 ; i < strSource.length(); i++) {
-			
-			if (charArray[i] < 256) byteSize += 1;
-			else byteSize += 2;
+		for (int i = 0; i < strSource.length(); i++) {
+
+			if (charArray[i] < 256)
+				byteSize += 1;
+			else
+				byteSize += 2;
 		}
-		
+
 		return byteSize;
 	}
 
@@ -1403,7 +1481,7 @@ public class SLibrary {
 
 		return strSource.substring(0, strIndex) + strPostfix;
 	}
-	
+
 	/**
 	 * String을 지정된 길이만큼만 출력할 수 있도록 하며, 만약 일부분만이 출력되는 경우에는 지정된 postfix 문자열을 끝에
 	 * 추가한다.
@@ -1423,9 +1501,9 @@ public class SLibrary {
 	 * @return 변환된 결과 문자열과 나머지 문자열
 	 */
 	public static int cutBytesIndex(String strSource, int cutByte, boolean bTrim) {
-		
+
 		int strIndex = 0;
-		
+
 		if (strSource == null)
 			return strIndex;
 
@@ -1433,7 +1511,6 @@ public class SLibrary {
 			strSource = strSource.trim();
 		char[] charArray = strSource.toCharArray();
 
-		
 		int byteLength = 0;
 		for (; strIndex < strSource.length(); strIndex++) {
 
@@ -1446,16 +1523,16 @@ public class SLibrary {
 				byteSize = 2;
 			}
 
-			if ((byteLength + byteSize) > cutByte ) {
+			if ((byteLength + byteSize) > cutByte) {
 				break;
 			}
 
 			byteLength = byteLength += byteSize;
 		}
-		
+
 		return strIndex;
 	}
-	
+
 	/**
 	 * String을 지정된 길이 단위로 나누어 반환한다.
 	 * 
@@ -1472,63 +1549,65 @@ public class SLibrary {
 	 * @return 변환된 결과 문자열을 return 한다. 단, strSource가 null인 경우 공백문자열이 반환되며
 	 *         cutByte가 strPostfix문자열의 byte크기 미만의 숫자가 오는 경우 원본 문자열을 그대로 반환한다.
 	 */
-	public static String[] cutBytesGetArray(String strSource, int cutByte, boolean bTrim ) {
-		
+	public static String[] cutBytesGetArray(String strSource, int cutByte,
+			boolean bTrim) {
+
 		String[] arrRslt = null;
 		int totalSize = SLibrary.getByte(strSource);
-		int cnt = (int)Math.ceil(totalSize/cutByte);//올림
-		cnt++;//나머지 byte를 위해
-		
+		int cnt = (int) Math.ceil(totalSize / cutByte);// 올림
+		cnt++;// 나머지 byte를 위해
+
 		arrRslt = new String[cnt];
-		
+
 		int pre = 0;
 		int cur = 0;
 		for (int i = 0; i < cnt; i++) {
-			
-			cur = SLibrary.cutBytesIndex( strSource, cutByte, bTrim );
-			arrRslt[i] =  strSource.substring(pre, cur);
+
+			cur = SLibrary.cutBytesIndex(strSource, cutByte, bTrim);
+			arrRslt[i] = strSource.substring(pre, cur);
 			pre = cur;
-			
+
 		}
-		
+
 		return arrRslt;
 	}
-	
+
 	/**
 	 * 휴대폰번호 검사
 	 */
 	public static boolean checkHp(String str) {
-		
+
 		String hp = SLibrary.replaceAll(str.trim(), "-", "");
 		return SLibrary.searchPattern(hp, "(0\\d{2})(\\d{3,4})(\\d{4})");
 	}
+
 	/**
 	 * FAX 검사
 	 */
 	public static boolean checkFax(String str) {
-		
+
 		String hp = SLibrary.replaceAll(str.trim(), "-", "");
 		return SLibrary.searchPattern(hp, "(0\\d{1,3})(\\d{3,4})(\\d{4})");
 	}
-	
+
 	/**
 	 * Email 검사
 	 */
 	public static boolean checkEmail(String str) {
-		
+
 		String pattern = "(^[_0-9a-zA-Z-\\.]+[_0-9a-zA-Z-\\.]*@[_0-9a-zA-Z-]+\\.[a-zA-Z]+[a-zA-Z\\.]+([a-zA-Z]+)*$)";
 		return SLibrary.searchPattern(str, pattern);
 	}
-	
+
 	/**
 	 * String [] 을 string '','','' 로 변환
 	 * 
-	 * @param temp -
-	 *            문자배열
+	 * @param temp
+	 *            - 문자배열
 	 * @return String
 	 */
 	public static String inQuery(String[] temp) {
-		
+
 		String in = "";
 		if (temp != null) {
 			for (int i = 0; i < temp.length; i++) {
@@ -1541,262 +1620,298 @@ public class SLibrary {
 		}
 		return in;
 	}
-	
+
 	/**
-	 * int [] 을 string 1,23,1   로 변환
+	 * int [] 을 string 1,23,1 로 변환
 	 * 
-	 * @param temp -
-	 *            문자배열
+	 * @param temp
+	 *            - 문자배열
 	 * @return String
 	 */
 	public static String inQuery(int[] temp) {
-		
+
 		String in = "";
 		if (temp != null) {
 			for (int i = 0; i < temp.length; i++) {
 				if (i == temp.length - 1) {
-					in += Integer.toString( temp[i] );
+					in += Integer.toString(temp[i]);
 				} else {
-					in += Integer.toString( temp[i] )+ ",";
+					in += Integer.toString(temp[i]) + ",";
 				}
 			}
 		}
 		return in;
 	}
-	
-	/**  
-	*	한자리 숫자에 '0'을 붙여 준다 
-	* @param str - 문자열
-	*/
-	public static String addTwoSizeNumber(String str)
-	{
+
+	/**
+	 * 한자리 숫자에 '0'을 붙여 준다
+	 * 
+	 * @param str
+	 *            - 문자열
+	 */
+	public static String addTwoSizeNumber(String str) {
 		int num = Integer.parseInt(str);
-		if (num < 10)
-		{
-			return "0" + Integer.toString(num) ;
-		}
-		else 
-		{
+		if (num < 10) {
+			return "0" + Integer.toString(num);
+		} else {
 			return str;
 		}
 
 	}
-	
-	/**  
-	*	한자리 숫자에 '0'을 붙여 준다 
-	* @param str - 문자열
-	*/
-	public static String addTwoSizeNumber(int num)
-	{
-		if (num < 10)
-		{
-			return "0" + Integer.toString(num) ;
-		}
-		else 
-		{
+
+	/**
+	 * 한자리 숫자에 '0'을 붙여 준다
+	 * 
+	 * @param str
+	 *            - 문자열
+	 */
+	public static String addTwoSizeNumber(int num) {
+		if (num < 10) {
+			return "0" + Integer.toString(num);
+		} else {
 			return Integer.toString(num);
 		}
 
 	}
-	
+
 	/**
 	 * 페이지 쿼리 문자열을 반환한다. 역순
 	 */
-	public static String pgString(String sql){
-		
+	public static String pgString(String sql) {
+
 		String preString = "SELECT * FROM ( SELECT A.*, ROWNUM RNUM , MAX(ROWNUM) OVER(ORDER BY ROWNUM DESC) TOTALCNT FROM ( ";
 		String lastString = " ) A  ) WHERE RNUM BETWEEN (TOTALCNT +1)-? AND (TOTALCNT +1)-? ORDER BY RNUM DESC";
-		
+
 		return preString + sql + lastString;
 	}
-	
+
 	/**
 	 * 페이지 쿼리 문자열을 반환한다. 정순
 	 */
-	public static String pgStringASC(String sql){
-		
+	public static String pgStringASC(String sql) {
+
 		String preString = "SELECT * FROM ( SELECT A.*, ROWNUM RNUM , MAX(ROWNUM) OVER(ORDER BY ROWNUM DESC) TOTALCNT FROM ( ";
 		String lastString = " ) A  ) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM ASC";
-		
+
 		return preString + sql + lastString;
 	}
-	
+
 	/**
 	 * 전체건수 쿼리 문자열을 반환한다.
 	 */
-	public static String countQueryString(String sql){
-		
+	public static String countQueryString(String sql) {
+
 		String preString = "SELECT count(*) as cnt FROM (  ";
 		String lastString = " ) ";
-		
+
 		return preString + sql + lastString;
 	}
-	
+
 	/**
 	 * 문자열 배열에서 해당 문자가 있는지 확인한다
 	 */
-	public static boolean isArrayValue(String [] arr , String findString) {
-		
+	public static boolean isArrayValue(String[] arr, String findString) {
+
 		boolean b = false;
 		int cnt = 0;
 		if (arr != null) {
 			cnt = arr.length;
 			for (int i = 0; i < cnt; i++) {
-				if (arr[i].equals(findString)){
+				if (arr[i].equals(findString)) {
 					b = true;
 					break;
 				}
-					
+
 			}
 		}
-		
-		return b;
-		
-	}
-	 /**
-     * 배열을 받아 연결될 문자열로 연결한다. 이때 각 엘레멘트 사이에 구분문자열을 추가한다.<br>
-     * 
-     * @param aobj
-     *            문자열로 만들 배열
-     * @param s
-     *            각 엘레멘트의 구분 문자열 
-     * @return 연결된 문자열
-     * 
-     * <code>
-     * String[] source = new String[] {"AAA","BBB","CCC"};<br>
-     * String result = TextUtil.join(source,"+");<br>
-     * </code> <code>result</code>는 <code>"AAABBBCCC"</code>를 가지게 된다.
-     */
-    public static String join(Object aobj[], String s) {
-            StringBuffer stringbuffer = new StringBuffer();
-            int i = aobj.length;
-            if (i > 0) {
-                    stringbuffer.append(aobj[0].toString());
-            }
-            for (int j = 1; j < i; j++) {
-                    stringbuffer.append(s);
-                    stringbuffer.append(aobj[j].toString());
-            }
 
-            return stringbuffer.toString();
-    }
-    
-    /**
-     * 2009-08-01 12:00:0.0 뒤에 두자리 삭제
-     */
-    public static String yyyymmddhhmiss( String strDate) {
-    	
-    	if (strDate == null || strDate.length() < 20)
-    		return strDate;
-    	else
-    		return strDate.substring(0, strDate.length()-2);
-    }
-    
-    /**
-     * Clob Data type -> String type
-     * @param re
-     * @return
-     * @throws IOException
-     */
-	public static String getClobString(Reader re) throws IOException{
-		
+		return b;
+
+	}
+
+	/**
+	 * 배열을 받아 연결될 문자열로 연결한다. 이때 각 엘레멘트 사이에 구분문자열을 추가한다.<br>
+	 * 
+	 * @param aobj
+	 *            문자열로 만들 배열
+	 * @param s
+	 *            각 엘레멘트의 구분 문자열
+	 * @return 연결된 문자열
+	 * 
+	 *         <code>
+	 * String[] source = new String[] {"AAA","BBB","CCC"};<br>
+	 * String result = TextUtil.join(source,"+");<br>
+	 * </code> <code>result</code>는 <code>"AAABBBCCC"</code>를 가지게 된다.
+	 */
+	public static String join(Object aobj[], String s) {
+		StringBuffer stringbuffer = new StringBuffer();
+		int i = aobj.length;
+		if (i > 0) {
+			stringbuffer.append(aobj[0].toString());
+		}
+		for (int j = 1; j < i; j++) {
+			stringbuffer.append(s);
+			stringbuffer.append(aobj[j].toString());
+		}
+
+		return stringbuffer.toString();
+	}
+
+	/**
+	 * 2009-08-01 12:00:0.0 뒤에 두자리 삭제
+	 */
+	public static String yyyymmddhhmiss(String strDate) {
+
+		if (strDate == null || strDate.length() < 20)
+			return strDate;
+		else
+			return strDate.substring(0, strDate.length() - 2);
+	}
+
+	/**
+	 * Clob Data type -> String type
+	 * 
+	 * @param re
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getClobString(Reader re) throws IOException {
+
 		StringBuffer data = new StringBuffer();
 		char[] buf = new char[1024];
-		
+
 		int cnt = 0;
-		if(re != null){
-			while((cnt = re.read(buf)) != -1){
-					data.append(buf, 0, cnt);
+		if (re != null) {
+			while ((cnt = re.read(buf)) != -1) {
+				data.append(buf, 0, cnt);
 			}
 		}
-		
+
 		return data.toString();
-		
+
 	}
-	
+
 	/**
-	 *  html을 텍스트로 보이도록 변경한다.
+	 * html을 텍스트로 보이도록 변경한다.
+	 * 
 	 * @param str
 	 * @return
 	 */
-	public static String textToHtml(String str){
-		
+	public static String textToHtml(String str) {
+
 		return str.replaceAll("<", "&lt").replaceAll("</", "&lt/");
-		
+
 	}
+
 	/*
-	public static void loadingBegin(String msg, javax.servlet.jsp.JspWriter out) throws Exception{
-	    out.print(alertScript("", "parent.loadingBegin(\""+msg+"\");"));
-	    out.flush();
+	 * public static void loadingBegin(String msg, javax.servlet.jsp.JspWriter
+	 * out) throws Exception{ out.print(alertScript("",
+	 * "parent.loadingBegin(\""+msg+"\");")); out.flush(); }
+	 * 
+	 * public static void loadingEnd(javax.servlet.jsp.JspWriter out) throws
+	 * Exception{ out.print(alertScript("", "parent.loadingEnd();"));
+	 * out.flush(); }
+	 */
+	public static String IfNull(HashMap<String, String> hm, String key) {
+
+		if (hm.containsKey(key))
+			return hm.get(key);
+		else
+			return "";
 	}
-	
-	public static void loadingEnd(javax.servlet.jsp.JspWriter out) throws Exception{
-	    out.print(alertScript("", "parent.loadingEnd();"));
-	    out.flush();
-	}
-	*/
-	public static String IfNull(HashMap<String, String> hm , String key) {
-		
-		if (hm.containsKey(key)) return hm.get(key);
-		else return "";
-	}
-	
+
 	/**
 	 * HashMap 을 <option> 테그로 변환한다.
+	 * 
 	 * @param rs
 	 * @param selectedValue
 	 * @return
 	 * @throws Exception
 	 */
-	public static String getSelectTag(HashMap<String, String> hm, String selectedValue){
-		
+	public static String getSelectTag(HashMap<String, String> hm,
+			String selectedValue) {
+
 		StringBuffer strBuffer = new StringBuffer();
 		String tmp = "";
 		String selected = "";
 		Iterator<String> keys = hm.keySet().iterator();
-		
-		while(keys.hasNext()){
+
+		while (keys.hasNext()) {
 			tmp = keys.next();
-			selected = hm.get(tmp).equals(selectedValue)?"selected":"";
-			strBuffer.append("<option value=\""+tmp+"\" "+ selected +">"+hm.get(tmp)+"</option>");
+			selected = hm.get(tmp).equals(selectedValue) ? "selected" : "";
+			strBuffer.append("<option value=\"" + tmp + "\" " + selected + ">"
+					+ hm.get(tmp) + "</option>");
 		}
-		
+
 		return strBuffer.toString();
-	  } 
-	
+	}
+
 	public static String propertiesHangle(String s) {
-		
+
 		String rslt = "";
 		try {
-			if ( s != null )
-				rslt = new String(s.getBytes("UTF-8"),"euc-kr");
-		} catch(UnsupportedEncodingException e){ System.out.println(e.toString());}
+			if (s != null)
+				rslt = new String(s.getBytes("UTF-8"), "euc-kr");
+		} catch (UnsupportedEncodingException e) {
+			System.out.println(e.toString());
+		}
+
+		return rslt;
+	}
+
+	public static String getExcelColumnTitle(int index) {
+
+		int base = (int) (char) 'A';
+		int div = (int) (char) 'Z' - base + 1;
+		StringBuffer buf = new StringBuffer();
+
+		if ((index - 1) >= 0) {
+
+			// twoLength String
+			if (index - 1 >= div) {
+
+				buf.append(new Character((char) (base
+						+ (int) ((index - 1) / div) - 1)).toString());
+				buf.append(new Character(
+						(char) (base + (int) ((index - 1) % div))).toString());
+			} else {
+				buf.append(new Character((char) (base + index - 1)).toString());
+			}
+		}
+
+		return buf.toString();
+	}
+
+	public static String getPhone(String phone) {
+		String number = phone.replaceAll("[^\\d]*", "");
+		boolean b = Pattern
+				.matches("^0[17][016789]-?\\d{3,4}-?\\d{4}$", number);
+		return b ? number : null;
+	}
+
+	// 파일을 존재여부를 확인하는 메소드
+	public static Boolean isFile(String path) {
+		
+		Boolean b = false;
+		File f = new File(path);
+		if (f.exists())	b = true;
+		return b;
+	}
+	
+	public static int mysqlTotalCount(Connection conn) {
+		
+		Statement stmt = null;
+		ResultSet rs = null;
+		int rslt = 0;
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT FOUND_ROWS()");
+			while (rs.next()){ rslt = rs.getInt(1); }
+			rs.close();
+			stmt.close();
+		} catch (Exception e) {	}
 		
 		return rslt;
 	}
-	
-	public static String getExcelColumnTitle(int index) {
-		
-		int base = (int)(char)'A';
-		int div = (int)(char)'Z' - base +1;		
-		StringBuffer buf = new StringBuffer();
-		
-		if ( (index-1) >= 0 ){
-			
-			//twoLength String
-			if ( index-1 >= div ) {
-				
-				buf.append( new Character( (char)(base + (int)( (index-1)/div ) -1) ).toString() );
-				buf.append( new Character( (char)(base + (int)( (index-1)%div ) ) ).toString() );
-			}else {
-				buf.append( new Character( (char)(base+index-1) ).toString() );
-			}
-		}
-				
-		return buf.toString();
-	}
-	
-
-
 
 }

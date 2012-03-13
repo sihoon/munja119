@@ -172,19 +172,24 @@ public class Address implements AddressAble {
 				
 				vo = null;
 				vo = (AddressVO)al.get(i);
-				InsertMember(pq , user_id , vo);
-				pq.addBatch();
 				
-				if (i >= maxBatch && (i%maxBatch) == 0 ) {
+				vo.phone = SLibrary.getPhone(vo.phone);
+				
+				if (vo.phone != null) {
+					InsertMember(pq , user_id , vo);
+					pq.addBatch();
 					
-					rsltCount += pq.executeBatch();
-					
-					try { if ( conn != null ) conn.close(); } 
-					catch(Exception e) {System.out.println( "InsertMember : conn close Error!!!!" + e.toString());}
-					
-					conn = VbyP.getDB();					
-					if (conn != null) System.out.println("InsertMember : conn connection!!!!");
-					pq.setPrepared(conn, SQL);
+					if (i >= maxBatch && (i%maxBatch) == 0 ) {
+						
+						rsltCount += pq.executeBatch();
+						
+						try { if ( conn != null ) conn.close(); } 
+						catch(Exception e) {System.out.println( "InsertMember : conn close Error!!!!" + e.toString());}
+						
+						conn = VbyP.getDB();					
+						if (conn != null) System.out.println("InsertMember : conn connection!!!!");
+						pq.setPrepared(conn, SQL);
+					}
 				}
 			}
 			rsltCount += pq.executeBatch();

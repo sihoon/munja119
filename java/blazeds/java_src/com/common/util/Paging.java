@@ -47,6 +47,7 @@ public class Paging {
 	
 	public String linkPage = "";
 	public String queryString = "";
+	public String pg = "pg";
 	
 	// result temp object
 	public StringBuffer pageString = new StringBuffer();
@@ -76,19 +77,19 @@ public class Paging {
 	{
 		// set first block link//" + (((this.currentBlock - 2) * this.pageSize) + 1) + "
 		if(this.currentBlock > 1)
-			pageString.append("<a href=\"" + this.linkPage + "?" + this.queryString + this.amp + "pg=1\">" + this.firstLink + "</a> ");
+			pageString.append("<a href=\"" + this.linkPage + "?" + this.queryString + this.amp + pg +"=1\">" + this.firstLink + "</a> ");
 		else
 			pageString.append(this.firstOffLink + " ");
 		
 		// set next prev block link
 		if(this.currentBlock > 1)
-			pageString.append("<a href=\"" + this.linkPage + "?" + this.queryString + this.amp + "pg=" + (( (this.currentBlock-2) * this.blockSize) + 1) + "\">" + this.firstBlockLink + "</a> ");
+			pageString.append("<a href=\"" + this.linkPage + "?" + this.queryString + this.amp + pg +"=" + (( (this.currentBlock-2) * this.blockSize) + 1) + "\">" + this.firstBlockLink + "</a> ");
 		else
 			pageString.append(this.firstBlockOffLink + " ");
 		
 		// set prev page link
 		if(this.currentPage > 1)
-			pageString.append("<a href=\"" + this.linkPage + "?" + this.queryString + this.amp + "pg=" + (this.currentPage  - 1) + "\"  class='prev'>" + this.prevLink + "</a> ");
+			pageString.append("<a href=\"" + this.linkPage + "?" + this.queryString + this.amp + pg +"=" + (this.currentPage  - 1) + "\"  class='prev'>" + this.prevLink + "</a> ");
 		else
 			pageString.append(this.prevOffLink + " ");		
 	}
@@ -97,19 +98,19 @@ public class Paging {
 	{
 		// set next page link
 		if(this.currentPage < this.totalPages )
-			pageString.append("<a href=\"" + this.linkPage + "?" + this.queryString + this.amp + "pg=" + (this.currentPage + 1) + "\"  class='next'>" + this.nextLink + "</a> ");
+			pageString.append("<a href=\"" + this.linkPage + "?" + this.queryString + this.amp + pg +"=" + (this.currentPage + 1) + "\"  class='next'>" + this.nextLink + "</a> ");
 		else
 			pageString.append(this.nextOffLink + " ");
 		
 		// set next block link
 		if(this.currentBlock < this.totalBlocks)
-			pageString.append("<a href=\"" + this.linkPage + "?" + this.queryString + this.amp + "pg=" + ((this.currentBlock * this.blockSize) + 1) + "\">" + this.lastBlockLink + "</a> ");
+			pageString.append("<a href=\"" + this.linkPage + "?" + this.queryString + this.amp + pg +"=" + ((this.currentBlock * this.blockSize) + 1) + "\">" + this.lastBlockLink + "</a> ");
 		else
 			pageString.append(this.lastBlockOffLink);
 		
 		// set last page link // this.currentPage * this.pageSize) + 1
 		if(this.currentBlock < this.totalBlocks)
-			pageString.append("<a href=\"" + this.linkPage + "?" + this.queryString + this.amp + "pg=" + this.totalPages + "\">" + this.lastLink + "</a> ");
+			pageString.append("<a href=\"" + this.linkPage + "?" + this.queryString + this.amp + pg +"=" + this.totalPages + "\">" + this.lastLink + "</a> ");
 		else
 			pageString.append(this.lastOffLink);
 	}
@@ -126,7 +127,7 @@ public class Paging {
 			if(i == this.currentPage)			
 				pageString.append(" " + this.preWrap + i +  this.postWrap + " ");
 			else
-				pageString.append(" <a href=\"" + this.linkPage + "?" + this.queryString + this.amp + "pg=" + i + "\"  class='other'>" + i + "</a> ");
+				pageString.append(" <a href=\"" + this.linkPage + "?" + this.queryString + this.amp + pg +"=" + i + "\"  class='other'>" + i + "</a> ");
 		}
 	}
 	

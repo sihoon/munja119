@@ -11,7 +11,7 @@ import com.common.util.SLibrary;
 
 public class PointHistory implements PointHistoryAble {
 	
-	
+	public int totalCnt = 0;
 	static PointHistory ph = new PointHistory();
 	
 	public static PointHistory getInstance(){
@@ -59,6 +59,26 @@ public class PointHistory implements PointHistoryAble {
 		
 		
 		return rslt;
+	}
+	
+	
+	public ArrayList<HashMap<String, String>> getPointHistoryList(Connection conn, String userId, int start, int end) {
+
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared(conn, VbyP.getSQL("selectPointHistoryLogCnt") );
+		pq.setString(1, userId);
+		this.totalCnt = pq.ExecuteQueryNum();
+		
+		pq.setPrepared(conn, VbyP.getSQL("selectPointHistoryLog") );
+		pq.setString(1, userId);
+		pq.setInt(2, start);
+		pq.setInt(3, end);
+		
+		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
+		al = pq.ExecuteQueryArrayList();
+		
+		
+		return al;
 	}
 
 }

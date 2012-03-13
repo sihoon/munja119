@@ -254,6 +254,36 @@ public class MMS implements MMSAble {
 		return vo;
 	}
 	
+	public LogVO getMMSLogVO( UserInformationVO mvo, Boolean bReservation, String message, ArrayList<String[]> phoneAndNameArrayList, String returnPhone, String reservationDate, String ip) throws Exception{
+		
+		LogVO vo = new LogVO();
+		int count = phoneAndNameArrayList.size();
+		if (count < 0)
+			throw new Exception("전호번호 리스트가 없습니다.");
+		
+		String [] temp = phoneAndNameArrayList.get(0);
+		
+		if ( temp.length < 1 || SLibrary.isNull(temp[0]))
+			throw new Exception("전화번호 리스트가 없습니다.2");
+			
+		vo.setIdx(0);
+		vo.setUser_id( mvo.getUser_id() );
+		vo.setLine(mvo.getLine());
+		vo.setReservation((bReservation)?"Y":"N");
+		vo.setTranType("MM");
+		vo.setReturnPhone(returnPhone);
+		vo.setCount(count);
+		vo.setMessage(message);
+		vo.setUser_ip( ip );
+		vo.setTimeSend( (bReservation)?reservationDate:SLibrary.getDateTimeString("yyyy-MM-dd HH:mm:ss") );
+		vo.setTimeWrite( SLibrary.getDateTimeString("yyyy-MM-dd HH:mm:ss") );
+		vo.setYnDel( "N" );
+		vo.setDelType( "none" );
+		vo.setTimeDel( "" );
+		
+		return vo;
+	}
+	
 	
 	
 	public ArrayList<MMSClientVO> getClientVO( Connection conn, UserInformationVO mvo, Boolean bReservation, int MMSLogKey, String message, ArrayList<String[]> phoneAndNameArrayList, String returnPhone, String reservationDate, String imagePath, String ip) throws Exception{
