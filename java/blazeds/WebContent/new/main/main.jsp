@@ -72,7 +72,7 @@
         
 		<div id="flashContent" style="display:none;border:1px solid red;"></div>
 		<script type="text/javascript" src="flexlib/swfobject.js"></script>
-		<script type="text/javascript" src="normal/normal.js"></script>
+		<script type="text/javascript" src="main/main.js"></script>
 
         <fieldset id="emoticon">
             <ul class="title">
@@ -141,7 +141,7 @@
             		for (int i = 0; i < size; i++) {
             			hm = notihm.get(i);
             			%>
-            			<div class="content"><a href="" class="title"><%=SLibrary.IfNull(hm, "title") %></a><span class="notiDate"></span></div>
+            			<div class="content"><a href="?content=notic" class="title"><%=SLibrary.IfNull(hm, "title") %></a><span class="notiDate"></span></div>
             			<%
             		}
             	}

@@ -23,7 +23,7 @@
 <div class="context">
 	
     <div id="topSub"><!--top-sub-->
-        <a href="">로그인</a> | <a href="?content=join">회원가입</a> | <a href="">마이119</a> | <a href="">고객센터</a> | <img src="images/add.gif" />
+        <a href="">로그인</a> | <a href="?content=join">회원가입</a> | <a href="?content=my">마이119</a> | <a href="">고객센터</a> | <img src="images/add.gif" />
     </div>
 
     <h1 id="logo" class="ti" onclick="window.location.href='?'" style="cursor:pointer">MUNJA119</h1>
@@ -41,7 +41,7 @@
 	<jsp:include page="body.jsp" flush="false"/>
 	
 	<div id="copyright">
-	    <a href="javascript:" class="company">회사소개</a>
+	    <a href="?content=company" class="company">회사소개</a>
 	    <a href="javascript:" onclick="openWindow('member/personal.html','p',715, 466)" class="personal">개인정보보호정책</a>
 	    <a href="javascript:" onclick="openWindow('member/promise.html','p',715, 466)" class="use">이용약관</a>
 	    <a href="javascript:" onclick="openWindow('member/spam.html','p',715, 466)" class="spam">광고스팸문자</a>
