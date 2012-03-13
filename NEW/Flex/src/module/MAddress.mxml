@@ -13,6 +13,8 @@
 			alternatingItemColors: #ffffff, #efefef;
 			borderColor: #ffffff;
 			headerColors: #f8f8f8, #e8e8e8;
+			headerBackgroundSkin:ClassReference("skin.GridHeaderSkin");
+			
 		}
 	</fx:Style>
 	<fx:Script>
@@ -487,8 +489,8 @@
 		<s:Group width="100%">
 			<s:Rect left="0" right="0" bottom="0" height="2" ><s:fill><s:SolidColor color="0xCCCCCC"/></s:fill></s:Rect>
 			<s:HGroup width="100%" verticalAlign="middle" gap="0">
-				<s:Image source.GrpView="images/post_m01_.gif" source.AddrView="images/post_m01.gif" click="myViewStack.selectedIndex=0;currentState='GrpView';" />
-				<s:Image source.GrpView="images/post_m02.gif" source.AddrView="images/post_m02_.gif" click="myViewStack.selectedIndex=0;currentState='AddrView';" />
+				<s:Image source.GrpView="images/post_m01_.gif" source.AddrView="images/post_m01.gif" click="currentState='GrpView';getAddress();" />
+				<s:Image source.GrpView="images/post_m02.gif" source.AddrView="images/post_m02_.gif" click="currentState='AddrView';getAddress();" />
 				<s:HGroup>
 					<s:Image source="images/btn_group.gif" buttonMode="true" useHandCursor="true"  click="modifyGroup='';groupName.text='';groupPanel.visible=true;" />
 					<s:Image source="images/btn_postadd.gif" buttonMode="true" useHandCursor="true"  click="addAddressBtn_clickHandler(event)" />
@@ -496,38 +498,31 @@
 				</s:HGroup>
 			</s:HGroup>
 		</s:Group>
-		
-		<!-- Define the ViewStack and the three child containers -->
-		<mx:ViewStack id="myViewStack" width="100%" height="400" change="myViewStack_changeHandler(event)">
-			
-			<s:NavigatorContent id="group" label="그룹별 보기" fontWeight="bold"  width="100%" height="100%">
-				<s:Group id="addressBox" width="100%" height="100%">
-					<mx:Tree id="myTree" width="100%" height="100%" change="treeChanged(event)" 
-							 disclosureClosedIcon="{PLUS}" disclosureOpenIcon="{MINUS}" defaultLeafIcon="{MINUS}" folderClosedIcon="{null}" folderOpenIcon="{null}" dataProvider="{xml}"
-							 itemRenderer="renderer.AddressTreeItemRenderer" labelField="@label"
-							 showRoot="true" fontWeight="normal"
-							 borderStyle="none" depthColors="0xeeeeee" rollOverColor="0xdddddd" dropShadowVisible="true"
-							 />
-					<lib:Spinner id="spinner" visible="false" left="10"  right="10" bottom="50" top="50" spinnerColor="#666666" spinnerHighlightColor="#cccccc" spinnerLineThickness="6" spinnerType="gradientlines" spinnerAlpha="0.5" />
-				</s:Group>
-			</s:NavigatorContent>
-			<s:NavigatorContent id="address" height="100%" label="주소별 보기" fontWeight="bold">
-				<mx:DataGrid id="dg" width="100%" height="100%" draggableColumns="false" dropShadowVisible="true" resizableColumns="false" fontWeight="normal" styleName="addrDg"  verticalGridLines="false"
-							 allowMultipleSelection="true">
-					<mx:columns>
-						<mx:DataGridColumn headerText="번호" sortable="false" labelFunction="fnLabel" width="50"></mx:DataGridColumn>
-						<mx:DataGridColumn dataField="name" headerText="이름" width="100"></mx:DataGridColumn>
-						<mx:DataGridColumn dataField="phone" headerText="전화번호" labelFunction="phoneFomat" ></mx:DataGridColumn>
-						<mx:DataGridColumn dataField="grpName" headerText="그룹" width="80"></mx:DataGridColumn>
-						<mx:DataGridColumn dataField="memo" headerText="메모"></mx:DataGridColumn>
-						<mx:DataGridColumn headerText="" width="150"  sortable="false" itemRenderer="renderer.AddressRenderer" />
-					</mx:columns>
-				</mx:DataGrid>
-			</s:NavigatorContent>
-			
-		</mx:ViewStack>
+
+		<s:Group id="addressBox" includeIn="GrpView" width="100%" height="100%">
+			<mx:Tree id="myTree" width="100%" height="100%" change="treeChanged(event)" 
+					 disclosureClosedIcon="{PLUS}" disclosureOpenIcon="{MINUS}" defaultLeafIcon="{MINUS}" folderClosedIcon="{null}" folderOpenIcon="{null}" dataProvider="{xml}"
+					 itemRenderer="renderer.AddressTreeItemRenderer" labelField="@label"
+					 showRoot="true" fontWeight="normal"
+					 borderStyle="none" depthColors="0xeeeeee" rollOverColor="0xdddddd" dropShadowVisible="true"
+					 />
+			<lib:Spinner id="spinner" visible="false" left="10"  right="10" bottom="50" top="50" spinnerColor="#666666" spinnerHighlightColor="#cccccc" spinnerLineThickness="6" spinnerType="gradientlines" spinnerAlpha="0.5" />
+		</s:Group>
+	
+		<mx:DataGrid id="dg" includeIn="AddrView" width="100%" height="100%" draggableColumns="false" resizableColumns="false" fontWeight="normal" styleName="addrDg"  verticalGridLines="false"
+					 allowMultipleSelection="true">
+			<mx:columns>
+				<mx:DataGridColumn headerText="번호" sortable="false" labelFunction="fnLabel" width="50"></mx:DataGridColumn>
+				<mx:DataGridColumn dataField="name" headerText="이름" width="100"></mx:DataGridColumn>
+				<mx:DataGridColumn dataField="phone" headerText="전화번호" labelFunction="phoneFomat" ></mx:DataGridColumn>
+				<mx:DataGridColumn dataField="grpName" headerText="그룹" width="80"></mx:DataGridColumn>
+				<mx:DataGridColumn dataField="memo" headerText="메모"></mx:DataGridColumn>
+				<mx:DataGridColumn headerText="" width="165"  sortable="false" itemRenderer="renderer.AddressRenderer" />
+			</mx:columns>
+		</mx:DataGrid>
+	
 		<s:HGroup includeIn="AddrView" verticalAlign="middle">
-			<s:TextInput id="search" focusThickness="0" text=""/>
+			<s:TextInput id="search" focusThickness="0" text="" enter="search_clickHandler(null)"/>
 			<s:Image source="images/btn_search.gif" buttonMode="true" useHandCursor="true" click="search_clickHandler(event)"  />
 			<s:Image source="images/btn_selectadd.gif" buttonMode="true" useHandCursor="true"  click="selectAdd_clickHandler(event)" toolTip="Ctrl 을 누르고 선택 하실 수 있습니다." />	
 		</s:HGroup>

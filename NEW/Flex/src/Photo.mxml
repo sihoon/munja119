@@ -36,6 +36,7 @@
 					if (code == "message") ichild.setMessage(obj as String); 
 					else if (code == "addPhone") ichild.addList(obj as String);
 					else if (code == "addPhoneArray") ichild.addListArray(obj as Array);
+					else if (code == "photo") ichild.setPhoto(obj as String);
 					else if (code == "sms") ichild.changeSMS();
 					else if (code == "lms") ichild.changeLMS();
 					else if (code == "mms") ichild.changeMMS();

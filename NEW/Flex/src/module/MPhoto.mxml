@@ -26,6 +26,7 @@
 			protected function imgClick(event:MouseEvent):void {
 				
 				var img:Image = event.currentTarget as Image;
+				parentApplication.phoneFunction("photo", img.source);
 				
 			}
 			

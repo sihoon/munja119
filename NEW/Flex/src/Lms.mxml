@@ -95,7 +95,7 @@
 				<s:Image source="images/sub_left03.jpg" />
 			</s:VGroup>
 			
-			<s:ModuleLoader id="mEmoticon" url="module/MEmoticon.swf"/>
+			<s:ModuleLoader id="mEmoticon" url="module/MEmoticonLMS.swf"/>
 		</s:HGroup>
 	</s:VGroup>
 	
