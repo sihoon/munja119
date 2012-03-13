@@ -20,6 +20,9 @@
 		else if ( strContent.equals("sent") ) 		includeURL = "sent/sent.jsp";
 		else if ( strContent.equals("excel") ) 		includeURL = "excel/excel.jsp";
 		else if ( strContent.equals("address") ) 		includeURL = "address/address.jsp";
+		else if ( strContent.equals("company") ) 		includeURL = "company/company.jsp";
+		else if ( strContent.equals("my") ) 		includeURL = "my/my.jsp";
+		else if ( strContent.equals("notic") ) 		includeURL = "custom/notic.jsp";
 		
 		out.println("<div style=\"width:100%;height:26px;background:url('images/topbg.png') 0 0 repeat-x;\"></div>");
 	}

@@ -40,12 +40,13 @@ finally {
     <button class="findBtn ti">아이디찾기</button>
 </fieldset>
 <% } else { %>
-<fieldset id="loginInfo" style="padding:9px 16px;">
+<fieldset id="loginInfo">
     <legend>로그인정보</legend>
-    <span class="name"><%=vo.getUser_name() %></span> 님 안녕하세요.<br/>사용가능건수
-   	<div><span class="cnt"><%=SLibrary.addComma( vo.getPoint() ) %></span>건 <a href="">충전하기</a></div>
-    <div class="function"><a href="">정보수정</a> <a href="member/_logout.jsp">로그아웃</a></div>
-    <div class="cuponBox"><input type="text" name="cupon" />&nbsp;&nbsp;<a href="">등록</a></div>
+    <p><span class="name"><%=vo.getUser_name() %></span> 님 안녕하세요.</p>
+   	<div><img src="images/usenum.gif" />&nbsp;<span class="cnt"><%=SLibrary.addComma( vo.getPoint() ) %></span><img src="images/cnt.gif" /></div>
+   	<img src="images/btn_cashbuy.gif" class="hand" alt="충전하기" onclick="window.location.href='?content=billing'" />
+    <div class="function"><img src="images/edit.gif" class="hand" alt="정보수정"/>&nbsp;<img src="images/logout.gif" onclick="window.location.href='member/_logout.jsp'" class="hand" alt="로그아웃" /></div>
+    <div class="cuponBox"><input type="text" name="cupon" class="cuponInput" />&nbsp;&nbsp;<img src="images/btn_coupon.gif" class="hand" alt="쿠폰등록" /></div>
 </fieldset>
 <% }%>
 

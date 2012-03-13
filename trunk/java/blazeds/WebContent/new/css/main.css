@@ -180,3 +180,21 @@ div.context {width:950px; height:auto; margin:0px auto;}
 #billingBox .txtAmount {font-size:14px;font-weight:bold;margin-bottom:5px;}
 #billingBox .title {height:36px;background:url("../images/pay_top.gif") no-repeat;}
 #billingBox td {font-size:14px;font-weight:bold;height:36px;text-align:center;border-bottom:1px solid gray;}
+
+
+#companyTitle {float:right;margin-top:10px;width:712px;height:58px;background:url("../images/title_company.gif") no-repeat;border-bottom:2px solid red}
+#companyBox {float:right; margin-top:10px;width:720px;height:500px;background:url("../images/company.jpg") no-repeat;  }
+
+#myTitle {float:right;margin-top:10px;width:712px;height:58px;background:url("../images/.gif") no-repeat;border-bottom:2px solid red}
+#myBox {float:right; margin-top:10px;width:720px;height:500px;  }
+#myBox p{font-size:22px;font-weight:normal;width:100%;text-align:center;}
+#myBox p span{font-size:28px;font-weight:bold;color:#5F4910}
+#myBox .cntTable tr th {background-color:#0078ff;height:30px;color:white;border-left:1px solid #fff}
+#myBox .cntTable tr td {text-align:center;height:26px;}
+#myBox .cntTable tr td.bg {background-color:#efefef;}
+
+#noticTitle {float:right;margin-top:10px;width:712px;height:58px;background:url("../images/.gif") no-repeat;border-bottom:2px solid red}
+#noticBox {float:right; margin-top:10px;width:720px;height:500px;  }
+#noticBox .cntTable tr th {background-color:#0078ff;height:30px;color:white;border-left:1px solid #fff}
+#noticBox .cntTable tr td {text-align:center;height:26px;}
+#noticBox .cntTable tr td.bg {background-color:#efefef;}
