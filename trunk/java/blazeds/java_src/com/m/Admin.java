@@ -817,6 +817,32 @@ public class Admin extends SessionManagement {
 		
 	}
 	
+	public void updateEmotiCateLMS(int idx, String msg) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 이모티콘 LMS 업데이트 "+Integer.toString(idx));
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminEmoticonUpdateLMS"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setString(1, msg);
+				pq.setInt(2, idx);
+				pq.executeUpdate();
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("updateEmotiCateLMS >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
+	
 	public void deleteEmoti(int idx) {
 		
 		Connection conn = null;
@@ -837,6 +863,56 @@ public class Admin extends SessionManagement {
 			}catch (Exception e) {}	finally {			
 				try { if ( conn != null ) conn.close();
 				}catch(SQLException e) { VbyP.errorLog("deleteEmoti >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
+	
+	public void deleteEmotiLMS(int idx) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 이모티콘 LMS 삭제 "+Integer.toString(idx));
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminEmoticonDeleteLMS"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setInt(1, idx);
+				pq.executeUpdate();
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("deleteEmotiLMS >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
+	
+	public void deleteEmotiMMS(int idx) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 이모티콘 MMS 삭제 "+Integer.toString(idx));
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminEmoticonDeleteMMS"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setInt(1, idx);
+				pq.executeUpdate();
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("deleteEmotiMMS >> conn.close() Exception!"); }
 			}
 		}
 		

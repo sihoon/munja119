@@ -324,38 +324,48 @@ public class MMS implements MMSAble {
 		return clientAl;
 	}
 	
-	public ArrayList<MMSClientVO> getMMSClientVOMearge( Connection conn, UserInformationVO mvo, Boolean bReservation, int MMSLogKey, ArrayList<MeargeVO> al, String returnPhone, String reservationDate, String imagePath, String ip) throws Exception{
+	public ArrayList<MMSClientVO> getMMSClientVOMeargeAndInterval( Connection conn, UserInformationVO mvo, Boolean bReservation, int MMSLogKey, String message, ArrayList<String[]> phoneAndNameArrayList, String returnPhone, String reservationDate, String imagePath, String ip, int cnt, int minute, boolean bMerge) throws Exception{
 		
 		ArrayList<MMSClientVO> clientAl = new ArrayList<MMSClientVO>();
 		MMSClientVO vo = new MMSClientVO();
-		MeargeVO mgvo = null;
+		String [] temp = null;
+		boolean bInterval = false;
+		String name = "";
 		
 		VbyP.debugLog(" >> getPhone");
-		int count = al.size();
+		int count = phoneAndNameArrayList.size();
 		if (count < 0)
-			throw new Exception("전화번호 리스트가 없습니다.");				
+			throw new Exception("전화번호 리스트가 없습니다.");	
+		
+		if (cnt > 0 && minute > 0) bInterval = true;
 		
 		for (int i = 0; i < count; i++) {
 			
 			vo = new MMSClientVO();
-			mgvo = al.get(i);
+			temp = phoneAndNameArrayList.get(i);
 			
-			vo.setSUBJECT( (SLibrary.IfNull(mgvo.getMessage()).length() > 20)? SLibrary.IfNull(mgvo.getMessage()).substring(0,20) : SLibrary.IfNull(mgvo.getMessage()) );
-			vo.setPHONE( SLibrary.IfNull(mgvo.getPhone()) );
+			name = (temp.length == 2)?SLibrary.IfNull(temp[1]):"";
+			
+			if (bInterval && (i+1)%cnt == 0) {
+				reservationDate = SLibrary.getDateAddSecond(reservationDate, minute*60);
+			}
+			
+			vo.setSUBJECT( (message.length() > 20)? message.substring(0,20) : message );
+			vo.setPHONE((temp.length > 0)? SLibrary.IfNull(temp[0]):"");
 			vo.setCALLBACK( returnPhone );
 			vo.setSTATUS( CLIENT_SENDSTAT );
 			vo.setREQDATE( reservationDate );
-			vo.setMSG( SLibrary.IfNull(mgvo.getMessage()) );
+			vo.setMSG( bMerge ? SLibrary.replaceAll(message, "{이름}", name ):message );
 			vo.setFILE_CNT( (SLibrary.isNull(imagePath))? 0: 1 );
 			vo.setFILE_CNT_REAL( (SLibrary.isNull(imagePath))? 0: 1 );
 			vo.setFILE_PATH1( (SLibrary.isNull(imagePath))? "": imagePath );			
 			vo.setTYPE( CLIENT_MESSAGETYPE );
 			vo.setID( mvo.getUser_id() );
 			vo.setPOST( Integer.toString(MMSLogKey) );
-			vo.setETC1( "고급전송"  );
+			vo.setETC1( name  );
 			vo.setETC2( ip );
-			vo.setETC3( " " );			
-			
+			vo.setETC3( " " );
+						
 			clientAl.add(vo);
 		}
 		VbyP.debugLog(" >> getPhone -> loop");
