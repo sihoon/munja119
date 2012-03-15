@@ -135,28 +135,39 @@
 			protected function sendButton_clickHandler(event:MouseEvent):void
 			{
 				sendButton.enabled = false;
+				confirm.visible = false;
 				remoteObjectInit();
 				
 				ro.addEventListener(ResultEvent.RESULT,send_ResultEventHandler);
 				
 				if (cMessage.maxByte == 2000 && cMessage.mode.text == "MMS") {
 					
-					ro.sendMMS( cMessage.mmsImage, cMessage.getMessage(),
+					ro.sendMMSconf( cMessage.mmsImage, cMessage.getMessage(),
 						cPhone.phoneList,
 						cReturnPhone.returnPhone ,
-						cReservation.bReservation ? cReservation.strReservation +":00" : "" );
+						cReservation.bReservation ? cReservation.strReservation +":00" : "" ,
+						cInterval.bInterval ? cInterval.cnt +"/"+ cInterval.minute : "" ,
+						cMessage.getMessage().indexOf("{이름}") > -1 ? true:false
+					);
 					
 				} else if (cMessage.maxByte == 2000 && cMessage.mode.text == "LMS") {
 					
-					ro.sendLMS( cMessage.getMessage(),
+					ro.sendLMSconf( cMessage.getMessage(),
 						cPhone.phoneList,
 						cReturnPhone.returnPhone ,
-						cReservation.bReservation ? cReservation.strReservation +":00" : "" );
+						cReservation.bReservation ? cReservation.strReservation +":00" : "",
+						cInterval.bInterval ? cInterval.cnt +"/"+ cInterval.minute : "" ,
+						cMessage.getMessage().indexOf("{이름}") > -1 ? true:false
+					);
 				}else {
-					ro.sendSMS( cMessage.getMessage(),
+
+					ro.sendSMSconf( cMessage.getMessage(),
 						cPhone.phoneList,
 						cReturnPhone.returnPhone ,
-						cReservation.bReservation ? cReservation.strReservation +":00" : "" );
+						cReservation.bReservation ? cReservation.strReservation +":00" : "" ,
+						cInterval.bInterval ? cInterval.cnt +"/"+ cInterval.minute : "" ,
+						cMessage.getMessage().indexOf("{이름}") > -1 ? true:false
+					);
 				}
 					
 				//sending count
@@ -174,7 +185,8 @@
 				var bVO:BooleanAndDescriptionVO = e.result as BooleanAndDescriptionVO;
 				if (bVO.bResult) {
 					
-					cPhone.init();
+					if ( delList.selected )
+						cPhone.init();
 					
 					isValid();
 					
@@ -213,6 +225,37 @@
 			protected function cancelButton_clickHandler(event:MouseEvent):void
 			{
 				this.cPhone.init();
+				isValid();
+			}
+			
+			
+			/*###############################
+			#	발송설정						#
+			###############################*/
+			private function confirmView():void {
+				confirmSetting();
+				confirm.visible = true;
+			}
+			private function confirmSetting():void {
+				
+				var sendtype:String = cMessage.mode.text;
+				var typeCnt:uint = 1;
+				if (sendtype == "LMS") typeCnt = 3;
+				else if (sendtype == "MMS") typeCnt = 15;
+				
+				type.text = sendtype;
+				cnt.text = cPhone.totalCount.text + " ("+uint(cPhone.totalCount.text)*typeCnt+"건 차감)";
+				sendTime.text = cReservation.bReservation ? cReservation.strReservation +":00" : "미설정";
+				interval.text = cInterval.bInterval ? cInterval.cnt +"건씩 "+ cInterval.minute+"분간격": "미설정";
+
+				
+				if (cMessage.getMessage().indexOf("{이름}") > -1) {
+					mergeItem.visible = true;
+					merge.text = "{이름} 위치에 넣음."
+				}else {
+					mergeItem.visible = false;
+				}
+				
 			}
 			
 		]]>
@@ -225,13 +268,47 @@
 		<handphone:Message id="cMessage" width="100%" alert="message1_alertHandler(event)" validValue="validHandler(event)"/>
 		<handphone:ReturnPhone id="cReturnPhone" validValue="validHandler(event)"/>
 		<handphone:Phone id="cPhone" validValue="validHandler(event)"/>
+		<s:HGroup gap="2">
+			<handphone:Reservation id="cReservation" width="135"/>
+			<handphone:Interval id="cInterval" width="78"/>
+		</s:HGroup>
 		
-		<handphone:Reservation id="cReservation" width="187"/>
 		<s:HGroup horizontalAlign="center" gap="10" width="100%">
-			<s:Image id="sendButton" buttonMode="true" useHandCursor="true" click="sendButton_clickHandler(event)" source="@Embed('images/main_60.png')" />
+			<s:Image id="sendButton" buttonMode="true" useHandCursor="true" click="confirmView()" source="@Embed('images/main_60.png')" />
 			<s:Image id="cancelButton" buttonMode="true" useHandCursor="true" click="cancelButton_clickHandler(event)" source="@Embed('images/btn_cancle2.gif')" />
 		</s:HGroup>
 	</s:VGroup>
+	
+	<!-- 설정 확인 -->
+	<s:Panel id="confirm" visible="false" bottom="10" left="4" right="4" title="보내기 확인">
+		<s:layout>
+			<s:VerticalLayout verticalAlign="middle" horizontalAlign="center" paddingTop="10" paddingBottom="10"/>
+		</s:layout>
+		<s:Label text="전송하시겠습니까?" />
+		<s:Form>
+			<s:layout><s:FormLayout gap="-14"/></s:layout>
+			<s:FormItem label="방식"><s:Label id="type" text="SMS" /></s:FormItem>
+			<s:FormItem label="건수"><s:Label id="cnt" text="100건(100건차감)" /></s:FormItem>
+			<s:FormItem label="예약"><s:Label id="sendTime" text="미설정" /></s:FormItem>
+			<s:FormItem label="간격설정"><s:Label id="interval" text="10건씩 10분간격" /></s:FormItem>
+			<s:FormItem id="mergeItem" visible="false" label="이름넣기">
+				<s:VGroup>
+					<s:Label id="merge" text="미설정" />
+					<s:Label text="※이름포함 제한byte 잘림." color="0xff6347"/>
+				</s:VGroup>
+				
+				
+			</s:FormItem>
+			<s:FormItem label="발송후설정">
+				<s:CheckBox id="delList" label="전화번호 삭제" />
+			</s:FormItem>
+		</s:Form>
+		<s:HGroup>
+			<s:Button label="발송" click="sendButton_clickHandler(null)" />
+			<s:Button label="취소" click="confirm.visible = false" />
+		</s:HGroup>
+	</s:Panel>
+	
 	<!--전송중 카운트-->
 	<s:VGroup id="iAlertContainer" x="34" y="100" width="165" depth="7" focusEnabled="false" visible="false" horizontalAlign="center">
 		<s:Label text="전송요청!!" fontSize="14" color="0x000000" visible="false"/>

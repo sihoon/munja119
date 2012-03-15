@@ -7,14 +7,17 @@
 		<![CDATA[
 			import mx.events.FlexEvent;
 			
-			protected function emt_creationCompleteHandler(event:FlexEvent):void
-			{
-				emt.text = data.msg;	
-			}
-			
+			override public function set data(value:Object):void { 
+				super.data = value; 
+				
+				// Check to see if the data property is null. 
+				if (value== null) return; 
+				
+				emt.text = value.msg;
+			} 
 		]]>
 	</fx:Script>
 
 	<s:Image source="images/pro_bg.gif" left="0"/>
-	<s:Label id="emt" left="16" right="16" top="30" bottom="4" useHandCursor="true" click="{parentApplication.phoneFunction('message',data.msg)}" creationComplete="emt_creationCompleteHandler(event)" />
+	<s:Label id="emt" left="16" right="16" top="30" bottom="4" useHandCursor="true" click="{parentApplication.phoneFunction('message',data.msg)}" />
 </s:ItemRenderer>

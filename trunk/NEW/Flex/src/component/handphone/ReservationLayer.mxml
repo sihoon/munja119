@@ -91,7 +91,7 @@
 			<s:Label text="24시간제를 사용 합니다" color="#ed6c1f"/>
 			<s:HGroup>
 				<s:Image source="images/btn_group_confirm.gif" click="confirm()" useHandCursor="true" buttonMode="true"/>
-				<s:Image source="images/btn_group_cancle.gif" click="{this.visible=false;parentDocument.cb.selected=false;}" useHandCursor="true" buttonMode="true"/>
+				<s:Image source="images/btn_group_cancle.gif" click="{this.visible=false;parentDocument.canResButton_clickHandler();}" useHandCursor="true" buttonMode="true"/>
 			</s:HGroup>
 		</s:VGroup>
 	</s:Group>
