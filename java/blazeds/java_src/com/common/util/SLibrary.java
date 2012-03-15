@@ -127,6 +127,10 @@ public class SLibrary {
 		else
 			return false;
 	}
+	
+	public static String getDateAddSecond(String orgDate, int sec){
+		return getDateTimeString( "yyyy-MM-dd HH:mm:ss", ((getTime(orgDate, "yyyy-MM-dd HH:mm:ss")/1000)+sec)*1000 );
+	}
 
 	public static String getDateTimeString() {
 		return getDateTimeString("yyyy-MM-dd HH:mm:ss");

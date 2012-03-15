@@ -284,38 +284,50 @@ public class SMS implements SMSAble {
 		return clientAl;
 	}
 	
-	public ArrayList<SMSClientVO> getSMSClientVOMearge( Connection conn, UserInformationVO mvo, Boolean bReservation, int SMSLogKey, ArrayList<MeargeVO> al, String returnPhone, String reservationDate, String ip) throws Exception{
+	public ArrayList<SMSClientVO> getSMSClientVOMeargeAndInterval( Connection conn, UserInformationVO mvo, Boolean bReservation, int SMSLogKey, String message, ArrayList<String[]> phoneAndNameArrayList, String returnPhone, String reservationDate, String ip, int cnt, int minute, boolean bMerge) throws Exception{
 		
 		ArrayList<SMSClientVO> clientAl = new ArrayList<SMSClientVO>();
 		SMSClientVO vo = new SMSClientVO();
-		MeargeVO mgvo = null;
+		String [] temp = null;
+		boolean bInterval = false;
 		
 		VbyP.debugLog(" >> getPhone");
-		int count = al.size();
+		int count = phoneAndNameArrayList.size();
 		if (count < 0)
 			throw new Exception("전화번호 리스트가 없습니다.");				
+		
+		String name = "";
+		
+		if (cnt > 0 && minute > 0) bInterval = true;
+		
 		
 		for (int i = 0; i < count; i++) {
 			
 			vo = new SMSClientVO();
-			mgvo = al.get(i);
+			temp = phoneAndNameArrayList.get(i);
+			
+			name = (temp.length == 2)?SLibrary.IfNull(temp[1]):"";
+			if (bInterval && (i+1)%cnt == 0) {
+				reservationDate = SLibrary.getDateAddSecond(reservationDate, minute*60);
+			}
+			
 			vo.setTR_SENDDATE( reservationDate );
 			vo.setTR_SERIALNUM( 0 );
 			vo.setTR_ID( SITE_CODE );
 			vo.setTR_SENDSTAT( CLIENT_SENDSTAT );
 			vo.setTR_RSLTSTAT( CLIENT_RSLTSTAT );
 			vo.setTR_MSGTYPE( CLIENT_MESSAGETYPE );
-			vo.setTR_PHONE( SLibrary.IfNull(mgvo.getPhone()) );
+			vo.setTR_PHONE( (temp.length > 0)? SLibrary.IfNull(temp[0]):"" );
 			vo.setTR_CALLBACK( returnPhone );
 			vo.setTR_RSLTDATE( reservationDate );
 			vo.setTR_MODIFIED( reservationDate );
-			vo.setTR_MSG( SLibrary.IfNull(mgvo.getMessage()) );
+			vo.setTR_MSG( bMerge ? SLibrary.replaceAll(message, "{이름}", name ):message  );
 			vo.setTR_NET( "" );
-			vo.setTR_ETC1( "고급전송" );
+			vo.setTR_ETC1( name );
 			vo.setTR_ETC2( mvo.getUser_id() );
 			vo.setTR_ETC3( ip );
 			vo.setTR_ETC4( TRAN_TYPE_CODE );
-			vo.setTR_ETC5( "" );
+			vo.setTR_ETC5( (bReservation)?"R":"I" );
 			vo.setTR_ETC6( Integer.toString(SMSLogKey) );
 			//vo.setTR_ETC7( getPayTypeCode(mvo.getPay_type())+"|"+SLibrary.getUnixtimeStringSecond());
 			

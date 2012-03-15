@@ -61,4 +61,30 @@ public class Home {
 		
 		return rslt;
 	}
+	
+	public String[] getLMSCate(Connection conn, String gubun) {
+		
+		String[] rslt = null;
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared( conn, VbyP.getSQL("selectMainEmtCateLMS") );
+		pq.setString(1, gubun);
+		
+		rslt = pq.ExecuteQuery();
+		
+		return rslt;
+	}
+	
+	public String[] getMMSCate(Connection conn, String gubun) {
+		
+		String[] rslt = null;
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared( conn, VbyP.getSQL("selectMainEmtCateMMS") );
+		pq.setString(1, gubun);
+		
+		rslt = pq.ExecuteQuery();
+		
+		return rslt;
+	}
 }
