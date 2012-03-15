@@ -56,40 +56,40 @@
 				
 			}
 			
+			public function init():void {
+				
+				var arr:Array = new Array();
+				
+				bar.removeAll();
+				if( pageBlock > 0 ){
+					bar.addItem({label:"  << 처음  ",data:0});
+					bar.addItem({label:"  < 이전  ",data:(pageBlock-1)*pageBlockViewCount});
+					
+					arr.push(2);
+					callLater(selItem, arr);
+				}else {
+					arr.push(0);
+					callLater(selItem, arr);
+				}
+				
+				for( var x:uint = 0; x < pageBlockViewCount; x++){
+					
+					var pg:uint = x + (pageBlock*pageBlockViewCount);
+					bar.addItem({label: pg + 1,data: pg});
+					if( pg + 1 >= pageCount) break;
+				}
+				
+				if( pageBlock < Math.ceil(pageCount/pageBlockViewCount)-1 ){
+					bar.addItem({label:"  다음 >  ",data:(pageBlock+1)*pageBlockViewCount});
+					bar.addItem({label:"  마지막 >>  ",data:pageCount-1});
+				}
+				currPageBlock = pageBlock;
+				
+			}
+			
 			private function createPageBar():void {
 				
-				if (currPageBlock != pageBlock) {
-					
-					var arr:Array = new Array();
-					
-					bar.removeAll();
-					if( pageBlock > 0 ){
-						bar.addItem({label:"  << 처음  ",data:0});
-						bar.addItem({label:"  < 이전  ",data:(pageBlock-1)*pageBlockViewCount});
-						
-						arr.push(2);
-						callLater(selItem, arr);
-					}else {
-						arr.push(0);
-						callLater(selItem, arr);
-					}
-	
-					for( var x:uint = 0; x < pageBlockViewCount; x++){
-						
-						var pg:uint = x + (pageBlock*pageBlockViewCount);
-						bar.addItem({label: pg + 1,data: pg});
-						if( pg + 1 >= pageCount-1) break;
-					}
-					
-					if( pageBlock < Math.ceil(pageCount/pageBlockViewCount) ){
-						bar.addItem({label:"  다음 >  ",data:(pageBlock+1)*pageBlockViewCount});
-						bar.addItem({label:"  마지막 >>  ",data:pageCount-1});
-					}
-					currPageBlock = pageBlock;
-					
-					
-					
-				}
+				if (currPageBlock != pageBlock)	init();
 			}
 			
 			

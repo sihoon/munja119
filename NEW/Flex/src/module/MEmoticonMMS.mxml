@@ -36,6 +36,7 @@
 			private var currTotalCount:int = 0;
 			
 			private var al:ArrayCollection =  new ArrayCollection();
+			private var ac:ArrayCollection = new ArrayCollection();
 			
 			protected function cateList_creationCompleteHandler():void {
 				
@@ -45,14 +46,14 @@
 				}
 				else {
 					ro.set(RO_DESTINATION, cateList_ResultEventHandler);
-					ro.method.getEmotiCateList(gubun);
+					ro.method.getEmotiCateListMMS(gubun);
 				}
 			}
 			
 			private function cateList_ResultEventHandler(event:ResultEvent):void {
 				
 				var arr:Array = event.result as Array;
-				var ac:ArrayCollection = new ArrayCollection(arr);
+				ac = new ArrayCollection(arr);
 				cateList.dataProvider = ac;
 				getEmotiList();
 			}
@@ -60,7 +61,7 @@
 			protected function getEmotiList():void {
 				
 				ro.set(RO_DESTINATION, emoti_ResultEventHandler);
-				ro.method.getEmotiCatePage(gubun, cate, 0, paging.viewDataCount);
+				ro.method.getEmotiCatePageMMS(gubun, cate, 0, paging.viewDataCount);
 			}
 			protected function getMyList():void {
 				
@@ -139,13 +140,14 @@
 				<s:Group id="cateBox" visible.save="false" width="600" height="86" >
 					
 					<s:Rect left="0" right="0" top="0" bottom="0" ><s:fill><s:SolidColor color="0xEEE3DD"/></s:fill></s:Rect>
-					<s:List id="cateList" change="cateList_changeHandler(event)" left="10" selectionColor="0xffffff" rollOverColor="0xEEE3DD" right="10" height="66" verticalCenter="0" skinClass="skin.ListBg" creationComplete="cateList_creationCompleteHandler()">
+					<s:List id="cateList" left="10" change="cateList_changeHandler(event)" selectionColor="0xffffff" rollOverColor="0xEEE3DD" right="10" height="66" verticalCenter="0" skinClass="skin.ListBg" 
+							creationComplete="cateList_creationCompleteHandler()">
 						<s:layout><lib:FlowLayout /></s:layout>
 					</s:List>
-
+					
 				</s:Group>
 				
-				<s:List id="emotiList" width="600" itemRenderer.thema="renderer.EmotiRenderer" itemRenderer.upjong="renderer.EmotiRenderer" itemRenderer.save="renderer.MyMsgRenderer" skinClass="skin.ListBg">
+				<s:List id="emotiList" width="600" itemRenderer.thema="renderer.EmotiRendererMMS" itemRenderer.upjong="renderer.EmotiRendererMMS" itemRenderer.save="renderer.MyMsgRenderer" skinClass="skin.ListBg">
 					<s:layout><s:TileLayout horizontalGap="32" verticalGap="10"/></s:layout>
 				</s:List>
 				<lib:Paging id="paging" height="30" clickPage="paging_clickPageHandler(event)" />

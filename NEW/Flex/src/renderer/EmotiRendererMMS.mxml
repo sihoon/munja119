@@ -2,7 +2,7 @@
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:s="library://ns.adobe.com/flex/spark" 
 				xmlns:mx="library://ns.adobe.com/flex/mx" 
-				autoDrawBackground="true" width="177" height="200">
+				autoDrawBackground="true" width="177" height="144">
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
@@ -13,12 +13,12 @@
 				// Check to see if the data property is null. 
 				if (value== null) return; 
 				
-				emt.text = value.msg;
+				emt.source = value.msg;
+				trace(emt.source);
 			} 
 			
 		]]>
 	</fx:Script>
 	
-	<s:Image source="images/pro_bg.gif" width="177" height="200" left="0" fillMode="repeat"/>
-	<s:TextArea id="emt" skinClass="skin.TextAreaSkinBG" left="11" right="11" top="30" bottom="4" editable="false" useHandCursor="true" click="{parentApplication.phoneFunction('message',data.msg)}" />
+	<s:Image id="emt"  useHandCursor="true" fillMode="scale" width="176" height="144" click="{parentApplication.phoneFunction('addPhoto',emt.source)}"/>
 </s:ItemRenderer>

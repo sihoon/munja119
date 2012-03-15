@@ -99,7 +99,6 @@ package lib
 			
 			// Scrolling support - update the content size
 			layoutTarget.setContentSize(maxWidth, maxHeight);
-			trace(maxHeight);
 
 		}
 		

@@ -25,29 +25,37 @@
 			import mx.events.ItemClickEvent;
 			import mx.rpc.events.ResultEvent;
 			
+			import spark.events.IndexChangeEvent;
+			
 			private var ro:RO = new RO();
 			private var RO_DESTINATION:String = "WEB";
-			private var gubun:String = "업종별문자";
+			private var gubun:String = "테마문자";
 			private var cate:String = "";
 			
 			[Binable] public var bMy:Boolean = false;
+			private var currTotalCount:int = 0;
+			
+			private var al:ArrayCollection =  new ArrayCollection();
+			private var ac:ArrayCollection = new ArrayCollection();
 			
 			protected function cateList_creationCompleteHandler():void {
 				
 				// 저장문자시 카테고리 안가져옴
 				if (gubun == "my") {
+					paging.viewDataCount = 15;
 					getEmotiList();
 				}
 				else {
+					paging.viewDataCount = 9;
 					ro.set(RO_DESTINATION, cateList_ResultEventHandler);
-					ro.method.getEmotiCateList(gubun);
+					ro.method.getEmotiCateListLMS(gubun);
 				}
 			}
 			
 			private function cateList_ResultEventHandler(event:ResultEvent):void {
 				
 				var arr:Array = event.result as Array;
-				var ac:ArrayCollection = new ArrayCollection(arr);
+				ac = new ArrayCollection(arr);
 				cateList.dataProvider = ac;
 				getEmotiList();
 			}
@@ -55,7 +63,7 @@
 			protected function getEmotiList():void {
 				
 				ro.set(RO_DESTINATION, emoti_ResultEventHandler);
-				ro.method.getEmotiCatePage(gubun, cate, 0, paging.viewDataCount);
+				ro.method.getEmotiCatePageLMS(gubun, cate, 0, paging.viewDataCount);
 			}
 			protected function getMyList():void {
 				
@@ -64,13 +72,16 @@
 			}
 			protected function emoti_ResultEventHandler(event:ResultEvent):void {
 				
-				var al:ArrayCollection = event.result as ArrayCollection;
+				al = event.result as ArrayCollection;
+				
+				if (al != null && al.length > 0) {
+					paging.totalDataCount = Object(al.getItemAt(0)).cnt;
+					
+					if (currTotalCount != paging.totalDataCount)paging.init();
+					currTotalCount = paging.totalDataCount;
+				}
 				
 				emotiList.dataProvider = al;
-				
-				if (al != null) {
-					paging.totalDataCount = Object(al.getItemAt(0)).cnt;
-				}
 			}
 			
 			
@@ -85,7 +96,7 @@
 				if (idx == 0) { gubun = "업종별문자"; currentState = "upjong"; }
 				else if (idx == 1) { gubun = "테마문자"; currentState = "thema"; }
 				else if (idx == 2) { gubun = "my"; currentState = "save"; }
-				
+				cate = "";
 				cateList_creationCompleteHandler()
 				
 			}
@@ -103,6 +114,12 @@
 					ExternalInterface.call("alert","삭제 되었습니다.");
 					cateList_creationCompleteHandler();
 				}
+			}
+			
+			protected function cateList_changeHandler(event:IndexChangeEvent):void
+			{
+				this.cate = cateList.selectedItem as String;
+				getEmotiList();
 			}
 			
 		]]>
@@ -125,13 +142,14 @@
 				<s:Group id="cateBox" visible.save="false" width="600" height="86" >
 					
 					<s:Rect left="0" right="0" top="0" bottom="0" ><s:fill><s:SolidColor color="0xEEE3DD"/></s:fill></s:Rect>
-					<s:List id="cateList" left="10" selectionColor="0xffffff" rollOverColor="0xEEE3DD" right="10" height="66" verticalCenter="0" skinClass="skin.ListBg" creationComplete="cateList_creationCompleteHandler()">
+					<s:List id="cateList" change="cateList_changeHandler(event)" left="10" selectionColor="0xffffff" rollOverColor="0xEEE3DD" right="10" height="66" verticalCenter="0" skinClass="skin.ListBg" 
+							creationComplete="cateList_creationCompleteHandler()">
 						<s:layout><lib:FlowLayout /></s:layout>
 					</s:List>
 					
 				</s:Group>
 				
-				<s:List id="emotiList" width="600" itemRenderer.thema="renderer.EmotiRendererLMS" itemRenderer.upjong="renderer.EmotiRendererLMS" itemRenderer.save="renderer.MyMsgRenderer" skinClass="skin.ListBg">
+				<s:List id="emotiList" width="620" itemRenderer.thema="renderer.EmotiRendererLMS" itemRenderer.upjong="renderer.EmotiRendererLMS" itemRenderer.save="renderer.MyMsgRenderer" skinClass="skin.ListBg">
 					<s:layout><s:TileLayout horizontalGap="32" verticalGap="10"/></s:layout>
 				</s:List>
 				<lib:Paging id="paging" height="30" clickPage="paging_clickPageHandler(event)" />
