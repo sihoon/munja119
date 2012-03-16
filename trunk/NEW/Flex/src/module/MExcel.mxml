@@ -264,7 +264,11 @@
 					
 					vo = new AddressVO();
 					temp = userSelectedData[i] as Array;
-					vo.phone = (temp.length > 0)? SLibrary.trim(temp[0]):"";
+					// 0 이 빠진경우
+					if (temp[0] != null && int(temp[0]) != 0 && temp[0].length > 6 && temp[0].substr(0,1) != "0")
+						vo.phone = (temp.length > 0)? "0"+SLibrary.trim(temp[0]):"";
+					else
+						vo.phone = (temp.length > 0)? SLibrary.trim(temp[0]):"";
 					vo.name = (temp.length > 1)? temp[1]:"";
 					vo.grpName = grpName;
 					al.addItem(vo);

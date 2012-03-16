@@ -48,7 +48,7 @@
 					setIntButton_clickHandler(null);
 					
 				}else {
-					cb.label = "간격설정";
+					cb.label = "간격발송";
 					Label( cb.labelDisplay ).setStyle("color","0xFFFFFF");
 					this.intervalText.text = "";
 				}
@@ -66,7 +66,7 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:HGroup width="100%" height="100%" verticalAlign="middle">
-		<s:CheckBox id="cb" label="간격설정" symbolColor="0x00bfff" change="checkbox1_changeHandler(event)" creationComplete="cb_creationCompleteHandler(event)"
+		<s:CheckBox id="cb" label="간격발송" symbolColor="0x00bfff" change="checkbox1_changeHandler(event)" creationComplete="cb_creationCompleteHandler(event)"
 					fontSize="12"/>
 		<s:Label id="intervalText" fontSize="12" fontWeight="bold" color="0x00bfff" />	
 	</s:HGroup>

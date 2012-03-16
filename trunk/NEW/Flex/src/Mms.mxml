@@ -28,6 +28,8 @@
 			public var bLogin:Boolean = false;
 			public var login_id:String = null;
 			
+			public var appName:String = "Mms";
+			
 			// phone 이외의 모듈에서 phone 함수 호출
 			public function phoneFunction(code:String, obj:Object):void {
 				var ichild:* = mPhone.child as IModuleInterface_Phone;
@@ -55,6 +57,8 @@
 				else if (sub == "excel") mSub.loadModule("module/MExcel.swf");
 				else if (sub == "photo") mSub.loadModule("module/MPhoto.swf");
 				else if (sub == "sent") mSub.loadModule("module/MSent.swf");
+				else if (sub == "copypaste") mSub.loadModule("module/MCopyPaste.swf");
+				else if (sub == "emoticon") mSub.loadModule("module/MEmoticon.swf");
 				
 				//subContainer.visible = true;
 			}
@@ -69,7 +73,8 @@
 				
 				var obj2:Object = this.mPhone.child;
 				obj2.isValid();
-				obj2.cReturnPhone.returnPhoneTextInput.text = uvo.phone_return;
+				//obj2.cReturnPhone.returnPhoneTextInput.text = uvo.phone_return;
+				obj2.cReturnPhone.getList();
 			}
 			
 			

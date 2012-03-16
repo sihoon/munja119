@@ -192,7 +192,7 @@
 			protected function clickHandler(event:Event):void
 			{
 				if (parentApplication.bLogin == true)
-					parentApplication.loadEmoticon();
+					parentApplication.subLoad("emoticon");
 				else 
 					ExternalInterface.call("alert","로그인 후 이용 가능 합니다.");
 			}
@@ -208,8 +208,12 @@
 			protected function clickHandlerSave():void
 			{
 				if (parentApplication.bLogin == true){
-					ro.set(RO_DESTINATION, save_ResultEventHandler);
-					ro.method.addMymsg(IMessage.text);
+					if (IMessage.text == "")ExternalInterface.call("alert","메시지를 입력하세요.");
+					else {
+						ro.set(RO_DESTINATION, save_ResultEventHandler);
+						ro.method.addMymsg(IMessage.text);	
+					}
+					
 				}
 				else 
 					ExternalInterface.call("alert","로그인 후 이용 가능 합니다.");
@@ -222,7 +226,7 @@
 				
 				if (bvo.bResult == true) {
 					ExternalInterface.call("alert","저장되었습니다.");
-					parentApplication.refreshMy();
+					//parentApplication.refreshMy();
 				}else {
 					ExternalInterface.call("alert","저장실패 : "+ bvo.strDescription);
 				}

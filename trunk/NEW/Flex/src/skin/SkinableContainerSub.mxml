@@ -64,10 +64,11 @@
         more about it here: http://bugs.adobe.com/jira/browse/SDK-21143
     -->
     <!--- @copy spark.components.SkinnableContainer#contentGroup -->
-    <s:Group id="contentGroup" left="5" right="5" top="5" bottom="5" minWidth="0" minHeight="0">
-        <s:layout>
-            <s:BasicLayout/>
-        </s:layout>
-    </s:Group>
+		<s:Group id="contentGroup" left="5" right="5" top="5" bottom="5" minWidth="0" minHeight="0">
+			<s:layout>
+				<s:BasicLayout/>
+			</s:layout>
+		</s:Group>
+    
 
 </s:Skin>

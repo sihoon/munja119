@@ -44,6 +44,7 @@
 					getEmotiList();
 				}
 				else {
+					if (parentApplication.appName != "Normal")	paging.viewDataCount = 9;
 					ro.set(RO_DESTINATION, cateList_ResultEventHandler);
 					ro.method.getEmotiCateList(gubun);
 				}

@@ -96,7 +96,10 @@
 			}
 
 			protected function addPhoneButton_clickHandler(event:MouseEvent):void {
-				addList(phoneTextInput.text);phoneTextInput.text = "";
+				if (phoneTextInput.text == "") ExternalInterface.call("alert","전화번호를 입력하세요.");
+				else {
+					addList(phoneTextInput.text);phoneTextInput.text = "";
+				}
 			}
 			
 			// 전화번호 포맷
@@ -134,7 +137,11 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:HGroup paddingBottom="5" paddingTop="5">
-		<s:Label text="받는사람" fontSize="11" color="0xffffff" paddingTop="3"/>
+		<s:VGroup>
+			<s:Label text="받는사람" fontSize="11" color="0xffffff" paddingTop="3"/>
+			<s:Button label="붙여넣기" width="45" height="16" fontSize="11" click="parentApplication.subLoad('copypaste')" />
+		</s:VGroup>
+		
 		<s:VGroup gap="2">
 			<s:HGroup width="100%" gap="0">
 				<s:Image source="@Embed('images/main_50.png')" buttonMode="true" useHandCursor="true" click="parentApplication.subLoad('address')"/>
