@@ -34,18 +34,22 @@
 			public function setMessage(msg:String):void {
 				
 				cMessage.setMessage(msg);
+				ExternalInterface.call("alert", "적용되었습니다.");
 			}
 			
 			public function setPhoto(source:String):void {
 				
 				cMessage.setPhoto(source);
+				ExternalInterface.call("alert", "적용되었습니다.");
 			}
 			
 			public function addList(phone:String):void{
 				this.cPhone.addList(phone);
+				ExternalInterface.call("alert", "추가 되었습니다.");
 			}
 			public function addListArray(arr:Array):void{
 				this.cPhone.addListArray(arr);
+				ExternalInterface.call("alert", "추가 되었습니다.");
 			}
 			
 			public function changeSMS():void {
@@ -290,7 +294,7 @@
 			<s:FormItem label="방식"><s:Label id="type" text="SMS" /></s:FormItem>
 			<s:FormItem label="건수"><s:Label id="cnt" text="100건(100건차감)" /></s:FormItem>
 			<s:FormItem label="예약"><s:Label id="sendTime" text="미설정" /></s:FormItem>
-			<s:FormItem label="간격설정"><s:Label id="interval" text="10건씩 10분간격" /></s:FormItem>
+			<s:FormItem label="간격발송"><s:Label id="interval" text="10건씩 10분간격" /></s:FormItem>
 			<s:FormItem id="mergeItem" visible="false" label="이름넣기">
 				<s:VGroup>
 					<s:Label id="merge" text="미설정" />
