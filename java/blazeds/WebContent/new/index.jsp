@@ -31,7 +31,7 @@
     <div id="menu"><!--메뉴-->
         <a href="?content=normal" class="sms ti <%=(strContent.equals("normal"))?"over":""%>">단문문자보내기</a>
         <a href="?content=lms" class="lms ti <%=(strContent.equals("lms"))?"over":""%>">장문문자보내기</a>
-        <a href="?content=photo" class="mms ti <%=(strContent.equals("photo"))?"over":""%>">포토(MMS)문자보내기</a>
+        <a href="?content=mms" class="mms ti <%=(strContent.equals("mms"))?"over":""%>">포토(MMS)문자보내기</a>
         <a href="?content=billing" class="billing ti <%=(strContent.equals("billing"))?"over":""%>">충전하기</a>
         <a href="?content=sent" class="sent ti <%=(strContent.equals("sent"))?"over":""%>">전송내역</a>
         <a href="?content=excel" class="excel ti <%=(strContent.equals("excel"))?"over":""%>">EXCEL/대량전송</a>
