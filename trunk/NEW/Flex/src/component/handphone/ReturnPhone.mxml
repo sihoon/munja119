@@ -91,6 +91,7 @@
 				var bVO:BooleanAndDescriptionVO = event.result as BooleanAndDescriptionVO;
 				if (bVO.bResult) {
 					SLibrary.alert("저장 되었습니다.");
+					callLater(getList);
 				} else {
 					SLibrary.alert("회신번호 저장 실패.");
 				}
