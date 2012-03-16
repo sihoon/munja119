@@ -87,7 +87,7 @@
 			
 			protected function paging_clickPageHandler(event:CustomEvent):void {
 				
-				ro.method.getEmotiCatePage(gubun, cate, event.obj, paging.viewDataCount);
+				ro.method.getEmotiCatePageLMS(gubun, cate, event.obj, paging.viewDataCount);
 			}
 			
 			// 종류변경
