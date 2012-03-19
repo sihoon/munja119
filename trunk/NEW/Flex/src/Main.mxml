@@ -84,7 +84,7 @@
 		<s:VGroup left="0" top="15">
 			<component:LoginBox id="loginBox" left="0" login="loginCheckHandler(event)" />
 			<s:Image source="images/sub_left02.jpg" />
-			<s:Image source="images/sub_left03.jpg" />
+			<s:Image source="images/customer.gif" />
 		</s:VGroup>
 		
 		<s:Group right="0">

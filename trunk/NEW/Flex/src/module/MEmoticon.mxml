@@ -2,7 +2,7 @@
 <s:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		  xmlns:s="library://ns.adobe.com/flex/spark" 
 		  xmlns:mx="library://ns.adobe.com/flex/mx" 
-		  width="655" minHeight="550" currentState="thema" xmlns:lib="lib.*">
+		  width="655" minHeight="250" currentState="thema" xmlns:lib="lib.*">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 		@namespace mx "library://ns.adobe.com/flex/mx";
@@ -44,7 +44,7 @@
 					getEmotiList();
 				}
 				else {
-					if (parentApplication.appName != "Normal")	paging.viewDataCount = 9;
+					if (parentApplication.appName != "Normal") {	paging.viewDataCount = 6; emotiList.height=300;}
 					ro.set(RO_DESTINATION, cateList_ResultEventHandler);
 					ro.method.getEmotiCateList(gubun);
 				}

@@ -89,7 +89,7 @@
 			<s:VGroup horizontalAlign="center">
 				<s:ModuleLoader id="mPhone" width="276" height="535" url="module/MPhone.swf"/>
 				<s:Image source="images/sub_left02.jpg" />
-				<s:Image source="images/sub_left03.jpg" />
+				<s:Image source="images/customer.gif" />
 			</s:VGroup>
 			
 			<s:ModuleLoader id="mEmoticon" url="module/MEmoticon.swf"/>
