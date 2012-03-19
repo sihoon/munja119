@@ -29,8 +29,10 @@ public class SentFactory implements SentFactoryAble {
 		ArrayList<SentVO> rslt = new ArrayList<SentVO>();
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-		if (SLibrary.IfNull(line).equals("sk")) {
+		if (SLibrary.IfNull(line).equals("sk")|| SLibrary.IfNull(line).equals("skmms")) {
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataSK") );
+		}else if (SLibrary.IfNull(line).equals("kt") || SLibrary.IfNull(line).equals("ktmms")) {
+			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataKT") );
 		}else
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentData") );
 		
@@ -89,8 +91,10 @@ public class SentFactory implements SentFactoryAble {
 	private String getSendResult(String line, String code) {
 
 		String rslt = "";
-		if (SLibrary.IfNull(line).equals("sk"))
+		if (SLibrary.IfNull(line).equals("sk") || SLibrary.IfNull(line).equals("skmms"))
 			rslt = VbyP.getValue( "sk_"+code);
+		else if (SLibrary.IfNull(line).equals("kt"))
+			rslt = VbyP.getValue( "kt_"+code);
 		else
 			rslt = VbyP.getValue( "dacom_"+code);
 		return rslt;
@@ -98,10 +102,17 @@ public class SentFactory implements SentFactoryAble {
 	private String getSendStat(String line, String stat) {
 		
 		String rslt = stat;
-		if (SLibrary.IfNull(line).equals("sk")) {
+		if (SLibrary.IfNull(line).equals("sk") || SLibrary.IfNull(line).equals("skmms")) {
 			if (stat.equals("1")||stat.equals("2"))
 				rslt = "1";
 			else if (stat.equals("9"))
+				rslt = "2";
+		}
+		
+		if (SLibrary.IfNull(line).equals("kt")) {
+			if (stat.equals("1")||stat.equals("2"))
+				rslt = "1";
+			else if (stat.equals("3") || stat.equals("-1"))
 				rslt = "2";
 		}
 		
@@ -246,12 +257,27 @@ public class SentFactory implements SentFactoryAble {
 			if (sentGroupInfo.length == 2 && SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + CANCEL_GAP)*1000 )
 				throw new Exception( "발송 "+CANCEL_GAP/60+"분전 예약은 취소 할 수 없습니다." );
 			
-			int tranResultCount = (SLibrary.IfNull(sendLine).equals("sk"))?deleteSentDataOfTranTableSK(connSMS, mvo.getUser_id(), idx):deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
+			int tranResultCount = 0;
+			if(SLibrary.IfNull(sendLine).equals("sk")||SLibrary.IfNull(sendLine).equals("skmms")){
+				tranResultCount = deleteSentDataOfTranTableSK(connSMS, mvo.getUser_id(), idx);
+			}else if(SLibrary.IfNull(sendLine).equals("kt")){
+				tranResultCount = deleteSentDataOfTranTableKT(connSMS, mvo.getUser_id(), idx);
+			}else {
+				tranResultCount = deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
+			}
 			
 			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  전송테이블 삭제 : "+Integer.toString(tranResultCount) );			
 			//int reservationResultCount = deleteSentDataOfReservationTable(connSMS, mvo.getUser_id(), idx);
 			//VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  예약테이블 삭제 : "+Integer.toString(reservationResultCount) );	
-			int failResultCount = (SLibrary.IfNull(sendLine).equals("sk"))?selectSentDataOfLogTableSK(connSMS, mvo.getUser_id(), idx):selectSentDataOfLogTable(connSMS, mvo.getUser_id(), idx);
+			int failResultCount = 0;
+			if (SLibrary.IfNull(sendLine).equals("sk")||SLibrary.IfNull(sendLine).equals("skmms")){
+				failResultCount = selectSentDataOfLogTableSK(connSMS, mvo.getUser_id(), idx);
+			}else if (SLibrary.IfNull(sendLine).equals("kt")){
+				failResultCount = selectSentDataOfLogTableKT(connSMS, mvo.getUser_id(), idx);
+			}
+			else {
+				failResultCount = selectSentDataOfLogTable(connSMS, mvo.getUser_id(), idx);
+			}
 			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  로그테이블 건수(수신거부,중복등등) : "+Integer.toString(failResultCount) );	
 			
 			if ( sentGroupInfo.length == 2 && SLibrary.parseInt(sentGroupInfo[1]) != (tranResultCount +  failResultCount) ) 
@@ -262,8 +288,14 @@ public class SentFactory implements SentFactoryAble {
 			
 			if ( updateResultCount != 1 )
 				throw new Exception( "취소상태가 변경 되지 않았습니다." );
-					
-			if ( cancelPointPut(conn, mvo, tranResultCount +  failResultCount) == 1 ) {
+			
+			int rsltcnt = 0;
+			if (SLibrary.IfNull(sendLine).equals("skmms"))
+				rsltcnt = cancelPointPutLMS(conn, mvo, tranResultCount +  failResultCount);
+			else
+				rsltcnt = cancelPointPut(conn, mvo, tranResultCount +  failResultCount);
+			
+			if ( rsltcnt == 1 ) {
 					rvo.setbResult(true);
 					VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  건수 추가 : "+Integer.toString(tranResultCount ) );					
 			} else {
@@ -309,6 +341,16 @@ public class SentFactory implements SentFactoryAble {
 		
 		return pq.executeUpdate();
 	}
+	
+	private int deleteSentDataOfTranTableKT(Connection conn, String user_id, int idx) {
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared(conn, VbyP.getSQL("deleteSentDataTranTableKT"));
+		pq.setString(1, user_id);
+		pq.setString(2, Integer.toString(idx) );
+		
+		return pq.executeUpdate();
+	}
 	/*
 	private int deleteSentDataOfReservationTable(Connection conn, String user_id, int idx) {
 		
@@ -332,6 +374,14 @@ public class SentFactory implements SentFactoryAble {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 		pq.setPrepared(conn,VbyP.getSQL("selectSentDataLogtableSK") );
+		pq.setString(1, user_id);
+		pq.setString(2, Integer.toString(idx) );
+		return pq.ExecuteQueryNum();
+	}
+	private int selectSentDataOfLogTableKT(Connection conn, String user_id, int idx) {
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared(conn,VbyP.getSQL("selectSentDataLogtableKT") );
 		pq.setString(1, user_id);
 		pq.setString(2, Integer.toString(idx) );
 		return pq.ExecuteQueryNum();
@@ -365,5 +415,12 @@ public class SentFactory implements SentFactoryAble {
 		PointManager pm = PointManager.getInstance();
 		
 		return pm.insertUserPoint(conn, mvo, 16, cnt * PointManager.DEFULT_POINT);
+	}
+	
+	private int cancelPointPutLMS(Connection conn, UserInformationVO mvo, int cnt) {
+		
+		PointManager pm = PointManager.getInstance();
+		
+		return pm.insertUserPoint(conn, mvo, 46, cnt * PointManager.DEFULT_POINT*3);
 	}
 }

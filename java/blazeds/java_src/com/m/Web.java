@@ -225,7 +225,153 @@ public class Web extends SessionManagement{
 		else
 			return false;
 	}
+	// 사용자 회신번호 리스트
+	public ArrayList<HashMap<String,String>> getReturnPhone() {
+		
+		Connection conn = null;
+		ArrayList<HashMap<String, String>> al = null;
+		
+		try {
+			String user_id = getSession();
+			if (!isLogin()) throw new Exception("로그인 후 조회 가능합니다.");
+			
+			conn = VbyP.getDB();
+			
+			VbyP.accessLog(" >> "+user_id+" 회신번호 요청");
+			
+			StringBuffer buf = new StringBuffer();
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		
+			buf.append(VbyP.getSQL("userReturnPhone"));
+			
+			pq.setPrepared( conn, buf.toString() );
+			pq.setString(1, user_id);
+			
+			al = pq.ExecuteQueryArrayList();
+			
+		}catch (Exception e) { System.out.println(e.toString());}	finally {			
+			try { 
+				if ( conn != null ) 
+				conn.close();
+			}catch(SQLException e) { VbyP.errorLog("getReturnPhone >> conn.close() Exception!"); }
+			conn = null;
+		}
+		
+		return al;
+	}
+	// 사용자 회신번호 저장
+	public BooleanAndDescriptionVO setReturnPhone(String phone) {
+		
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		Connection conn = null;
+		
+		try {
+			String user_id = getSession();
+			if (!isLogin()) throw new Exception("로그인 후 저장 가능합니다.");
+			if (SLibrary.isNull(phone)) throw new Exception("전화번호가 없습니다.");
+			
+			conn = VbyP.getDB();
+			
+			VbyP.accessLog(" >> "+user_id+" 회신번호 저장 :"+phone);
+			
+			StringBuffer buf = new StringBuffer();
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		
+			buf.append(VbyP.getSQL("insertUserReturnPhone"));
+			
+			pq.setPrepared( conn, buf.toString() );
+			pq.setString(1, user_id);
+			pq.setString(2, phone.replaceAll("-", ""));
+			
+			int rslt = pq.executeUpdate();
+			if (rslt > 0) rvo.setbResult(true);
+			else rvo.setstrDescription("저장된 내역이 없습니다.");
+				
+			
+		}catch (Exception e) { System.out.println(e.toString());}	finally {			
+			try { if ( conn != null ) conn.close();	}catch(SQLException e) { VbyP.errorLog("setReturnPhone >> conn.close() Exception!"); }
+			conn = null;
+		}
+		
+		return rvo;
+	}
 	
+	// 사용자 회신번호 시간 수정
+	public BooleanAndDescriptionVO setReturnPhoneTimeWrite(int idx) {
+		
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		Connection conn = null;
+		
+		try {
+			String user_id = getSession();
+			if (!isLogin()) throw new Exception("로그인 후 저장 가능합니다.");
+			if (idx == 0) throw new Exception("전화번호가 선택되지 않았습니다.");
+			
+			conn = VbyP.getDB();
+			
+			VbyP.accessLog(" >> "+user_id+" 회신번호 저장 :"+idx);
+			
+			StringBuffer buf = new StringBuffer();
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		
+			buf.append(VbyP.getSQL("defUserReturnPhone"));
+			
+			pq.setPrepared( conn, buf.toString() );
+			pq.setInt(1, idx);
+			pq.setString(2, user_id);
+			
+			int rslt = pq.executeUpdate();
+			if (rslt > 0) rvo.setbResult(true);
+			else rvo.setstrDescription("수정된 내역이 없습니다.");
+				
+			
+		}catch (Exception e) { System.out.println(e.toString());}	finally {			
+			try { if ( conn != null ) conn.close();	}catch(SQLException e) { VbyP.errorLog("setReturnPhoneTimeWrite >> conn.close() Exception!"); }
+			conn = null;
+		}
+		
+		return rvo;
+	}
+	// 사용자 회신번호 삭제
+	public BooleanAndDescriptionVO deleteReturnPhone(int idx) {
+		
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		Connection conn = null;
+		
+		try {
+			String user_id = getSession();
+			if (!isLogin()) throw new Exception("로그인 후 저장 가능합니다.");
+			if (idx == 0) throw new Exception("전화번호가 선택되지 않았습니다.");
+			
+			conn = VbyP.getDB();
+			
+			VbyP.accessLog(" >> "+user_id+" 회신번호 삭제 :"+idx);
+			
+			StringBuffer buf = new StringBuffer();
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		
+			buf.append(VbyP.getSQL("deleteUserReturnPhone"));
+			
+			pq.setPrepared( conn, buf.toString() );
+			pq.setInt(1, idx);
+			pq.setString(2, user_id);
+			
+			int rslt = pq.executeUpdate();
+			if (rslt > 0) rvo.setbResult(true);
+			else rvo.setstrDescription("삭제된 내역이 없습니다.");
+				
+			
+		}catch (Exception e) { System.out.println(e.toString());}	finally {			
+			try { if ( conn != null ) conn.close();	}catch(SQLException e) { VbyP.errorLog("deleteReturnPhone >> conn.close() Exception!"); }
+			conn = null;
+		}
+		
+		return rvo;
+	}
+
 	/*###############################
 	#	mobile						#
 	###############################*/
@@ -589,9 +735,12 @@ public class Web extends SessionManagement{
 		boolean bReservation = false;
 		LogVO lvo = null;
 		ArrayList<MMSClientVO> alClientVO = null;
+		ArrayList<SMSClientVO> alClientVOSK = null;
 		int logKey = 0;
 		ArrayList<String[]> phoneAndNameArrayList = null;
 		String requestIp = null;
+		
+		String line = "";
 		
 		
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
@@ -649,8 +798,10 @@ public class Web extends SessionManagement{
 			
 			
 			mvo = getUserInformation( conn );
-			
-			mvo.setLine("mms");
+			line = mvo.getLine();
+			if (line.equals("sk")) mvo.setLine("skmms");
+			else if (line.equals("kt")) mvo.setLine("ktmms");
+			else  mvo.setLine("mms");
 			
 			connLMS = VbyP.getDB("sms1");
 								
@@ -682,16 +833,39 @@ public class Web extends SessionManagement{
 				throw new Exception("건수 차감이 되지 않았습니다.");
 			VbyP.accessLog(user_id+" >> LMS 전송 요청 : 건수 차감 성공" + "경과 시간 : "+sw.getTime());
 			
-			//step3	
-			alClientVO = lms.getClientVO(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp);
-			VbyP.accessLog(user_id+" >> LMS 전송 요청 : getLMSClientVO 생성" + "경과 시간 : "+sw.getTime());
-			
-			//timeout 방지를 위해 닫는다.
-			try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
-			
 			int clientResult = 0;
+			if (line.equals("sk")) {
+				SMS sms = SMS.getInstance();
+				//step3	
+				alClientVOSK = sms.getSMSClientVO(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp);
+				VbyP.accessLog(user_id+" >> 전송 요청 : SK getLMSClientVO 생성" + "경과 시간 : "+sw.getTime());
+				
+				//timeout 방지를 위해 닫는다.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
+				
+				clientResult = sms.insertLMSClient(connLMS, alClientVOSK, "sk");
+				
+			}else if (line.equals("kt")) {
+				//step3	
+				alClientVO = lms.getClientVO(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp);
+				VbyP.accessLog(user_id+" >> LMS 전송 요청 : getLMSClientVO 생성" + "경과 시간 : "+sw.getTime());
+				
+				//timeout 방지를 위해 닫는다.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
+				
+				clientResult = lms.insertClient(connLMS, alClientVO, "ktmms");
+				
+			}else {
+				//step3	
+				alClientVO = lms.getClientVO(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp);
+				VbyP.accessLog(user_id+" >> LMS 전송 요청 : getLMSClientVO 생성" + "경과 시간 : "+sw.getTime());
+				
+				//timeout 방지를 위해 닫는다.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
+				
+				clientResult = lms.insertClient(connLMS, alClientVO, "sms1");
+			}
 			
-			clientResult = lms.insertClient(connLMS, alClientVO, "sms1");
 			
 			VbyP.accessLog(user_id+" >> LMS 전송 요청 : 전송테이블 삽입 성공" + "경과 시간 : "+sw.getTime());
 			
@@ -1905,7 +2079,7 @@ public class Web extends SessionManagement{
 		if (isLogin()) {		
 		
 			try {
-				if (line.equals("mms")) {	
+				if (line.equals("mms") || line.equals("ktmms")) {	
 					connSMS = VbyP.getDB("sms1");
 					sf = SentLMSFactory.getInstance();
 				}
@@ -1981,7 +2155,7 @@ public class Web extends SessionManagement{
 					
 				UserInformationVO vo = getUserInformation();
 				
-				if (sendLine.equals("mms")) {	
+				if (sendLine.equals("mms")||sendLine.equals("ktmms")) {	
 					connSMS = VbyP.getDB("sms1");
 					sf = SentLMSFactory.getInstance();
 				}else connSMS = VbyP.getDB(sendLine);

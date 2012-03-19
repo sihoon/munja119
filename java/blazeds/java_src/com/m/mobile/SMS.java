@@ -68,6 +68,89 @@ public class SMS implements SMSAble {
 		if (SLibrary.IfNull(via).equals("sk")) {
 			pq.setPrepared( connSMS, VbyP.getSQL("insertClientSK") );
 			resultStateCode = "9";
+		} else if (SLibrary.IfNull(via).equals("kt")) {
+			pq.setPrepared( connSMS, VbyP.getSQL("insertClientKT") );
+			resultStateCode = "3";
+		} 
+		else
+			pq.setPrepared( connSMS, VbyP.getSQL("insertClient") );
+		
+		int count = al.size();
+		SMSClientVO vo = null;
+		int maxBatch = SLibrary.parseInt( VbyP.getValue("executeBatchCount") );
+		
+		Hashtable<String, String> hashTable = new Hashtable<String, String>();
+		Hashtable<String, String> hashTable_refuse = null;	
+		
+		if (count > 0) {
+			hashTable_refuse = Refuse.getRefusePhoneFromDB();
+			vo = al.get(0);
+			//stopWatch play
+			StopWatch sw = new StopWatch();
+			sw.play();
+			for (int i = 0; i < count; i++) {
+				
+				vo = new SMSClientVO();
+				vo = al.get(i);
+				
+				//수신거부
+				if (Refuse.isRefuse(hashTable_refuse, vo.TR_PHONE)){
+					
+					if (SLibrary.IfNull(via).equals("sk")) 
+						insertSMSClientPqSetter_failSK(pq, vo,resultStateCode, "98", i);
+					else
+						insertSMSClientPqSetter_fail(pq, vo,resultStateCode, "98");
+					
+				} else if (hashTable.containsKey(vo.TR_PHONE)){
+					if (SLibrary.IfNull(via).equals("sk")) 
+						insertSMSClientPqSetter_failSK(pq, vo,resultStateCode, "99", i);
+					else
+						insertSMSClientPqSetter_fail(pq, vo,resultStateCode, "99");
+				}else {
+					hashTable.put(vo.TR_PHONE, "");
+					if (SLibrary.IfNull(via).equals("sk")) 
+						insertSMSClientPqSetterSK(pq, vo, i);
+					else
+						insertSMSClientPqSetter(pq, vo);
+				}
+				
+				pq.addBatch();
+				
+				//발송카운트
+				M.setState(vo.getTR_ETC2(), i+1);
+				
+				if (i >= maxBatch && (i%maxBatch) == 0 ) {
+					
+					System.out.println(i + " reDBConnection !");
+					resultCount += pq.executeBatch();
+					
+					try { if ( connSMS != null ) connSMS.close(); } 
+					catch(Exception e) {System.out.println( via+"connSMS close Error!!!!" + e.toString());}
+					
+					connSMS = VbyP.getDB(via);					
+					if (connSMS != null) System.out.println(via+"connSMS connection!!!!");
+					
+					if (SLibrary.IfNull(via).equals("sk")) pq.setPrepared( connSMS, VbyP.getSQL("insertClientSK") );
+					else pq.setPrepared( connSMS, VbyP.getSQL("insertClient") );
+				}
+				
+			}
+			resultCount += pq.executeBatch();
+		}
+
+		return resultCount;
+	}
+	
+
+	public int insertLMSClient(Connection connSMS, ArrayList<SMSClientVO> al, String via) {
+
+		
+		int resultCount = 0;
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		String resultStateCode = "2";
+		if (SLibrary.IfNull(via).equals("sk")) {
+			pq.setPrepared( connSMS, VbyP.getSQL("insertClientSKLMS") );
+			resultStateCode = "9";
 		}
 		else
 			pq.setPrepared( connSMS, VbyP.getSQL("insertClient") );
@@ -307,7 +390,7 @@ public class SMS implements SMSAble {
 			temp = phoneAndNameArrayList.get(i);
 			
 			name = (temp.length == 2)?SLibrary.IfNull(temp[1]):"";
-			if (bInterval && (i+1)%cnt == 0) {
+			if (bInterval && i != 0 && (i+1)%cnt == 0) {
 				reservationDate = SLibrary.getDateAddSecond(reservationDate, minute*60);
 			}
 			
