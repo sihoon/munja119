@@ -49,7 +49,7 @@ package lib
 			var chkInvaildChar:RegExp = /[^0-9\-]/g;			
 			if (chkInvaildChar.test(s))	return false;			
 			
-			var chkPhoneNum:RegExp = /^01[016789]-?\d{3,4}-?\d{4}$/;
+			var chkPhoneNum:RegExp = /^0[17][016789]-?\d{3,4}-?\d{4}$/;
 			if (!chkPhoneNum.test(s)) return false;
 			
 			return true;
