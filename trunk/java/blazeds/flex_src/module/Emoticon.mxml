@@ -64,11 +64,11 @@
 					emt7.text = arr[6];
 					emt8.text = arr[7];
 				}
-				preMsgBtn.removeEventListener(MouseEvent.CLICK, preMsgBtnMy_clickHandler);
+				/* preMsgBtn.removeEventListener(MouseEvent.CLICK, preMsgBtnMy_clickHandler);
 				preMsgBtn.addEventListener(MouseEvent.CLICK, preMsgBtn_clickHandler);
 				
 				nextMsgBtn.removeEventListener(MouseEvent.CLICK, nextMsgBtnMy_clickHandler);
-				nextMsgBtn.addEventListener(MouseEvent.CLICK, nextMsgBtn_clickHandler);
+				nextMsgBtn.addEventListener(MouseEvent.CLICK, nextMsgBtn_clickHandler); */
 			}
 			
 			protected function pre_clickHandler(event:MouseEvent):void
@@ -117,9 +117,19 @@
 				currPage = 0;
 				init_cate();
 				if (emtTab.selectedIndex == 2) {
+					preMsgBtn.visible = false;
+					nextMsgBtn.visible = false;
+					preMyMsgBtn.visible = true;
+					nextMyMsgBtn.visible = true;
+					
 					ro.set(RO_DESTINATION, save_ResultEventHandler);
 					ro.method.getMymsg(currPage);
 				} else {
+					preMsgBtn.visible = true;
+					nextMsgBtn.visible = true;
+					preMyMsgBtn.visible = false;
+					nextMyMsgBtn.visible = false;
+					
 					ro.set(RO_DESTINATION, unit_ResultEventHandler);
 					ro.method.getEmotiCate(currGubun, currCate, currPage);
 				}
@@ -145,29 +155,38 @@
 					emt7.text = "";
 					emt8.text = "";
 					
+					emt1bg.visible = false;
+					emt2bg.visible = false;
+					emt3bg.visible = false;
+					emt4bg.visible = false;
+					emt5bg.visible = false;
+					emt6bg.visible = false;
+					emt7bg.visible = false;
+					emt8bg.visible = false;
+					
 					arrIdx = new Array();
 					
 					for (var i:int = 0; i < arr.length; i++) {
 						obj = arr.getItemAt(i);
 						arrIdx.push(obj.idx);
-						if (i == 0)	{emt1.text = obj.msg;}
-						else if (i == 1) {emt2.text = obj.msg;}
-						else if (i == 2) {emt3.text = obj.msg;}
-						else if (i == 3) {emt4.text = obj.msg;}
-						else if (i == 4) {emt5.text = obj.msg;}
-						else if (i == 5) {emt6.text = obj.msg;}
-						else if (i == 6) {emt7.text = obj.msg;}
-						else if (i == 7) {emt8.text = obj.msg;}
+						if (i == 0)	{emt1.text = obj.msg; emt1bg.visible = true; }
+						else if (i == 1) {emt2.text = obj.msg; emt2bg.visible = true; }
+						else if (i == 2) {emt3.text = obj.msg; emt3bg.visible = true; }
+						else if (i == 3) {emt4.text = obj.msg; emt4bg.visible = true; }
+						else if (i == 4) {emt5.text = obj.msg; emt5bg.visible = true; }
+						else if (i == 5) {emt6.text = obj.msg; emt6bg.visible = true; }
+						else if (i == 6) {emt7.text = obj.msg; emt7bg.visible = true; }
+						else if (i == 7) {emt8.text = obj.msg; emt8bg.visible = true; }
 					}
 				}
 				
 				
 				
-				preMsgBtn.removeEventListener(MouseEvent.CLICK, preMsgBtn_clickHandler);
+				/* preMsgBtn.removeEventListener(MouseEvent.CLICK, preMsgBtn_clickHandler);
 				preMsgBtn.addEventListener(MouseEvent.CLICK, preMsgBtnMy_clickHandler);
 				
 				nextMsgBtn.removeEventListener(MouseEvent.CLICK, nextMsgBtn_clickHandler);
-				nextMsgBtn.addEventListener(MouseEvent.CLICK, nextMsgBtnMy_clickHandler);
+				nextMsgBtn.addEventListener(MouseEvent.CLICK, nextMsgBtnMy_clickHandler); */
 				
 				callLater(delBtntrue);
 			}
@@ -193,7 +212,7 @@
 			}
 			
 			private function prePage():void { if (currPage > 0)currPage--; }
-			private function nextPage():void { currPage++;	}
+			private function nextPage():void { currPage++;trace(currPage);	}
 			
 			private function delBtnfalse():void {
 				emtdel1.visible = false;
@@ -207,13 +226,29 @@
 			}
 			
 			private function delBtntrue():void {
-				if (emt1.text.length >0) emtdel1.visible = true;
-				if (emt2.text.length >0) emtdel2.visible = true;
-				if (emt3.text.length >0) emtdel3.visible = true;
-				if (emt4.text.length >0) emtdel4.visible = true;
-				if (emt5.text.length >0) emtdel5.visible = true;
-				if (emt6.text.length >0) emtdel6.visible = true;
-				if (emt7.text.length >0) emtdel7.visible = true;
+				if (emt1.text != "") { emtdel1.visible = true; } 
+				else { emtdel1.visible = false; }
+				
+				if (emt2.text != "") emtdel2.visible = true; 
+				else emtdel2.visible = false;
+				
+				if (emt3.text != "") emtdel3.visible = true; 
+				else emtdel3.visible = false;
+				
+				if (emt4.text != "") emtdel4.visible = true; 
+				else emtdel4.visible = false;
+				
+				if (emt5.text != "") emtdel5.visible = true; 
+				else emtdel5.visible = false;
+				
+				if (emt6.text != "") emtdel6.visible = true; 
+				else emtdel6.visible = false;
+				
+				if (emt7.text != "") emtdel7.visible = true; 
+				else emtdel7.visible = false;
+				
+				if (emt8.text != "") emtdel8.visible = true; 
+				else emtdel8.visible = false;
 			}
 			
 			private function deleteMsg1():void {
@@ -350,62 +385,72 @@
 					</s:Group>
 				</s:HGroup>
 				<s:HGroup left="10" right="10" fontSize="12" gap="5" horizontalAlign="center" paddingTop="10" verticalAlign="middle">
-					
-					<s:Group id="preMsgBtn" width="20" height="31"  buttonMode="true" useHandCursor="true" click="preMsgBtn_clickHandler(event)">
-						<s:BitmapImage left="3" source="@Embed(source='assets/pre_emt.png')"/>	
+					<s:Group width="20" height="31">
+						<s:Group id="preMsgBtn" width="20" height="31"  buttonMode="true" useHandCursor="true" click="preMsgBtn_clickHandler(event)">
+							<s:BitmapImage left="3" source="@Embed(source='assets/pre_emt.png')"/>	
+						</s:Group>
+						<s:Group id="preMyMsgBtn" visible="false" width="20" height="31"  buttonMode="true" useHandCursor="true" click="preMsgBtnMy_clickHandler(event)">
+							<s:BitmapImage left="3" source="@Embed(source='assets/pre_emt.png')"/>	
+						</s:Group>
 					</s:Group>
+					
 					
 					<s:VGroup>
 						<s:HGroup>
 							<s:Group width="142" height="118">
-								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+								<s:BitmapImage id="emt1bg" source="@Embed(source='assets/emt_bg.png')" left="0" />
 								<s:Label id="emt1" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt1.text)}" />
 								<s:Button id="emtdel1" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg1()" />
 							</s:Group>
 							<s:Group width="142" height="118">
-								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+								<s:BitmapImage id="emt2bg" source="@Embed(source='assets/emt_bg.png')" left="0"/>
 								<s:Label id="emt2" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt2.text)}" />
 								<s:Button id="emtdel2" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg2()" />
 							</s:Group>
 							<s:Group width="142" height="118">
-								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+								<s:BitmapImage id="emt3bg" source="@Embed(source='assets/emt_bg.png')" left="0"/>
 								<s:Label id="emt3" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt3.text)}" />
 								<s:Button id="emtdel3" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg3()" />
 							</s:Group>
 							<s:Group width="142" height="118">
-								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+								<s:BitmapImage id="emt4bg" source="@Embed(source='assets/emt_bg.png')" left="0"/>
 								<s:Label id="emt4" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt4.text)}" />
 								<s:Button id="emtdel4" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg4()" />
 							</s:Group>
 						</s:HGroup>
 						<s:HGroup>
 							<s:Group width="142" height="118">
-								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+								<s:BitmapImage id="emt5bg" source="@Embed(source='assets/emt_bg.png')" left="0"/>
 								<s:Label id="emt5" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt5.text)}" />
 								<s:Button id="emtdel5" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg5()" />
 							</s:Group>
 							<s:Group width="142" height="118">
-								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+								<s:BitmapImage id="emt6bg" source="@Embed(source='assets/emt_bg.png')" left="0"/>
 								<s:Label id="emt6" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt6.text)}" />
 								<s:Button id="emtdel6" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg6()" />
 							</s:Group>
 							<s:Group width="142" height="118">
-								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+								<s:BitmapImage id="emt7bg" source="@Embed(source='assets/emt_bg.png')" left="0"/>
 								<s:Label id="emt7" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt7.text)}" />
 								<s:Button id="emtdel7" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg7()" />
 							</s:Group>
 							<s:Group width="142" height="118">
-								<s:BitmapImage source="@Embed(source='assets/emt_bg.png')" left="0"/>
+								<s:BitmapImage id="emt8bg" source="@Embed(source='assets/emt_bg.png')" left="0"/>
 								<s:Label id="emt8" text="" left="12" right="12" top="22" bottom="4" useHandCursor="true" click="{parentApplication.setMessage(emt8.text)}" />
 								<s:Button id="emtdel8" visible="false" label="삭제" bottom="0" right="0" click="deleteMsg8()" />
 							</s:Group>
 						</s:HGroup>
 					</s:VGroup>
 					
-					
-					<s:Group id="nextMsgBtn" width="20" height="31" buttonMode="true" useHandCursor="true"  click="nextMsgBtn_clickHandler(event)">
-						<s:BitmapImage left="3" source="@Embed(source='assets/next_emt.png')"/>	
+					<s:Group width="20" height="31">
+						<s:Group id="nextMsgBtn" width="20" height="31" buttonMode="true" useHandCursor="true"  click="nextMsgBtn_clickHandler(event)">
+							<s:BitmapImage left="3" source="@Embed(source='assets/next_emt.png')"/>	
+						</s:Group>
+						<s:Group id="nextMyMsgBtn" visible="false" width="20" height="31" buttonMode="true" useHandCursor="true"  click="nextMsgBtnMy_clickHandler(event)">
+							<s:BitmapImage left="3" source="@Embed(source='assets/next_emt.png')"/>	
+						</s:Group>
 					</s:Group>
+					
 				</s:HGroup>
 			</s:VGroup>
 		</s:Group>

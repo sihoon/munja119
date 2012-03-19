@@ -77,6 +77,9 @@
 					<fx:Object label="포인트로그관리" url="admin/module/PointLog.swf"></fx:Object>
 					<fx:Object label="전송관리" url="admin/module/Sent.swf"></fx:Object>
 					<fx:Object label="이모티콘관리" url="admin/module/EmoticonCate.swf"></fx:Object>
+					<fx:Object label="SMS이모티콘관리" url="admin/module/EmoticonSMS.swf"></fx:Object>
+					<fx:Object label="LMS이모티콘관리" url="admin/module/EmoticonLMS.swf"></fx:Object>
+					<fx:Object label="MMS이모티콘관리" url="admin/module/EmoticonMMS.swf"></fx:Object>
 					<fx:Object label="공지사항관리" url="admin/module/Notic.swf"></fx:Object>
 					<fx:Object label="FAQ관리" url="admin/module/Faq.swf"></fx:Object>
 					<!--<fx:Object label="통계" url="admin/module/Stats.swf"></fx:Object>-->
