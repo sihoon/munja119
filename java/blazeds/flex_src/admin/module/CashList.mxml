@@ -127,7 +127,7 @@
 			{
 				var amount:int = 0;
 				if (chAmount.text != "") amount = new int( chAmount.text);
-				var unit:int = 0;
+				var unit:Number = 0;
 				
 					
 				if (amount < 1100000 ) unit = 12;
@@ -138,11 +138,11 @@
 				
 				if (chUnitCheck.selected == true) {
 					
-					unit = new int(chUnit.text);
+					unit = new Number(chUnit.text);
 				}
 					
 				chUnit.text = new String(unit); 
-				chCount.text = new String( Math.round( amount / (unit+(unit*0.1)) ) );
+				chCount.text = new String( Math.round( Number(amount) / (unit+(unit*0.1)) ) );
 				
 			}
 			

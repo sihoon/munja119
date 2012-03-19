@@ -184,7 +184,7 @@
 				var label:String = item.hp;
 				var pattern:String = ".*"+_searchString+".*";
 				
-				if ( new String(item.hp).match(pattern) ) return true;
+				if ( new String(item.hp).match(pattern) || new String(item.phone_return).match(pattern) ) return true;
 				
 				return false;
 			}
