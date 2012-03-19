@@ -141,10 +141,7 @@
 				currentState = name;
 			}
 			
-			protected function charge_clickHandler(event:MouseEvent):void
-			{
-				parentApplication.moveMenu('module/Billing.swf');
-			}
+			
 			
 			protected function coupon_clickHandler(event:MouseEvent):void
 			{
@@ -198,8 +195,8 @@
 				<s:Image id="login_button" source="images/main_29.png" click="login_button_clickHandler(event)" buttonMode="true" useHandCursor="true"/>
 			</s:VGroup>
 			<s:HGroup>
+				<s:Image id="join_button" source="images/main_32.png" click="{ExternalInterface.call('eval','window.location.href=\'?content=join\'')}" buttonMode="true" useHandCursor="true"/>
 				<s:Image id="idsearch_button" source="images/main_34.png" click="{ExternalInterface.call('alert','고객센터로 연락 주시기 바랍니다.')}" buttonMode="true" useHandCursor="true"/>
-				<s:Image id="join_button" source="images/main_32.png" click="{parentApplication.moveMenuNoLogin('module/Join.swf')}" buttonMode="true" useHandCursor="true"/>
 			</s:HGroup>
 		</s:VGroup>
 		<s:VGroup id="loginInfo" includeIn="userInfo"  left="19" right="19" top="13" bottom="13" horizontalAlign="left" gap="4" >
@@ -214,10 +211,10 @@
 				
 				<s:Image source="images/cnt.gif" />
 			</s:HGroup>
-			<s:Image source="images/btn_cashbuy.gif" useHandCursor="true" click="charge_clickHandler(event)" />
+			<s:Image source="images/btn_cashbuy.gif" useHandCursor="true"  click="{ExternalInterface.call('eval','window.location.href=\'?content=billing\'')}" />
 			<s:HGroup verticalAlign="middle" horizontalAlign="center">
-				<s:Image source="images/edit.gif" useHandCursor="true" />
-				<s:Image source="images/logout.gif" useHandCursor="true" />	
+				<s:Image source="images/edit.gif" useHandCursor="true"  click="{ExternalInterface.call('eval','window.location.href=\'?content=modify\'')}" />
+				<s:Image source="images/logout.gif" useHandCursor="true" click="{ExternalInterface.call('eval','window.location.href=\'member/_logout.jsp\'')}" />	
 			</s:HGroup>
 			<s:HGroup verticalAlign="middle">
 				<s:TextInput id="couponText" width="115" prompt="쿠폰번호 입력.." />
