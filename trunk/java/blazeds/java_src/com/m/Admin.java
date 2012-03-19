@@ -444,6 +444,9 @@ public class Admin extends SessionManagement {
 					PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 					if (SLibrary.IfNull(line).equals("sk")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataSK") );
 					else if (SLibrary.IfNull(line).equals("mms")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataLMS") );
+					else if (SLibrary.IfNull(line).equals("skmms")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataSK") );
+					else if (SLibrary.IfNull(line).equals("kt")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataKT") );
+					else if (SLibrary.IfNull(line).equals("ktmms")) pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentDataKT") );
 					else pq.setPrepared( connSMS, VbyP.getSQL("selectSentData") );
 					pq.setString(1, user_id);
 					pq.setString(2, Integer.toString(groupIndex));

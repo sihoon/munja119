@@ -93,7 +93,8 @@ public class MMS implements MMSAble {
 		
 		int resultCount = 0;
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-		pq.setPrepared( connMMS, VbyP.getSQL("insertMMSClient") );
+		if (via.equals("ktmms")) pq.setPrepared( connMMS, VbyP.getSQL("insertMMSClientKT") );
+		else pq.setPrepared( connMMS, VbyP.getSQL("insertMMSClient") );
 		
 		int count = al.size();
 		MMSClientVO vo = null;
@@ -346,7 +347,7 @@ public class MMS implements MMSAble {
 			
 			name = (temp.length == 2)?SLibrary.IfNull(temp[1]):"";
 			
-			if (bInterval && (i+1)%cnt == 0) {
+			if (bInterval &&  i != 0 && (i+1)%cnt == 0) {
 				reservationDate = SLibrary.getDateAddSecond(reservationDate, minute*60);
 			}
 			
@@ -489,7 +490,7 @@ public class MMS implements MMSAble {
 		pq.setString(13, vo.getETC1() );
 		pq.setString(14, vo.getETC2() );
 		pq.setString(15, vo.getETC3() );
-		pq.setString(16, "");
+		pq.setString(16, "0");
 	}
 	
 	private void insertClientPqSetter_fail(PreparedExecuteQueryManager pq, MMSClientVO vo, String code) {

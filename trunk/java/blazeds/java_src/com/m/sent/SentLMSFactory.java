@@ -59,8 +59,10 @@ public class SentLMSFactory implements SentFactoryAble {
 		ArrayList<SentVO> rslt = new ArrayList<SentVO>();
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-		
-		pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentData") );
+		if (SLibrary.IfNull(line).equals("ktmms")) {
+			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentDataKT") );
+		}else
+			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentData") );
 		
 		pq.setString(1, userId);
 		pq.setString(2, sentGroupIndex);
@@ -87,8 +89,10 @@ public class SentLMSFactory implements SentFactoryAble {
 					
 					if ( SLibrary.IfNull(h, "STATUS").equals("1") || SLibrary.IfNull(h, "STATUS").equals("2") )
 						strRslt = "전송중";
-					else
-						strRslt = VbyP.getValue( "mms_"+SLibrary.IfNull(h, "RSLT"));
+					else {
+						if (SLibrary.IfNull(line).equals("ktmms")) strRslt = VbyP.getValue( "mmskt_"+SLibrary.IfNull(h, "RSLT"));
+						else strRslt = VbyP.getValue( "mms_"+SLibrary.IfNull(h, "RSLT"));
+					}
 					
 					if (SLibrary.IfNull(h, "STATUS").equals("0")) status = "0";
 					else if (SLibrary.IfNull(h, "STATUS").equals("1")) status = "1";
@@ -120,6 +124,37 @@ public class SentLMSFactory implements SentFactoryAble {
 		
 		return rslt;
 
+	}
+	
+	private String getSendResult(String line, String code) {
+
+		String rslt = "";
+		if (SLibrary.IfNull(line).equals("sk") || SLibrary.IfNull(line).equals("skmms"))
+			rslt = VbyP.getValue( "sk_"+code);
+		else if (SLibrary.IfNull(line).equals("kt"))
+			rslt = VbyP.getValue( "kt_"+code);
+		else
+			rslt = VbyP.getValue( "dacom_"+code);
+		return rslt;
+	}
+	private String getSendStat(String line, String stat) {
+		
+		String rslt = stat;
+		if (SLibrary.IfNull(line).equals("sk") || SLibrary.IfNull(line).equals("skmms")) {
+			if (stat.equals("1")||stat.equals("2"))
+				rslt = "1";
+			else if (stat.equals("9"))
+				rslt = "2";
+		}
+		
+		if (SLibrary.IfNull(line).equals("kt")) {
+			if (stat.equals("1")||stat.equals("2"))
+				rslt = "1";
+			else if (stat.equals("3") || stat.equals("-1"))
+				rslt = "2";
+		}
+		
+		return rslt;
 	}
 	
 	
@@ -256,11 +291,11 @@ public class SentLMSFactory implements SentFactoryAble {
 					throw new Exception( "발송 "+CANCEL_GAP/60+"분전 예약은 취소 할 수 없습니다." );
 			
 			
-			int tranResultCount = deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
+			int tranResultCount = SLibrary.IfNull(sendLine).equals("ktmms") ?  deleteSentDataOfTranTableKT(connSMS, mvo.getUser_id(), idx) : deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
 			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  전송테이블 삭제 : "+Integer.toString(tranResultCount) );			
 			//int reservationResultCount = deleteSentDataOfReservationTable(connSMS, mvo.getUser_id(), idx);
 			//VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  예약테이블 삭제 : "+Integer.toString(reservationResultCount) );	
-			int failResultCount = selectSentDataOfLogTable(connSMS, mvo.getUser_id(), idx);
+			int failResultCount = SLibrary.IfNull(sendLine).equals("ktmms") ?selectSentDataOfLogTableKT(connSMS, mvo.getUser_id(), idx) : selectSentDataOfLogTable(connSMS, mvo.getUser_id(), idx);
 			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  로그테이블 건수(수신거부,중복등등) : "+Integer.toString(failResultCount));	
 			
 			if ( sentGroupInfo.length == 2 && SLibrary.parseInt(sentGroupInfo[1]) != (tranResultCount  + failResultCount) ) 
@@ -309,6 +344,16 @@ public class SentLMSFactory implements SentFactoryAble {
 		return pq.executeUpdate();
 	}
 	
+	private int deleteSentDataOfTranTableKT(Connection conn, String user_id, int idx) {
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared(conn, VbyP.getSQL("deleteLMSSentDataTranTableKT"));
+		pq.setString(1, user_id);
+		pq.setString(2, Integer.toString(idx) );
+		
+		return pq.executeUpdate();
+	}
+	
 	private int deleteSentDataOfReservationTable(Connection conn, String user_id, int idx) {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
@@ -322,6 +367,15 @@ public class SentLMSFactory implements SentFactoryAble {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 		pq.setPrepared(conn,VbyP.getSQL("selectLMSSentDataLogtable") );
+		pq.setString(1, user_id);
+		pq.setString(2, Integer.toString(idx) );
+		return pq.ExecuteQueryNum();
+	}
+	
+	private int selectSentDataOfLogTableKT(Connection conn, String user_id, int idx) {
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared(conn,VbyP.getSQL("selectLMSSentDataLogtableKT") );
 		pq.setString(1, user_id);
 		pq.setString(2, Integer.toString(idx) );
 		return pq.ExecuteQueryNum();
