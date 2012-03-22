@@ -55,6 +55,10 @@
 			public static const METHOD:int = 2;
 			public static const ADDON:int = 3; 
 			
+			public function creationCompleteHandler():void {
+				init();
+			}
+			
 			public function set excelData(ac:ArrayCollection):void { this._excelData = ac; this.excelDg.dataProvider = this._excelData; }
 			public function get excelData():ArrayCollection { return this._excelData; }
 			
@@ -139,16 +143,25 @@
 					SLibrary.alert("전화번호 열을 선택 하세요");
 				}
 				else {
-					spinnerStart();
-					this.setData( this.phoneColumns[this.excelPhone.selectedIndex].label, this.nameColumns[this.excelName.selectedIndex].label );
-					
-					var event:ExcelLoaderEvent;
-					if (this.where.selectedItem == "전송목록"){
-						parentApplication.phoneFunction( "addPhoneArray", userSelectedData);
-						spinnerStop();
-					}else {
-						addAddress();
+					if (this.phoneColumns[this.excelPhone.selectedIndex].label == this.nameColumns[this.excelName.selectedIndex].label)
+						ExternalInterface.call("alert","전화번호열과 이름열이 동일합니다. 다르게 선택해주세요.");
+					else {
+						
+						this.setData( this.phoneColumns[this.excelPhone.selectedIndex].label, this.nameColumns[this.excelName.selectedIndex].label );
+						
+						var event:ExcelLoaderEvent;
+						if (this.where.selectedItem == "전송목록"){
+							spinnerStart();
+							parentApplication.phoneFunction( "addPhoneArray", userSelectedData);
+							spinnerStop();
+						}else if (this.where.selectedItem == "주소록") {
+							spinnerStart();
+							addAddress();
+						}else {
+							ExternalInterface.call("alert","어디에 추가 하실지 정해 주세요.");
+						}
 					}
+					
 				}
 			}
 			
@@ -323,10 +336,12 @@
 					</s:dataProvider>
 				</s:ComboBox>
 				<s:DropDownList id="comboBoxGroup" visible="{this.radioAddressSelected}" width="80" prompt="- 그룹 -"></s:DropDownList>
+				<s:Image id="addOn" source="images/excel_add.gif"  
+						 toolTip="{this.radioAddressSelected?'선택한 전화번호열과 이름열을 주소록에 저장 합니다.':'선택한 전화번호열과 이름열을 전송목록에 추가 합니다.'}" click="clickAddButton()"
+						 buttonMode="true" useHandCursor="true"/>
 				
-				<s:Button id="addOn" label="추가"  toolTip="{this.radioAddressSelected?'선택한 전화번호열과 이름열을 주소록에 저장 합니다.':'선택한 전화번호열과 이름열을 전송목록에 추가 합니다.'}" click="clickAddButton()"/>
-				
-				<s:Image source="images/btn_again1.gif" click="{setStep(FILEUPLOAD)}" />
+				<s:Image source="images/btn_again1.gif" click="{setStep(FILEUPLOAD)}" buttonMode="true" useHandCursor="true" />
+				<s:Image source="images/exceldown.gif" click="{ExternalInterface.call('eval','window.location.href=\'excel/_down.jsp\'')}" buttonMode="true" useHandCursor="true" />
 			</s:HGroup>
 		</s:Group>
 		<s:Label id="stepText" text="엑셀 파일 열기를 클릭하여 엑셀 파일을 선택 하세요."/>

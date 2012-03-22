@@ -137,9 +137,9 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:HGroup paddingBottom="5" paddingTop="5">
-		<s:VGroup>
+		<s:VGroup gap="10">
 			<s:Label text="받는사람" fontSize="11" color="0xffffff" paddingTop="3"/>
-			<s:Button label="붙여넣기" width="45" height="16" fontSize="11" click="parentApplication.subLoad('copypaste')" />
+			<s:Image source="images/ctrlv.gif" click="parentApplication.subLoad('copypaste')" toolTip="붙여넣기" buttonMode="true" useHandCursor="true" />
 		</s:VGroup>
 		
 		<s:VGroup gap="2">

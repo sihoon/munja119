@@ -13,52 +13,11 @@
 			color:#000000;
 		}
 	</fx:Style>
+	<fx:Script source="common.as" />
 	<fx:Script>
 		<![CDATA[
-			import component.member.UserInformationVO;
-			
-			import lib.CustomEvent;
-			
-			import module.IModuleInterface_Phone;
-			
-			import mx.events.FlexEvent;
-			import mx.events.ModuleEvent;
-			
-			[Bindable]
-			public var bLogin:Boolean = false;
-			public var login_id:String = null;
-			
 			public var appName:String = "Main";
 			
-			// phone 이외의 모듈에서 phone 함수 호출
-			public function phoneFunction(code:String, obj:Object):void {
-				var ichild:* = mPhone.child as IModuleInterface_Phone;
-				
-				if (mPhone.child != null) {
-					
-					if (code == "message") ichild.setMessage(obj as String); 
-					else if (code == "addPhone") ichild.addList(obj as String);
-					else if (code == "addPhoneArray") ichild.addListArray(obj as Array);
-					
-					
-					
-				}else ExternalInterface.call("alert", "phone 모듈을 찾을 수 없습니다.");
-			}
-			
-			
-			// 모듈에서 서브 호출 하는 공통 함수
-			public function subLoad(sub:String):void {
-				
-				mSub.unloadModule();
-				if (sub == "address") mSub.loadModule("module/MAddress.swf");
-				else if (sub == "excel") mSub.loadModule("module/MExcel.swf");
-				else if (sub == "photo") mSub.loadModule("module/MPhoto.swf");
-				else if (sub == "sent") mSub.loadModule("module/MSent.swf");
-				else if (sub == "copypaste") mSub.loadModule("module/MCopyPaste.swf");
-				else if (sub == "emoticon") mSub.loadModule("module/MEmoticon.swf");
-				
-				//subContainer.visible = true;
-			}
 			
 			// 로그인 되어 있을 경우 처리
 			protected function loginCheckHandler(event:CustomEvent):void
@@ -72,9 +31,8 @@
 				obj2.isValid();
 				//obj2.cReturnPhone.returnPhoneTextInput.text = uvo.phone_return;
 				obj2.cReturnPhone.getList();
+				
 			}
-			
-			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -83,7 +41,7 @@
 	<s:Group width="100%">
 		<s:VGroup left="0" top="15">
 			<component:LoginBox id="loginBox" left="0" login="loginCheckHandler(event)" />
-			<s:Image source="images/sub_left02.jpg" />
+			<s:Image source="images/sub_left02.jpg" useHandCursor="true" buttonMode="true" click="{ExternalInterface.call('eval','window.location.href=\'?content=billing\'')}" />
 			<s:Image source="images/customer.gif" />
 		</s:VGroup>
 		

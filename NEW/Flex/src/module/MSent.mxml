@@ -337,7 +337,7 @@
 					</mx:columns>
 				</mx:DataGrid>
 				
-				<s:SkinnableContainer id="dgBox" width="90%" height="90%" visible="true" skinClass="skin.SkinableContainerSub" verticalCenter="0" horizontalCenter="0">
+				<s:SkinnableContainer id="dgBox" width="90%" height="90%" visible="false" skinClass="skin.SkinableContainerSub" verticalCenter="0" horizontalCenter="0">
 					<s:Image source="images/AdvancedCloseBtn.png" buttonMode="true" useHandCursor="true" right="0" click="dgBox.visible=false" />
 					<s:HGroup id="excelButton" left="10" top="10" visible="true">
 						<s:Button label="엑셀다운(전체)" click="excelButton_clickHandler(event,0)" />
