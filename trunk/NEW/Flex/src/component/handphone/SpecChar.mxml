@@ -21,7 +21,7 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-			
+			import mx.collections.ArrayList;
 			import mx.events.FlexEvent;
 			import mx.events.ListEvent;
 			
@@ -67,7 +67,7 @@
 			
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
-				this.dg.dataProvider = this.spcData;
+				//this.dg.dataProvider = this.spcData;
 			}
 			
 			
@@ -76,14 +76,24 @@
 				// TODO Auto-generated method stub
 			}
 			
+			protected function list_creationCompleteHandler(event:FlexEvent):void
+			{
+				this.list.dataProvider =  new ArrayList(spcData);
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:BitmapImage source="@Embed('assets/ReserveBG.png')"/>
-	<s:Button skinClass="skin.IframeCloseButton" width="46" height="46" top="0" right="-30" click="closeBtnClickHandler(event)" />
-	<mx:DataGrid styleName="dgSpecialList"
+	<s:BitmapImage source="@Embed('images/ReserveBG.png')"/>
+	<s:Image source="images/AdvancedCloseBtn.png" top="0" right="-30" click="closeBtnClickHandler(event)"  />
+	<s:List id="list" creationComplete="list_creationCompleteHandler(event)">
+		<s:layout>
+			<s:TileLayout />
+		</s:layout>
+	</s:List>
+	<!--<mx:DataGrid styleName="dgSpecialList"
 				 id="dg"
 				 top="35" left="35" 
 				 width="354" height="220" rowHeight="26" 
@@ -110,5 +120,5 @@
 			<mx:DataGridColumn dataField="11" width="24" />
 			<mx:DataGridColumn dataField="12" width="24" />
 		</mx:columns>
-	</mx:DataGrid>
+	</mx:DataGrid>-->
 </s:Group>

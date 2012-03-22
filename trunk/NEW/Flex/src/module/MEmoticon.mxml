@@ -137,7 +137,7 @@
 			<s:Rect left="0" right="0" top="0" bottom="0" ><s:stroke><s:SolidColorStroke color="0xDCB8AC" weight="2" /></s:stroke></s:Rect>
 			
 			<s:VGroup top="11" left="0" right="0" horizontalAlign="center">
-				<s:Group id="cateBox" visible.save="false" width="600" height="86" >
+				<s:Group id="cateBox" visible.save="false" width="600" height="86" height.save="0" >
 					
 					<s:Rect left="0" right="0" top="0" bottom="0" ><s:fill><s:SolidColor color="0xEEE3DD"/></s:fill></s:Rect>
 					<s:List id="cateList" change="cateList_changeHandler(event)" left="10" selectionColor="0xffffff" rollOverColor="0xEEE3DD" right="10" height="66" verticalCenter="0" skinClass="skin.ListBg" creationComplete="cateList_creationCompleteHandler()">
@@ -154,9 +154,9 @@
 		</s:Group>
 		
 		<s:HGroup gap="0">
-			<s:Image source="images/center_m01.gif" source.thema="images/center_m01_.gif" click="emti_changeHandler(1)" useHandCursor="true" />
-			<s:Image source="images/center_m02.gif" source.upjong="images/center_m02_.gif" click="emti_changeHandler(0)" useHandCursor="true" />
-			<s:Image source="images/center_m03.gif" source.save="images/center_m03_.gif" click="emti_changeHandler(2)" useHandCursor="true" />
+			<s:Image source="images/center_m01.gif" source.thema="images/center_m01_.gif" click="emti_changeHandler(1)" buttonMode="true" useHandCursor="true" />
+			<s:Image source="images/center_m02.gif" source.upjong="images/center_m02_.gif" click="emti_changeHandler(0)" buttonMode="true" useHandCursor="true" />
+			<s:Image source="images/center_m03.gif" source.save="images/center_m03_.gif" click="emti_changeHandler(2)" buttonMode="true" useHandCursor="true" />
 		</s:HGroup>
 	</s:Group>
 </s:Module>

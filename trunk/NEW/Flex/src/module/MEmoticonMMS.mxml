@@ -2,7 +2,7 @@
 <s:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		  xmlns:s="library://ns.adobe.com/flex/spark" 
 		  xmlns:mx="library://ns.adobe.com/flex/mx" 
-		  width="655" minHeight="550" currentState="thema" xmlns:lib="lib.*">
+		  width="655" minHeight="560" currentState="thema" xmlns:lib="lib.*">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 		@namespace mx "library://ns.adobe.com/flex/mx";
@@ -42,9 +42,11 @@
 				
 				// 저장문자시 카테고리 안가져옴
 				if (gubun == "my") {
+					paging.viewDataCount = 15; 
 					getEmotiList();
 				}
 				else {
+					paging.viewDataCount = 12; 
 					ro.set(RO_DESTINATION, cateList_ResultEventHandler);
 					ro.method.getEmotiCateListMMS(gubun);
 				}
@@ -137,7 +139,7 @@
 			<s:Rect left="0" right="0" top="0" bottom="0" ><s:stroke><s:SolidColorStroke color="0xDCB8AC" weight="2" /></s:stroke></s:Rect>
 			
 			<s:VGroup top="11" left="0" right="0" horizontalAlign="center">
-				<s:Group id="cateBox" visible.save="false" width="600" height="86" >
+				<s:Group id="cateBox" visible.save="false" width="600" height="86" height.save="0" >
 					
 					<s:Rect left="0" right="0" top="0" bottom="0" ><s:fill><s:SolidColor color="0xEEE3DD"/></s:fill></s:Rect>
 					<s:List id="cateList" left="10" change="cateList_changeHandler(event)" selectionColor="0xffffff" rollOverColor="0xEEE3DD" right="10" height="66" verticalCenter="0" skinClass="skin.ListBg" 
@@ -147,8 +149,8 @@
 					
 				</s:Group>
 				
-				<s:List id="emotiList" width="600" itemRenderer.thema="renderer.EmotiRendererMMS" itemRenderer.upjong="renderer.EmotiRendererMMS" itemRenderer.save="renderer.MyMsgRenderer" skinClass="skin.ListBg">
-					<s:layout><s:TileLayout horizontalGap="32" verticalGap="10"/></s:layout>
+				<s:List id="emotiList" rollOverColor="0xffffff" width="600" itemRenderer.thema="renderer.EmotiRendererMMS" itemRenderer.upjong="renderer.EmotiRendererMMS" itemRenderer.save="renderer.MyMsgRenderer" skinClass="skin.ListBg">
+					<s:layout><s:TileLayout horizontalGap="32" verticalGap="12"/></s:layout>
 				</s:List>
 				<lib:Paging id="paging" height="30" clickPage="paging_clickPageHandler(event)" />
 			</s:VGroup>

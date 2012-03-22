@@ -72,6 +72,9 @@
 			/*###############################
 			#	RemoteObject				#
 			###############################*/
+			public function creationCompleteHandler():void {
+				getAddress();
+			}
 			
 			// 주소록 리스트 가져오기
 			public function getAddress():void {

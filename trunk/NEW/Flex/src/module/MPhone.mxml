@@ -30,26 +30,39 @@
 			import mx.rpc.remoting.RemoteObject;
 			
 			private var defMode:String = "SMS";
+			private var bLMSAuto:Boolean = true;
 			
 			public function setMessage(msg:String):void {
 				
 				cMessage.setMessage(msg);
-				ExternalInterface.call("alert", "적용되었습니다.");
+				if (parentApplication.appName != "Sent")
+				ExternalInterface.call("alert", "메시지창에 적용되었습니다.");
 			}
+			
+			public function setMessageAdd(msg:String):void {
+				
+				cMessage.setMessageAdd(msg);
+				//ExternalInterface.call("alert", "메시지창에 적용되었습니다.");
+			}
+			
+			public function setAutoMessage(b:Boolean):void {
+				bLMSAuto = b;
+			}
+			
 			
 			public function setPhoto(source:String):void {
 				
 				cMessage.setPhoto(source);
-				ExternalInterface.call("alert", "적용되었습니다.");
+				ExternalInterface.call("alert", "메시지창에 적용되었습니다.");
 			}
 			
 			public function addList(phone:String):void{
 				this.cPhone.addList(phone);
-				ExternalInterface.call("alert", "추가 되었습니다.");
+				ExternalInterface.call("alert", "전화번호가 추가 되었습니다.");
 			}
 			public function addListArray(arr:Array):void{
 				this.cPhone.addListArray(arr);
-				ExternalInterface.call("alert", "추가 되었습니다.");
+				ExternalInterface.call("alert", "전화번호가 추가 되었습니다.");
 			}
 			
 			public function changeSMS():void {
@@ -70,6 +83,9 @@
 			private var ro_sub:RemoteObject = null;
 			
 			protected function creationCompleteHandler(event:FlexEvent):void {
+				
+				this.cMessage.bLMSAuto = bLMSAuto;
+				
 				if (defMode == "SMS")this.cMessage.changeSMS();
 				else if (defMode == "LMS")this.cMessage.changeLMS();
 				else if (defMode == "MMS")this.cMessage.changeMMS();
@@ -312,9 +328,8 @@
 			<s:Button label="취소" click="confirm.visible = false" />
 		</s:HGroup>
 	</s:Panel>
-	
 	<!--전송중 카운트-->
-	<s:VGroup id="iAlertContainer" x="34" y="100" width="165" depth="7" focusEnabled="false" visible="false" horizontalAlign="center">
+	<s:VGroup id="iAlertContainer" x="34" y="100" width="165" depth="7" focusEnabled="false" visible="true" horizontalAlign="center">
 		<s:Label text="전송요청!!" fontSize="14" color="0x000000" visible="false"/>
 		<lib:AlertLabel id="iAlert" font_size="40" glow_color="0x000000" text_color="0xFFFFFF" text_label="" effectEnd="this.iAlertContainer.visible=false"/>
 	</s:VGroup>
