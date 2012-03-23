@@ -37,7 +37,7 @@ public class SessionManagement {
 		}
 		
 		if (rslt == 0)
-			VbyP.accessLog(user_id+" >> �α��� �ð� ������Ʈ ����");
+			VbyP.accessLog(user_id+" >> 占싸깍옙占쏙옙 占시곤옙 占쏙옙占쏙옙占쏙옙트 占쏙옙占쏙옙");
 		
 		FlexSession session =  FlexContext.getFlexSession();
 		session.setAttribute("user_id", user_id);
@@ -67,7 +67,7 @@ public class SessionManagement {
 		}
 		
 		if (rslt == 0)
-			VbyP.accessLog(user_id+" >> �α��� �ð� ������Ʈ ����");
+			VbyP.accessLog(user_id+" >> 占싸깍옙占쏙옙 占시곤옙 占쏙옙占쏙옙占쏙옙트 占쏙옙占쏙옙");
 		
 		FlexSession session =  FlexContext.getFlexSession();
 		session.setAttribute("admin_id", user_id);
@@ -135,10 +135,38 @@ public class SessionManagement {
 		
 		if (rslt != 1) {
 			
-			rvo.setstrDescription("�Է��Ͻ� �α��� ������ ����ϴ�.");
+			rvo.setstrDescription("잘못된 정보 입니다.");
 		}else {
 			
-			rvo.setbResult(true);//�Ϲݻ���� �α��μ���
+			rvo.setbResult(true);
+		}
+		
+		if (rvo.getbResult())
+			this.setSession(user_id);
+		
+		
+		return rvo;
+	}
+	
+	public BooleanAndDescriptionVO loginSuper(Connection conn, String user_id, String password) {
+		
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		
+		pq.setPrepared( conn, VbyP.getSQL("loginSuper") );
+		pq.setString(1, user_id);
+		
+		
+		int rslt = pq.ExecuteQueryNum();
+		
+		if (rslt != 1) {
+			
+			rvo.setstrDescription("잘못된 정보 입니다.");
+		}else {
+			
+			rvo.setbResult(true);
 		}
 		
 		if (rvo.getbResult())
@@ -162,10 +190,10 @@ public class SessionManagement {
 		
 		if (rslt != 1) {
 			
-			rvo.setstrDescription("�Է��Ͻ� �α��� ������ ����ϴ�.");
+			rvo.setstrDescription("占쌉뤄옙占싹쏙옙 占싸깍옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙求占�");
 		}else {
 			
-			rvo.setbResult(true);//�Ϲݻ���� �α��μ���
+			rvo.setbResult(true);//占싹반삼옙占쏙옙占�占싸깍옙占싸쇽옙占쏙옙
 		}
 		
 		if (rvo.getbResult())

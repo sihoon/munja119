@@ -18,6 +18,9 @@ public class UserInformationVO implements Serializable {
 	int unit_cost = 0;
 	String hp = "";
 	String jumin_no = "";
+	String email = "";
+	String emailYN = "";
+	String hpYN = "";
 
 	public void setHashMap(HashMap<String, String> hm) {
 
@@ -30,6 +33,9 @@ public class UserInformationVO implements Serializable {
 		hp = SLibrary.IfNull(hm, "hp");
 		jumin_no = SLibrary.IfNull(hm, "jumin_no");
 		unit_cost = SLibrary.intValue(SLibrary.IfNull(hm, "unit_cost"));
+		email = SLibrary.IfNull(hm, "email");
+		emailYN = SLibrary.IfNull(hm, "emailYN");
+		hpYN = SLibrary.IfNull(hm, "hpYN");
 	}
 
 	public String getJumin_no() {
@@ -103,6 +109,32 @@ public class UserInformationVO implements Serializable {
 	public void setUnit_cost(int unit_cost) {
 		this.unit_cost = unit_cost;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String mail) {
+		this.email = mail;
+	}
+
+	public String getEmailYN() {
+		return emailYN;
+	}
+
+	public void setEmailYN(String emailYN) {
+		this.emailYN = emailYN;
+	}
+
+	public String getHpYN() {
+		return hpYN;
+	}
+
+	public void setHpYN(String hpYN) {
+		this.hpYN = hpYN;
+	}
+	
+	
 	
 
 }

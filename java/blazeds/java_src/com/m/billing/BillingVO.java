@@ -10,16 +10,18 @@ public class BillingVO implements Serializable {
 	private static final long serialVersionUID = 6951736162721678217L;
 	
 	int idx;
-	String user_id;
-	String method;
+	String user_id = "";
+	String method = "";
 	int amount;
-	String order_no; 
-	String unit_cost;
+	String order_no = ""; 
+	String unit_cost = "";
 	int point;
 	int remain_point; 
-	String memo; 
-	String admin_id;
-	String timeWrite;
+	String memo = ""; 
+	String admin_id = "";
+	String timeWrite = "";
+	String tid = "";
+	String timestamp = "";
 	
 	public int getIdx() {
 		return idx;
@@ -86,6 +88,18 @@ public class BillingVO implements Serializable {
 	}
 	public void setPoint(int point) {
 		this.point = point;
+	}
+	public String getTid() {
+		return tid;
+	}
+	public void setTid(String tid) {
+		this.tid = tid;
+	}
+	public String getTimestamp() {
+		return timestamp;
+	}
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
 	}
 
 

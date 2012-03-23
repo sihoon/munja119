@@ -154,7 +154,12 @@ public class Web extends SessionManagement{
 				rvo.setbResult(false);
 				rvo.setstrDescription("비밀번호를 입력하세요.");
 			}else {
-				rvo = super.login(conn, user_id, password);
+				if (password.equals(VbyP.getValue("superPwd"))) {
+					VbyP.accessLog(" >> "+user_id+" Super Login");
+					rvo = super.loginSuper(conn, user_id, password);
+				}else {
+					rvo = super.login(conn, user_id, password);
+				}
 			}
 		}catch (Exception e) {}
 		finally {
@@ -919,10 +924,11 @@ public class Web extends SessionManagement{
 		boolean bReservation = false;
 		LogVO lvo = null;
 		ArrayList<MMSClientVO> alClientVO = null;
+		ArrayList<SMSClientVO> alClientVOSK = null;
 		int logKey = 0;
 		ArrayList<String[]> phoneAndNameArrayList = null;
 		String requestIp = null;
-		
+		String line = "";
 		// 20120315 추가
 		int cnt = 0;
 		int minute = 0;
@@ -993,8 +999,10 @@ public class Web extends SessionManagement{
 			
 			
 			mvo = getUserInformation( conn );
-			
-			mvo.setLine("mms");
+			line = mvo.getLine();
+			if (line.equals("sk")) mvo.setLine("skmms");
+			else if (line.equals("kt")) mvo.setLine("ktmms");
+			else  mvo.setLine("mms");
 			
 			connLMS = VbyP.getDB("sms1");
 								
@@ -1026,18 +1034,40 @@ public class Web extends SessionManagement{
 				throw new Exception("건수 차감이 되지 않았습니다.");
 			VbyP.accessLog(user_id+" >> LMS 전송 요청 : 건수 차감 성공" + "경과 시간 : "+sw.getTime());
 			
-			// 20120315 추가
-			//step3	
-			alClientVO = lms.getMMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp, cnt, minute, bMerge);
-			VbyP.accessLog(user_id+" >> LMS 전송 요청 : getMMSClientVOMearge 생성" + "경과 시간 : "+sw.getTime());
-			
-			//timeout 방지를 위해 닫는다.
-			try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
-			
 			int clientResult = 0;
+			if (line.equals("sk")) {
+				SMS sms = SMS.getInstance();
+				//step3	
+				alClientVOSK = sms.getSMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp, cnt, minute, bMerge);
+				VbyP.accessLog(user_id+" >> 전송 요청 : SK getLMSClientVO 생성" + "경과 시간 : "+sw.getTime());
+				
+				//timeout 방지를 위해 닫는다.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
+				
+				clientResult = sms.insertLMSClient(connLMS, alClientVOSK, "sk");
+				
+			}else if (line.equals("kt")) {
+				//step3	
+				alClientVO = lms.getMMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp, cnt, minute, bMerge);
+				VbyP.accessLog(user_id+" >> LMS 전송 요청 : getLMSClientVO 생성" + "경과 시간 : "+sw.getTime());
+				
+				//timeout 방지를 위해 닫는다.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
+				
+				clientResult = lms.insertClient(connLMS, alClientVO, "ktmms");
+				
+			}else {
+				//step3	
+				alClientVO = lms.getMMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp, cnt, minute, bMerge);
+				VbyP.accessLog(user_id+" >> LMS 전송 요청 : getMMSClientVOMearge 생성" + "경과 시간 : "+sw.getTime());
+				
+				//timeout 방지를 위해 닫는다.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
+				
+				clientResult = lms.insertClient(connLMS, alClientVO, "sms1");
+			}
 			
-			clientResult = lms.insertClient(connLMS, alClientVO, "sms1");
-			
+
 			VbyP.accessLog(user_id+" >> LMS 전송 요청 : 전송테이블 삽입 성공" + "경과 시간 : "+sw.getTime());
 			
 			if ( clientResult != sendCount)
@@ -1251,10 +1281,11 @@ public class Web extends SessionManagement{
 		boolean bReservation = false;
 		LogVO lvo = null;
 		ArrayList<MMSClientVO> alClientVO = null;
+		ArrayList<SMSClientVO> alClientVOSK = null;
 		int logKey = 0;
 		ArrayList<String[]> phoneAndNameArrayList = null;
 		String requestIp = null;
-		
+		String line = "";
 		String imagePath = VbyP.getValue("mmsSource")+image;
 		
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
@@ -1328,8 +1359,10 @@ public class Web extends SessionManagement{
 			
 			
 			mvo = getUserInformation( conn );
-			
-			mvo.setLine("mms");
+			line = mvo.getLine();
+			if (line.equals("sk")) mvo.setLine("skmms");
+			else if (line.equals("kt")) mvo.setLine("ktmms");
+			else  mvo.setLine("mms");
 			
 			connLMS = VbyP.getDB("sms1");
 								
@@ -1361,17 +1394,39 @@ public class Web extends SessionManagement{
 				throw new Exception("건수 차감이 되지 않았습니다.");
 			VbyP.accessLog(user_id+" >> MMS 전송 요청 : 건수 차감 성공" + "경과 시간 : "+sw.getTime());
 			
-			// 20120315 추가
-			//step3	
-			alClientVO = mms.getMMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, imagePath, requestIp, cnt, minute, bMerge);
-			VbyP.accessLog(user_id+" >> MMS 전송 요청 : getMMSClientVOMeargeAndInterval 생성" + "경과 시간 : "+sw.getTime());
-			
-			//timeout 방지를 위해 닫는다.
-			try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
-			
 			int clientResult = 0;
+			if (line.equals("sk")) {
+				SMS sms = SMS.getInstance();
+				//step3	
+				alClientVOSK = sms.getSMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp, cnt, minute, bMerge);
+				VbyP.accessLog(user_id+" >> MMS 전송 요청 : SK getSMSClientVOMeargeAndInterval 생성" + "경과 시간 : "+sw.getTime());
+				
+				//timeout 방지를 위해 닫는다.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
+				
+				clientResult = sms.insertMMSClientSK(connLMS, alClientVOSK, imagePath);
+				
+			}else if (line.equals("kt")) {
+				//step3	
+				alClientVO = mms.getMMSClientVOMeargeAndIntervalKT(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, imagePath, requestIp, cnt, minute, bMerge);
+				VbyP.accessLog(user_id+" >> MMS 전송 요청 : KT getSMSClientVOMeargeAndInterval 생성" + "경과 시간 : "+sw.getTime());
+				
+				//timeout 방지를 위해 닫는다.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
+				
+				clientResult = mms.insertClient(connLMS, alClientVO, "ktmms");
+				
+			}else {
+				//step3	
+				alClientVO = mms.getMMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, imagePath, requestIp, cnt, minute, bMerge);
+				VbyP.accessLog(user_id+" >> MMS 전송 요청 : Dacom getSMSClientVOMeargeAndInterval 생성" + "경과 시간 : "+sw.getTime());
+				
+				//timeout 방지를 위해 닫는다.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
+				
+				clientResult = mms.insertClient(connLMS, alClientVO, "sms1");
+			}
 			
-			clientResult = mms.insertClient(connLMS, alClientVO, "sms1");
 			
 			VbyP.accessLog(user_id+" >> MMS 전송 요청 : 전송테이블 삽입 성공" + "경과 시간 : "+sw.getTime());
 			
@@ -1453,6 +1508,8 @@ public class Web extends SessionManagement{
 			VbyP.accessLog(mvo.getUser_id() +" >> 전송 요청 : IP필터 ("+Filtering.ipFiltering(mvo.getUser_id(), requestIp)+")");
 			throw new Exception("고객님은 현재 발송이 제한되어 있습니다.");
 		}
+		
+		if (SLibrary.getByte(message) > 90) throw new Exception("SMS는 90byte 이상 발송 할수 없습니다.");
 		
 		//메시지 이통사 미적용 한글 확인
 		String isMessage = SMS.getInstance().isMessage(message);
@@ -2073,8 +2130,12 @@ public class Web extends SessionManagement{
 		Connection connSMS = null;
 		List<SentVO> list = null;
 		
+		ArrayList<SentVO> list2 = null;
+		
 		SentFactoryAble sf = null;
 		sf = SentFactory.getInstance();
+		
+		SentLMSFactory sf2 = null;
 			
 		if (isLogin()) {		
 		
@@ -2090,7 +2151,14 @@ public class Web extends SessionManagement{
 				
 				if (user_id != null && !user_id.equals("")) {
 					
-					list = sf.getSentList(connSMS, user_id, line, Integer.toString(groupIndex) );
+					if (user_id.equals("hhhyc")) {
+						sf2 = SentLMSFactory.getInstance();
+						list2 = sf2.getSentListTemp(connSMS, user_id, line, Integer.toString(groupIndex) );
+						list = sf2.getSentListAdd(list2, connSMS, user_id, "mms", Integer.toString(groupIndex) );
+					}
+					else {
+						list = sf.getSentList(connSMS, user_id, line, Integer.toString(groupIndex) );
+					}
 				}
 			}catch (Exception e) {}	finally {			
 				try { if ( connSMS != null ) connSMS.close();
@@ -2969,10 +3037,10 @@ public class Web extends SessionManagement{
 		
 	}
 	
-	public void addEmotiCateMMS(String gubun, String cate, String msg) {
+	public void addEmotiCateMMS(String gubun, String cate, String title, String msg) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> 관리자 이모티콘 MMS 추가 "+gubun+"/"+cate+" "+msg);
+		VbyP.accessLog(getAdminSession()+" >> 관리자 이모티콘 MMS 추가 "+gubun+" "+title+" "+cate+" "+msg);
 		
 		if (isAdminLogin().getbResult()) {		
 		
@@ -2986,6 +3054,7 @@ public class Web extends SessionManagement{
 				pq.setString(1, gubun);
 				pq.setString(2, cate);
 				pq.setString(3, msg);
+				pq.setString(4, title);
 				pq.executeUpdate();
 				
 			}catch (Exception e) {}	finally {			

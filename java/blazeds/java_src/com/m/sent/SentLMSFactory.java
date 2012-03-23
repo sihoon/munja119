@@ -126,6 +126,152 @@ public class SentLMSFactory implements SentFactoryAble {
 
 	}
 	
+	public ArrayList<SentVO> getSentListTemp(Connection connSMS, String userId, String line, String sentGroupIndex) {
+
+		
+		ArrayList<SentVO> rslt = new ArrayList<SentVO>();
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		if (SLibrary.IfNull(line).equals("ktmms")) {
+			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentDataKT") );
+		}else
+			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentData") );
+		
+		pq.setString(1, userId);
+		pq.setString(2, sentGroupIndex);
+		pq.setString(3, userId);
+		pq.setString(4, sentGroupIndex);
+		
+		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
+		al = pq.ExecuteQueryArrayList();
+		
+		int count = al.size();
+		if (count > 0) {
+			
+			SentVO vo = new SentVO();
+			HashMap<String, String> h = null;
+			String strRslt = "";
+			
+			try {
+				
+				String status = "0";
+				for (int i = 0; i < count; i++) {
+					
+					vo = new SentVO();
+					h = al.get(i);
+					
+					if ( SLibrary.IfNull(h, "STATUS").equals("1") || SLibrary.IfNull(h, "STATUS").equals("2") )
+						strRslt = "전송중";
+					else {
+						if (SLibrary.IfNull(line).equals("ktmms")) strRslt = VbyP.getValue( "mmskt_"+SLibrary.IfNull(h, "RSLT"));
+						else strRslt = VbyP.getValue( "mms_"+SLibrary.IfNull(h, "RSLT"));
+					}
+					
+					if (SLibrary.IfNull(h, "STATUS").equals("0")) status = "0";
+					else if (SLibrary.IfNull(h, "STATUS").equals("1")) status = "1";
+					else if (SLibrary.IfNull(h, "STATUS").equals("2")) status = "1";
+					else if (SLibrary.IfNull(h, "STATUS").equals("3")) status = "2";
+					else status = "0";
+						
+						
+					vo.setAll(
+							SLibrary.parseInt( SLibrary.IfNull(h, "POST") ),
+							line,
+							SLibrary.IfNull(h, "REQDATE"),
+							SLibrary.IfNull(h, "PHONE"),
+							SLibrary.IfNull(h, "ETC1"),
+							SLibrary.IfNull(h, "CALLBACK"),
+							SLibrary.IfNull(h, "MSG"),
+							SLibrary.isNull(strRslt)?"실패":strRslt,
+							SLibrary.IfNull(h, "RSLTDATE"),
+							status,
+							SLibrary.IfNull(h, "RSLT")
+							);
+					rslt.add(vo);
+				}
+			}catch(Exception e){System.out.println("getSentList Error!");}
+			
+			h = null;
+			al = null;
+		}
+		
+		return rslt;
+
+	}
+	
+	public List<SentVO> getSentListAdd(ArrayList<SentVO> argrslt, Connection connSMS, String userId, String line, String sentGroupIndex) {
+
+		
+		ArrayList<SentVO> rslt = argrslt;
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		if (SLibrary.IfNull(line).equals("ktmms")) {
+			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentDataKT") );
+		}else
+			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentData") );
+		
+		pq.setString(1, userId);
+		pq.setString(2, sentGroupIndex);
+		pq.setString(3, userId);
+		pq.setString(4, sentGroupIndex);
+		
+		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
+		al = pq.ExecuteQueryArrayList();
+		
+		int count = al.size();
+		if (count > 0) {
+			
+			SentVO vo = new SentVO();
+			HashMap<String, String> h = null;
+			String strRslt = "";
+			
+			try {
+				
+				String status = "0";
+				for (int i = 0; i < count; i++) {
+					
+					vo = new SentVO();
+					h = al.get(i);
+					
+					if ( SLibrary.IfNull(h, "STATUS").equals("1") || SLibrary.IfNull(h, "STATUS").equals("2") )
+						strRslt = "전송중";
+					else {
+						if (SLibrary.IfNull(line).equals("ktmms")) strRslt = VbyP.getValue( "mmskt_"+SLibrary.IfNull(h, "RSLT"));
+						else strRslt = VbyP.getValue( "mms_"+SLibrary.IfNull(h, "RSLT"));
+					}
+					
+					if (SLibrary.IfNull(h, "STATUS").equals("0")) status = "0";
+					else if (SLibrary.IfNull(h, "STATUS").equals("1")) status = "1";
+					else if (SLibrary.IfNull(h, "STATUS").equals("2")) status = "1";
+					else if (SLibrary.IfNull(h, "STATUS").equals("3")) status = "2";
+					else status = "0";
+						
+						
+					vo.setAll(
+							SLibrary.parseInt( SLibrary.IfNull(h, "POST") ),
+							line,
+							SLibrary.IfNull(h, "REQDATE"),
+							SLibrary.IfNull(h, "PHONE"),
+							SLibrary.IfNull(h, "ETC1"),
+							SLibrary.IfNull(h, "CALLBACK"),
+							SLibrary.IfNull(h, "MSG"),
+							SLibrary.isNull(strRslt)?"실패":strRslt,
+							SLibrary.IfNull(h, "RSLTDATE"),
+							status,
+							SLibrary.IfNull(h, "RSLT")
+							);
+					rslt.add(vo);
+				}
+			}catch(Exception e){System.out.println("getSentList Error!");}
+			
+			h = null;
+			al = null;
+		}
+		
+		return rslt;
+
+	}
+	
 	private String getSendResult(String line, String code) {
 
 		String rslt = "";
