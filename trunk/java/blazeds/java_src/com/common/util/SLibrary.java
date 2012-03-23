@@ -1823,6 +1823,14 @@ public class SLibrary {
 		else
 			return "";
 	}
+	
+	public static String IfNull(String[] arr, int index) {
+
+		if (arr != null && arr.length > index)
+			return SLibrary.IfNull( arr[index] );
+		else
+			return "";
+	}
 
 	/**
 	 * HashMap 을 <option> 테그로 변환한다.

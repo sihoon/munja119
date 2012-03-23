@@ -16,6 +16,8 @@ public class JoinVO implements Serializable {
 	String hp;
 	String phone_return;
 	String email;
+	String emailYN;
+	String hpYN;
 	
 	
 	
@@ -60,6 +62,18 @@ public class JoinVO implements Serializable {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getEmailYN() {
+		return emailYN;
+	}
+	public void setEmailYN(String emailYN) {
+		this.emailYN = emailYN;
+	}
+	public String getHpYN() {
+		return hpYN;
+	}
+	public void setHpYN(String hpYN) {
+		this.hpYN = hpYN;
 	}
 	
 	

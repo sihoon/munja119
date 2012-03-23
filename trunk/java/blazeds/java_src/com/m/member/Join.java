@@ -131,4 +131,37 @@ public class Join {
 		
 		return count;
 	}
+	
+	public int updateNew(JoinVO vo) {
+		
+		Connection conn = null;
+		int count = 0;
+
+		try {
+			conn = VbyP.getDB();
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, VbyP.getSQL("modifyNew") );
+			
+			pq.setString(1, SLibrary.IfNull(vo.getPassword()));
+			pq.setString(2, SLibrary.IfNull(vo.getHp()));
+			pq.setString(3, SLibrary.IfNull(vo.getEmail()));
+			pq.setString(4, SLibrary.IfNull(vo.getEmailYN()));
+			pq.setString(5, SLibrary.IfNull(vo.getHpYN()));
+			pq.setString(6, SLibrary.IfNull(vo.getUser_id()));
+			count = pq.executeUpdate();
+			
+			
+		}catch(Exception e) {}
+		finally {
+			try {
+				if ( conn != null )
+					conn.close();
+			}catch(SQLException e) {
+				VbyP.errorLog("updateNew >> conn.close() Exception!"); 
+			}
+		}
+		
+		
+		return count;
+	}
 }

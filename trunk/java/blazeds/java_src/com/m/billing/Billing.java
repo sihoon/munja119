@@ -212,16 +212,18 @@ public class Billing {
 			else if (bvo.getAmount() == ( 50000+( 50000 *0.1 ) ) ) point = 4167;
 			else if (bvo.getAmount() == ( 100000+( 100000 *0.1 ) ) ) point = 8333;
 			else if (bvo.getAmount() == ( 300000+( 300000 *0.1 ) ) ) point = 25000;
-			else if (bvo.getAmount() == ( 500000+( 500000 *0.1 ) ) ) point = 41667;
-			else if (bvo.getAmount() == ( 1000000+( 1000000 *0.1 ) ) ) point = 86957;
-			else if (bvo.getAmount() == ( 3000000+( 3000000 *0.1 ) ) ) point = 272727;
-			else if (bvo.getAmount() == ( 5000000+( 5000000 *0.1 ) ) ) point = 467290;
+			else if (bvo.getAmount() == ( 500000+( 500000 *0.1 ) ) ) point = 43103;
+			else if (bvo.getAmount() == ( 1000000+( 1000000 *0.1 ) ) ) point = 90909;
+			else if (bvo.getAmount() == ( 3000000+( 3000000 *0.1 ) ) ) point = 280374;
+			else if (bvo.getAmount() == ( 5000000+( 5000000 *0.1 ) ) ) point = 485437;
+			else if (bvo.getAmount() == ( 10000000+( 10000000 *0.1 ) ) ) point = 1000000;
 			else point = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount()/uvo.getUnit_cost()) ) );
 			
 			bvo.setPoint(point);
 			bvo.setRemain_point( SLibrary.intValue(uvo.getPoint())+point);
 			bvo.setTimeWrite(SLibrary.getDateTimeString("yyyy-MM-dd HH:mm:ss"));
 			bvo.setUnit_cost(Integer.toString(uvo.getUnit_cost()));
+			
 			
 			if ( bill.insert(conn, bvo) < 1)
 				throw new Exception("결제 등록에 실패 하였습니다.");
@@ -255,6 +257,8 @@ public class Billing {
 		pq.setInt(6, vo.getPoint());
 		pq.setInt(7, vo.getRemain_point());
 		pq.setString(8, SLibrary.getDateTimeString("yyyy-MM-dd HH:mm:ss"));
+		pq.setString(9, vo.getTid());
+		pq.setString(10, vo.getTimestamp());
 
 		
 		return pq.executeUpdate();

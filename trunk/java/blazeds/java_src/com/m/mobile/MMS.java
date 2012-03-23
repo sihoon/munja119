@@ -90,11 +90,13 @@ public class MMS implements MMSAble {
 	@Override
 	public int insertClient(Connection connMMS, ArrayList<MMSClientVO> al, String via) {
 
-		
+		String sql = "";
 		int resultCount = 0;
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-		if (via.equals("ktmms")) pq.setPrepared( connMMS, VbyP.getSQL("insertMMSClientKT") );
-		else pq.setPrepared( connMMS, VbyP.getSQL("insertMMSClient") );
+		if (via.equals("ktmms")) sql =  VbyP.getSQL("insertMMSClientKT");
+		else  sql = VbyP.getSQL("insertMMSClient") ;
+		
+		pq.setPrepared( connMMS, sql );
 		
 		int count = al.size();
 		MMSClientVO vo = null;
@@ -140,7 +142,8 @@ public class MMS implements MMSAble {
 					
 					connMMS = VbyP.getDB(via);					
 					if (connMMS != null) System.out.println("connMMS connection!!!!");
-					pq.setPrepared( connMMS, VbyP.getSQL("insertMMSClient") );
+					
+					pq.setPrepared( connMMS, sql );
 				}
 				
 			}
@@ -371,6 +374,66 @@ public class MMS implements MMSAble {
 		}
 		VbyP.debugLog(" >> getPhone -> loop");
 		return clientAl;
+	}
+	
+	public ArrayList<MMSClientVO> getMMSClientVOMeargeAndIntervalKT( Connection conn, UserInformationVO mvo, Boolean bReservation, int MMSLogKey, String message, ArrayList<String[]> phoneAndNameArrayList, String returnPhone, String reservationDate, String imagePath, String ip, int cnt, int minute, boolean bMerge) throws Exception{
+		
+		ArrayList<MMSClientVO> clientAl = new ArrayList<MMSClientVO>();
+		MMSClientVO vo = new MMSClientVO();
+		String [] temp = null;
+		boolean bInterval = false;
+		String name = "";
+		
+		VbyP.debugLog(" >> getPhone");
+		int count = phoneAndNameArrayList.size();
+		if (count < 0)
+			throw new Exception("전화번호 리스트가 없습니다.");	
+		
+		String img = findFileName(imagePath);
+		
+		if (cnt > 0 && minute > 0) bInterval = true;
+		
+		for (int i = 0; i < count; i++) {
+			
+			vo = new MMSClientVO();
+			temp = phoneAndNameArrayList.get(i);
+			
+			name = (temp.length == 2)?SLibrary.IfNull(temp[1]):"";
+			
+			if (bInterval &&  i != 0 && (i+1)%cnt == 0) {
+				reservationDate = SLibrary.getDateAddSecond(reservationDate, minute*60);
+			}
+			
+			vo.setSUBJECT( (message.length() > 20)? message.substring(0,20) : message );
+			vo.setPHONE((temp.length > 0)? SLibrary.IfNull(temp[0]):"");
+			vo.setCALLBACK( returnPhone );
+			vo.setSTATUS( CLIENT_SENDSTAT );
+			vo.setREQDATE( reservationDate );
+			vo.setMSG( bMerge ? SLibrary.replaceAll(message, "{이름}", name ):message );
+			vo.setFILE_CNT( (SLibrary.isNull(img))? 0: 1 );
+			vo.setFILE_CNT_REAL( (SLibrary.isNull(img))? 0: 1 );
+			vo.setFILE_PATH1( (SLibrary.isNull(img))? "": img+"^1^0" );			
+			vo.setTYPE( CLIENT_MESSAGETYPE );
+			vo.setID( mvo.getUser_id() );
+			vo.setPOST( Integer.toString(MMSLogKey) );
+			vo.setETC1( name  );
+			vo.setETC2( ip );
+			vo.setETC3( " " );
+						
+			clientAl.add(vo);
+		}
+		VbyP.debugLog(" >> getPhone -> loop");
+		return clientAl;
+	}
+	
+	private String findFileName(String path) {
+		
+		String rslt = "";
+		if (path != null) {
+			String temp[] = path.split(System.getProperty("file.separator"));
+			rslt = temp[temp.length-1].toString();
+		}
+		return rslt;
 	}
 	
 	/**
