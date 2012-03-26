@@ -138,7 +138,7 @@
 				if (obj == null){
 					ExternalInterface.call("alert", "카테고리를 입력 또는 선택 하세요.");
 				}else 
-					ro.method.addEmotiCateMMS(gubun, cbCate.selectedItem, inputEmt.source);
+					ro.method.addEmotiCateMMS(gubun, cbCate.selectedItem, title.text, inputEmt.source);
 			}
 			
 			private function add_ResultEventHandler(event:ResultEvent):void {
@@ -195,6 +195,7 @@
 			<s:Label text="권장 사이즈 : 176 * 144" />
 			<s:Button label="업로드" width="100%"  click="this.fur.addFiles()"/>	
 			<s:Label text="{gubun}"/>
+			<s:TextInput id="title" prompt="제목" />
 			<s:ComboBox id="cbCate" width="100%" prompt="카테고리입력 또는 선택"/>
 			<s:Button label="추가" width="100%" click="add_clickHandler(event)"/>
 		</s:VGroup>
