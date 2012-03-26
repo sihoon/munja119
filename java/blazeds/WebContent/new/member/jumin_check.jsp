@@ -6,7 +6,7 @@
 	try {
 		Join join = new Join();
 
-		if (!SLibrary.IfNull( (String)session.getAttribute("munja119JoinStep") ).equals("step0@Session")){
+		if (!SLibrary.IfNull( (String)session.getAttribute("munja119JoinStep") ).equals("step1@Session")){
 			rslt = "no";
 		} else if (!join.juminDupleCheck(jumin)) {
 			rslt = "yes";

@@ -13,7 +13,7 @@ request.getSession().setAttribute("munja119JoinStep","step1@Session");
 <fieldset id="login"><!-- 로그인 -->
     <legend>로그인</legend>
     <label class="idlabel ti" for="user_id">아이디</label><input type="text" id="user_id" name="user_id" />
-    <label class="pwlabel ti" for="user_pw">비밀번호</label><input type="text" id="user_pw" name="user_pw" />
+    <label class="pwlabel ti" for="user_pw">비밀번호</label><input type="password" id="user_pw" name="user_pw" />
     <button class="loginBtn ti">로그인</button>
     <button class="joinBtn ti">회원가입</button>
     <button class="findBtn ti">아이디찾기</button>
@@ -39,7 +39,6 @@ request.getSession().setAttribute("munja119JoinStep","step1@Session");
 	</div>
 </div>
 <script type="text/javascript" src="js/member.js"></script>
-<p id="free" class="ti">무료문자</p>
 <a id="cost" class="ti" href="">저렴하고 안정적인 문자서비스를 찾으십니까? 단가표 보기</a>
 <p id="custom" class="ti">Custom Center : 070-7510-8489, Fax: 031)970-8489</p>
 </form>

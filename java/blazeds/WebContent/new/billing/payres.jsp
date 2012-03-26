@@ -17,7 +17,7 @@
      * LG텔레콤으로 부터 내려받은 LGD_PAYKEY(인증Key)를 가지고 최종 결제요청.(파라미터 전달시 POST를 사용하세요)
      */
 
-    String configPath = "D:/Workspace/google119/blazeds/WebContent/lgdacom";  //LG텔레콤에서 제공한 환경파일("/conf/lgdacom.conf,/conf/mall.conf") 위치 지정.
+    String configPath = "/home/sms/webapps/WebContent/lgdacom";  //LG텔레콤에서 제공한 환경파일("/conf/lgdacom.conf,/conf/mall.conf") 위치 지정.
     
     /*
      *************************************************
@@ -133,6 +133,8 @@
 				bvo.setMemo("");
 				bvo.setMethod(pay_name);
 				bvo.setOrder_no(xpay.Response("LGD_OID",0));
+				bvo.setTid(xpay.Response("LGD_TID",0));
+				bvo.setTimestamp(SLibrary.getDateTimeString("yyyyMMddHHmmss"));
 				
 				badvo = Billing.getInstance().setBilling(conn, bvo);
 				

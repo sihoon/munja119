@@ -31,14 +31,16 @@ finally {
 %>
 
 <% if (vo == null) { %>
+<form name="loginForm" method="post" target="nobody" action="member/_login.jsp" >
 <fieldset id="login">
     <legend>로그인</legend>
     <label class="idlabel ti" for="user_id">아이디</label><input type="text" id="user_id" name="user_id" />
-    <label class="pwlabel ti" for="user_pw">비밀번호</label><input type="text" id="user_pw" name="user_pw" />
-    <button class="loginBtn ti" >로그인</button>
+    <label class="pwlabel ti" for="user_pw">비밀번호</label><input type="password" id="user_pw" name="user_pw" />
+    <button class="loginBtn ti" onclick="logincheck()" >로그인</button>
     <button class="joinBtn ti">회원가입</button>
     <button class="findBtn ti">아이디찾기</button>
 </fieldset>
+</form>
 <% } else { %>
 <fieldset id="loginInfo">
     <legend>로그인정보</legend>

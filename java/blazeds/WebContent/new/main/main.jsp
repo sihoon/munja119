@@ -16,18 +16,39 @@
 	Home home = null;
 	String[] arrEmt = null;
 	String[] arrCate = null;
+	String[] arrEmtlms = null;
+	String[] arrCatelms = null;
+	ArrayList<HashMap<String, String>> arrMms = null;
+	String[] arrMmsCate = null;
 	String gubun = SLibrary.IfNull( VbyP.getGET(request.getParameter("gubun")) );
 	String cate = SLibrary.IfNull( VbyP.getGET(request.getParameter("cate")) );
+	String url = "gubun="+gubun+"&cate="+cate;
+	
+	String gubunlms = SLibrary.IfNull( VbyP.getGET(request.getParameter("gubunlms")) );
+	String catelms = SLibrary.IfNull( VbyP.getGET(request.getParameter("catelms")) );
+	String urllms = "gubunlms="+gubunlms+"&catelms="+catelms;
+	
+	String mmscate = SLibrary.IfNull( VbyP.getGET(request.getParameter("mmscate")) );
+	String urlmms = "mmscate="+mmscate;
 	ArrayList<HashMap<String, String>> notihm = null;
 	
 	try {
 		conn = VbyP.getDB();
 		
 		if ( SLibrary.isNull(gubun) ) gubun = "업종별문자";
+		if ( SLibrary.isNull(gubunlms) ) gubunlms = "테마문자";
 		home = Home.getInstance();
+	
 		arrEmt = home.getMainEmt(conn, gubun, "%"+cate+"%", 0, 15);
 		arrCate = home.getMainCate(conn, gubun);
 		
+		arrEmtlms = home.getMainLMS(conn, gubunlms, "%"+catelms+"%", 0, 10);
+		arrCatelms = home.getMainCateLMS(conn, gubunlms);
+		
+		
+		
+		arrMmsCate = home.getMainMmsCate(conn, "%%");
+		arrMms = home.getMainMms(conn, "%%", "%"+mmscate+"%", 0, 5);
 		
 		notihm = home.getNotices(conn);
 		
@@ -64,7 +85,7 @@
 </script>
 <div id="main"><!--main Start-->
         <ul class="introduce"><!--소개-->
-            <li class="intro1 ti">업계최저가격 10.7</li>
+            <li class="intro1 ti">업계최저가격 10</li>
             <li class="intro2 ti">최대50만건 일괄발송</li>
             <li class="intro3 ti">장문문자발송가능</li>
             <li class="intro4 ti">이젠 스마트폰이다</li>
@@ -74,12 +95,11 @@
 		<script type="text/javascript" src="flexlib/swfobject.js"></script>
 		<script type="text/javascript" src="main/main.js"></script>
 
+		<p class="mainsmstitle ti">단문문자</p>
         <fieldset id="emoticon">
             <ul class="title">
-                <li class="<%=(gubun.equals("업종별문자"))?"businessover":"business" %>" onclick="window.location.href='?gubun=업종별문자'">업종별문자</li>
-                <li class="<%=(gubun.equals("테마문자"))?"themaover":"thema" %>" onclick="window.location.href='?gubun=테마문자'">테마별문자</li>
-<!--                 <li class="popular" onclick="window.location.href='?gubun=업종별문자'">인기문자</li> -->
-<!--                 <li class="poto">포토문자</li> -->
+                <li class="<%=(gubun.equals("업종별문자"))?"businessover":"business" %>" onclick="window.location.href='?gubun=업종별문자<%="&"+urllms+"&"+urlmms%>'">업종별문자</li>
+                <li class="<%=(gubun.equals("테마문자"))?"themaover":"thema" %>" onclick="window.location.href='?gubun=테마문자<%="&"+urllms+"&"+urlmms%>'">테마별문자</li>
                 <li class="more" onclick="window.location.href='?content=normal'">더보기</li>
             </ul>
             <div class="middle">
@@ -89,51 +109,103 @@
             		int catCnt = arrCate.length;
             		for (int c = 0; c < catCnt; c++) {
             	%>
-                	<a href="?gubun=<%=gubun %>&cate=<%=arrCate[c] %>" class="<%=(arrCate[c].equals(cate))?"de":""%>"><%=arrCate[c] %></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                	<a href="?gubun=<%=gubun %>&cate=<%=arrCate[c] %><%="&"+urllms+"&"+urlmms%>" class="<%=(arrCate[c].equals(cate))?"de":""%>"><%=arrCate[c] %></a>&nbsp;&nbsp;&nbsp;&nbsp;
                 <%
                 	}
                 }
                 %>
                 </div>
                 <div class="emtibox">
-                    <textarea class="emti" readonly ><%=arrEmt[0] %></textarea>
-                    <textarea class="emti" readonly><%=arrEmt[1] %></textarea>
-                    <textarea class="emti" readonly><%=arrEmt[2] %></textarea>
-                    <textarea class="emti" readonly><%=arrEmt[3] %></textarea>
-                    <textarea class="emti" readonly><%=arrEmt[4] %></textarea>
-                    <textarea class="emti" readonly><%=arrEmt[5] %></textarea>
-                    <textarea class="emti" readonly><%=arrEmt[6] %></textarea>
-                    <textarea class="emti" readonly><%=arrEmt[7] %></textarea>
-                    <textarea class="emti" readonly><%=arrEmt[8] %></textarea>
-                    <textarea class="emti" readonly><%=arrEmt[9] %></textarea>
-                    <textarea class="emti" readonly><%=arrEmt[10] %></textarea>
-                    <textarea class="emti" readonly><%=arrEmt[11] %></textarea>
-                    <textarea class="emti" readonly><%=arrEmt[12] %></textarea>
-                    <textarea class="emti" readonly><%=arrEmt[13] %></textarea>
-                    <textarea class="emti" readonly><%=arrEmt[14] %></textarea>
+                    <textarea class="emti" onclick="setMsg(this.value)" readonly><%=arrEmt[0] %></textarea>
+                    <textarea class="emti" onclick="setMsg(this.value)" readonly><%=arrEmt[1] %></textarea>
+                    <textarea class="emti" onclick="setMsg(this.value)" readonly><%=arrEmt[2] %></textarea>
+                    <textarea class="emti" onclick="setMsg(this.value)" readonly><%=arrEmt[3] %></textarea>
+                    <textarea class="emti" onclick="setMsg(this.value)" readonly><%=arrEmt[4] %></textarea>
+                    <textarea class="emti" onclick="setMsg(this.value)" readonly><%=arrEmt[5] %></textarea>
+                    <textarea class="emti" onclick="setMsg(this.value)" readonly><%=arrEmt[6] %></textarea>
+                    <textarea class="emti" onclick="setMsg(this.value)" readonly><%=arrEmt[7] %></textarea>
+                    <textarea class="emti" onclick="setMsg(this.value)" readonly><%=arrEmt[8] %></textarea>
+                    <textarea class="emti" onclick="setMsg(this.value)" readonly><%=arrEmt[9] %></textarea>
+                    <textarea class="emti" onclick="setMsg(this.value)" readonly><%=arrEmt[10] %></textarea>
+                    <textarea class="emti" onclick="setMsg(this.value)" readonly><%=arrEmt[11] %></textarea>
+                    <textarea class="emti" onclick="setMsg(this.value)" readonly><%=arrEmt[12] %></textarea>
+                    <textarea class="emti" onclick="setMsg(this.value)" readonly><%=arrEmt[13] %></textarea>
+                    <textarea class="emti" onclick="setMsg(this.value)" readonly><%=arrEmt[14] %></textarea>
                 </div>
             </div>
         </fieldset>
-
-        <a href="javascript:return false;" class="potomore" onclick="window.location.href='?content=photo'">더보기</a>
+        <p class="mainlmstitle ti">장문문자</p>
+        <fieldset id="emoticon">
+            <ul class="title">
+                <li class="<%=(gubunlms.equals("업종별문자"))?"businessover":"business" %>" onclick="window.location.href='?gubunlms=업종별문자<%="&"+url+"&"+urlmms%>'">업종별문자</li>
+                <li class="<%=(gubunlms.equals("테마문자"))?"themaover":"thema" %>" onclick="window.location.href='?gubunlms=테마문자<%="&"+url+"&"+urlmms%>'">테마별문자</li>
+                <li class="more" onclick="window.location.href='?content=lms'">더보기</li>
+            </ul>
+            <div class="middle">
+                <div class="subTitle"><%
+                
+            	if (arrCatelms != null) {
+            		int catCnt = arrCatelms.length;
+            		for (int c = 0; c < catCnt; c++) {
+            	%>
+                	<a href="?gubunlms=<%=gubun %>&cate=<%=arrCatelms[c] %>" class="<%=(arrCatelms[c].equals(cate))?"de":""%>"><%=arrCatelms[c] %></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <%
+                	}
+                }
+                %>
+                </div>
+                <div class="emtibox">
+                    <textarea class="emtiLms" onclick="setMsg(this.value)" readonly ><%=arrEmtlms[0] %></textarea>
+                    <textarea class="emtiLms" onclick="setMsg(this.value)" readonly><%=arrEmtlms[1] %></textarea>
+                    <textarea class="emtiLms" onclick="setMsg(this.value)" readonly><%=arrEmtlms[2] %></textarea>
+                    <textarea class="emtiLms" onclick="setMsg(this.value)" readonly><%=arrEmtlms[3] %></textarea>
+                    <textarea class="emtiLms" onclick="setMsg(this.value)" readonly><%=arrEmtlms[4] %></textarea><p style="height:10px"></p>
+                    <textarea class="emtiLms" onclick="setMsg(this.value)" readonly><%=arrEmtlms[5] %></textarea>
+                    <textarea class="emtiLms" onclick="setMsg(this.value)" readonly><%=arrEmtlms[6] %></textarea>
+                    <textarea class="emtiLms" onclick="setMsg(this.value)" readonly><%=arrEmtlms[7] %></textarea>
+                    <textarea class="emtiLms" onclick="setMsg(this.value)" readonly><%=arrEmtlms[8] %></textarea>
+                    <textarea class="emtiLms" onclick="setMsg(this.value)" readonly><%=arrEmtlms[9] %></textarea>
+                </div>
+            </div>
+        </fieldset>
+		
+        <a href="javascript:return false;" class="potomore" onclick="window.location.href='?content=mms'">더보기</a>
         <fieldset id="poto">
             <legend>인기포토문자</legend>
             <div class="potoBox">
-                <img src="images/pro_ex.jpg" class="potoimg" alt="인기" />
-                <img src="images/pro_ex.jpg" class="potoimg" alt="인기" />
-                <img src="images/pro_ex.jpg" class="potoimg" alt="인기" />
-                <img src="images/pro_ex.jpg" class="potoimg" alt="인기" />
-                <img src="images/pro_ex.jpg" class="potoimg" alt="인기" />
-                <img src="images/pro_ex.jpg" class="potoimg" alt="인기" />
-                <img src="images/pro_ex.jpg" class="potoimg" alt="인기" style="margin-right:0px;" />
+            	<div class="subTitle"><%
+                
+            	if (arrMmsCate != null) {
+            		int catCnt = arrMmsCate.length;
+            		for (int c = 0; c < catCnt; c++) {
+            	%>
+                	<a href="?gubunmms=&mmscate=<%=arrMmsCate[c] %>" class="<%=(arrMmsCate[c].equals(cate))?"de":""%>"><%=arrMmsCate[c] %></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <%
+                	}
+                }
+                %>
+                </div>
+            <% 
+            	if (arrMms != null && arrMms.size() > 0) {
+            		HashMap<String, String> hm = null;
+            		for (int m = 0; m < arrMms.size(); m++) {
+            			hm = arrMms.get(m);
+            			if (hm != null && !SLibrary.isNull( SLibrary.IfNull(hm, "msg") )) {
+            		%><div style="float:left;width:180px;text-align:center;">
+							<img onclick="setPhoto(this.src)" src="<%= SLibrary.IfNull(hm, "msg") %>" class="potoimg" style="display:block;width:176px;height:144px;cursor:pointer" <%= m == (arrMms.size() -1) ? "style='margin-right:0px;'" : "" %> />
+            				<p style="width:180px;overflow:hidden;height:20px" ><%= SLibrary.IfNull(hm, "title") %></p>
+						</div><%
+            			}
+            		}
+            	}
+            %>
             </div>
-            
         </fieldset>
 
 
         <fieldset id="noti">
             <legend>공지사항</legend>
-            <a href="" class="more">more</a>
+            <a href="?content=notic" class="more">more</a>
             <%
             	if (notihm != null) {
             		int size = notihm.size();
@@ -141,7 +213,7 @@
             		for (int i = 0; i < size; i++) {
             			hm = notihm.get(i);
             			%>
-            			<div class="content"><a href="?content=notic" class="title"><%=SLibrary.IfNull(hm, "title") %></a><span class="notiDate"></span></div>
+            			<div class="content"><a href="?content=notic&idx=<%=SLibrary.IfNull(hm, "idx") %>" class="title"><%=SLibrary.IfNull(hm, "title") %></a><span class="notiDate"></span></div>
             			<%
             		}
             	}
@@ -151,10 +223,22 @@
         <a href="" class="bank">입금계좌</a>
         <a href="" class="product">상품소개</a>
         <div id="etc">
-            <a href="" class="tax">세금계산서신청</a>
-            <a href="" class="card">신용카드영수증출력</a>
+            <a href="?content=my" class="tax">세금계산서신청</a>
+            <a href="?content=my" class="card">신용카드영수증출력</a>
             <a href="" class="faq">자주하는 질문</a>
             <a href="" class="mantoman">일대일문의</a>
         </div>
     </div><!--main End-->
+    <script type="text/javascript" >
+function setMsg(msg) {
+	
+	var flex = document.getElementById("Mainflex");
+	flex.phoneFlexFunction("setMessage", msg);
+}
+function setPhoto(msg) {
+	
+	var flex = document.getElementById("Mainflex");
+	flex.phoneFlexFunction("setPhoto", msg);
+}
+</script>
 

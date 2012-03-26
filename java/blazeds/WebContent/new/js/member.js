@@ -76,6 +76,24 @@ function check_join() {
 	return false;
 }
 
+function check_modify() {
+	
+	var f = document.form;
+		
+	if (!f.passwd1.value) {	alert("비밀번호를 입력해주세요"); f.passwd1.focus(); return false; }
+	if (f.passwd1.value.length < 6) { alert("비밀번호는 6자 이상으로 입력하세요.");	f.passwd1.focus(); return false; }
+	if (f.passwd1.value != f.passwd2.value) { alert("비밀번호와 비밀번호 확인이 다릅니다."); f.passwd1.focus(); return false; }
+	
+	if (!f.hp.value) {	alert("핸드폰 번호를 입력해주세요"); f.hp.focus(); return false; }
+	if (!f.email.value) { alert("이메일을 입력해주세요"); f.email.focus(); return false; }
+	/*if (!f.captchaInput.value) { alert("자동가입 방지를 넣어 주세요"); f.captchaInput.focus(); return false; }*/
+	
+	f.target = "nobody";	
+	f.action = "member/_modify.jsp";
+	f.submit();
+	return false;
+}
+
 function moveCursor(before, next, length) {
 	if (before.value.length==length) {
 		next.focus() ;
