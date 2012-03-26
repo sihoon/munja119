@@ -589,6 +589,5 @@ request.getSession().setAttribute("munja119JoinStep","step0@Session");
 		<img src="images/btn_cancle.gif" onclick="window.location.href='?'" />
 	</div>
 </div>
-<p id="free" class="ti">무료문자</p>
 <a id="cost" class="ti" href="">저렴하고 안정적인 문자서비스를 찾으십니까? 단가표 보기</a>
 <p id="custom" class="ti">Custom Center : 070-7510-8489, Fax: 031)970-8489</p>

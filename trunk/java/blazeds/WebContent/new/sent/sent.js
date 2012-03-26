@@ -18,3 +18,5 @@ swfobject.embedSWF(
     flashvars, params, attributes);
 // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
 swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+
+function readyPhone() { }

@@ -34,7 +34,7 @@ try {
      *
      * 기본정보를 변경하여 주시기 바랍니다.(파라미터 전달시 POST를 사용하세요)
      */
-    String CST_PLATFORM         = "test";                 //LG데이콤 결제서비스 선택(test:테스트, service:서비스)
+    String CST_PLATFORM         = "service";                 //LG데이콤 결제서비스 선택(test:테스트, service:서비스)
     String CST_MID              = "munja119";                      //LG데이콤으로 부터 발급받으신 상점아이디를 입력하세요.
     String LGD_MID              = ("test".equals(CST_PLATFORM.trim())?"t":"")+CST_MID;  //테스트 아이디는 't'를 제외하고 입력하세요.
                                                                                         //상점아이디(자동생성)
@@ -157,7 +157,7 @@ function isActiveXOK(){
 
 <body onload="isActiveXOK();">
 <div id="LGD_ACTIVEX_DIV"/> <!-- ActiveX 설치 안내 Layer 입니다. 수정하지 마세요. -->
-<form method="post" id="LGD_PAYINFO" action="/payres.jsp">
+<form method="post" id="LGD_PAYINFO" action="payres.jsp">
 <table>
     <tr>
         <td>구매자 이름 </td>

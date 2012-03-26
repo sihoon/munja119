@@ -48,7 +48,7 @@
 		if (rslt < 1) {
 			out.println(SLibrary.alertScript("회원가입에 실패 하였습니다.", ""));
 		}else {
-			out.println(SLibrary.alertScript("회원가입이 완료 되었습니다.\\r\\n\\r\\n로그인 후 사용하시기 바랍니다.", "parent.window.location.href='?'"));
+			out.println(SLibrary.alertScript("회원가입이 완료 되었습니다.\\r\\n\\r\\n로그인 후 사용하시기 바랍니다.", "parent.window.location.href='../';"));
 		}
 		
 	} catch (Exception e) {

@@ -16,6 +16,8 @@ Connection conn = null;
 UserInformationVO vo = null;
 SessionManagement ses = null;
 HashMap<String, String> hm = null;
+String idx = SLibrary.IfNull(request.getParameter("idx"));
+int viexIdx = 0;
 
 //페이징
 String url = "";
@@ -45,14 +47,16 @@ try {
 %>
 
 <% if (vo == null) { %>
+<form name="loginForm" method="post" target="nobody" action="member/_login.jsp" >
 <fieldset id="login">
     <legend>로그인</legend>
     <label class="idlabel ti" for="user_id">아이디</label><input type="text" id="user_id" name="user_id" />
-    <label class="pwlabel ti" for="user_pw">비밀번호</label><input type="text" id="user_pw" name="user_pw" />
-    <button class="loginBtn ti" >로그인</button>
+    <label class="pwlabel ti" for="user_pw">비밀번호</label><input type="password" id="user_pw" name="user_pw" />
+    <button class="loginBtn ti"  onclick="logincheck()">로그인</button>
     <button class="joinBtn ti">회원가입</button>
     <button class="findBtn ti">아이디찾기</button>
 </fieldset>
+</form>
 <% } else { %>
 <fieldset id="loginInfo">
     <legend>로그인정보</legend>
@@ -64,18 +68,20 @@ try {
 </fieldset>
 <% }%>
 
-<p id="noticTitle" class="">공지사항</p>
+<p id="noticTitle" class="ti">공지사항</p>
 
 <div id="noticBox" class="" >
+	<img alt="타이틀" src="images/notice_bar.gif"/>
 	<table class="cntTable" width="100%" border="0" cellpadding="0" cellspacing="0" >
-		<tr>
-			<th>번호</th>
-			<th>제목</th>
-			<th>날짜</th>
-			<th>조회</th>
-		</tr>
+<!-- 		<tr> -->
+<!-- 			<th>번호</th> -->
+<!-- 			<th>제목</th> -->
+<!-- 			<th>날짜</th> -->
+<!-- 			<th>조회</th> -->
+<!-- 		</tr> -->
 		<%
 		String style = "";
+		
 		if (al.size() > 0) {
 			int cnt = al.size();
 			
@@ -83,11 +89,13 @@ try {
 				hm = al.get(p);
 				if (p%2 == 0) style = " class=\"bg\"";
 				else style = "";
+				
+				if (idx.equals(SLibrary.IfNull(hm, "idx"))) viexIdx = p;
 				%>
 		<tr onclick="visible(document.getElementById('c<%=p%>'))" style="cursor:pointer">
-			<td <%=style %>><%=SLibrary.IfNull(hm, "num") %></td>
-			<td <%=style %> style="text-align:left;"><%=SLibrary.IfNull(hm, "title") %></td>
-			<td <%=style %>><%=SLibrary.IfNull(hm, "timeWrite").substring(0, SLibrary.IfNull(hm, "timeWrite").length()-2)%></td>
+			<td <%=style %> style="width:70px;height:28px;"><%=SLibrary.IfNull(hm, "num") %></td>
+			<td <%=style %> style="width:430px" style="text-align:left;"><%=SLibrary.IfNull(hm, "title") %></td>
+			<td <%=style %> style="width:120px"><%=SLibrary.IfNull(hm, "timeWrite").substring(0, SLibrary.IfNull(hm, "timeWrite").length()-2)%></td>
 			<td <%=style %>><%=SLibrary.addComma( SLibrary.IfNull(hm, "cnt") )%></td>
 		</tr>
 		<tr id="c<%=p%>" style="display:none;">
@@ -134,11 +142,11 @@ try {
 	
 </div>
 <p id="free" class="ti">무료문자</p>
-<a id="cost" class="ti" href="">저렴하고 안정적인 문자서비스를 찾으십니까? 단가표 보기</a>
+<a id="cost" class="ti" href="?content=billing">저렴하고 안정적인 문자서비스를 찾으십니까? 단가표 보기</a>
 <p id="custom" class="ti">Custom Center : 070-7510-8489, Fax: 031)970-8489</p>
 
 <%
-
+	out.println(SLibrary.alertScript("", "visible(document.getElementById('c"+Integer.toString(viexIdx)+"'));"));
 }catch (Exception e) {}
 finally {
 
