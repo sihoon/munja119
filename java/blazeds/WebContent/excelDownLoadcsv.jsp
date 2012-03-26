@@ -1,6 +1,6 @@
-<%@page import="com.common.util.SLibrary"%>
 <%@ page language="java" contentType="application/vnd.ms-excel;charset=euc-kr"
     pageEncoding="EUC-KR"%>
+<%@page import="com.common.util.SLibrary"%>    
 <%
 response.setHeader("Content-Disposition", "attachment; filename=119.xls");
 response.setHeader("Content-Description", "JSP Generated Data");
@@ -33,12 +33,13 @@ try {
         	for( int i = 0; i < count; i++) {
         		
         		col = row[i].split(",");
-        		colCount = col.length;
+        		
         		
         		if (col != null) {
         			
 	        		out.println("<tr>");
 	        		
+	        		colCount = col.length;
 	        		for ( int j = 0; j < colCount; j++) {
 	        			
 	        			out.println(" <td style=\"mso-number-format:'@'\">"+col[j]+"</td>");
