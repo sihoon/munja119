@@ -601,6 +601,41 @@ public class Admin extends SessionManagement {
 		return al;
 	}
 	
+	public List<HashMap<String, String>> getTaxList() {
+
+		Connection conn = null;
+		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
+		VbyP.accessLog(getAdminSession()+" >> 세금계산서");
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				conn = VbyP.getDB();
+				if (getAdminSession() != null && !getAdminSession().equals("")) {
+					
+					
+					StringBuffer buf = new StringBuffer();
+
+					buf.append( VbyP.getSQL("adminTaxList") );
+							
+					PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+					pq.setPrepared( conn, buf.toString() );
+					
+					
+					al = pq.ExecuteQueryArrayList();
+					
+					
+					return al;
+				}
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("getTaxList >> conn.close() Exception!"); }
+			}
+		}
+		
+		return al;
+	}
+	
 	public int deleteCash(int idx) {
 		
 		Connection conn = null;
@@ -622,6 +657,60 @@ public class Admin extends SessionManagement {
 			}catch (Exception e) {}	finally {			
 				try { if ( conn != null ) conn.close();
 				}catch(SQLException e) { VbyP.errorLog("deleteCash >> conn.close() Exception!"); }
+			}
+		}
+		
+		return rslt;
+	}
+	
+	public int setTaxDelete(int idx) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 세금계산서 삭제"+Integer.toString(idx));
+		int rslt = 0;
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminTaxDelete"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setInt(1, idx);
+				rslt = pq.executeUpdate();
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("setTaxDelete >> conn.close() Exception!"); }
+			}
+		}
+		
+		return rslt;
+	}
+	
+	public int setTaxComplet(int idx) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 세금계산서 완료"+Integer.toString(idx));
+		int rslt = 0;
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminTaxComplet"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setInt(1, idx);
+				rslt = pq.executeUpdate();
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("setTaxComplet >> conn.close() Exception!"); }
 			}
 		}
 		
