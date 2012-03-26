@@ -81,6 +81,7 @@
 					<fx:Object label="LMS이모티콘관리" url="admin/module/EmoticonLMS.swf"></fx:Object>
 					<fx:Object label="MMS이모티콘관리" url="admin/module/EmoticonMMS.swf"></fx:Object>
 					<fx:Object label="공지사항관리" url="admin/module/Notic.swf"></fx:Object>
+					<fx:Object label="세금계산서" url="admin/module/Tax.swf"></fx:Object>
 					<fx:Object label="FAQ관리" url="admin/module/Faq.swf"></fx:Object>
 					<!--<fx:Object label="통계" url="admin/module/Stats.swf"></fx:Object>-->
 				</fx:Array>
