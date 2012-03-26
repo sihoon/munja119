@@ -33,6 +33,7 @@
 				mvo.timeLogin = data.timeLogin;
 				mvo.timeJoin = data.timeJoin;
 				mvo.leaveYN = data.leaveYN;
+				mvo.email = data.email;
 				
 				parentDocument.update_submit(mvo);
 			}
