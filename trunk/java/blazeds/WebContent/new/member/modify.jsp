@@ -56,7 +56,7 @@ finally {
 <form name="form" method="post" action="member/_modify.jsp">
 <div id="joinBox">
 	<p class="joinAd ti">업계최저가격 문자서비스</p>
-	<p class="join2Title ti">정보입력</p>
+	<p class="join3Title ti">정보입력</p>
 	<table class="inputTable" cellpadding="0" cellspacing="0" border="0">
 		<tr><td class="t">비밀번호</td><td class="c"><input type="password" name="passwd1" id="passwd1" class="txt" value="" /> <span id="passwd1_check">영, 숫자조합 (4~12자)</span></td></tr>
 		<tr><td class="t">비밀번호확인</td><td class="c"><input type="password" name="passwd2" id="passwd2" class="txt" value=""/> <span id="passwd2_check">비밀번호를 다시 한번 입력해 주세요.</span></td></tr>
@@ -70,7 +70,7 @@ finally {
 		<input type="radio" name="smsok" value="N" id="smsno" <%=vo.getHpYN().equals("N") ? "checked=\"checked\"" : "" %> /><label for="smsno">아니오</label> &nbsp;&nbsp;<span>이벤트, 제품 정보, 주문정보 등에 대한 메일링 서비스</span></td></tr>
 	</table>
 	<div class="confirmBox">
-		<img src="images/btn_member.gif" onclick="check_modify()" />&nbsp;&nbsp;&nbsp;
+		<img src="images/btn_qaregist.gif" onclick="check_modify()" />&nbsp;&nbsp;&nbsp;
 		<img src="images/btn_cancle.gif" onclick="window.location.href='?'" />
 	</div>
 </div>

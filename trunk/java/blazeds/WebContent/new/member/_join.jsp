@@ -11,7 +11,7 @@
 		out.println(SLibrary.alertScript("잘못된 접근 입니다.", ""));
 		return;
 	}
-
+	
 	String user_id = VbyP.getPOST(request.getParameter("join_id"));
 	String id_ok = VbyP.getPOST(request.getParameter("id_ok"));
 	String passwd1 = VbyP.getPOST(request.getParameter("passwd1"));
@@ -22,6 +22,8 @@
 	
 	String hp = VbyP.getPOST(request.getParameter("hp"));
 	String email = VbyP.getPOST(request.getParameter("email"));
+	
+	VbyP.accessLog("회원가입 페이지 요청 완료>> " + request.getRemoteAddr() +" "+user_id );
 
 	try {
 		Join join = new Join();

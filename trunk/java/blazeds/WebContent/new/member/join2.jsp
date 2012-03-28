@@ -1,3 +1,4 @@
+<%@page import="com.common.VbyP"%>
 <%@page import="com.common.util.SLibrary"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%
 
@@ -7,6 +8,7 @@ if(!SLibrary.IfNull( (String)session.getAttribute("munja119JoinStep") ).equals("
 	return;
 }
 request.getSession().setAttribute("munja119JoinStep","step1@Session");
+VbyP.accessLog("회원가입 페이지 요청 2단계>> " + request.getRemoteAddr());
 %>
 <form name="form" method="post" action="?content=join3">
 

@@ -1,5 +1,7 @@
+<%@page import="com.common.VbyP"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%
 request.getSession().setAttribute("munja119JoinStep","step0@Session");
+VbyP.accessLog("회원가입 페이지 요청 1단계>> " + request.getRemoteAddr());
 %>
 <script type="text/javascript" src="js/member.js"></script>
 <fieldset id="login"><!-- 로그인 -->
