@@ -33,6 +33,27 @@ public class NoticDAO {
 		return al;
 	}
 	
+	public ArrayList<HashMap<String, String>> getListFAQPage(Connection conn, int start, int end) {
+		
+		ArrayList<HashMap<String, String>> al = null;
+		
+		try {
+
+			StringBuffer buf = new StringBuffer();
+			buf.append(VbyP.getSQL("faqListPage"));
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+			pq.setPrepared( conn, buf.toString() );
+			pq.setInt(1, start);
+			pq.setInt(2, end);
+			
+			al = pq.ExecuteQueryArrayList();
+			
+		}catch (Exception e) {}
+		
+		
+		return al;
+	}
+	
 	public ArrayList<NoticVO> getList(Connection conn) {
 		
 		ArrayList<HashMap<String, String>> al = null;
@@ -65,9 +86,6 @@ public class NoticDAO {
 		ArrayList<NoticVO> rslt = null;
 		
 		try {
-			
-			
-			
 			StringBuffer buf = new StringBuffer();
 			buf.append(VbyP.getSQL("faqList"));
 			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
