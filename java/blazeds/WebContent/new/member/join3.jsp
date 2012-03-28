@@ -8,6 +8,7 @@ if(!SLibrary.IfNull( (String)session.getAttribute("munja119JoinStep") ).equals("
 	//return;
 }
 request.getSession().setAttribute("munja119JoinStep","step2@Session");
+VbyP.accessLog("회원가입 페이지 요청 3단계>> " + request.getRemoteAddr());
 
 String name = VbyP.getPOST(request.getParameter("name"));
 String jumin1 = VbyP.getPOST(request.getParameter("jumin1"));

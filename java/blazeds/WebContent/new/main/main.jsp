@@ -225,8 +225,8 @@
         <div id="etc">
             <a href="?content=my" class="tax">세금계산서신청</a>
             <a href="?content=my" class="card">신용카드영수증출력</a>
-            <a href="" class="faq">자주하는 질문</a>
-            <a href="" class="mantoman">일대일문의</a>
+            <a href="?content=faq" class="faq">자주하는 질문</a>
+            <a href="?content=qna" class="mantoman">일대일문의</a>
         </div>
     </div><!--main End-->
     <script type="text/javascript" >

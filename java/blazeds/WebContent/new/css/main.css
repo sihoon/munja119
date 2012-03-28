@@ -159,9 +159,10 @@ div.context {width:950px; height:auto; margin:0px auto;position: relative;}
 #copyright .family {display:block;float:right;}
 
 #joinBox {float:right;margin-top:10px; width:721px; height:auto;}
-#joinBox .joinAd {width:721px;height:82px;background:url("../images/subimg.jpg") no-repeat;}
+#joinBox .joinAd {width:721px;height:82px;background:url("../images/sub_img.jpg") no-repeat;}
 #joinBox .joinTitle {margin-top:10px;width:721px;height:58px;background:url("../images/title_member.gif") no-repeat;border-bottom:1px solid red}
 #joinBox .join2Title {margin-top:10px;width:721px;height:58px;background:url("../images/title_member1.gif") no-repeat;border-bottom:1px solid red}
+#joinBox .join3Title {margin-top:10px;width:721px;height:58px;background:url("../images/edit_tit.gif") no-repeat;border-bottom:1px solid red}
 #joinBox .joinsub1 {width:721px;height:35px;background:url("../images/member_tit01.gif") no-repeat;}
 #joinBox .joinsub1Content {width:721px; height:200px;overflow-y:scroll;border:1px solid #ccc}
 #joinBox .joinsub2 {width:721px;height:35px;background:url("../images/member_tit02.gif") no-repeat;}
@@ -184,7 +185,7 @@ div.context {width:950px; height:auto; margin:0px auto;position: relative;}
 #sentBox .sentTitle {margin-top:10px;width:721px;height:58px;background:url("../images/title_sendlist.gif") no-repeat;border-bottom:1px solid red}
 
 #billingTitle {float:right;margin-top:10px;width:721px;height:58px;background:url("../images/title_all.gif") no-repeat;border-bottom:2px solid red}
-#billingTitle2 {float:right;margin-top:10px;width:721px;height:82px;background:url("../images/subimg.jpg") no-repeat;}
+#billingTitle2 {float:right;margin-top:10px;width:721px;height:82px;background:url("../images/sub_img.jpg") no-repeat;}
 #billingBox {float:right; margin-top:10px;width:721px;height:auto; }
 #billingBox .txtMethod {width:721px;height:35px;background:url("../images/member_img05.gif") no-repeat;font-size:14px;font-weight:bold}
 #billingBox .selMethod { width:721px; text-align:center; padding:20px 0px}
@@ -214,3 +215,6 @@ div.context {width:950px; height:auto; margin:0px auto;position: relative;}
 #noticBox .cntTable tr th {background-color:#0078ff;height:30px;color:white;border-left:1px solid #fff}
 #noticBox .cntTable tr td {text-align:center;height:26px;}
 #noticBox .cntTable tr td.bg {background-color:#efefef;}
+
+#faqTitle {float:right;margin-top:10px;width:721px;height:58px;background:url("../images/faq_tit.gif") no-repeat;border-bottom:2px solid red}
+#qnaTitle {float:right;margin-top:10px;width:721px;height:58px;background:url("../images/qa_tit.gif") no-repeat;border-bottom:2px solid red}
