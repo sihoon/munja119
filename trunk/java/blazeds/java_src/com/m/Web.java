@@ -1379,7 +1379,7 @@ public class Web extends SessionManagement{
 			//message 개행문자 변경
 			message = SLibrary.replaceAll(message, "\r", "\n");
 			
-			checkLMSSend( conn, sendCount, mvo, message, requestIp );
+			checkMMSSend( conn, sendCount, mvo, message, requestIp, imagePath );
 			
 			/* Send Process */
 			//step1
@@ -1531,6 +1531,58 @@ public class Web extends SessionManagement{
 		
 		//건수 체크
 		if( Integer.parseInt(mvo.getPoint()) < sendCount * MMS.LMS_POINT_COUNT )
+			throw new Exception("잔여건수가 부족합니다. ( "+ Integer.toString(sendCount)+" / "+ mvo.getPoint()+" )");
+	
+	
+		//message 필터링
+		if ( Integer.parseInt(VbyP.getValue("filterMinCount")) <= sendCount  ) {
+			
+			String filterMessage = null;
+			String bGlobal = "";
+			filterMessage = Filtering.globalMessageFiltering(message);
+			if (filterMessage == null )
+				filterMessage = Filtering.messageFiltering(mvo.getUser_id(), message);
+			else
+				bGlobal = "전체";
+			
+			if (filterMessage != null) {
+				
+				VbyP.accessLog(mvo.getUser_id() +" >> 전송 요청 : 스팸필터 ("+filterMessage+")");
+				AdminSMS asms = AdminSMS.getInstance();
+				asms.sendAdmin(conn, 
+						"M["+bGlobal+"스팸필터]\r\n" + mvo.getUser_id() + "\r\n" 
+						+ filterMessage  );
+				throw new Exception("스팸성 문구가 발견 되었습니다.");
+			}
+		}
+		//ip 필터링
+		if ( Filtering.ipFiltering(mvo.getUser_id(), requestIp) != null ) {
+			VbyP.accessLog(mvo.getUser_id() +" >> 전송 요청 : IP필터 ("+Filtering.ipFiltering(mvo.getUser_id(), requestIp)+")");
+			throw new Exception("고객님은 현재 발송이 제한되어 있습니다.");
+		}
+		
+		//메시지 이통사 미적용 한글 확인
+		String isMessage = SMS.getInstance().isMessage(message);
+		if ( isMessage != null )
+			throw new Exception("["+isMessage+"] 문자가 맞춤법에 어긋납니다.수정하세요.");
+		
+	}
+	
+	private void checkMMSSend( Connection conn, int sendCount, UserInformationVO mvo, String message, String requestIp, String imagePath ) throws Exception {
+		
+		//최대 발송건수
+		if ( Integer.parseInt(VbyP.getValue("maxSendCount")) < sendCount )
+			throw new Exception( VbyP.getValue("maxSendCount")+" 건 이상 발송 하실 수 없습니다.");
+		
+		if( mvo.getLevaeYN().equals("Y") ){
+			logout_session();
+			throw new Exception("잘못된 접근입니다.");
+		}
+		
+		if (SLibrary.isNull(imagePath)) throw new Exception("이미지가 없습니다.");
+		
+		//건수 체크
+		if( Integer.parseInt(mvo.getPoint()) < sendCount * MMS.MMS_POINT_COUNT )
 			throw new Exception("잔여건수가 부족합니다. ( "+ Integer.toString(sendCount)+" / "+ mvo.getPoint()+" )");
 	
 	
