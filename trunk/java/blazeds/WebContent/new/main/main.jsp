@@ -148,7 +148,7 @@
             		int catCnt = arrCatelms.length;
             		for (int c = 0; c < catCnt; c++) {
             	%>
-                	<a href="?gubunlms=<%=gubun %>&cate=<%=arrCatelms[c] %>" class="<%=(arrCatelms[c].equals(cate))?"de":""%>"><%=arrCatelms[c] %></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                	<a href="?gubunlms=<%=gubunlms %>&catelms=<%=arrCatelms[c] %>" class="<%=(arrCatelms[c].equals(cate))?"de":""%>"><%=arrCatelms[c] %></a>&nbsp;&nbsp;&nbsp;&nbsp;
                 <%
                 	}
                 }

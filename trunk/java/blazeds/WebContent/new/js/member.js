@@ -36,6 +36,11 @@ function check1() {
 		alert("개인정보보호방침에 동의 하세요.");
 		return false;
 	}
+
+	if (!document.getElementById("sub3ok").checked) {
+		alert("스팸약관에 동의 하세요.");
+		return false;
+	}
 	
 	window.location.href='?content=join2';
 }
