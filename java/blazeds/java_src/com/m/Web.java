@@ -1315,7 +1315,7 @@ public class Web extends SessionManagement{
 			
 			VbyP.accessLog(user_id+" >> MMS 전송 요청 : " + requestIp + " =>["+image+"] ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"] ["+interval+"] ["+bMerge+"]");
 			
-			if (SLibrary.isNull(imagePath) || !SLibrary.isFile(imagePath)) throw new Exception("이미지가 없습니다.");
+			if (SLibrary.isNull(image) || !SLibrary.isFile(image)) throw new Exception("이미지가 없습니다.");
 
 			// 20120315 추가
 			if (!SLibrary.isNull(interval)) {

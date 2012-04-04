@@ -60,7 +60,7 @@ public class SentLMSFactory implements SentFactoryAble {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 		if (SLibrary.IfNull(line).equals("ktmms")) {
-			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentDataKT") );
+			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentDataKTUser") );
 		}else
 			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentData") );
 		
@@ -98,6 +98,7 @@ public class SentLMSFactory implements SentFactoryAble {
 					else if (SLibrary.IfNull(h, "STATUS").equals("1")) status = "1";
 					else if (SLibrary.IfNull(h, "STATUS").equals("2")) status = "1";
 					else if (SLibrary.IfNull(h, "STATUS").equals("3")) status = "2";
+					else if (SLibrary.IfNull(h, "STATUS").equals("-1")) status = "2";
 					else status = "0";
 						
 						
