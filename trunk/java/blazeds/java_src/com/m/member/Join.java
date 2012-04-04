@@ -82,6 +82,8 @@ public class Join {
 			pq.setString(4, SLibrary.IfNull(vo.getJumin()));
 			pq.setString(5, SLibrary.IfNull(vo.getHp()));
 			pq.setString(6, SLibrary.IfNull(vo.getReturnPhone()));
+			pq.setString(7, SLibrary.IfNull(vo.getEmail()));
+			
 			count = pq.executeUpdate();
 			
 			
