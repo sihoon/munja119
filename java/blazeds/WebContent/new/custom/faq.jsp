@@ -99,7 +99,7 @@ try {
 			<td <%=style %>><%=SLibrary.addComma( SLibrary.IfNull(hm, "cnt") )%></td>
 		</tr>
 		<tr id="c<%=p%>" style="display:none;">
-			<td colspan="4" style="text-align:left;"><pre style="padding:10px 0px; padding-left:50px;border:1px solid gray"><%=SLibrary.IfNull(hm, "content") %></pre></td>
+			<td colspan="4" style="text-align:left;width:721px;height:auto"><textarea readonly style="padding:10px 0px; padding-left:50px;border:1px solid gray;width:671px;height:100px;"><%=SLibrary.IfNull(hm, "content") %></textarea></td>
 		</tr>
 				<%
 				
@@ -141,12 +141,12 @@ try {
 	
 	
 </div>
-<p id="free" class="ti">무료문자</p>
 <a id="cost" class="ti" href="?content=billing">저렴하고 안정적인 문자서비스를 찾으십니까? 단가표 보기</a>
 <p id="custom" class="ti">Custom Center : 070-7510-8489, Fax: 031)970-8489</p>
 
 <%
-	out.println(SLibrary.alertScript("", "visible(document.getElementById('c"+Integer.toString(viexIdx)+"'));"));
+	if (!idx.equals(""))
+		out.println(SLibrary.alertScript("", "visible(document.getElementById('c"+Integer.toString(viexIdx)+"'));"));
 }catch (Exception e) {}
 finally {
 

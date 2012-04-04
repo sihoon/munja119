@@ -7,7 +7,7 @@ div.context {width:950px; height:auto; margin:0px auto;position: relative;}
 .ti {text-indent:-9999px;}
 #topSub {float:right;}
 #topSub a{font-size:11px;}
-#logo {clear:both;width:950px; height:65px;background:url("../images/logo.gif") no-repeat;}
+#logo {clear:both;width:950px; height:65px;background:url("../images/logo.gif") 15px 0px no-repeat;}
 #menu { width:950px;height:44px;}
 #menu a {display:block;float:left;overflow:hidden;display:inline;}
 #menu .sms {width:149px; height:44px;background:url("../images/tpm_01.jpg") 0 0 no-repeat; }

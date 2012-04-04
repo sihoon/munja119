@@ -151,7 +151,7 @@ finally {
 				
 				<p class="txtCash ti">계좌선택</p>
 				<ul class="cashList">
-					<li><input type="radio" name="cash" id="cash1" value="국민 - 최유진 517101-01-253003" /><label for="cash1">국민 - 최유진 517101-01-253003</label></li>
+					<li><input type="radio" name="cash" id="cash1" value="국민 - 최유진 517101-01-253003"  checked="checked" /><label for="cash1">국민 - 최유진 517101-01-253003</label></li>
 					<li><input type="radio" name="cash" id="cash2" value="농협 - 최유진 302-0270-9608-11" /><label for="cash2">농협 - 최유진 302-0270-9608-11</label></li>
 					<li><input type="radio" name="cash" id="cash3" value="신한 - 최유진 110-304-851796" /><label for="cash3">신한 - 최유진 110-304-851796</label></li>
 					<li><input type="radio" name="cash" id="cash4" value="우리 - 최유진 191-420251-02-001" /><label for="cash4">우리 - 최유진 191-420251-02-001</label></li>

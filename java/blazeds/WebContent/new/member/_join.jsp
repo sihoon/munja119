@@ -43,7 +43,7 @@
 		vo.setName(user_name);
 		vo.setJumin(jumin1+jumin2);
 		vo.setHp(hp);
-		
+		vo.setEmail(email);
 		int rslt = join.insert(vo);
 		PointManager.getInstance().initPoint( user_id, 0);
 		
