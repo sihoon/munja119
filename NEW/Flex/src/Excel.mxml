@@ -47,7 +47,13 @@
 		</s:VGroup>
 		
 		<s:VGroup width="100%">
-			<s:Image right="0" source="images/title_excel.gif" />
+			<s:Group width="100%">
+				<s:Image left="0" source="images/title_excel.gif" verticalCenter="0" />
+				<s:Image right="0" source="images/exceldown.gif" click="{ExternalInterface.call('eval','window.location.href=\'excel/_down.jsp\'')}"
+						 verticalCenter="0"
+						 buttonMode="true" useHandCursor="true" />
+			</s:Group>
+			
 			<s:Rect width="100%" height="2"><s:fill><s:SolidColor color="0xFF0000" /></s:fill></s:Rect>
 			<s:ModuleLoader id="mDef" right="0" top="10" url="module/MExcel.swf"/>
 		</s:VGroup>
