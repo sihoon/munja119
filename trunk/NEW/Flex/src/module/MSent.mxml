@@ -324,8 +324,8 @@
 				<s:Image source="images/btn_reserve.gif" click="reservation_submit()" buttonMode="true" useHandCursor="true" />
 			</s:HGroup>
 			<s:Group width="100%" height="100%">
-				<mx:DataGrid id="dgGroup" styleName="addrDg" width="100%" height="100%" draggableColumns="false" resizableColumns="false" verticalGridLines="false"
-							 itemClick="dgGroup_itemClickHandler(event)">
+				<mx:DataGrid id="dgGroup" styleName="addrDg" width="100%" height="500" draggableColumns="false" resizableColumns="false" verticalGridLines="false"
+							 itemClick="dgGroup_itemClickHandler(event)" variableRowHeight="true" >
 					<mx:columns>
 						<mx:DataGridColumn headerText="번호" sortable="false" labelFunction="fnLabel" width="50"></mx:DataGridColumn>
 						<!--<mx:DataGridColumn dataField="tranType" headerText="형식" width="50"></mx:DataGridColumn>-->

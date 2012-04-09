@@ -233,7 +233,7 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:VGroup includeIn="input" left="0" right="0" top="30" bottom="0">
+	<s:VGroup includeIn="input" left="0" right="0" top="20" bottom="0">
 		<s:Image source="images/copy_tit01.gif" />
 		<s:TextArea id="paste" width="100%" height="400" prompt="전화번호가 포함된 내용을 복사( Ctrl+c ) 후 이곳에 붙여넣기( Ctrl+v ) 하세요. "/>
 		<s:HGroup>

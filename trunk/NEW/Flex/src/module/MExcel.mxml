@@ -341,7 +341,6 @@
 						 buttonMode="true" useHandCursor="true"/>
 				
 				<s:Image source="images/btn_again1.gif" click="{setStep(FILEUPLOAD)}" buttonMode="true" useHandCursor="true" />
-				<s:Image source="images/exceldown.gif" click="{ExternalInterface.call('eval','window.location.href=\'excel/_down.jsp\'')}" buttonMode="true" useHandCursor="true" />
 			</s:HGroup>
 		</s:Group>
 		<s:Label id="stepText" text="엑셀 파일 열기를 클릭하여 엑셀 파일을 선택 하세요."/>

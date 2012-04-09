@@ -34,9 +34,12 @@
 			
 			public function setMessage(msg:String):void {
 				
-				cMessage.setMessage(msg);
-				if (parentApplication.appName != "Sent")
-				ExternalInterface.call("alert", "메시지창에 적용되었습니다.");
+				if ( Boolean(parentApplication.bLogin) == false ) ExternalInterface.call("alert","로그인 후 이용가능합니다.");
+				else {
+					cMessage.setMessage(msg);
+					if (parentApplication.appName != "Sent")
+						ExternalInterface.call("alert", "메시지창에 적용되었습니다.");
+				}
 			}
 			
 			public function setMessageAdd(msg:String):void {
@@ -51,9 +54,11 @@
 			
 			
 			public function setPhoto(source:String):void {
-				
-				cMessage.setPhoto(source);
-				ExternalInterface.call("alert", "메시지창에 적용되었습니다.");
+				if ( Boolean(parentApplication.bLogin) == false ) ExternalInterface.call("alert","로그인 후 이용가능합니다.");
+				else {
+					cMessage.setPhoto(source);
+					ExternalInterface.call("alert", "메시지창에 적용되었습니다.");
+				}
 			}
 			
 			public function addList(phone:String):void{
@@ -84,6 +89,8 @@
 			
 			protected function creationCompleteHandler(event:FlexEvent):void {
 				
+				ExternalInterface.addCallback("phoneFlexFunction",phoneFlexFunction);
+				
 				this.cMessage.bLMSAuto = bLMSAuto;
 				
 				if (defMode == "SMS")this.cMessage.changeSMS();
@@ -91,6 +98,17 @@
 				else if (defMode == "MMS")this.cMessage.changeMMS();
 				sendButton.enabled = false;
 				isValid();
+				
+				//ExternalInterface.call("readyPhone");
+			}
+			private function phoneFlexFunction(fun:String, arg:Object):void {
+				
+				if (fun == "setMessage") setMessage(arg as String);
+				else if (fun == "setMessageAdd") setMessageAdd(arg as String);
+				else if (fun == "setAutoMessage") setAutoMessage(arg as Boolean);
+				else if (fun == "setPhoto") setPhoto(arg as String);
+				else if (fun == "addList") addList(arg as String);
+				else if (fun == "addListArray") addListArray(arg as Array);
 			}
 			
 			public function isValid():void {
@@ -253,8 +271,13 @@
 			#	발송설정						#
 			###############################*/
 			private function confirmView():void {
-				confirmSetting();
-				confirm.visible = true;
+				if (cMessage.mode.text == "MMS" && cMessage.mmsImage == "") {
+					ExternalInterface.call("alert","사진을 첨부 하세요.");
+				}else {
+					confirmSetting();
+					confirm.visible = true;	
+				}
+				
 			}
 			private function confirmSetting():void {
 				
