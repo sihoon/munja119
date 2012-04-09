@@ -26,6 +26,7 @@ public class MemberVO implements Serializable {
 	String timeLogin="";
 	String timeJoin="";
 	String leaveYN="";
+	int point=0;
 	
 	public void setHashMap(HashMap<String, String> hm) {
 		
@@ -45,6 +46,7 @@ public class MemberVO implements Serializable {
 			setTimeLogin(SLibrary.IfNull( hm,"timeLogin" ));
 			setTimeJoin(SLibrary.IfNull( hm,"timeJoin" ));
 			setLeaveYN(SLibrary.IfNull( hm,"leaveYN" ));
+			setPoint(SLibrary.intValue(SLibrary.IfNull( hm,"point" )));
 		}
 	}
 	
@@ -134,6 +136,16 @@ public class MemberVO implements Serializable {
 	}
 	public void setLeaveYN(String leaveYN) {
 		this.leaveYN = leaveYN;
+	}
+
+
+	public int getPoint() {
+		return point;
+	}
+
+
+	public void setPoint(int point) {
+		this.point = point;
 	}
 	
 	
