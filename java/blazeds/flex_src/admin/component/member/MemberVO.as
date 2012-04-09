@@ -18,6 +18,7 @@ package admin.component.member
 		public var timeLogin:String = "";
 		public var timeJoin:String = "";
 		public var leaveYN:String = "";
+		public var point:int = 0;
 		
 		public function MemberVO()
 		{

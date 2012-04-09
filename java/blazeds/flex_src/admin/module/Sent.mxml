@@ -86,6 +86,7 @@
 					al = event.result as ArrayCollection;
 					
 					if (al != null) {
+						delEnter();
 						dgGroup.dataProvider = al;
 					}
 					callLater(spinnerStop);
@@ -106,6 +107,7 @@
 					alDetail = event.result as ArrayCollection;
 					
 					if (alDetail != null) {
+						delEnterDetail();
 						dg.dataProvider = alDetail;
 					}
 					
@@ -167,6 +169,30 @@
 					return false;
 				}
 				
+				protected function delEnter():void {
+					
+					if (al != null && delenterCheck.selected == true) {
+						var cnt:int = al.length;
+						var enterPattern:RegExp = /\n/g;
+						for( var i:int = 0; i < cnt; i++) {
+							al.getItemAt(i).message = String(al.getItemAt(i).message).replace(enterPattern,"");
+						}
+					}
+				}
+				
+				protected function delEnterDetail():void {
+					
+					if (alDetail != null && delenterCheck.selected == true) {
+						var cnt:int = alDetail.length;
+						var enterPattern:RegExp = /\n/g;
+						for( var i:int = 0; i < cnt; i++) {
+							alDetail.getItemAt(i).TR_MSG = String(alDetail.getItemAt(i).TR_MSG).replace(enterPattern,"");
+						}
+					}
+				}
+				
+				
+				
 			]]>
 		</fx:Script>
 		<fx:Declarations>
@@ -182,9 +208,10 @@
 					<mx:DateField width="95" id="dateField2" yearNavigationEnabled="true" formatString="YYYY-MM-DD"/>
 					<s:Button label="검색" click="submit()"/>
 					<s:Button label="예약내역만보기" click="reservation_submit()"/>
+					<s:CheckBox id="delenterCheck" label="줄바꿈제거" />
 				</s:HGroup>
 				
-				<mx:DataGrid id="dgGroup" width="100%" height="100%" draggableColumns="false" resizableColumns="false">
+				<mx:DataGrid id="dgGroup" width="100%" height="100%" draggableColumns="false" resizableColumns="false"  variableRowHeight="true">
 					<mx:columns>
 						<mx:DataGridColumn headerText="번호" sortable="false" labelFunction="fnLabel" width="50"></mx:DataGridColumn>
 						<mx:DataGridColumn dataField="line" headerText="라인" width="50"></mx:DataGridColumn>
@@ -193,10 +220,23 @@
 						<mx:DataGridColumn dataField="returnPhone" headerText="회신번호"></mx:DataGridColumn>
 						<mx:DataGridColumn dataField="count" headerText="전송건수" width="80"></mx:DataGridColumn>
 						<mx:DataGridColumn dataField="message" headerText="메시지"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="ynDel" width="50" headerText="삭제"></mx:DataGridColumn>
 						<mx:DataGridColumn headerText="" width="200"  sortable="false" itemRenderer="admin.component.sent.SentFunRenderer" />
 					</mx:columns>
 				</mx:DataGrid>
-				<mx:DataGrid id="dg" visible="false" width="100%" height="0%" draggableColumns="false" resizableColumns="false">
+				<mx:DataGrid id="dg" visible="false" width="100%" height="0%" draggableColumns="false" resizableColumns="false"  variableRowHeight="true">
+					<mx:columns>
+						<mx:DataGridColumn headerText="번호" sortable="false" labelFunction="fnLabelDetail" width="50"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="TR_CALLBACK" headerText="회신번호"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="TR_ETC1" headerText="이름"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="TR_ETC6" headerText="그룹키"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="TR_MSG" headerText="메시지"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="TR_PHONE" headerText="전화번호"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="TR_RSLTDATE" headerText="결과시간"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="TR_RSLTSTAT" headerText="결과코드"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="TR_SENDDATE" headerText="전송시간"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="TR_SENDSTAT" headerText="결과상태"></mx:DataGridColumn>
+					</mx:columns>
 				</mx:DataGrid>
 			</s:VGroup>
 			<lib:Spinner id="spinner" visible="false" left="10"  right="10" bottom="50" top="50" spinnerColor="#ff4500" spinnerHighlightColor="#ffffff" spinnerLineThickness="8" spinnerType="gradientlines" spinnerAlpha="0.5" />

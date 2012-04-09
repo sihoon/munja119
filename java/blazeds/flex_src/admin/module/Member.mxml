@@ -212,6 +212,7 @@
 				<mx:DataGridColumn dataField="user_name" headerText="이름"></mx:DataGridColumn>
 				<mx:DataGridColumn dataField="jumin_no" headerText="주민등록번호" ></mx:DataGridColumn>
 				<mx:DataGridColumn dataField="hp" headerText="휴대폰"></mx:DataGridColumn>
+				<mx:DataGridColumn dataField="point" headerText="포인트" editable="false"></mx:DataGridColumn>
 				<mx:DataGridColumn dataField="phone_return" headerText="회신번호"></mx:DataGridColumn>
 				<mx:DataGridColumn dataField="unit_cost" headerText="단가"></mx:DataGridColumn>
 				<mx:DataGridColumn dataField="email" headerText="이메일"></mx:DataGridColumn>
