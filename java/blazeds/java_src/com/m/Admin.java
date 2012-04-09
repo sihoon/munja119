@@ -10,6 +10,7 @@ import com.common.db.PreparedExecuteQueryManager;
 import com.common.util.SLibrary;
 import com.m.billing.Billing;
 import com.m.billing.BillingVO;
+import com.m.common.AdminSMS;
 import com.m.common.BooleanAndDescriptionVO;
 import com.m.common.PointManager;
 import com.m.member.MemberVO;
@@ -265,6 +266,7 @@ public class Admin extends SessionManagement {
 		
 		int rslt = 0;
 		
+		
 		if (isLogin().getbResult()) {		
 			
 			try {
@@ -273,9 +275,16 @@ public class Admin extends SessionManagement {
 				
 				PointManager pm = PointManager.getInstance();		
 				rslt = pm.insertUserPoint(conn, mvo, 90, point * PointManager.DEFULT_POINT);
+				
+				if (point * PointManager.DEFULT_POINT > 0 && !SLibrary.isNull( mvo.getHp() ) ) {
+					AdminSMS asms = AdminSMS.getInstance();
+					String tempMessage = "[munja119] "+SLibrary.addComma( point * PointManager.DEFULT_POINT )+" 건 충전이 완료 되었습니다.";
+					asms.sendAdmin(conn, tempMessage , mvo.getHp() , "16000816");
+				}
+				
 			}catch (Exception e) {}	finally {			
 				try { if ( conn != null ) conn.close();
-				}catch(SQLException e) { VbyP.errorLog("getMember >> conn.close() Exception!"); }
+				}catch(SQLException e) { VbyP.errorLog("setPoint >> conn.close() Exception!"); }
 			}
 		}
 		return rslt;

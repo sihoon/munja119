@@ -265,7 +265,7 @@ public class AdminSMS {
 				throw new Exception("관리자 알림 N");
 			
 			user_id = VbyP.getValue("adminId");
-			requestIp = FlexContext.getHttpRequest().getRemoteAddr();
+			requestIp = "";//FlexContext.getHttpRequest().getRemoteAddr();
 			
 			year = SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") );
 			month = SLibrary.parseInt( SLibrary.getDateTimeString("MM") );

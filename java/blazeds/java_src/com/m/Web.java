@@ -620,6 +620,12 @@ public class Web extends SessionManagement{
 				
 				if (year == SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) && month < SLibrary.parseInt( SLibrary.getDateTimeString("MM")) )
 					throw new Exception("과거월로 전송 하실 수 없습니다.");
+				
+				if ( SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000 ){
+					VbyP.accessLog(user_id+" >> 과거 예약 : "+SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") + "/"+ ((SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000));
+					throw new Exception("과거시간으로 예약 하실 수 없습니다.");
+				}
+				
 			}else {
 				
 				year = SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") );
@@ -983,6 +989,12 @@ public class Web extends SessionManagement{
 				
 				if ( year == SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) && month < SLibrary.parseInt( SLibrary.getDateTimeString("MM")) )
 					throw new Exception("과거월로 전송 하실 수 없습니다.");
+				
+				if ( SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000 ){
+					VbyP.accessLog(user_id+" >> 과거 예약 : "+SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") + "/"+ ((SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000));
+					throw new Exception("과거시간으로 예약 하실 수 없습니다.");
+				}
+				
 			}else {
 				
 				year = SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") );
@@ -1315,7 +1327,7 @@ public class Web extends SessionManagement{
 			
 			VbyP.accessLog(user_id+" >> MMS 전송 요청 : " + requestIp + " =>["+image+"] ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"] ["+interval+"] ["+bMerge+"]");
 			
-			if (SLibrary.isNull(image) || !SLibrary.isFile(image)) throw new Exception("이미지가 없습니다.");
+			if (SLibrary.isNull(image) || !SLibrary.isFile(imagePath)) throw new Exception("이미지가 없습니다.");
 
 			// 20120315 추가
 			if (!SLibrary.isNull(interval)) {
@@ -1343,6 +1355,12 @@ public class Web extends SessionManagement{
 				
 				if ( year == SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) && month < SLibrary.parseInt( SLibrary.getDateTimeString("MM")) )
 					throw new Exception("과거월로 전송 하실 수 없습니다.");
+				
+				if ( SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000 ){
+					VbyP.accessLog(user_id+" >> 과거 예약 : "+SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") + "/"+ ((SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000));
+					throw new Exception("과거시간으로 예약 하실 수 없습니다.");
+				}
+				
 			}else {
 				
 				year = SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") );
@@ -2203,7 +2221,7 @@ public class Web extends SessionManagement{
 				
 				if (user_id != null && !user_id.equals("")) {
 					
-					if (user_id.equals("hhhyc")) {
+					if (user_id.equals("hhhyc") && line.equals("ktmms")) {
 						sf2 = SentLMSFactory.getInstance();
 						list2 = sf2.getSentListTemp(connSMS, user_id, line, Integer.toString(groupIndex) );
 						list = sf2.getSentListAdd(list2, connSMS, user_id, "mms", Integer.toString(groupIndex) );
