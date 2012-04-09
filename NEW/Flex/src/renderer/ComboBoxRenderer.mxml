@@ -45,8 +45,8 @@
 	</fx:Script>
 	<s:Group width="100%" height="20">
 		<s:Label id="phone" left="2" verticalCenter="0" />
-		<s:Image id="defBtn" right="20" verticalCenter="0" click="def_clickHandler(event)" source="images/SendListDelete.png" toolTip="기본설정"  buttonMode="true" useHandCursor="true" />
-		<s:Image id="deleteBtn" right="4" verticalCenter="0" click="delete_clickHandler(event)" source="images/SendListDelete.png" toolTip="삭제" buttonMode="true" useHandCursor="true" />
+		<s:Image id="defBtn" right="16" verticalCenter="0" click="def_clickHandler(event)" source="images/btn_basic.gif" toolTip="기본설정"  buttonMode="true" useHandCursor="true" />
+		<s:Image id="deleteBtn" right="1" verticalCenter="0" click="delete_clickHandler(event)" source="images/SendListDelete.png" toolTip="삭제" buttonMode="true" useHandCursor="true" />
 	</s:Group>
 	
 	

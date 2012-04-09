@@ -157,8 +157,8 @@
 		</s:Group>
 		
 		<s:HGroup gap="0">
-			<s:Image source="images/center_m01.gif" source.thema="images/center_m01_.gif" click="emti_changeHandler(1)" useHandCursor="true" />
-			<s:Image source="images/center_m02.gif" source.upjong="images/center_m02_.gif" click="emti_changeHandler(0)" useHandCursor="true" />
+			<s:Image source="images/photo_m01.jpg" source.thema="images/photo_m01_.jpg" click="emti_changeHandler(1)" useHandCursor="true" />
+			<s:Image source="images/photo_m02.jpg" source.upjong="images/photo_m02_.jpg" click="emti_changeHandler(0)" useHandCursor="true" />
 			<s:Image source="images/center_m03.gif" source.save="images/center_m03_.gif" click="emti_changeHandler(2)" useHandCursor="true" />
 		</s:HGroup>
 	</s:Group>

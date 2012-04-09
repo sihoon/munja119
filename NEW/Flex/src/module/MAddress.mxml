@@ -536,6 +536,11 @@
 	
 	<s:Group id="groupPanel" width="305" height="147" visible="false" horizontalCenter="0" verticalCenter="0">
 		<s:Rect left="0" right="0" bottom="0" top="0">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF" />
+			</s:fill>
+		</s:Rect>
+		<s:Rect left="0" right="0" bottom="0" top="0">
 			<s:stroke>
 				<s:SolidColorStroke color="0xCCCCCC" weight="5" />
 			</s:stroke>
@@ -567,6 +572,11 @@
 	<s:Group id="addressPanel" visible="false" width="305" height="184" horizontalCenter="0"
 			 verticalCenter="0"
 			 height.GrpView="202" horizontalCenter.GrpView="0" verticalCenter.GrpView="0">
+		<s:Rect left="0" right="0" bottom="0" top="0">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF" />
+			</s:fill>
+		</s:Rect>
 		<s:Rect left="0" right="0" bottom="0" top="0">
 			<s:stroke>
 				<s:SolidColorStroke color="0xCCCCCC" weight="5" />

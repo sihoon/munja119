@@ -127,6 +127,7 @@
 					
 				}
 				al = arr;
+				setTotalCount();
 				ExternalInterface.call("alert", dupCnt + " 건의 중복번호가 제거 되었습니다.");
 			}
 
