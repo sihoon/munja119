@@ -33,6 +33,8 @@ public class SentFactory implements SentFactoryAble {
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataSK") );
 		}else if (SLibrary.IfNull(line).equals("kt") || SLibrary.IfNull(line).equals("ktmms")) {
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataKT") );
+		}else if (SLibrary.IfNull(line).equals("han")) {
+			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataHN") );
 		}else
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentData") );
 		
@@ -262,6 +264,8 @@ public class SentFactory implements SentFactoryAble {
 				tranResultCount = deleteSentDataOfTranTableSK(connSMS, mvo.getUser_id(), idx);
 			}else if(SLibrary.IfNull(sendLine).equals("kt")){
 				tranResultCount = deleteSentDataOfTranTableKT(connSMS, mvo.getUser_id(), idx);
+			}else if(SLibrary.IfNull(sendLine).equals("han")){
+				tranResultCount = deleteSentDataOfTranTableHN(connSMS, mvo.getUser_id(), idx);
 			}else {
 				tranResultCount = deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
 			}
@@ -274,6 +278,8 @@ public class SentFactory implements SentFactoryAble {
 				failResultCount = selectSentDataOfLogTableSK(connSMS, mvo.getUser_id(), idx);
 			}else if (SLibrary.IfNull(sendLine).equals("kt")){
 				failResultCount = selectSentDataOfLogTableKT(connSMS, mvo.getUser_id(), idx);
+			}else if (SLibrary.IfNull(sendLine).equals("han")){
+				failResultCount = selectSentDataOfLogTableHN(connSMS, mvo.getUser_id(), idx);
 			}
 			else {
 				failResultCount = selectSentDataOfLogTable(connSMS, mvo.getUser_id(), idx);
@@ -332,6 +338,16 @@ public class SentFactory implements SentFactoryAble {
 		return pq.executeUpdate();
 	}
 	
+	private int deleteSentDataOfTranTableHN(Connection conn, String user_id, int idx) {
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared(conn, VbyP.getSQL("deleteSentDataTranTableHN"));
+		pq.setString(1, user_id);
+		pq.setString(2, Integer.toString(idx) );
+		
+		return pq.executeUpdate();
+	}
+	
 	private int deleteSentDataOfTranTableSK(Connection conn, String user_id, int idx) {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
@@ -365,6 +381,15 @@ public class SentFactory implements SentFactoryAble {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 		pq.setPrepared(conn,VbyP.getSQL("selectSentDataLogtable") );
+		pq.setString(1, user_id);
+		pq.setString(2, Integer.toString(idx) );
+		return pq.ExecuteQueryNum();
+	}
+	
+	private int selectSentDataOfLogTableHN(Connection conn, String user_id, int idx) {
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared(conn,VbyP.getSQL("selectSentDataLogtableHN") );
 		pq.setString(1, user_id);
 		pq.setString(2, Integer.toString(idx) );
 		return pq.ExecuteQueryNum();

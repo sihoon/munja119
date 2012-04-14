@@ -61,19 +61,25 @@ public class SMS implements SMSAble {
 	@Override
 	public int insertSMSClient(Connection connSMS, ArrayList<SMSClientVO> al, String via) {
 
-		
+		String sql = "";
 		int resultCount = 0;
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 		String resultStateCode = "2";
 		if (SLibrary.IfNull(via).equals("sk")) {
-			pq.setPrepared( connSMS, VbyP.getSQL("insertClientSK") );
+			sql = VbyP.getSQL("insertClientSK");
 			resultStateCode = "9";
 		} else if (SLibrary.IfNull(via).equals("kt")) {
-			pq.setPrepared( connSMS, VbyP.getSQL("insertClientKT") );
+			sql = VbyP.getSQL("insertClientKT");
 			resultStateCode = "3";
-		} 
-		else
+		}
+		else if (SLibrary.IfNull(via).equals("han")) {
+			sql = VbyP.getSQL("insertClientHN");
+		}
+		else {
 			pq.setPrepared( connSMS, VbyP.getSQL("insertClient") );
+		}
+		
+		pq.setPrepared( connSMS, sql );
 		
 		int count = al.size();
 		SMSClientVO vo = null;
@@ -130,10 +136,13 @@ public class SMS implements SMSAble {
 					connSMS = VbyP.getDB(via);					
 					if (connSMS != null) System.out.println(via+"connSMS connection!!!!");
 					
+					/*
 					if (SLibrary.IfNull(via).equals("sk")) pq.setPrepared( connSMS, VbyP.getSQL("insertClientSK") );
 					else if (SLibrary.IfNull(via).equals("kt")) {
 						pq.setPrepared( connSMS, VbyP.getSQL("insertClientKT") );
 					} else pq.setPrepared( connSMS, VbyP.getSQL("insertClient") );
+					*/
+					pq.setPrepared( connSMS, sql );
 				}
 				
 			}

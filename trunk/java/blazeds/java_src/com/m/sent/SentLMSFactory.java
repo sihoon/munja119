@@ -134,7 +134,7 @@ public class SentLMSFactory implements SentFactoryAble {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 		if (SLibrary.IfNull(line).equals("ktmms")) {
-			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentDataKT") );
+			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentDataKTUser") );
 		}else
 			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentData") );
 		
@@ -207,7 +207,7 @@ public class SentLMSFactory implements SentFactoryAble {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 		if (SLibrary.IfNull(line).equals("ktmms")) {
-			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentDataKT") );
+			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentDataKTUser") );
 		}else
 			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentData") );
 		
