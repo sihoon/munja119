@@ -238,7 +238,8 @@
 				} else {
 					
 					isValid();
-					SLibrary.alert(bVO.strDescription);
+					if (bVO.strDescription != "스팸성 문구가 발견 되었습니다.")
+						SLibrary.alert(bVO.strDescription);
 				}
 				//parentApplication.userInfoInit();
 				
