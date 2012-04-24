@@ -167,6 +167,7 @@ div.context {width:950px; height:auto; margin:0px auto;position: relative;}
 #joinBox .joinsub1Content {width:721px; height:200px;overflow-y:scroll;border:1px solid #ccc}
 #joinBox .joinsub2 {width:721px;height:35px;background:url("../images/member_tit02.gif") no-repeat;}
 #joinBox .joinsub2Content {width:721px; height:200px;overflow-y:scroll;border:1px solid #ccc}
+#joinBox .joinsub3 {width:721px;height:35px;background:url("../images/title_spam.gif") no-repeat;}
 #joinBox .joincheck {width:700px;margin-top:10px; text-align:right;}
 #joinBox .confirmBox {margin-top:20px;margin-bottom:20px;width:721px;height:37px;text-align:center;}
 
@@ -185,12 +186,12 @@ div.context {width:950px; height:auto; margin:0px auto;position: relative;}
 #sentBox .sentTitle {margin-top:10px;width:721px;height:58px;background:url("../images/title_sendlist.gif") no-repeat;border-bottom:1px solid red}
 
 #billingTitle {float:right;margin-top:10px;width:721px;height:58px;background:url("../images/title_all.gif") no-repeat;border-bottom:2px solid red}
-#billingTitle2 {float:right;margin-top:10px;width:721px;height:82px;background:url("../images/sub_img.jpg") no-repeat;}
+#billingTitle2 {float:right;margin-top:10px;margin-bottom:10px;width:721px;height:82px;background:url("../images/sub_img.jpg") no-repeat;}
 #billingBox {float:right; margin-top:10px;width:721px;height:auto; }
 #billingBox .txtMethod {width:721px;height:35px;background:url("../images/member_img05.gif") no-repeat;font-size:14px;font-weight:bold}
 #billingBox .selMethod { width:721px; text-align:center; padding:20px 0px}
 #billingBox .selMethod label { font-size:16px; font-weight:bold; }
-#billingBox .txtAmount {width:721px;height:25px;background:url("../images/member_img06.gif") no-repeat;text-align:right}
+#billingBox .txtAmount {width:421px;height:25px;background:url("../images/member_img06.gif") no-repeat;text-align:right;float:left}
 #billingBox .txtCash {width:521px;height:35px;background:url("../images/member_img07.gif") no-repeat;font-size:14px;font-weight:bold}
 #billingBox .cashList {margin-left:10px;}
 #billingBox .title {height:36px;background:url("../images/pay_top.gif") no-repeat;}
