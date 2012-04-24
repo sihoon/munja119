@@ -76,7 +76,8 @@ public class SMS implements SMSAble {
 			sql = VbyP.getSQL("insertClientHN");
 		}
 		else {
-			pq.setPrepared( connSMS, VbyP.getSQL("insertClient") );
+			sql = VbyP.getSQL("insertClient");
+			//pq.setPrepared( connSMS, VbyP.getSQL("insertClient") );
 		}
 		
 		pq.setPrepared( connSMS, sql );

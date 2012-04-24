@@ -154,6 +154,15 @@ public class Billing {
 		return rvo;
 	}
 	
+	public String getUnit(Connection conn, String user_id) {
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();	
+		pq.setPrepared(conn, VbyP.getSQL("selectBillingUnit") );
+		pq.setString(1, user_id);
+		
+		return pq.ExecuteQueryString();
+	}
+	
 	public BooleanAndDescriptionVO setBilling( Connection conn, BillingVO bvo) {
 		
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();

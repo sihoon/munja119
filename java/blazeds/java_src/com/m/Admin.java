@@ -290,6 +290,34 @@ public class Admin extends SessionManagement {
 		return rslt;
 	}
 	
+	public Double getUnit(String user_id) {
+		
+		String rslt = "0";
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 관리자 사용자 단가 확인 : "+ user_id);
+		
+		if (isLogin().getbResult()) {		
+			
+			try {
+				conn = VbyP.getDB();
+				
+				
+				rslt = Billing.getInstance().getUnit(conn, user_id);
+				
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("getUnit >> conn.close() Exception!"); }
+			}
+		}
+		Double d = 0.0;
+		try {
+			d = Double.parseDouble(rslt);
+		}catch(Exception e) {d = 0.0;}
+		
+		return d;
+	}
+	
 	public BooleanAndDescriptionVO setCash(String user_id, int amount, int point, boolean bSMS) {
 		
 		Connection conn = null;
