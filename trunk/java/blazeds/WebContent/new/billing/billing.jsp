@@ -77,7 +77,7 @@ finally {
 		<input type="radio" id="cash" name="method" value="cash" onclick="billingMethod()" /><label for="cash">무통장입금</label>
 	</p>
 	<h2 class="txtAmount"></h2>
-	<p style="float:right;">(vat 별도)</p>
+	<p style="float:right;width:100px;height:33px;background:url('images/vat.gif') no-repeat;">(vat 별도)</p>
 	<table width="721" border="0" cellpadding="0" cellspacing="0">
 		<tr><td colspan="4" class="title">&nbsp;</td></tr>
 		<tr onmouseover="this.style.backgroundColor='#fff0f0'" onmouseout="this.style.backgroundColor='#ffffff'">

@@ -585,6 +585,7 @@ VbyP.accessLog("회원가입 페이지 요청 1단계>> " + request.getRemoteAdd
 		<input type="radio" name="sub2" id="sub2ok" /><label for="sub2ok">동의함</label>
 		<input type="radio" name="sub2" id="sub2no" checked="checked"/><label for="sub2no">동의안함</label>
 	</div>
+	<p class="joinsub3 ti">스팸약관</p>
 	<pre class="joinsub2Content">
 광고/스팸문자 전송 관련 정책
 1. 스팸 SMS의 규정

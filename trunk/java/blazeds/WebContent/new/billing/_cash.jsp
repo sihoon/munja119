@@ -1,3 +1,5 @@
+<%@page import="com.m.member.SessionManagement"%>
+<%@page import="com.m.member.UserInformationVO"%>
 <%@page import="com.m.common.BooleanAndDescriptionVO"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="com.m.common.AdminSMS"%>
@@ -16,6 +18,9 @@
 	String amount = "";
 	String cash = "";
 	String cashName = "";
+	
+	UserInformationVO vo = null;
+	
 	try {
 		String user_id = SLibrary.IfNull((String)session.getAttribute("user_id"));
 		if (user_id == null || user_id.equals("")) throw new Exception("로그인 되어 있지 않습니다.");
@@ -43,7 +48,16 @@
 		}else {
 			AdminSMS asms = AdminSMS.getInstance();
 			String tempMessage = "[무통장예약] "+user_id+" , "+cashName+" , "+cash+" , "+amount+" , "+smethod;
-			asms.sendAdmin(conn, tempMessage );	
+			asms.sendAdmin(conn, tempMessage );
+			
+			vo = new SessionManagement().getUserInformation(conn, user_id);
+			
+			if (!SLibrary.isNull( vo.getHp() ) ) {
+				
+				String userMessage = "[munja119] \r\n "+cash+" 으로 입금예약 되었습니다.";
+				VbyP.accessLog(" >> 무통장 예약 요청 발송("+vo.getHp()+") : "+ userMessage);
+				asms.sendAdmin(conn, userMessage , vo.getHp() , "16000816");
+			}
 			out.println(SLibrary.alertScript("예약 되었습니다.", ""));
 		}
 		

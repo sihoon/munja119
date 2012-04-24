@@ -89,12 +89,12 @@
 		}
 		PointHistory ph = PointHistory.getInstance();
 		alPoint = ph.getPointHistoryList(conn, vo.getUser_id(),
-				pstartPage, pendPage);
+				pstartPage-1, pendPage);
 		ptcnt = ph.totalCnt;
 
 		Billing billing = Billing.getInstance();
 		alBilling = billing.getBillingList(conn, vo.getUser_id(),
-				bstartPage, bendPage);
+				bstartPage-1, bendPage);
 		btcnt = billing.totalCnt;
 
 	} catch (Exception e) {
