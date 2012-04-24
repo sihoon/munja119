@@ -44,8 +44,7 @@
 			
 			protected function btnChargeButton_clickHandler(event:MouseEvent):void
 			{
-				CashList(parentDocument).chargePanel.visible = true;
-				CashList(parentDocument).chId.text = data.user_id;
+				CashList(parentDocument).charge_view(data.user_id);
 			}
 			
 		]]>
