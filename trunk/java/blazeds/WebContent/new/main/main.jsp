@@ -36,7 +36,7 @@
 		conn = VbyP.getDB();
 		
 		if ( SLibrary.isNull(gubun) ) gubun = "업종별문자";
-		if ( SLibrary.isNull(gubunlms) ) gubunlms = "테마문자";
+		if ( SLibrary.isNull(gubunlms) ) gubunlms = "업종별문자";
 		home = Home.getInstance();
 	
 		arrEmt = home.getMainEmt(conn, gubun, "%"+cate+"%", 0, 15);
