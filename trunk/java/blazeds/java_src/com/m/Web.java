@@ -662,7 +662,7 @@ public class Web extends SessionManagement{
 			
 			// sk라인 일경우 80바이트가 넘으면 유플러스로 변경함
 			if (mvo.getLine().equals("sk") && SLibrary.getByte(message) > 80) {
-				mvo.setLine("sms1");
+				mvo.setLine("kt");
 			}
 			
 			checkSMSSend( conn, sendCount, mvo, message, requestIp );
@@ -1015,6 +1015,7 @@ public class Web extends SessionManagement{
 			if (line.equals("sk")) mvo.setLine("skmms");
 			else if (line.equals("kt")) mvo.setLine("ktmms");
 			else if (line.equals("han")) mvo.setLine("ktmms");
+			else if (line.equals("hanr")) mvo.setLine("ktmms");
 			else  mvo.setLine("mms");
 			
 			connLMS = VbyP.getDB("sms1");
@@ -1382,6 +1383,7 @@ public class Web extends SessionManagement{
 			if (line.equals("sk")) mvo.setLine("skmms");
 			else if (line.equals("kt")) mvo.setLine("ktmms");
 			else if (line.equals("han")) mvo.setLine("ktmms");
+			else if (line.equals("hanr")) mvo.setLine("ktmms");
 			else  mvo.setLine("mms");
 			
 			connLMS = VbyP.getDB("sms1");
@@ -2435,9 +2437,9 @@ public class Web extends SessionManagement{
 				
 				pq.setPrepared( conn, buf.toString() );
 				pq.setString(1, gubun);
-				pq.setString(2, "%"+category+"%");
+				pq.setString(2, ""+category+"%");
 				pq.setString(3, gubun);
-				pq.setString(4, "%"+category+"%");
+				pq.setString(4, ""+category+"%");
 				pq.setInt(5, from);
 				pq.setInt(6, count);
 			} else {
@@ -2487,9 +2489,9 @@ public class Web extends SessionManagement{
 				
 				pq.setPrepared( conn, buf.toString() );
 				pq.setString(1, gubun);
-				pq.setString(2, "%"+category+"%");
+				pq.setString(2, ""+category+"%");
 				pq.setString(3, gubun);
-				pq.setString(4, "%"+category+"%");
+				pq.setString(4, ""+category+"%");
 				pq.setInt(5, from);
 				pq.setInt(6, count);
 			} else {
@@ -2539,9 +2541,9 @@ public class Web extends SessionManagement{
 				
 				pq.setPrepared( conn, buf.toString() );
 				pq.setString(1, gubun);
-				pq.setString(2, "%"+category+"%");
+				pq.setString(2, ""+category+"%");
 				pq.setString(3, gubun);
-				pq.setString(4, "%"+category+"%");
+				pq.setString(4, ""+category+"%");
 				pq.setInt(5, from);
 				pq.setInt(6, count);
 			} else {
