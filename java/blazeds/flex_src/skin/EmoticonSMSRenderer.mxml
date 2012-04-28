@@ -27,7 +27,7 @@
 			protected function modify_clickHandler(event:MouseEvent):void
 			{
 				ro.set(RO_DESTINATION, modify_ResultEventHandler);
-				ro.method.updateEmotiCate(data.idx, emt.text);
+				ro.method.updateEmoti(data.idx, emt.text);
 			}
 			private function modify_ResultEventHandler(event:ResultEvent):void {
 				
