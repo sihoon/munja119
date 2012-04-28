@@ -35,6 +35,8 @@ public class SentFactory implements SentFactoryAble {
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataKT") );
 		}else if (SLibrary.IfNull(line).equals("han")) {
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataHN") );
+		}else if (SLibrary.IfNull(line).equals("hanr")) {
+			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataHNR") );
 		}else
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentData") );
 		
@@ -266,6 +268,8 @@ public class SentFactory implements SentFactoryAble {
 				tranResultCount = deleteSentDataOfTranTableKT(connSMS, mvo.getUser_id(), idx);
 			}else if(SLibrary.IfNull(sendLine).equals("han")){
 				tranResultCount = deleteSentDataOfTranTableHN(connSMS, mvo.getUser_id(), idx);
+			}else if(SLibrary.IfNull(sendLine).equals("hanr")){
+				tranResultCount = deleteSentDataOfTranTableHNR(connSMS, mvo.getUser_id(), idx);
 			}else {
 				tranResultCount = deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
 			}
@@ -342,6 +346,16 @@ public class SentFactory implements SentFactoryAble {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 		pq.setPrepared(conn, VbyP.getSQL("deleteSentDataTranTableHN"));
+		pq.setString(1, user_id);
+		pq.setString(2, Integer.toString(idx) );
+		
+		return pq.executeUpdate();
+	}
+	
+	private int deleteSentDataOfTranTableHNR(Connection conn, String user_id, int idx) {
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared(conn, VbyP.getSQL("deleteSentDataTranTableHNR"));
 		pq.setString(1, user_id);
 		pq.setString(2, Integer.toString(idx) );
 		
