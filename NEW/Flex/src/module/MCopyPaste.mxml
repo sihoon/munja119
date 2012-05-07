@@ -25,7 +25,7 @@
 				
 				this.currentState = "grid";
 				var rows:String = parseChar(row.selectedItem.data);
-				var cols:String = col.selectedItem.data;
+				var cols:String = parseChar(col.selectedItem.data);
 				
 				if (paste.text == "") ExternalInterface.call("alert","입력 또는 붙여 넣으세요.");
 				else if (rows == "") ExternalInterface.call("alert","세로 구분자를 선택 하세요.");
