@@ -204,7 +204,7 @@ public class Address implements AddressAble {
 			linkpq.setString(1, user_id);
 			linkpq.setInt(2, AddressVO.ADDRESS_FLAG);
 			linkpq.setString(3, vo.getGrpName());
-			linkpq.setString(4, (vo.getName()==null)?"":vo.getName());
+			linkpq.setString(4, (vo.getName()==null)?"":SLibrary.replaceAll(vo.getName(), "'", "") );
 			linkpq.setString(5, vo.getPhone());
 			linkpq.setString(6, vo.getMemo());
 			linkpq.setString(7, SLibrary.getDateTimeString("yyyy-MM-dd HH:mm:ss"));
