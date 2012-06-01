@@ -434,32 +434,44 @@ public class SentLMSFactory implements SentFactoryAble {
 			VbyP.debugLog(sentGroupInfo[0]);
 			VbyP.debugLog("@@@"+SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss")+" "+Long.toString((SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + CANCEL_GAP)*1000));
 			
-			if (sentGroupInfo.length == 2 && SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + CANCEL_GAP)*1000 )
-					throw new Exception( "발송 "+CANCEL_GAP/60+"분전 예약은 취소 할 수 없습니다." );
-			
-			
-			int tranResultCount = SLibrary.IfNull(sendLine).equals("ktmms") ?  deleteSentDataOfTranTableKT(connSMS, mvo.getUser_id(), idx) : deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
-			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  전송테이블 삭제 : "+Integer.toString(tranResultCount) );			
-			//int reservationResultCount = deleteSentDataOfReservationTable(connSMS, mvo.getUser_id(), idx);
-			//VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  예약테이블 삭제 : "+Integer.toString(reservationResultCount) );	
-			int failResultCount = SLibrary.IfNull(sendLine).equals("ktmms") ?selectSentDataOfLogTableKT(connSMS, mvo.getUser_id(), idx) : selectSentDataOfLogTable(connSMS, mvo.getUser_id(), idx);
-			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  로그테이블 건수(수신거부,중복등등) : "+Integer.toString(failResultCount));	
-			
-			if ( sentGroupInfo.length == 2 && SLibrary.parseInt(sentGroupInfo[1]) != (tranResultCount  + failResultCount) ) 
-				throw new Exception( "삭제된 발송 테이터와 예약 건수가 달라 데이터 삭제만 되었습니다.("+Integer.toString(tranResultCount  + failResultCount)+"/"+sentGroupInfo[1]+") 1544-6123으로 연락 주세요." ); 
-			
-			int updateResultCount = updateSentGroup(conn, mvo.getUser_id(), idx, "cancel");
-			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  전송그룹테이블 업데이트 : "+Integer.toString(updateResultCount) );
-			
-			if ( updateResultCount != 1 )
-				throw new Exception( "취소상태가 변경 되지 않았습니다." );
-					
-			if ( cancelPointPut(conn, mvo, tranResultCount +  failResultCount) == 1 ) {
-					rvo.setbResult(true);
-					VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  건수 추가 : "+Integer.toString(tranResultCount ) );					
+			if (sentGroupInfo.length == 2 
+					&& SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") >= (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ))*1000
+					&& SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + CANCEL_GAP)*1000 
+					) {
+				throw new Exception( "발송 "+CANCEL_GAP/60+"분전 예약은 취소 할 수 없습니다." );
+			}else if (sentGroupInfo.length == 2 
+					&& SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ))*1000
+					){
+				rvo = deleteSentGroupList(conn, mvo.getUser_id(), idx);
 			} else {
-				throw new Exception( "예약 취소건수가 추가 되지 않았습니다.");
-			} 
+				
+				int tranResultCount = SLibrary.IfNull(sendLine).equals("ktmms") ?  deleteSentDataOfTranTableKT(connSMS, mvo.getUser_id(), idx) : deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
+				VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  전송테이블 삭제 : "+Integer.toString(tranResultCount) );			
+				//int reservationResultCount = deleteSentDataOfReservationTable(connSMS, mvo.getUser_id(), idx);
+				//VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  예약테이블 삭제 : "+Integer.toString(reservationResultCount) );	
+				int failResultCount = SLibrary.IfNull(sendLine).equals("ktmms") ?selectSentDataOfLogTableKT(connSMS, mvo.getUser_id(), idx) : selectSentDataOfLogTable(connSMS, mvo.getUser_id(), idx);
+				VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  로그테이블 건수(수신거부,중복등등) : "+Integer.toString(failResultCount));	
+				
+				if ( sentGroupInfo.length == 2 && SLibrary.parseInt(sentGroupInfo[1]) != (tranResultCount  + failResultCount) ) 
+					throw new Exception( "삭제된 발송 테이터와 예약 건수가 달라 데이터 삭제만 되었습니다.("+Integer.toString(tranResultCount  + failResultCount)+"/"+sentGroupInfo[1]+") 1544-6123으로 연락 주세요." ); 
+				
+				int updateResultCount = updateSentGroup(conn, mvo.getUser_id(), idx, "cancel");
+				VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  전송그룹테이블 업데이트 : "+Integer.toString(updateResultCount) );
+				
+				if ( updateResultCount != 1 )
+					throw new Exception( "취소상태가 변경 되지 않았습니다." );
+						
+				if ( cancelPointPut(conn, mvo, tranResultCount +  failResultCount) == 1 ) {
+						rvo.setbResult(true);
+						VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  건수 추가 : "+Integer.toString(tranResultCount ) );					
+				} else {
+					throw new Exception( "예약 취소건수가 추가 되지 않았습니다.");
+				} 
+			}
+					
+			
+			
+			
 			
 		}catch (Exception e) {
 			
