@@ -1016,6 +1016,7 @@ public class Web extends SessionManagement{
 			else if (line.equals("kt")) mvo.setLine("ktmms");
 			else if (line.equals("han")) mvo.setLine("ktmms");
 			else if (line.equals("hanr")) mvo.setLine("ktmms");
+			else if (line.equals("it")) mvo.setLine("ktmms");
 			else  mvo.setLine("mms");
 			
 			connLMS = VbyP.getDB("sms1");
@@ -1384,6 +1385,7 @@ public class Web extends SessionManagement{
 			else if (line.equals("kt")) mvo.setLine("ktmms");
 			else if (line.equals("han")) mvo.setLine("ktmms");
 			else if (line.equals("hanr")) mvo.setLine("ktmms");
+			else if (line.equals("it")) mvo.setLine("ktmms");
 			else  mvo.setLine("mms");
 			
 			connLMS = VbyP.getDB("sms1");
