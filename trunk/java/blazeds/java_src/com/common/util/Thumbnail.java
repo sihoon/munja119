@@ -10,7 +10,7 @@ public class Thumbnail {
 
 	public void createThumbnail(String orig, String thumb, int width)
 			throws Exception {
-		Image image = JimiUtils.getThumbnail(orig, 176, 144, Jimi.IN_MEMORY);
+		Image image = JimiUtils.getThumbnail(orig, 640, 480, Jimi.IN_MEMORY);
 		Jimi.putImage(image, thumb);
 
 //		BufferedImage sourceImage = ImageIO.read(new File(orig));
