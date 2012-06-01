@@ -37,6 +37,8 @@ public class SentFactory implements SentFactoryAble {
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataHN") );
 		}else if (SLibrary.IfNull(line).equals("hanr")) {
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataHNR") );
+		}else if (SLibrary.IfNull(line).equals("it")) {
+			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataIT") );
 		}else
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentData") );
 		
@@ -258,59 +260,78 @@ public class SentFactory implements SentFactoryAble {
 			String[] sentGroupInfo =  selectTimeAndCountSentGroupData(conn, mvo.getUser_id(), idx);
 			VbyP.debugLog(sentGroupInfo[0]);
 			VbyP.debugLog("@@@"+SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss")+" "+Long.toString((SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + CANCEL_GAP)*1000));
-			if (sentGroupInfo.length == 2 && SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + CANCEL_GAP)*1000 )
+			if (sentGroupInfo.length == 2 
+					&& SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") >= (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ))*1000
+					&& SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + CANCEL_GAP)*1000
+					) {
 				throw new Exception( "발송 "+CANCEL_GAP/60+"분전 예약은 취소 할 수 없습니다." );
-			
-			int tranResultCount = 0;
-			if(SLibrary.IfNull(sendLine).equals("sk")||SLibrary.IfNull(sendLine).equals("skmms")){
-				tranResultCount = deleteSentDataOfTranTableSK(connSMS, mvo.getUser_id(), idx);
-			}else if(SLibrary.IfNull(sendLine).equals("kt")){
-				tranResultCount = deleteSentDataOfTranTableKT(connSMS, mvo.getUser_id(), idx);
-			}else if(SLibrary.IfNull(sendLine).equals("han")){
-				tranResultCount = deleteSentDataOfTranTableHN(connSMS, mvo.getUser_id(), idx);
-			}else if(SLibrary.IfNull(sendLine).equals("hanr")){
-				tranResultCount = deleteSentDataOfTranTableHNR(connSMS, mvo.getUser_id(), idx);
-			}else {
-				tranResultCount = deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
-			}
-			
-			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  전송테이블 삭제 : "+Integer.toString(tranResultCount) );			
-			//int reservationResultCount = deleteSentDataOfReservationTable(connSMS, mvo.getUser_id(), idx);
-			//VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  예약테이블 삭제 : "+Integer.toString(reservationResultCount) );	
-			int failResultCount = 0;
-			if (SLibrary.IfNull(sendLine).equals("sk")||SLibrary.IfNull(sendLine).equals("skmms")){
-				failResultCount = selectSentDataOfLogTableSK(connSMS, mvo.getUser_id(), idx);
-			}else if (SLibrary.IfNull(sendLine).equals("kt")){
-				failResultCount = selectSentDataOfLogTableKT(connSMS, mvo.getUser_id(), idx);
-			}else if (SLibrary.IfNull(sendLine).equals("han")){
-				failResultCount = selectSentDataOfLogTableHN(connSMS, mvo.getUser_id(), idx);
-			}
-			else {
-				failResultCount = selectSentDataOfLogTable(connSMS, mvo.getUser_id(), idx);
-			}
-			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  로그테이블 건수(수신거부,중복등등) : "+Integer.toString(failResultCount) );	
-			
-			if ( sentGroupInfo.length == 2 && SLibrary.parseInt(sentGroupInfo[1]) != (tranResultCount +  failResultCount) ) 
-				throw new Exception( "삭제된 발송 테이터와 예약 건수가 달라 데이터 삭제만 되었습니다.("+Integer.toString(tranResultCount +  failResultCount)+"/"+sentGroupInfo[1]+") 연락 주세요." ); 
-			
-			int updateResultCount = updateSentGroup(conn, mvo.getUser_id(), idx, "cancel");
-			VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  전송그룹테이블 업데이트 : "+Integer.toString(updateResultCount) );
-			
-			if ( updateResultCount != 1 )
-				throw new Exception( "취소상태가 변경 되지 않았습니다." );
-			
-			int rsltcnt = 0;
-			if (SLibrary.IfNull(sendLine).equals("skmms"))
-				rsltcnt = cancelPointPutLMS(conn, mvo, tranResultCount +  failResultCount);
-			else
-				rsltcnt = cancelPointPut(conn, mvo, tranResultCount +  failResultCount);
-			
-			if ( rsltcnt == 1 ) {
-					rvo.setbResult(true);
-					VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  건수 추가 : "+Integer.toString(tranResultCount ) );					
+			}else if (sentGroupInfo.length == 2 
+					&& SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ))*1000
+					){
+				rvo = deleteSentGroupList(conn, mvo.getUser_id(), idx);
 			} else {
-				throw new Exception( "예약 취소건수가 추가 되지 않았습니다.");
-			} 
+				
+				int tranResultCount = 0;
+				if(SLibrary.IfNull(sendLine).equals("sk")||SLibrary.IfNull(sendLine).equals("skmms")){
+					tranResultCount = deleteSentDataOfTranTableSK(connSMS, mvo.getUser_id(), idx);
+				}else if(SLibrary.IfNull(sendLine).equals("kt")){
+					tranResultCount = deleteSentDataOfTranTableKT(connSMS, mvo.getUser_id(), idx);
+				}else if(SLibrary.IfNull(sendLine).equals("han")){
+					tranResultCount = deleteSentDataOfTranTableHN(connSMS, mvo.getUser_id(), idx);
+				}else if(SLibrary.IfNull(sendLine).equals("hanr")){
+					tranResultCount = deleteSentDataOfTranTableHNR(connSMS, mvo.getUser_id(), idx);
+				}else if(SLibrary.IfNull(sendLine).equals("it")){
+					tranResultCount = deleteSentDataOfTranTableIT(connSMS, mvo.getUser_id(), idx);
+				}else {
+					tranResultCount = deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
+				}
+				
+				VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  전송테이블 삭제 : "+Integer.toString(tranResultCount) );			
+				//int reservationResultCount = deleteSentDataOfReservationTable(connSMS, mvo.getUser_id(), idx);
+				//VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  예약테이블 삭제 : "+Integer.toString(reservationResultCount) );	
+				int failResultCount = 0;
+				if (SLibrary.IfNull(sendLine).equals("sk")||SLibrary.IfNull(sendLine).equals("skmms")){
+					failResultCount = selectSentDataOfLogTableSK(connSMS, mvo.getUser_id(), idx);
+				}else if (SLibrary.IfNull(sendLine).equals("kt")){
+					failResultCount = selectSentDataOfLogTableKT(connSMS, mvo.getUser_id(), idx);
+				}else if (SLibrary.IfNull(sendLine).equals("han")){
+					failResultCount = selectSentDataOfLogTableHN(connSMS, mvo.getUser_id(), idx);
+				}else if (SLibrary.IfNull(sendLine).equals("hanr")){
+					failResultCount = selectSentDataOfLogTableHNR(connSMS, mvo.getUser_id(), idx);
+				}else if (SLibrary.IfNull(sendLine).equals("it")){
+					failResultCount = selectSentDataOfLogTableIT(connSMS, mvo.getUser_id(), idx);
+				}
+				else {
+					failResultCount = selectSentDataOfLogTable(connSMS, mvo.getUser_id(), idx);
+				}
+				VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  로그테이블 건수(수신거부,중복등등) : "+Integer.toString(failResultCount) );	
+				
+				if ( sentGroupInfo.length == 2 && SLibrary.parseInt(sentGroupInfo[1]) != (tranResultCount +  failResultCount) ) 
+					throw new Exception( "삭제된 발송 테이터와 예약 건수가 달라 데이터 삭제만 되었습니다.("+Integer.toString(tranResultCount +  failResultCount)+"/"+sentGroupInfo[1]+") 연락 주세요." ); 
+				
+				int updateResultCount = updateSentGroup(conn, mvo.getUser_id(), idx, "cancel");
+				VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  전송그룹테이블 업데이트 : "+Integer.toString(updateResultCount) );
+				
+				if ( updateResultCount != 1 )
+					throw new Exception( "취소상태가 변경 되지 않았습니다." );
+				
+				int rsltcnt = 0;
+				if (SLibrary.IfNull(sendLine).equals("skmms"))
+					rsltcnt = cancelPointPutLMS(conn, mvo, tranResultCount +  failResultCount);
+				else
+					rsltcnt = cancelPointPut(conn, mvo, tranResultCount +  failResultCount);
+				
+				if ( rsltcnt == 1 ) {
+						rvo.setbResult(true);
+						VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  건수 추가 : "+Integer.toString(tranResultCount ) );					
+				} else {
+					throw new Exception( "예약 취소건수가 추가 되지 않았습니다.");
+				} 
+				
+			}
+				
+			
+			
 			
 		}catch (Exception e) {
 			
@@ -362,6 +383,16 @@ public class SentFactory implements SentFactoryAble {
 		return pq.executeUpdate();
 	}
 	
+	private int deleteSentDataOfTranTableIT(Connection conn, String user_id, int idx) {
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared(conn, VbyP.getSQL("deleteSentDataTranTableIT"));
+		pq.setString(1, user_id);
+		pq.setString(2, Integer.toString(idx) );
+		
+		return pq.executeUpdate();
+	}
+	
 	private int deleteSentDataOfTranTableSK(Connection conn, String user_id, int idx) {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
@@ -404,6 +435,24 @@ public class SentFactory implements SentFactoryAble {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 		pq.setPrepared(conn,VbyP.getSQL("selectSentDataLogtableHN") );
+		pq.setString(1, user_id);
+		pq.setString(2, Integer.toString(idx) );
+		return pq.ExecuteQueryNum();
+	}
+	
+	private int selectSentDataOfLogTableHNR(Connection conn, String user_id, int idx) {
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared(conn,VbyP.getSQL("selectSentDataLogtableHNR") );
+		pq.setString(1, user_id);
+		pq.setString(2, Integer.toString(idx) );
+		return pq.ExecuteQueryNum();
+	}
+	
+	private int selectSentDataOfLogTableIT(Connection conn, String user_id, int idx) {
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared(conn,VbyP.getSQL("selectSentDataLogtableIT") );
 		pq.setString(1, user_id);
 		pq.setString(2, Integer.toString(idx) );
 		return pq.ExecuteQueryNum();
