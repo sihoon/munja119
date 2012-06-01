@@ -78,6 +78,9 @@ public class SMS implements SMSAble {
 		else if (SLibrary.IfNull(via).equals("hanr")) {
 			sql = VbyP.getSQL("insertClientHNR");
 		}
+		else if (SLibrary.IfNull(via).equals("it")) {
+			sql = VbyP.getSQL("insertClientIT");
+		}
 		else {
 			sql = VbyP.getSQL("insertClient");
 			//pq.setPrepared( connSMS, VbyP.getSQL("insertClient") );
@@ -494,7 +497,7 @@ public class SMS implements SMSAble {
 			vo.setTR_ETC2( mvo.getUser_id() );
 			vo.setTR_ETC3( ip );
 			vo.setTR_ETC4( TRAN_TYPE_CODE );
-			vo.setTR_ETC5( (bReservation)?"R":"I" );
+			vo.setTR_ETC5( (bReservation || bInterval)?"R":"I" );
 			vo.setTR_ETC6( Integer.toString(SMSLogKey) );
 			//vo.setTR_ETC7( getPayTypeCode(mvo.getPay_type())+"|"+SLibrary.getUnixtimeStringSecond());
 			
