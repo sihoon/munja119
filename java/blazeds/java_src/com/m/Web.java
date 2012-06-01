@@ -479,9 +479,9 @@ public class Web extends SessionManagement{
 			message = SLibrary.replaceAll(message, "\r", "\n");
 			
 			// sk라인 일경우 80바이트가 넘으면 유플러스로 변경함
-			if (mvo.getLine().equals("sk") && SLibrary.getByte(message) > 80) {
-				mvo.setLine("sms1");
-			}
+			//if (mvo.getLine().equals("sk") && SLibrary.getByte(message) > 80) {
+			//	mvo.setLine("sms1");
+			//}
 			
 			checkSMSSend( conn, sendCount, mvo, message, requestIp );
 			
@@ -661,9 +661,9 @@ public class Web extends SessionManagement{
 			message = SLibrary.replaceAll(message, "\r", "\n");
 			
 			// sk라인 일경우 80바이트가 넘으면 유플러스로 변경함
-			if (mvo.getLine().equals("sk") && SLibrary.getByte(message) > 80) {
-				mvo.setLine("kt");
-			}
+			//if (mvo.getLine().equals("sk") && SLibrary.getByte(message) > 80) {
+			//	mvo.setLine("kt");
+			//}
 			
 			checkSMSSend( conn, sendCount, mvo, message, requestIp );
 			
