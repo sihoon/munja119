@@ -19,12 +19,14 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-			import lib.FilteredTreeDataDescriptor;
+			import com.as3xls.xls.ExcelFile;
+			import com.as3xls.xls.Sheet;
 			
 			import flash.utils.clearTimeout;
 			import flash.utils.setTimeout;
 			
 			import lib.BooleanAndDescriptionVO;
+			import lib.FilteredTreeDataDescriptor;
 			import lib.KoreaPhoneNumberFormatter;
 			import lib.RO;
 			import lib.SLibrary;
@@ -481,6 +483,50 @@
 				
 			}
 			
+			protected function excelButton_clickHandler(event:MouseEvent):void
+			{
+				// type : 0(전체), 1(성공), 2(실패)
+				var sheet:Sheet = new Sheet();
+				var dataProviderCollection:ArrayCollection = dg.dataProvider as ArrayCollection;
+				var rowCount:int =  dataProviderCollection.length;
+				sheet.resize(rowCount+4,5);
+				sheet.setCell(0,0,"번호");
+				sheet.setCell(0,1,"이름");
+				sheet.setCell(0,2,"전화번호");
+				sheet.setCell(0,3,"그룹");
+				sheet.setCell(0,4,"메모");
+				
+				var kpnf:KoreaPhoneNumberFormatter = new KoreaPhoneNumberFormatter();
+				var record:Object = null;
+				
+				var rowno:Number = 1;
+				
+				for(var r:int=0;r<rowCount;r++)
+				{
+					record = dataProviderCollection.getItemAt(r);
+					
+					sheet.setCell(rowno,0,record.name);
+					sheet.setCell(rowno,1,kpnf.format(String(record.phone)));
+					sheet.setCell(rowno,2,record.grpName);
+					sheet.setCell(rowno,3,record.memo);
+					rowno++;
+				}
+				
+				var fileName:String = "119Address.xlx";
+				
+				var typeFile:String = "all";
+				
+				if (record) fileName = String(record.sentGroupIndex)+"_"+typeFile+".xls";
+				
+				var xls:ExcelFile = new ExcelFile();
+				xls.sheets.addItem(sheet);
+				
+				var bytes: ByteArray = xls.saveToByteArray();
+				var fr:FileReference = new FileReference();
+				fr.save(bytes, fileName);
+				
+			}
+			
 		]]>
 	</fx:Script>
 	<s:states>
@@ -498,6 +544,8 @@
 					<s:Image source="images/btn_group.gif" buttonMode="true" useHandCursor="true"  click="modifyGroup='';groupName.text='';groupPanel.visible=true;" />
 					<s:Image source="images/btn_postadd.gif" buttonMode="true" useHandCursor="true"  click="addAddressBtn_clickHandler(event)" />
 					<s:Image source="images/btn_allsend.gif" buttonMode="true" useHandCursor="true"  click="allBtn_clickHandler(event)" />
+					<s:Button label="다운" click="excelButton_clickHandler(event)"
+							  width.AddrView="50"/>
 				</s:HGroup>
 			</s:HGroup>
 		</s:Group>
