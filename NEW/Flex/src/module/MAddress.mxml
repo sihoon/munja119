@@ -512,11 +512,11 @@
 					rowno++;
 				}
 				
-				var fileName:String = "119Address.xlx";
+				var fileName:String = "119Address.xls";
 				
 				var typeFile:String = "all";
 				
-				if (record) fileName = String(record.sentGroupIndex)+"_"+typeFile+".xls";
+				//if (record) fileName = String(record.sentGroupIndex)+"_"+typeFile+".xls";
 				
 				var xls:ExcelFile = new ExcelFile();
 				xls.sheets.addItem(sheet);
@@ -544,7 +544,7 @@
 					<s:Image source="images/btn_group.gif" buttonMode="true" useHandCursor="true"  click="modifyGroup='';groupName.text='';groupPanel.visible=true;" />
 					<s:Image source="images/btn_postadd.gif" buttonMode="true" useHandCursor="true"  click="addAddressBtn_clickHandler(event)" />
 					<s:Image source="images/btn_allsend.gif" buttonMode="true" useHandCursor="true"  click="allBtn_clickHandler(event)" />
-					<s:Button label="다운" click="excelButton_clickHandler(event)"
+					<s:Button includeIn="AddrView" label="다운" click="excelButton_clickHandler(event)"
 							  width.AddrView="50"/>
 				</s:HGroup>
 			</s:HGroup>
