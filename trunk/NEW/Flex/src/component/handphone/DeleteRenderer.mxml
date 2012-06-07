@@ -5,11 +5,14 @@
 						  focusEnabled="true">
 	<fx:Script>
 		<![CDATA[
+			import mx.collections.ArrayCollection;
 
 			protected function button_clickHandler(event:MouseEvent):void {
+
+				var ac:ArrayCollection = parentDocument.phoneList as ArrayCollection;
+				ac.refresh();
 				
-				parentDocument.phoneList.refresh();
-				parentDocument.phoneList.removeItemAt(dataGridListData.rowIndex);
+				ac.removeItemAt(ac.getItemIndex(data));
 				parentDocument.setTotalCount();
 			}
 		]]>
