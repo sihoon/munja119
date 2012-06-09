@@ -308,20 +308,23 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:Image source="images/hpbgTr.png" />
-	<s:VGroup left="31" top="95" gap="2">
+	<s:Group left="27" top="85">
+		<s:VGroup left="4" top="177" gap="2">
+			<handphone:ReturnPhone id="cReturnPhone" validValue="validHandler(event)"/>
+			<handphone:Phone id="cPhone" validValue="validHandler(event)"/>
+			<s:HGroup gap="2">
+				<handphone:Reservation id="cReservation" width="135"/>
+				<handphone:Interval id="cInterval" width="78"/>
+			</s:HGroup>
+			
+			<s:HGroup horizontalAlign="center" gap="10" width="100%">
+				<s:Image id="sendButton" buttonMode="true" useHandCursor="true" click="confirmView()" source="@Embed('images/main_60.png')" />
+				<s:Image id="cancelButton" buttonMode="true" useHandCursor="true" click="cancelButton_clickHandler(event)" source="@Embed('images/btn_cancle2.gif')" />
+			</s:HGroup>
+		</s:VGroup>
 		<handphone:Message id="cMessage" width="100%" alert="message1_alertHandler(event)" validValue="validHandler(event)"/>
-		<handphone:ReturnPhone id="cReturnPhone" validValue="validHandler(event)"/>
-		<handphone:Phone id="cPhone" validValue="validHandler(event)"/>
-		<s:HGroup gap="2">
-			<handphone:Reservation id="cReservation" width="135"/>
-			<handphone:Interval id="cInterval" width="78"/>
-		</s:HGroup>
-		
-		<s:HGroup horizontalAlign="center" gap="10" width="100%">
-			<s:Image id="sendButton" buttonMode="true" useHandCursor="true" click="confirmView()" source="@Embed('images/main_60.png')" />
-			<s:Image id="cancelButton" buttonMode="true" useHandCursor="true" click="cancelButton_clickHandler(event)" source="@Embed('images/btn_cancle2.gif')" />
-		</s:HGroup>
-	</s:VGroup>
+	</s:Group> 
+	
 	
 	<!-- 설정 확인 -->
 	<s:Panel id="confirm" visible="false" bottom="10" left="4" right="4" title="보내기 확인">
