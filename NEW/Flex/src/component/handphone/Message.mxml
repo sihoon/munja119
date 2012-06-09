@@ -169,7 +169,7 @@
 				IMessage_ByteCheck();
 				
 				if (bLMSAuto == true && mode.text == "LMS" && currentByte > 0 && currentByte >= 1910 ) {
-					trace("maxByte:"+currentByte);
+
 					maxByte = 90;
 					changeSMS();
 				}
@@ -285,31 +285,68 @@
 			
 
 			
+			protected function IMessage_focusInHandler(event:FocusEvent):void
+			{
+				if (mode.text != "SMS") {
+					if (a.isPlaying) a.stop();
+					asmp.valueFrom = 154;
+					asmp.valueTo = 257;
+					a.play();
+				}
+				
+			}
+			
+			protected function IMessage_focusOutHandler(event:FocusEvent):void
+			{
+				if (mode.text != "SMS") {
+					if (a.isPlaying) a.stop();
+					asmp.valueFrom = 257;
+					asmp.valueTo = 154;
+					a.play();
+				}
+				
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:Animate id="a" 
+				   duration="550" 
+				   target="{msgGroup}"  
+				   repeatCount="1">
+			<s:SimpleMotionPath id="asmp" valueFrom="154"
+								valueTo="257"
+								property="height" />
+		</s:Animate>
 	</fx:Declarations>
-	<s:VGroup width="100%" height="100%" horizontalAlign="center" gap="2">
-		<s:Scroller width="200" height="120">
-			<s:VGroup id="mBox" width="100%" height="120">
-				<s:Group width="100%" height="115">
-					<s:Label id="mode" fontSize="40" text="SMS" fontWeight="bold" alpha="0.2" verticalCenter="0" horizontalCenter="0"/>
-					<s:TextArea id="IMessage" skinClass="skin.TextAreaSkinBG" width="200" height="120" fontFamily="굴림체" fontSize="16" verticalScrollPolicy="off" enabled="{_enable}" color="0x000000" keyUp="IMessage_keyUpHandler(event)"></s:TextArea>
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" gap="0">
+		<s:Group id="msgGroup" width="100%" height="154">
+			<s:Image source="@Embed(source='images/messageBg.png')" width="100%" height="100%" fillMode="clip" />
+			<s:VGroup top="10" width="200" height="100%" horizontalCenter="0" horizontalAlign="center" gap="2">
+				<s:Scroller width="200" height="100%">
+					<s:VGroup id="mBox" width="100%" height="100%">
+						<s:Group width="100%" height="100%">
+							<s:Label id="mode" fontSize="40" text="SMS" fontWeight="bold" alpha="0.2" verticalCenter="0" horizontalCenter="0"/>
+							<s:TextArea id="IMessage" skinClass="skin.TextAreaSkinBG" width="200" height="100%" fontFamily="굴림체" fontSize="16" verticalScrollPolicy="off" enabled="{_enable}" color="0x000000" 
+										keyUp="IMessage_keyUpHandler(event)"
+										focusIn="IMessage_focusInHandler(event)"
+										focusOut="IMessage_focusOutHandler(event)"></s:TextArea>
+						</s:Group>
+					</s:VGroup>
+				</s:Scroller>
+				
+				
+				<s:Group width="100%" height="32">
+					<s:Image source="images/main_40.png" left="0" buttonMode="true" useHandCursor="true" click="clickHandler(event)" verticalCenter="0" />
+					
+					<s:Image source="images/main_42.png" left="55" buttonMode="true" useHandCursor="true" click="parentApplication.subLoad('char')" verticalCenter="0" />
+					
+					<s:Label id="IByteLabel" right="30" fontSize="14" fontWeight="bold" text="90" textAlign="right" color="0x000000" verticalCenter="3"/>
+					<s:Label right="0" fontSize="14" text="byte" width="30" textAlign="right" color="0x000000" verticalCenter="3"/>
 				</s:Group>
 			</s:VGroup>
-		</s:Scroller>
-		
-		
-		<s:Group width="100%">
-			<s:Image source="images/main_40.png" left="0" buttonMode="true" useHandCursor="true" click="clickHandler(event)" verticalCenter="0" />
-			
-			<s:Image source="images/main_42.png" left="55" buttonMode="true" useHandCursor="true" click="parentApplication.subLoad('char')" verticalCenter="0" />
-			
-			<s:Label id="IByteLabel" right="30" fontSize="14" fontWeight="bold" text="90" textAlign="right" color="0x000000" verticalCenter="3"/>
-			<s:Label right="0" fontSize="14" text="byte" width="30" textAlign="right" color="0x000000" verticalCenter="3"/>
 		</s:Group>
-		<s:Group width="100%" height="25">
+		<s:Group width="100%" height="23">
 			<s:Image source="images/btn_photo.gif" click="this.fur.addFiles()" left="0" verticalCenter="0" buttonMode="true" useHandCursor="true"/>
 			<s:Image source="images/name.gif" toolTip="이름넣기"  verticalCenter="0" left="47" click="setMessageAdd('{이름}')" buttonMode="true" useHandCursor="true" />
 			<!--<s:Image source="images/btn_preview.gif" left="110" buttonMode="true" useHandCursor="true"/>-->
