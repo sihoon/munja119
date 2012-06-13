@@ -16,6 +16,12 @@
 			{
 				parentDocument.delete_submit(data.idx, data.line);
 			}
+			
+			protected function send_clickHandler(event:MouseEvent):void
+			{
+				parentDocument.send_clickHandler(data.idx, data.line);
+			}
+			
 
 		]]>
 	</fx:Script>
@@ -26,6 +32,10 @@
 		<s:Group buttonMode="true" useHandCursor="true" click="delete_clickHandler(event)">
 			<s:BitmapImage source="images/sent_del.png"/>
 		</s:Group>
+		<s:Group buttonMode="true" useHandCursor="true" click="send_clickHandler(event)">
+			<s:BitmapImage source="images/post_btn_send.gif"/>
+		</s:Group>
+				  
 	</s:HGroup>
 	
 </s:MXDataGridItemRenderer>
