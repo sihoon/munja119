@@ -302,6 +302,17 @@
 				
 			}
 			
+			
+			protected function resLayer_setReservationHandler(event:CustomEvent):void
+			{
+				cReservation.reservationText.text = String(event.obj);
+			}
+			
+			protected function resLayer_cancelReservationHandler(event:Event):void
+			{
+				cReservation.canResButton_clickHandler();
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -313,7 +324,7 @@
 			<handphone:ReturnPhone id="cReturnPhone" validValue="validHandler(event)"/>
 			<handphone:Phone id="cPhone" validValue="validHandler(event)"/>
 			<s:HGroup gap="2">
-				<handphone:Reservation id="cReservation" width="135"/>
+				<handphone:Reservation id="cReservation" width="135" viewRes="{resLayer.visible=true}"/>
 				<handphone:Interval id="cInterval" width="78"/>
 			</s:HGroup>
 			
@@ -323,8 +334,9 @@
 			</s:HGroup>
 		</s:VGroup>
 		<handphone:Message id="cMessage" width="100%" alert="message1_alertHandler(event)" validValue="validHandler(event)"/>
+		
 	</s:Group> 
-	
+	<handphone:ReservationLayer id="resLayer" visible="false" x="14" y="130" setReservation="resLayer_setReservationHandler(event)" cancelReservation="resLayer_cancelReservationHandler(event)" />
 	
 	<!-- 설정 확인 -->
 	<s:Panel id="confirm" visible="false" bottom="10" left="4" right="4" title="보내기 확인">
