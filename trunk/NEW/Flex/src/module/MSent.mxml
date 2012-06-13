@@ -307,6 +307,35 @@
 				
 			}
 			
+			
+			public function send_clickHandler(idx:String, line:String):void {
+				
+				if (idx == null) idx = "0";
+				
+				ro.set(RO_DESTINATION, send_ResultEventHandler);
+				ro.method.getSentList( new int(idx), line );
+				
+				spinnerStart();
+				
+			}
+			private function send_ResultEventHandler(event:ResultEvent):void {
+				
+				var ac:ArrayCollection = event.result as ArrayCollection;
+				
+				if (ac != null) {
+					var phone:String = "";
+					var cnt:int = ac.length;
+					var obj:Object = null;
+					for (var i:int = 0; i < cnt; i++) {
+						obj = ac.getItemAt(i);
+						phone += obj.phone+"||,";
+					}
+					phone = phone.substr(0, phone.length -1);
+					parentApplication.phoneFunction("addPhone", phone);
+				}
+				callLater(spinnerStop);
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -327,13 +356,13 @@
 				<mx:DataGrid id="dgGroup" styleName="addrDg" width="100%" height="500" draggableColumns="false" resizableColumns="false" verticalGridLines="false"
 							 itemClick="dgGroup_itemClickHandler(event)" variableRowHeight="true" >
 					<mx:columns>
-						<mx:DataGridColumn headerText="번호" sortable="false" labelFunction="fnLabel" width="50"></mx:DataGridColumn>
+						<mx:DataGridColumn headerText="번호" sortable="false" labelFunction="fnLabel" width="40"></mx:DataGridColumn>
 						<!--<mx:DataGridColumn dataField="tranType" headerText="형식" width="50"></mx:DataGridColumn>-->
-						<mx:DataGridColumn dataField="timeSend" headerText="전송시간" width="130"></mx:DataGridColumn>
-						<mx:DataGridColumn dataField="returnPhone" headerText="회신번호"></mx:DataGridColumn>
-						<mx:DataGridColumn dataField="count" headerText="전송건수" width="80"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="timeSend" headerText="전송시간" width="120"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="returnPhone" headerText="회신번호" width="80"></mx:DataGridColumn>
+						<mx:DataGridColumn dataField="count" headerText="건수" width="50"></mx:DataGridColumn>
 						<mx:DataGridColumn dataField="message" headerText="메시지"></mx:DataGridColumn>
-						<mx:DataGridColumn headerText="" width="100"  sortable="false" itemRenderer="renderer.DeleteRenderer" />
+						<mx:DataGridColumn headerText="" width="150"  sortable="false" itemRenderer="renderer.DeleteRenderer" />
 					</mx:columns>
 				</mx:DataGrid>
 				
