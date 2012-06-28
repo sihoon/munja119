@@ -205,6 +205,54 @@ public class SentFactory implements SentFactoryAble {
 		return rslt;
 	}
 	
+	public BooleanAndDescriptionVO deleteSentGroupList(Connection conn, Connection connSMS, String user_id, int idx, String line, UserInformationVO mvo) {
+		
+		VbyP.debugLog(user_id + " >> 내역삭제 시작 "+Integer.toString(idx));
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		
+		int tranResultCount = 0;
+		if(SLibrary.IfNull(line).equals("sk")||SLibrary.IfNull(line).equals("skmms")){
+			tranResultCount = deleteSentDataOfTranTableSK(connSMS, user_id, idx);
+		}else if(SLibrary.IfNull(line).equals("kt")){
+			tranResultCount = deleteSentDataOfTranTableKT(connSMS, user_id, idx);
+		}else if(SLibrary.IfNull(line).equals("han")){
+			tranResultCount = deleteSentDataOfTranTableHN(connSMS, user_id, idx);
+		}else if(SLibrary.IfNull(line).equals("hanr")){
+			tranResultCount = deleteSentDataOfTranTableHNR(connSMS, user_id, idx);
+		}else if(SLibrary.IfNull(line).equals("it")){
+			tranResultCount = deleteSentDataOfTranTableIT(connSMS, user_id, idx);
+		}else {
+			tranResultCount = deleteSentDataOfTranTable(connSMS, user_id, idx);
+		}
+		
+		if (tranResultCount > 0) {
+			if (SLibrary.IfNull(line).equals("skmms"))
+				cancelPointPutLMS(conn, mvo, tranResultCount);
+			else
+				cancelPointPut(conn, mvo, tranResultCount);
+			
+			rvo.setstrDescription("내역중 미발송 내역 "+Integer.toString(tranResultCount)+"건이 취소 되었습니다.");
+		}else {
+			int updateResultCount = updateSentGroup(conn, user_id, idx, "logdel");
+			VbyP.debugLog(user_id + " >> 내역삭제  전송그룹테이블 업데이트 : "+Integer.toString(updateResultCount) );			
+					
+			if ( updateResultCount == 1 ) {
+				
+				rvo.setbResult(true);
+				VbyP.debugLog(user_id + " >> 내역삭제 성공  " );
+				
+			} else {
+				
+				rvo.setstrDescription("내역이 삭제 되지 않았습니다.");
+			}
+		}
+		
+		
+		
+		return rvo;
+	}
+	
 	public BooleanAndDescriptionVO deleteSentGroupList(Connection conn, String user_id, int idx) {
 		
 		VbyP.debugLog(user_id + " >> 내역삭제 시작 "+Integer.toString(idx));
@@ -232,6 +280,8 @@ public class SentFactory implements SentFactoryAble {
 		VbyP.debugLog(user_id + " >> 내역삭제 시작 ");
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
 		rvo.setbResult(false);
+		
+		
 		
 		int updateResultCount = updateSentGroup(conn, user_id, "logdel");
 		VbyP.debugLog(user_id + " >> 내역삭제  전송그룹테이블 업데이트 : "+Integer.toString(updateResultCount) );			

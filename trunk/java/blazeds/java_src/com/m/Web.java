@@ -2250,26 +2250,39 @@ public class Web extends SessionManagement{
 
 		
 		Connection conn = null;
+		Connection connSMS = null;
 		
 		SentFactory sf = null;
 		sf = SentFactory.getInstance();
 		
 		BooleanAndDescriptionVO bvo = null;
+		
+		UserInformationVO mvo = null;
 			
 		if (isLogin()) {		
 		
 			try {
 				
 				conn = VbyP.getDB();
+				if (line.equals("mms") || line.equals("ktmms")) {	
+					connSMS = VbyP.getDB("sms1");
+				}
+				else connSMS = VbyP.getDB(line);
+				
+				
 				String user_id = getSession();
+				mvo = getUserInformation( conn );
+				
 				VbyP.accessLog(user_id+" >> "+line+" 傈价郴开 昏力 夸没 :"+ Integer.toString(groupIndex));
 				
 				if (user_id != null && !user_id.equals("") && groupIndex > 0 && !SLibrary.isNull(line)) {
 					
-					bvo = sf.deleteSentGroupList( conn, user_id, groupIndex );
+					bvo = sf.deleteSentGroupList( conn, connSMS, user_id, groupIndex, line, mvo );
 				}
 			}catch (Exception e) {}	finally {			
-				try { if ( conn != null ) conn.close();
+				try { 
+					if ( conn != null ) conn.close();
+					if ( connSMS != null ) connSMS.close();
 				}catch(SQLException e) { VbyP.errorLog("getSentGroupList >> conn.close() Exception!"); }
 				conn = null;
 			}

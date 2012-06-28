@@ -13,7 +13,7 @@ public interface SentFactoryAble {
 	
 	SentStatisticVO getSentStatistic(Connection connSMS, String userId, String sentClientName, String sentGroupIndex);
 	
-	BooleanAndDescriptionVO deleteSentGroupList(Connection conn, String user_id, int idx );
+	BooleanAndDescriptionVO deleteSentGroupList(Connection conn, Connection connSMS, String user_id, int idx, String line, UserInformationVO mvo );
 	BooleanAndDescriptionVO deleteSentGroupList(Connection conn, String user_id);
 	BooleanAndDescriptionVO cancelSentGroupList(Connection conn, Connection connSMS, UserInformationVO mvo, int idx, String sendLine) throws Exception ;
 	

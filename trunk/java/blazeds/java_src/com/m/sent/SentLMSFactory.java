@@ -273,36 +273,6 @@ public class SentLMSFactory implements SentFactoryAble {
 
 	}
 	
-	private String getSendResult(String line, String code) {
-
-		String rslt = "";
-		if (SLibrary.IfNull(line).equals("sk") || SLibrary.IfNull(line).equals("skmms"))
-			rslt = VbyP.getValue( "sk_"+code);
-		else if (SLibrary.IfNull(line).equals("kt"))
-			rslt = VbyP.getValue( "kt_"+code);
-		else
-			rslt = VbyP.getValue( "dacom_"+code);
-		return rslt;
-	}
-	private String getSendStat(String line, String stat) {
-		
-		String rslt = stat;
-		if (SLibrary.IfNull(line).equals("sk") || SLibrary.IfNull(line).equals("skmms")) {
-			if (stat.equals("1")||stat.equals("2"))
-				rslt = "1";
-			else if (stat.equals("9"))
-				rslt = "2";
-		}
-		
-		if (SLibrary.IfNull(line).equals("kt")) {
-			if (stat.equals("1")||stat.equals("2"))
-				rslt = "1";
-			else if (stat.equals("3") || stat.equals("-1"))
-				rslt = "2";
-		}
-		
-		return rslt;
-	}
 	
 	
 	@Override
@@ -378,6 +348,40 @@ public class SentLMSFactory implements SentFactoryAble {
 		
 		return rvo;
 	}
+	
+	public BooleanAndDescriptionVO deleteSentGroupList(Connection conn, Connection connSMS, String user_id, int idx, String line, UserInformationVO mvo) {
+		
+		VbyP.debugLog(user_id + " >> 내역삭제 시작 "+Integer.toString(idx));
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		rvo.setbResult(false);
+		
+		int tranResultCount = SLibrary.IfNull(line).equals("ktmms") ?  deleteSentDataOfTranTableKT(connSMS, mvo.getUser_id(), idx) : deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
+		
+		if (tranResultCount > 0) {
+			
+			cancelPointPut(conn, mvo, tranResultCount);
+			rvo.setstrDescription("내역중 미발송 내역 "+Integer.toString(tranResultCount)+"건이 취소 되었습니다.");
+			
+		}else {
+			int updateResultCount = updateSentGroup(conn, user_id, idx, "logdel");
+			VbyP.debugLog(user_id + " >> 내역삭제  전송그룹테이블 업데이트 : "+Integer.toString(updateResultCount) );			
+					
+			if ( updateResultCount == 1 ) {
+				
+				rvo.setbResult(true);
+				VbyP.debugLog(user_id + " >> 내역삭제 성공  " );
+				
+			} else {
+				
+				rvo.setstrDescription("내역이 삭제 되지 않았습니다.");
+			}
+		}
+		
+		
+		
+		return rvo;
+	}
+	
 	public BooleanAndDescriptionVO deleteSentGroupList(Connection conn, String user_id, int idx) {
 		
 		VbyP.debugLog(user_id + " >> 내역삭제 시작 "+Integer.toString(idx));
@@ -453,7 +457,7 @@ public class SentLMSFactory implements SentFactoryAble {
 				VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  로그테이블 건수(수신거부,중복등등) : "+Integer.toString(failResultCount));	
 				
 				if ( sentGroupInfo.length == 2 && SLibrary.parseInt(sentGroupInfo[1]) != (tranResultCount  + failResultCount) ) 
-					throw new Exception( "삭제된 발송 테이터와 예약 건수가 달라 데이터 삭제만 되었습니다.("+Integer.toString(tranResultCount  + failResultCount)+"/"+sentGroupInfo[1]+") 1544-6123으로 연락 주세요." ); 
+					throw new Exception( "삭제된 발송 테이터와 예약 건수가 달라 데이터 삭제만 되었습니다.("+Integer.toString(tranResultCount  + failResultCount)+"/"+sentGroupInfo[1]+") 연락 주세요." ); 
 				
 				int updateResultCount = updateSentGroup(conn, mvo.getUser_id(), idx, "cancel");
 				VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  전송그룹테이블 업데이트 : "+Integer.toString(updateResultCount) );
@@ -510,15 +514,6 @@ public class SentLMSFactory implements SentFactoryAble {
 		pq.setString(1, user_id);
 		pq.setString(2, Integer.toString(idx) );
 		
-		return pq.executeUpdate();
-	}
-	
-	private int deleteSentDataOfReservationTable(Connection conn, String user_id, int idx) {
-		
-		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-		pq.setPrepared(conn, VbyP.getSQL("deleteLMSSentDataReservationTable"));
-		pq.setString(1, user_id);
-		pq.setString(2, Integer.toString(idx) );
 		return pq.executeUpdate();
 	}
 	
