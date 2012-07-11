@@ -229,7 +229,7 @@
 						parentApplication.userInfoInit();
 					creationCompleteHandler();
 				}else {
-					SLibrary.alert("삭제에 실패 하였습니다. "+bvo.strDescription);
+					SLibrary.alert(bvo.strDescription);
 				}
 				
 				
