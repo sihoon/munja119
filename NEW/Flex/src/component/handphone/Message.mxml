@@ -23,7 +23,16 @@
 			public function get mmsImage():String {
 				
 				
-				return arrImage.join(";"); }
+				return arrImage.join(";"); 
+			}
+			public function allDelPhoto():void {
+				arrImage = new Array;
+				if (mBox.numElements > 1) {
+					var cnt:int = mBox.numElements;
+					for (var i:int = 0; i < cnt-1; i++ )
+						mBox.removeElementAt(0);
+				}
+			}
 			
 			private var _message:String;
 			private var _maxByte:int = 90;
