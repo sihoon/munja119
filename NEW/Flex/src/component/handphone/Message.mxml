@@ -19,7 +19,11 @@
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
 			
-			public var mmsImage:String = "";
+			public var arrImage:Array = new Array;
+			public function get mmsImage():String {
+				
+				
+				return arrImage.join(";"); }
 			
 			private var _message:String;
 			private var _maxByte:int = 90;
@@ -127,15 +131,22 @@
 				img.source = source;
 				img.buttonMode = true;
 				img.useHandCursor = true;
-				mBox.addElementAt(img,0);
-				
-				mmsImage = source;
+				mBox.addElementAt(img,mBox.numElements-1);
+				arrImage.push(source);
+				trace(arrImage.join(";"));
 				
 				changeMMS();
 			}
 			
 			private function removeImage():void {
-				if (mBox.numElements == 2) {
+				
+				if (arrImage.length > 2) {
+					arrImage.pop();
+					ExternalInterface.call("alert","3개까지만 추가 됩니다. 마지막 이미지가 지워졌습니다.");
+					trace(arrImage.join(";"));
+				}
+				
+				if (mBox.numElements == 4) {
 					mBox.removeElementAt(0);
 				}
 			}
@@ -265,7 +276,7 @@
 			// mms 이미지 업로드 이벤트 핸들러
 			private function FileUploadByRemoteObjectCOMPLETEHandler(e:FileUploadByRemoteObjectEvent):void {
 				
-				if ( Number(this.fur.UploadFiles[0].realsize) > Number(1024*1024*1) ) {
+				if ( Number(this.fur.UploadFiles[this.fur.UploadFiles.length -1].realsize) > Number(1024*1024*1) ) {
 					this.fur.UploadFiles.pop();
 					SLibrary.alert("1MB 이상의 파일은 사용 하실 수 없습니다.");
 				}else {
