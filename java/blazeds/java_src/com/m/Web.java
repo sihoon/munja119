@@ -1301,7 +1301,8 @@ public class Web extends SessionManagement{
 		ArrayList<String[]> phoneAndNameArrayList = null;
 		String requestIp = null;
 		String line = "";
-		String imagePath = VbyP.getValue("mmsSource")+image;
+		String imagePath = "";
+		String imageDir = VbyP.getValue("mmsSource");
 		
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
 		rvo.setbResult(false);
@@ -1330,7 +1331,21 @@ public class Web extends SessionManagement{
 			
 			VbyP.accessLog(user_id+" >> MMS 전송 요청 : " + requestIp + " =>["+image+"] ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"] ["+interval+"] ["+bMerge+"]");
 			
-			if (SLibrary.isNull(image) || !SLibrary.isFile(imagePath)) throw new Exception("이미지가 없습니다.");
+			if (SLibrary.isNull(image) ) throw new Exception("이미지가 없습니다.");
+			String [] arrImage = image.split(";");
+			if (arrImage != null && arrImage.length > 0) {
+				for (int i = 0; i < arrImage.length; i++) {
+					arrImage[i] = imageDir+arrImage[i];
+					if (!SLibrary.isFile(arrImage[i]))
+						throw new Exception("이미지가 없습니다.");
+				}
+				
+				for (String img : arrImage) {
+					imagePath += img+";"; 
+				}
+				if (imagePath.length() > 0)
+					imagePath = imagePath.substring(0, imagePath.length()-1);
+			}
 
 			// 20120315 추가
 			if (!SLibrary.isNull(interval)) {
@@ -1386,7 +1401,7 @@ public class Web extends SessionManagement{
 			else if (line.equals("han")) mvo.setLine("ktmms");
 			else if (line.equals("hanr")) mvo.setLine("ktmms");
 			else if (line.equals("it")) mvo.setLine("ktmms");
-			else  mvo.setLine("mms");
+			else  mvo.setLine("ktmms");
 			
 			connLMS = VbyP.getDB("sms1");
 								
@@ -1427,7 +1442,7 @@ public class Web extends SessionManagement{
 				
 				//timeout 방지를 위해 닫는다.
 				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
-				
+				System.out.println("#### SK MMS : "+imagePath+"####");
 				clientResult = sms.insertMMSClientSK(connLMS, alClientVOSK, imagePath);
 				
 			}else if (line.equals("kt") || line.equals("han")) {
@@ -1442,13 +1457,21 @@ public class Web extends SessionManagement{
 				
 			}else {
 				//step3	
-				alClientVO = mms.getMMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, imagePath, requestIp, cnt, minute, bMerge);
-				VbyP.accessLog(user_id+" >> MMS 전송 요청 : Dacom getSMSClientVOMeargeAndInterval 생성" + "경과 시간 : "+sw.getTime());
+				alClientVO = mms.getMMSClientVOMeargeAndIntervalKT(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, imagePath, requestIp, cnt, minute, bMerge);
+				VbyP.accessLog(user_id+" >> MMS 전송 요청 : KT getSMSClientVOMeargeAndInterval 생성" + "경과 시간 : "+sw.getTime());
 				
 				//timeout 방지를 위해 닫는다.
 				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
 				
-				clientResult = mms.insertClient(connLMS, alClientVO, "sms1");
+				clientResult = mms.insertClient(connLMS, alClientVO, "ktmms");
+//				//step3	
+//				alClientVO = mms.getMMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, imagePath, requestIp, cnt, minute, bMerge);
+//				VbyP.accessLog(user_id+" >> MMS 전송 요청 : Dacom getSMSClientVOMeargeAndInterval 생성" + "경과 시간 : "+sw.getTime());
+//				
+//				//timeout 방지를 위해 닫는다.
+//				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
+//				
+//				clientResult = mms.insertClient(connLMS, alClientVO, "sms1");
 			}
 			
 			

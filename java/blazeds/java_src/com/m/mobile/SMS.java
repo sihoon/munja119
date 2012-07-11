@@ -597,6 +597,11 @@ public class SMS implements SMSAble {
 	
 	private void insertMMSClientPqSetterSK(PreparedExecuteQueryManager pq, SMSClientVO vo, int num, String imagePath) {
 		
+		int cnt = imagePath.split(";").length;
+		String type = "text/plain;";
+		for (int i = 0; i < cnt; i++) {
+			type +="image/jpg;";
+		}
 		pq.setString(1, vo.getTR_SENDDATE());
 		pq.setString(2, vo.getTR_ID());
 		pq.setString(3, vo.getTR_PHONE());
@@ -613,7 +618,9 @@ public class SMS implements SMSAble {
 		pq.setString(13, "00");
 		pq.setString(14, vo.getTR_SENDDATE());
 		pq.setString(15, vo.getTR_SENDDATE());
-		pq.setString(16, imagePath);
+		pq.setInt(16, cnt+1);
+		pq.setString(17, type);
+		pq.setString(18, imagePath);
 		//pq.setString(16, vo.getTR_ETC6()+Integer.toString(num));
 	}
 	
@@ -660,6 +667,12 @@ public class SMS implements SMSAble {
 	
 	private void insertMMSClientPqSetter_failSK(PreparedExecuteQueryManager pq, SMSClientVO vo, String state, String code, int num, String imagePath) {
 		
+		int cnt = imagePath.split(";").length;
+		String type = "text/plain;";
+		for (int i = 0; i < cnt; i++) {
+			type +="image/jpg;";
+		}
+		
 		pq.setString(1, vo.getTR_SENDDATE());
 		pq.setString(2, vo.getTR_ID());
 		pq.setString(3, vo.getTR_PHONE());
@@ -676,7 +689,9 @@ public class SMS implements SMSAble {
 		pq.setString(13, code);
 		pq.setString(14, vo.getTR_SENDDATE());
 		pq.setString(15, vo.getTR_SENDDATE());
-		pq.setString(16, imagePath);
+		pq.setInt(16, imagePath.split(";").length+1);
+		pq.setString(17, type);
+		pq.setString(18, imagePath);
 		//pq.setString(16, vo.getTR_ETC6()+Integer.toString(num));
 	}
 	
