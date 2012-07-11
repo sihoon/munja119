@@ -383,13 +383,26 @@ public class MMS implements MMSAble {
 		String [] temp = null;
 		boolean bInterval = false;
 		String name = "";
+		String image = "";
 		
 		VbyP.debugLog(" >> getPhone");
 		int count = phoneAndNameArrayList.size();
 		if (count < 0)
 			throw new Exception("전화번호 리스트가 없습니다.");	
 		
-		String img = findFileName(imagePath);
+		String [] arrImage = imagePath.split(";");
+		int imgCnt = arrImage.length;
+		if (arrImage != null && imgCnt > 0) {
+			for (int i = 0; i < imgCnt; i++) {
+				image += findFileName(arrImage[i])+"^1^"+Integer.toString(i)+"|";
+			}
+		}
+		
+		if (image.length() > 0) {
+			image = image.substring(0, image.length()-1);
+			System.out.println("#### KT MMS : "+image);
+		}
+
 		
 		if (cnt > 0 && minute > 0) bInterval = true;
 		
@@ -410,9 +423,9 @@ public class MMS implements MMSAble {
 			vo.setSTATUS( CLIENT_SENDSTAT );
 			vo.setREQDATE( reservationDate );
 			vo.setMSG( bMerge ? SLibrary.replaceAll(message, "{이름}", name ):message );
-			vo.setFILE_CNT( (SLibrary.isNull(img))? 0: 1 );
-			vo.setFILE_CNT_REAL( (SLibrary.isNull(img))? 0: 1 );
-			vo.setFILE_PATH1( (SLibrary.isNull(img))? "": img+"^1^0" );			
+			vo.setFILE_CNT( imgCnt );
+			vo.setFILE_CNT_REAL( imgCnt );
+			vo.setFILE_PATH1( image );			
 			vo.setTYPE( CLIENT_MESSAGETYPE );
 			vo.setID( mvo.getUser_id() );
 			vo.setPOST( Integer.toString(MMSLogKey) );
