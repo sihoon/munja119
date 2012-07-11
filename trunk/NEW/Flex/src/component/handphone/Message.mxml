@@ -370,7 +370,7 @@
 			<s:Image source="images/btn_photo.gif" click="this.fur.addFiles()" left="0" verticalCenter="0" buttonMode="true" useHandCursor="true"/>
 			<s:Image source="images/name.gif" toolTip="이름넣기"  verticalCenter="0" left="47" click="setMessageAdd('{이름}')" buttonMode="true" useHandCursor="true" />
 			<!--<s:Image source="images/btn_preview.gif" left="110" buttonMode="true" useHandCursor="true"/>-->
-			<s:Image source="images/btn_again.gif" click="setMessage('');removeImage();" left="78" verticalCenter="0" buttonMode="true" useHandCursor="true"/>
+			<s:Image source="images/btn_again.gif" click="setMessage('');allDelPhoto();" left="78" verticalCenter="0" buttonMode="true" useHandCursor="true"/>
 			<s:Image source="images/main_47.png" right="0" buttonMode="true" useHandCursor="true" click="clickHandlerSave()" verticalCenter="0"/>
 		</s:Group>
 	</s:VGroup>
