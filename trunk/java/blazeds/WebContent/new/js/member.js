@@ -25,6 +25,35 @@ function juminValidate(jumin) {
 
 }
 
+function isRegNo(no) {
+
+	no = no.replace("-","");
+	
+	if (no.length != 13) {
+		return false;
+	}
+	var arr_regno = no.split("");
+
+	var arr_wt = new Array(1,2,1,2,1,2,1,2,1,2,1,2);
+	var iSum_regno = 0;
+	var iCheck_digit = 0;
+
+	for (var i = 0; i < 12; i++) {
+		iSum_regno += eval(arr_regno[i]) * eval(arr_wt[i]);
+	}
+
+	iCheck_digit = 10 - (iSum_regno % 10);
+	iCheck_digit = iCheck_digit %10;
+
+	if(iCheck_digit != arr_regno[12]) {
+		return false;
+	}
+
+	return true;
+}
+
+
+
 function check1() {
 
 	if (!document.getElementById("sub1ok").checked) {
@@ -111,13 +140,12 @@ $("#juminCheck").click(function() {
 	if (!f.name.value) { alert("이름을 입력하세요."); f.name.focus(); return false; }
 	if (!f.jumin1.value) { alert("주민등록번호를 입력 하세요."); f.jumin1.focus(); return false; }
 	if (!f.jumin2.value) { alert("주민등록번호를 입력 하세요."); f.jumin2.focus(); return false; }
-	
-	if ( !juminValidate( f.jumin1.value + f.jumin2.value ) ) {
-		alert("잘못된 주민등록 번호 입니다.");
+
+	if ( !juminValidate( f.jumin1.value + f.jumin2.value ) && !isRegNo( f.jumin1.value + f.jumin2.value ) ) {
+		alert("잘못된 주민등록 번호(법인번호) 입니다.");
 		f.jumin1.focus();
 		return false;
 	} else {
-
 		$.post(
 			'member/jumin_check.jsp',
 			{
@@ -128,7 +156,7 @@ $("#juminCheck").click(function() {
 					f.submit();
 				} else {
 					
-					alert("사용 불가능한 주민등록번호입니다");
+					alert("사용 불가능한 주민등록번호(법인번호)입니다");
 				}
 			}
 		);

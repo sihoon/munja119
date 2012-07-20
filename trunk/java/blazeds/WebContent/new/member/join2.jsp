@@ -30,6 +30,7 @@ VbyP.accessLog("회원가입 페이지 요청 2단계>> " + request.getRemoteAdd
 		<img src="images/member_img04.gif"/>
 		<input type="text" name="jumin1" id="jumin1" value=""  onkeyup="moveCursor(jumin1, jumin2, 6);" style="width:100px;" /> - 
 		<input type="password" name="jumin2" id="jumin2" value="" style="width:100px;" />
+		<span style="color:#CCC;font-style: italic;">(법인등록번호 가능)</span>
 		
 <pre>개정 "주민등록법"에 의해 태인의 주민등록번호를 부정사용하는 자는 3년 이하늬 징역 또는 1천만원.
 이하의 벌금이 부과될 수 있습니다. 관련법률: 주민등록법 제37조(벌칙) 제10호(시행일:2009.04.01)
