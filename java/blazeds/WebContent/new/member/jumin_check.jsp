@@ -3,6 +3,7 @@
 	String jumin = request.getParameter("jumin");
 	Connection conn = null;
 	String rslt = "no";
+	System.out.println("주민번호 확인 요청:"+jumin);
 	try {
 		Join join = new Join();
 
