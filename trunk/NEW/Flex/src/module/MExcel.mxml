@@ -171,6 +171,7 @@
 					
 					case FILEUPLOAD:
 						stepText.text = "엑셀 파일(.xls,.xlsx) 열기를 클릭하여 엑셀 파일을 선택 하세요.(csv 파일은 xls로 저장 후 사용)";
+						useage.visible = true;
 						excelPhone.visible = false;
 						excelName.visible = false;
 						where.visible = false;
@@ -183,6 +184,7 @@
 					case METHOD:
 					case ADDON:
 						stepText.text = "전화번호 열을 선택 후 전송목록 또는 주소록을 선택 하세요.";
+						useage.visible = false;
 						excelPhone.visible = true;
 						excelName.visible = true;
 						where.visible = true;
@@ -324,7 +326,11 @@
 		<s:Group height="40">
 			<s:HGroup gap="10" paddingLeft="5" top="0" height="39" verticalAlign="middle">
 				<s:Image source="images/btn_excel.gif" click="this.fur.addFiles()" toolTip="클릭하여 엑셀 파일을 선택 하십시요." buttonMode="true" useHandCursor="true" />
-				<s:DropDownList id="excelPhone" width="80"></s:DropDownList>
+				<s:Group>
+					<s:DropDownList id="excelPhone" width="80"></s:DropDownList>
+					<s:Image id="useage" source="images/useage.gif" verticalCenter="0" buttonMode="true" click="{navigateToURL(new URLRequest('usage_excel.html'), '_blank');}"/>
+				</s:Group>
+				
 				<s:DropDownList id="excelName" width="80"></s:DropDownList>
 				<s:ComboBox id="where" width="80" change="radioAddress_clickHandler()"
 							chromeColor="#cccccc" prompt="어디에?">
