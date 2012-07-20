@@ -47,7 +47,11 @@
 		</s:VGroup>
 		
 		<s:VGroup width="100%">
-			<s:Image right="0" source="images/title_post.gif" />
+			<s:Group width="100%">
+				<s:Image left="0" source="images/title_post.gif" />
+				<s:Image id="useage" source="images/useage.gif" right="0" verticalCenter="0" buttonMode="true" click="{navigateToURL(new URLRequest('usage_address.html'), '_blank');}"/>
+			</s:Group>
+			
 			<s:Rect width="100%" height="2"><s:fill><s:SolidColor color="0xFF0000" /></s:fill></s:Rect>
 			<s:ModuleLoader id="mDef" url="module/MAddress.swf"/>
 		</s:VGroup>
