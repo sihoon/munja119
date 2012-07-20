@@ -328,7 +328,7 @@
 				<s:Image source="images/btn_excel.gif" click="this.fur.addFiles()" toolTip="클릭하여 엑셀 파일을 선택 하십시요." buttonMode="true" useHandCursor="true" />
 				<s:Group>
 					<s:DropDownList id="excelPhone" width="80"></s:DropDownList>
-					<s:Image id="useage" source="images/useage.gif" verticalCenter="0" buttonMode="true" click="{navigateToURL(new URLRequest('usage_excel.html'), '_blank');}"/>
+					<s:Image id="useage" visible="false" source="images/useage.gif" verticalCenter="0" buttonMode="true" click="{navigateToURL(new URLRequest('usage_excel.html'), '_blank');}"/>
 				</s:Group>
 				
 				<s:DropDownList id="excelName" width="80"></s:DropDownList>
