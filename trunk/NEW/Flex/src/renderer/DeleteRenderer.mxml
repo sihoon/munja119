@@ -33,7 +33,7 @@
 			<s:BitmapImage source="images/sent_del.png"/>
 		</s:Group>
 		<s:Group buttonMode="true" useHandCursor="true" click="send_clickHandler(event)">
-			<s:BitmapImage source="images/post_btn_send.gif"/>
+			<s:BitmapImage source="images/resend.jpg"/>
 		</s:Group>
 				  
 	</s:HGroup>
