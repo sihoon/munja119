@@ -40,6 +40,7 @@
 			
 			protected function cateList_creationCompleteHandler():void {
 				
+				emotiList.dataProvider = al;
 				// 저장문자시 카테고리 안가져옴
 				if (gubun == "my") {
 					paging.viewDataCount = 15; 
@@ -72,16 +73,33 @@
 			}
 			protected function emoti_ResultEventHandler(event:ResultEvent):void {
 				
-				al = event.result as ArrayCollection;
+				var rslt:ArrayCollection = event.result as ArrayCollection;
 				
-				if (al != null && al.length > 0) {
-					paging.totalDataCount = Object(al.getItemAt(0)).cnt;
+				if (rslt != null && rslt.length > 0) {
+					paging.totalDataCount = Object(rslt.getItemAt(0)).cnt;
 					
 					if (currTotalCount != paging.totalDataCount)paging.init();
 					currTotalCount = paging.totalDataCount;
+				}else {
+					paging.totalDataCount = 0;
+					paging.init();
+					currTotalCount = 0;
+					
 				}
 				
-				emotiList.dataProvider = al;
+				if (gubun == "my" && paging.totalDataCount > 0) {
+					currentState = "save";
+				}else if (gubun == "my") {
+					ExternalInterface.call("alert","등록된 문자가 없습니다.");
+					gubun = "업종별문자";
+					currentState = "upjong";
+					cateList_creationCompleteHandler();
+				}
+				
+				al.removeAll();
+				if (rslt)
+					al.addAll(rslt);
+				//emotiList.dataProvider = al;
 			}
 			
 			
@@ -93,11 +111,27 @@
 			// 종류변경
 			protected function emti_changeHandler(idx:Number):void {
 				
-				if (idx == 0) { gubun = "업종별문자"; currentState = "upjong"; }
-				else if (idx == 1) { gubun = "테마문자"; currentState = "thema"; }
-				else if (idx == 2) { gubun = "my"; currentState = "save"; }
+				if (idx == 0) { 
+					gubun = "업종별문자";
+					currentState = "upjong";
+					cateList_creationCompleteHandler();
+				}
+				else if (idx == 1) { 
+					gubun = "테마문자"; 
+					currentState = "thema";
+					cateList_creationCompleteHandler();
+				}
+				else if (idx == 2) {
+					if ( Boolean(parentApplication.bLogin) == false ) ExternalInterface.call("alert","로그인 후 이용가능합니다.");
+					else {
+						gubun = "my"; 
+						//currentState = "save";
+						cateList_creationCompleteHandler();
+					}
+					
+				}
 				cate = "";
-				cateList_creationCompleteHandler()
+				//cateList_creationCompleteHandler();
 				
 			}
 			
@@ -150,7 +184,7 @@
 				</s:Group>
 				
 				<s:List id="emotiList" rollOverColor="0xffffff" width="600" itemRenderer.thema="renderer.EmotiRendererMMS" itemRenderer.upjong="renderer.EmotiRendererMMS" itemRenderer.save="renderer.MyMsgRenderer" skinClass="skin.ListBg">
-					<s:layout><s:TileLayout horizontalGap="32" verticalGap="12"/></s:layout>
+					<s:layout><s:TileLayout horizontalGap="30" verticalGap="12" requestedColumnCount="3"/></s:layout>
 				</s:List>
 				<lib:Paging id="paging" height="30" clickPage="paging_clickPageHandler(event)" />
 			</s:VGroup>
