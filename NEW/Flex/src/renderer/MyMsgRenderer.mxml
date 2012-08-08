@@ -11,8 +11,8 @@
 			import mx.events.FlexEvent;
 			protected function emtdel1_clickHandler(event:MouseEvent):void
 			{
-				var parent:MEmoticon = parentDocument.parentDocument as MEmoticon;
-				parent.deleteSave(int(data.idx));
+				//var parent:MEmoticon = parentDocument.parentDocument as MEmoticon;
+				parentDocument.parentDocument.deleteSave(int(data.idx));
 				
 			}
 			
