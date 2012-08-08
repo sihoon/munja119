@@ -41,6 +41,11 @@ try {
 	}
 	
 	NoticDAO notic = new NoticDAO();
+	if (!SLibrary.isNull(idx) && SLibrary.intValue(idx) > 0) {
+		notic.updateCnt(conn, SLibrary.intValue(idx));
+	}
+	
+	
 	al = notic.getListPage(conn, startPage, endPage);
 	tcnt = notic.totalCnt;
 
