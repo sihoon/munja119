@@ -142,7 +142,7 @@ function isValidEmail(email_address) {
 	
 	// 이메일 주소를 판별하기 위한 정규식  
 	//var format = /^[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+)*@[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*$/;
-	var format = /^\s*[\w\~\-\.]+\@[\w\~\-]+(\.[\w\~\-]+)+\s*$/g;
+	var format = /^\s*[\w\~\-\.]+\@[\w\~\-]+(\.[\w\~\-]{2,12}){1,3}\s*$/g;
 	// 인자 email_address를 정규식 format 으로 검색  
 	if (email_address.search(format) != -1)  
 	{  
