@@ -17,8 +17,11 @@
 	String passwd1 = VbyP.getPOST(request.getParameter("passwd1"));
 	String passwd2 = VbyP.getPOST(request.getParameter("passwd2"));
 	String user_name = VbyP.getPOST(request.getParameter("name"));
-	String jumin1 = VbyP.getPOST(request.getParameter("jumin1"));
-	String jumin2 = VbyP.getPOST(request.getParameter("jumin2"));
+// 	String jumin1 = VbyP.getPOST(request.getParameter("jumin1"));
+// 	String jumin2 = VbyP.getPOST(request.getParameter("jumin2"));
+
+	String jumin1 = "######";
+	String jumin2 = "#######";
 	
 	String hp = VbyP.getPOST(request.getParameter("hp"));
 	String email = VbyP.getPOST(request.getParameter("email"));
@@ -29,12 +32,13 @@
 		Join join = new Join();
 		
 		if ( SLibrary.isNull(user_name)) throw new Exception("이름이 없습니다.");
-		if ( SLibrary.isNull(jumin1) || SLibrary.isNull(jumin2)) throw new Exception("주민등록번호가 없습니다.");
+// 		if ( SLibrary.isNull(jumin1) || SLibrary.isNull(jumin2)) throw new Exception("주민등록번호가 없습니다.");
 		if ( SLibrary.isNull(user_id)) throw new Exception("아이디를 입력하세요.");
 		if (join.idDupleCheck(user_id)) throw new Exception("가입된 아이디 입니다.");
 		if (!user_id.equals(id_ok)) throw new Exception("아이디를 다시 입력하세요.");
 		if (passwd1.length() < 6) throw new Exception("비밀번호는 6자리 이상 입력하세요.");
 		if (!passwd1.equals(passwd2)) throw new Exception("비밀번호 확인이 다릅니다.");
+		if ( SLibrary.isNull(email) ) throw new Exception("이메일 주소가 없습니다.");
 		
 		
 		JoinVO vo = new JoinVO();
