@@ -71,7 +71,7 @@ function check1() {
 		return false;
 	}
 	
-	window.location.href='?content=join2';
+	window.location.href='?content=join3';
 }
 
 function check2() {
@@ -98,10 +98,12 @@ function check_join() {
 	if (!f.passwd1.value) {	alert("비밀번호를 입력해주세요"); f.passwd1.focus(); return false; }
 	if (f.passwd1.value.length < 6) { alert("비밀번호는 6자 이상으로 입력하세요.");	f.passwd1.focus(); return false; }
 	if (f.passwd1.value != f.passwd2.value) { alert("비밀번호와 비밀번호 확인이 다릅니다."); f.passwd1.focus(); return false; }
-	if (!f.name.value || !f.jumin1.value || !f.jumin2.value) { alert("주민등록번호가 확인 되지 않았습니다. 다시 시도 하십시요."); return false; }
-	
+//	if (!f.name.value || !f.jumin1.value || !f.jumin2.value) { alert("주민등록번호가 확인 되지 않았습니다. 다시 시도 하십시요."); return false; }
+	if (!f.name.value) { alert("이름을 입력해주세요"); f.name.focus(); return false; }
 	if (!f.hp.value) {	alert("핸드폰 번호를 입력해주세요"); f.hp.focus(); return false; }
 	if (!f.email.value) { alert("이메일을 입력해주세요"); f.email.focus(); return false; }
+	if (!isValidEmail(f.email.value)) { alert("잘못된 형식의 이메일 주소 입니다."); f.email.focus(); return false; }
+	
 	/*if (!f.captchaInput.value) { alert("자동가입 방지를 넣어 주세요"); f.captchaInput.focus(); return false; }*/
 	
 	f.target = "nobody";	
@@ -120,6 +122,7 @@ function check_modify() {
 	
 	if (!f.hp.value) {	alert("핸드폰 번호를 입력해주세요"); f.hp.focus(); return false; }
 	if (!f.email.value) { alert("이메일을 입력해주세요"); f.email.focus(); return false; }
+	if (!isValidEmail(f.email.value)) { alert("잘못된 형식의 이메일 주소 입니다."); f.email.focus(); return false; }
 	/*if (!f.captchaInput.value) { alert("자동가입 방지를 넣어 주세요"); f.captchaInput.focus(); return false; }*/
 	
 	f.target = "nobody";	
@@ -133,6 +136,24 @@ function moveCursor(before, next, length) {
 		next.focus() ;
 		return;
 	}
+}
+
+function isValidEmail(email_address) {
+	
+	// 이메일 주소를 판별하기 위한 정규식  
+	//var format = /^[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+)*@[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*$/;
+	var format = /^\s*[\w\~\-\.]+\@[\w\~\-]+(\.[\w\~\-]+)+\s*$/g;
+	// 인자 email_address를 정규식 format 으로 검색  
+	if (email_address.search(format) != -1)  
+	{  
+	    // 정규식과 일치하는 문자가 있으면 true  
+	    return true;  
+	}  
+	else  
+	{  
+	    // 없으면 false  
+	    return false;  
+	}  
 }
 
 $("#juminCheck").click(function() {
