@@ -39,6 +39,7 @@
 			
 			private var al:ArrayCollection =  new ArrayCollection();
 			private var ac:ArrayCollection = new ArrayCollection();
+			private var acSub:ArrayCollection = new ArrayCollection();
 			[Binable] public var bMy:Boolean = false;
 			
 			// 이미지 업로드 관련
@@ -46,6 +47,11 @@
 			
 			protected function cateList_creationCompleteHandler():void {
 				
+				emotiList.dataProvider = al;
+				//new
+				cateList.dataProvider = ac;
+				subCateList.dataProvider = acSub;
+				cbCate.dataProvider = ac;
 				// 저장문자시 카테고리 안가져옴
 				if (gubun == "my") {
 					getEmotiList();
@@ -65,11 +71,12 @@
 			private function cateList_ResultEventHandler(event:ResultEvent):void {
 				
 				var arr:Array = event.result as Array;
-				ac = new ArrayCollection(arr);
-				cateList.dataProvider = ac;
-				cbCate.dataProvider = ac;
+				//new
+				ac.removeAll();
+				ac.addAll(new ArrayCollection(arr));
 				cbCate.textInput.text = "";
-				getEmotiList();
+				//cateList.dataProvider = ac;
+				getEmotiList()
 			}
 			
 			protected function getEmotiList():void {
@@ -151,6 +158,7 @@
 			protected function cateList_changeHandler(event:IndexChangeEvent):void
 			{
 				this.cate = cateList.selectedItem as String;
+				viewSubCate(cateList.selectedIndex);
 				getEmotiList();
 			}
 			
@@ -176,6 +184,32 @@
 			}
 			private function FileUploadByRemoteObjectFAULTHandler(e:FileUploadByRemoteObjectEvent):void { SLibrary.alert(e.fault.toString()); }
 			
+			private function viewSubCate(idx:int):void {
+				
+				var cnt:int = ac.length;
+				var arr:Array = null;
+				var tmp:ArrayCollection = new ArrayCollection();
+				
+				for (var i:int = idx+1; i < cnt; i++) {
+					
+					arr = (ac.getItemAt(i) as String).split("_");
+					if (arr.length <= 1) break;
+					else {
+						tmp.addItem(ac.getItemAt(i) as String);
+					}
+				}
+				acSub.removeAll();
+				acSub.addAll(tmp);
+			}
+			
+			//new
+			protected function subCateList_changeHandler(event:IndexChangeEvent):void
+			{
+				this.cate = subCateList.selectedItem as String;
+				//viewSubCate(cateList.selectedIndex);
+				getEmotiList();
+			}
+			
 			
 		]]>
 	</fx:Script>
@@ -187,7 +221,7 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:HGroup width="100%" height="100%">
+	<s:HGroup width="100%" height="100%" gap="20">
 		<s:VGroup width="200">
 			<s:Group width="142" height="200" >
 				<s:Image id="inputEmt" />
@@ -205,19 +239,27 @@
 			<s:Group top="37" height="700">
 				<s:Rect left="0" right="0" top="0" bottom="0" ><s:stroke><s:SolidColorStroke color="0xDCB8AC" weight="2" /></s:stroke></s:Rect>
 				
-				<s:VGroup top="11" left="0" right="0" horizontalAlign="center">
+				<s:VGroup top="11" left="0" right="0" horizontalAlign="center" paddingLeft="10" paddingRight="10">
 					<s:Group id="cateBox" visible.save="false" width="90%" height="86" >
 						
 						<s:Rect left="0" right="0" top="0" bottom="0" ><s:fill><s:SolidColor color="0xEEE3DD"/></s:fill></s:Rect>
-						<s:List id="cateList" change="cateList_changeHandler(event)" left="10" selectionColor="0xffffff" rollOverColor="0xEEE3DD" right="10" height="66" verticalCenter="0" skinClass="skin.ListBg" 
+						<s:List id="cateList" change="cateList_changeHandler(event)" left="10" selectionColor="0xffffff" rollOverColor="0xEEE3DD" right="10" height="66" verticalCenter="0" skinClass="skin.ListBg"
+								itemRenderer="admin.CateListItemRenderer"
 								creationComplete="cateList_creationCompleteHandler()">
-							<s:layout><lib:FlowLayout /></s:layout>
+							<s:layout><lib:FlowLayout horizontalGap="10" /></s:layout>
 						</s:List>
 						
 					</s:Group>
 					
-					<s:List id="emotiList" width="800" height="540" skinClass="skin.ListBg" itemRenderer="skin.EmoticonMMSRenderer">
-						<s:layout><s:TileLayout horizontalGap="10" verticalGap="0"/></s:layout>
+					<s:List id="subCateList" width="600" change="subCateList_changeHandler(event)"
+							itemRenderer="admin.SubCateListItemRenderer"
+							borderVisible="false"
+							selectionColor="0xEEE3DD" >
+						<s:layout><s:TileLayout/></s:layout>
+					</s:List>
+					
+					<s:List id="emotiList" width="100%" height="540" skinClass="skin.ListBg" itemRenderer="skin.EmoticonMMSRenderer">
+						<s:layout><s:TileLayout requestedColumnCount="4" horizontalAlign="center"/></s:layout>
 					</s:List>
 					<lib:Paging id="paging" height="30" clickPage="paging_clickPageHandler(event)" />
 				</s:VGroup>
