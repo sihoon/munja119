@@ -94,7 +94,8 @@ package lib
 				maxHeight = Math.max(maxHeight, y + elementHeight);
 				
 				// Update the current position, add the gap
-				x += elementWidth + _horizontalGap;
+				if (elementWidth != 0)
+					x += elementWidth + _horizontalGap;
 			}
 			
 			// Scrolling support - update the content size
