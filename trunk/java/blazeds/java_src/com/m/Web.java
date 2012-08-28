@@ -2399,7 +2399,7 @@ public class Web extends SessionManagement{
 		
 		Connection conn = null;
 		Home home = null;
-		String [] arr = null;
+		String[] arr = null;
 		try {
 			conn = VbyP.getDB();
 			home = Home.getInstance();
