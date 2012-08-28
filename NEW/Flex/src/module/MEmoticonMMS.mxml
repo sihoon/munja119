@@ -37,10 +37,13 @@
 			
 			private var al:ArrayCollection =  new ArrayCollection();
 			private var ac:ArrayCollection = new ArrayCollection();
+			private var acSub:ArrayCollection = new ArrayCollection();
 			
 			protected function cateList_creationCompleteHandler():void {
 				
 				emotiList.dataProvider = al;
+				cateList.dataProvider = ac;
+				subCateList.dataProvider = acSub;
 				// 저장문자시 카테고리 안가져옴
 				if (gubun == "my") {
 					paging.viewDataCount = 15; 
@@ -56,8 +59,10 @@
 			private function cateList_ResultEventHandler(event:ResultEvent):void {
 				
 				var arr:Array = event.result as Array;
-				ac = new ArrayCollection(arr);
-				cateList.dataProvider = ac;
+				//new
+				ac.removeAll();
+				ac.addAll(new ArrayCollection(arr));
+				//cateList.dataProvider = ac;
 				getEmotiList();
 			}
 			
@@ -153,6 +158,34 @@
 			protected function cateList_changeHandler(event:IndexChangeEvent):void
 			{
 				this.cate = cateList.selectedItem as String;
+				viewSubCate(cateList.selectedIndex);
+				getEmotiList();
+			}
+			
+			//new
+			private function viewSubCate(idx:int):void {
+				
+				var cnt:int = ac.length;
+				var arr:Array = null;
+				var tmp:ArrayCollection = new ArrayCollection();
+				
+				for (var i:int = idx+1; i < cnt; i++) {
+					
+					arr = (ac.getItemAt(i) as String).split("_");
+					if (arr.length <= 1) break;
+					else {
+						tmp.addItem(ac.getItemAt(i) as String);
+					}
+				}
+				acSub.removeAll();
+				acSub.addAll(tmp);
+			}
+			
+			//new
+			protected function subCateList_changeHandler(event:IndexChangeEvent):void
+			{
+				this.cate = subCateList.selectedItem as String;
+				//viewSubCate(cateList.selectedIndex);
 				getEmotiList();
 			}
 			
@@ -176,14 +209,22 @@
 				<s:Group id="cateBox" visible.save="false" width="600" height="86" height.save="0" >
 					
 					<s:Rect left="0" right="0" top="0" bottom="0" ><s:fill><s:SolidColor color="0xEEE3DD"/></s:fill></s:Rect>
-					<s:List id="cateList" left="10" change="cateList_changeHandler(event)" selectionColor="0xffffff" rollOverColor="0xEEE3DD" right="10" height="66" verticalCenter="0" skinClass="skin.ListBg" 
+					<s:List id="cateList" left="10" change="cateList_changeHandler(event)" selectionColor="0xffffff" rollOverColor="0xEEE3DD" right="10" height="66" verticalCenter="0" skinClass="skin.ListBg"
+							itemRenderer="renderer.CateListItemRenderer"
 							creationComplete="cateList_creationCompleteHandler()">
-						<s:layout><lib:FlowLayout /></s:layout>
+						<s:layout><lib:FlowLayout horizontalGap="10" /></s:layout>
 					</s:List>
 					
 				</s:Group>
 				
-				<s:List id="emotiList" rollOverColor="0xffffff" width="600" itemRenderer.thema="renderer.EmotiRendererMMS" itemRenderer.upjong="renderer.EmotiRendererMMS" itemRenderer.save="renderer.MyMsgRenderer" skinClass="skin.ListBg">
+				<s:List id="subCateList" width="600" change="subCateList_changeHandler(event)"
+						itemRenderer="renderer.SubCateListItemRenderer"
+						borderVisible="false"
+						selectionColor="0xEEE3DD" >
+					<s:layout><s:TileLayout/></s:layout>
+				</s:List>
+				
+				<s:List id="emotiList" rollOverColor="0xffffff" minWidth="600" itemRenderer.thema="renderer.EmotiRendererMMS" itemRenderer.upjong="renderer.EmotiRendererMMS" itemRenderer.save="renderer.MyMsgRenderer" skinClass="skin.ListBg">
 					<s:layout><s:TileLayout horizontalGap="30" verticalGap="12" requestedColumnCount="3"/></s:layout>
 				</s:List>
 				<lib:Paging id="paging" height="30" clickPage="paging_clickPageHandler(event)" />
