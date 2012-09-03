@@ -1017,6 +1017,7 @@ public class Web extends SessionManagement{
 			else if (line.equals("han")) mvo.setLine("ktmms");
 			else if (line.equals("hanr")) mvo.setLine("ktmms");
 			else if (line.equals("it")) mvo.setLine("ktmms");
+			else if (line.equals("pp")) mvo.setLine("ktmms");
 			else  mvo.setLine("mms");
 			
 			connLMS = VbyP.getDB("sms1");
@@ -1401,6 +1402,7 @@ public class Web extends SessionManagement{
 			else if (line.equals("han")) mvo.setLine("ktmms");
 			else if (line.equals("hanr")) mvo.setLine("ktmms");
 			else if (line.equals("it")) mvo.setLine("ktmms");
+			else if (line.equals("pp")) mvo.setLine("ktmms");
 			else  mvo.setLine("ktmms");
 			
 			connLMS = VbyP.getDB("sms1");
@@ -3172,6 +3174,84 @@ public class Web extends SessionManagement{
 			}catch (Exception e) {}	finally {			
 				try { if ( conn != null ) conn.close();
 				}catch(SQLException e) { VbyP.errorLog("addEmotiCateMMS >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
+	
+	public void moveEmotiCate(String cate, String idxs) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 이모티콘 이동 "+cate+" "+idxs);
+		
+		if (isAdminLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append( SLibrary.messageFormat(VbyP.getSQL("adminEmoticonUpdateCate"), new Object[]{idxs}) );
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setString(1, cate);
+				pq.executeUpdate();
+				
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("moveEmotiCate >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
+	
+	public void moveEmotiCateLMS(String cate, String idxs) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 이모티콘LMS 이동 "+cate+" "+idxs);
+		
+		if (isAdminLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append( SLibrary.messageFormat(VbyP.getSQL("adminEmoticonUpdateCateLMS"), new Object[]{idxs}) );
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setString(1, cate);
+				pq.executeUpdate();
+				
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("moveEmotiCateLMS >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
+
+	public void moveEmotiCateMMS(String cate, String idxs) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 이모티콘MMS 이동 "+cate+" "+idxs);
+		
+		if (isAdminLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append( SLibrary.messageFormat(VbyP.getSQL("adminEmoticonUpdateCateMMS"), new Object[]{idxs}) );
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setString(1, cate);
+				pq.executeUpdate();
+				
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("moveEmotiCateMMS >> conn.close() Exception!"); }
 			}
 		}
 		
