@@ -26,11 +26,9 @@
 					} */
 					if (arr && arr.length == 1) {
 						txt.text = arr[arr.length-1];
-						txt.visible = true;
 					}
 					else {
-						this.visible = false;
-						txt.visible = false;
+						txt.text = "";
 					}
 					
 				}

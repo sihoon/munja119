@@ -93,7 +93,8 @@ package lib
 				maxWidth = Math.max(maxWidth, x + elementWidth);
 				maxHeight = Math.max(maxHeight, y + elementHeight);
 				
-				// Update the current position, add the gap
+				// Update the current position, add the gap]
+//				trace(i+":"+elementWidth);
 				if (elementWidth != 0)
 					x += elementWidth + _horizontalGap;
 			}
