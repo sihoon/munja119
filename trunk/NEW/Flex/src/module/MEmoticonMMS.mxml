@@ -217,7 +217,7 @@
 					
 				</s:Group>
 				
-				<s:List id="subCateList" width="600" change="subCateList_changeHandler(event)"
+				<s:List id="subCateList" width="600" height="24" change="subCateList_changeHandler(event)"
 						itemRenderer="renderer.SubCateListItemRenderer"
 						borderVisible="false"
 						selectionColor="0xEEE3DD" >

@@ -174,7 +174,12 @@
 					}
 				}
 				acSub.removeAll();
-				acSub.addAll(tmp);
+				if (tmp.length > 0) {
+					acSub.addAll(tmp);
+					subCateList.visible = true;
+				}else
+					subCateList.visible = false;
+					
 			}
 			
 			//new
@@ -213,7 +218,7 @@
 
 				</s:Group>
 				
-				<s:List id="subCateList" width="600" change="subCateList_changeHandler(event)"
+				<s:List id="subCateList" width="600" height="24" change="subCateList_changeHandler(event)"
 						itemRenderer="renderer.SubCateListItemRenderer"
 						borderVisible="false"
 						selectionColor="0xEEE3DD" >
