@@ -214,6 +214,25 @@
 				getEmotiList();
 			}
 			
+			protected function move_clickHandler(event:MouseEvent):void
+			{
+				ro.set(RO_DESTINATION, add_ResultEventHandler);
+				var obj:Object = cbCate.selectedItem;
+				var sel:Vector.<Object> = emotiList.selectedItems;
+				var cnt:int = sel.length;
+				var arr:Array = new Array;
+				for (var i:int = 0; i < cnt; i++) {
+					arr.push( sel[i].idx );
+				}
+				
+				var rslt:String = arr.join(",");
+				
+				if (obj == null){
+					ExternalInterface.call("alert", "카테고리를 입력 또는 선택 하세요.");
+				}else 
+					ro.method.moveEmotiCateLMS(cbCate.selectedItem, rslt);
+			}
+			
 		]]>
 	</fx:Script>
 	<s:states>
@@ -232,7 +251,10 @@
 			<s:Label id="IByteLabel" width="100%" text="2000" textAlign="right" fontSize="12" verticalCenter="0"/>	
 			<s:Label text="{gubun}"/>
 			<s:ComboBox id="cbCate" width="100%" prompt="카테고리입력 또는 선택"/>
-			<s:Button label="추가" width="100%" click="add_clickHandler(event)"/>
+			<s:HGroup width="100%">
+				<s:Button label="추가" click="add_clickHandler(event)"/>
+				<s:Button label="선택이동" click="move_clickHandler(event)"/>
+			</s:HGroup>
 		</s:VGroup>
 	
 		<s:Group top="20" width="100%">
@@ -259,7 +281,8 @@
 						<s:layout><s:TileLayout/></s:layout>
 					</s:List>
 					
-					<s:List id="emotiList" width="800" height="540" skinClass="skin.ListBg" itemRenderer="skin.EmoticonLMSRenderer">
+					<s:List id="emotiList" width="800" height="540" 
+							allowMultipleSelection="true" skinClass="skin.ListBg" itemRenderer="skin.EmoticonLMSRenderer">
 						<s:layout><s:TileLayout horizontalGap="10" verticalGap="0"/></s:layout>
 					</s:List>
 					<lib:Paging id="paging" height="30" clickPage="paging_clickPageHandler(event)" />
