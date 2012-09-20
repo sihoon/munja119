@@ -385,6 +385,12 @@ public class SMS implements SMSAble {
 		return pm.insertUserPoint(conn, mvo, 11, cnt * PointManager.DEFULT_POINT);
 	}
 	
+	public int sendForeignPointPut(Connection conn, UserInformationVO mvo, int cnt) {
+
+		PointManager pm = PointManager.getInstance();		
+		return pm.insertUserPoint(conn, mvo, 31, cnt * PointManager.FOREIGN_POINT);
+	}
+	
 	public LogVO getLogVO( UserInformationVO mvo, Boolean bReservation, String message, ArrayList<String[]> phoneAndNameArrayList, String returnPhone, String reservationDate, String ip) throws Exception{
 		
 		LogVO vo = new LogVO();
