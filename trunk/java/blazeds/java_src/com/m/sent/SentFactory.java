@@ -241,7 +241,7 @@ public class SentFactory implements SentFactoryAble {
 			else
 				cancelPointPut(conn, mvo, tranResultCount);
 			
-			rvo.setstrDescription("내역중 미발송 내역 "+Integer.toString(tranResultCount)+"건이 취소 되었습니다.");
+			rvo.setstrDescription("내역중 미발송 내역 "+Integer.toString(tranResultCount)+"건이 취소 후 보상 되었습니다.");
 		}else {
 			int updateResultCount = updateSentGroup(conn, user_id, idx, "logdel");
 			VbyP.debugLog(user_id + " >> 내역삭제  전송그룹테이블 업데이트 : "+Integer.toString(updateResultCount) );			
@@ -326,8 +326,8 @@ public class SentFactory implements SentFactoryAble {
 				throw new Exception( "발송 "+CANCEL_GAP/60+"분전 예약은 취소 할 수 없습니다." );
 			}else if (sentGroupInfo.length == 2 
 					&& SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ))*1000
-					){
-				rvo = deleteSentGroupList(conn, mvo.getUser_id(), idx);
+					){				
+				rvo = deleteSentGroupList(conn, connSMS, mvo.getUser_id(), idx, sendLine, mvo);
 			} else {
 				
 				int tranResultCount = 0;

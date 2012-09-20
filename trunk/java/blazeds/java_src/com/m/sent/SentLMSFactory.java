@@ -446,7 +446,7 @@ public class SentLMSFactory implements SentFactoryAble {
 			}else if (sentGroupInfo.length == 2 
 					&& SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ))*1000
 					){
-				rvo = deleteSentGroupList(conn, mvo.getUser_id(), idx);
+				rvo = deleteSentGroupList(conn, connSMS, mvo.getUser_id(), idx, sendLine, mvo);
 			} else {
 				
 				int tranResultCount = SLibrary.IfNull(sendLine).equals("ktmms") ?  deleteSentDataOfTranTableKT(connSMS, mvo.getUser_id(), idx) : deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
