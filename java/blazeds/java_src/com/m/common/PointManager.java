@@ -11,6 +11,7 @@ import com.m.member.UserInformationVO;
 public class PointManager {
 	
 	public static final int DEFULT_POINT=1;
+	public static final int FOREIGN_POINT=12;
 	static PointManager pm = new PointManager();
 	
 	
