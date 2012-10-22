@@ -194,7 +194,7 @@
 				gidx = new int(idx);
 				gline = line;
 				if (bRes) {
-					Alert.show("정말 예약을 취소 하시겠습니까?", "예약취소확인", 1|8, this, resAlertClicked);
+					Alert.show("정말 예약을 취소(삭제) 하시겠습니까?", "예약취소확인", 1|8, this, resAlertClicked);
 					
 				}else {
 					Alert.show("정말 전송 내역을 삭제 하시겠습니까?", "삭제확인", 1|8, this, delAlertClicked);

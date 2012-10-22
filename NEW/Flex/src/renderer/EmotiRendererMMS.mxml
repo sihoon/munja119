@@ -23,6 +23,6 @@
 		]]>
 	</fx:Script>
 	<s:Image id="emt" useHandCursor="true" width="176" height="144" click="{parentApplication.phoneFunction('addPhoto',emt.source)}"/>	
-	<s:Label id="title" height="22" horizontalCenter="0" bottom="-10" />
+	<s:Label id="title" height="22" fontSize="12" horizontalCenter="0" bottom="-10" />
 	
 </s:ItemRenderer>

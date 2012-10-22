@@ -2,7 +2,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		  xmlns:s="library://ns.adobe.com/flex/spark"
 		  xmlns:mx="library://ns.adobe.com/flex/mx"
-		  creationComplete="vgroup1_creationCompleteHandler(event)">
+		  >
 	<fx:Metadata>
 		[Event(name="alert", type="lib.CustomEvent")]
 		[Event(name="validValue", type="lib.CustomEvent")]
@@ -35,7 +35,7 @@
 			}
 			
 			private var _message:String;
-			private var _maxByte:int = 90;
+			private var _maxByte:int = 150;
 			private var _currentByte:int = 0;
 			
 			[Bindable]private var _enable:Boolean = true;
@@ -44,7 +44,7 @@
 			
 			private var byteDisplayHeight:int = 22;
 			
-			public var bLMSAuto:Boolean = true; // 입력한 값에 대해 자동전환 
+			public var bLMSAuto:Boolean = false; // 입력한 값에 대해 자동전환 
 			
 			public function get currentByte():int {	return _currentByte; }
 			public function set currentByte(value:int):void	{ _currentByte = value; this.IByteLabel.text = String( value );	}
@@ -73,14 +73,14 @@
 				
 				IMessage_ByteCheck();
 				if (bLimitMessage()) {
-					if (maxByte <= 90) {
-						confirm.visible = true;
-					}else {
-						cutBytes();
-					}
+					
+					cutBytes();
 					
 				} else {
 					dispatchEvent(new CustomEvent("validValue", null));
+				}
+				if (IMessage.text != "") {
+					ExternalInterface.call("alert", "해외문자는 특수문자, 줄바꿈은 발송되지 않습니다.");
 				}
 			}
 			
@@ -89,11 +89,9 @@
 				IMessage.text += message;
 				IMessage_ByteCheck();
 				if (bLimitMessage()) {
-					if (maxByte <= 90) {
-						confirm.visible = true;
-					}else {
-						cutBytes();
-					}
+					
+					cutBytes();
+					
 				} else {
 					dispatchEvent(new CustomEvent("validValue", null));
 				}
@@ -133,22 +131,6 @@
 				this.currentByte = SLibrary.remainByte( SLibrary.getByte(this.getMessage())+ addByte,this.maxByte);
 			}
 			
-			public function setPhoto(source:String):void {
-				
-				removeImage();
-				var img:Image = new Image();
-				img.source = source;
-				img.buttonMode = true;
-				img.useHandCursor = true;
-				/* img.fillMode = "scale";
-				img.smooth = true;
-				img.width = 180; */
-				mBox.addElementAt(img,mBox.numElements-1);
-				arrImage.push(source);
-				trace(arrImage.join(";"));
-				
-				changeMMS();
-			}
 			
 			private function removeImage():void {
 				
@@ -170,17 +152,15 @@
 				
 				if (bLMSAuto == true && mode.text == "LMS" && currentByte > 0 && currentByte >= 1910 ) {
 					trace("maxByte:"+currentByte);
-					maxByte = 90;
+					maxByte = 150;
 					changeSMS();
 				}
 				
 				
 				if (bLimitMessage()) {
-					if (bLMSAuto == true && maxByte <= 90) {
-						confirm.visible = true;
-					}else {
+					
 						cutBytes();
-					}
+					
 					
 				} else {
 					dispatchEvent(new CustomEvent("validValue", null));
@@ -191,20 +171,9 @@
 			{
 				IMessage_ByteCheck();
 				
-				if (bLMSAuto == true && mode.text == "LMS" && currentByte > 0 && currentByte >= 1910 ) {
-
-					maxByte = 90;
-					changeSMS();
-				}
-				
-				
 				if (bLimitMessage()) {
-					if (bLMSAuto == true && maxByte <= 90) {
-						confirm.visible = true;
-					}else {
-						cutBytes();
-					}
 					
+						cutBytes();
 				} else {
 					dispatchEvent(new CustomEvent("validValue", null));
 				}
@@ -216,15 +185,7 @@
 			}
 			
 
-			protected function vgroup1_creationCompleteHandler(event:FlexEvent):void
-			{
-				this._currentByte = 0;
-				// mms 이미지 업로드 초기화
-				this.fur = new FileUploadByRemoteObject("WEB");
-				this.fur.addEventListener(FileUploadByRemoteObjectEvent.COMPLETE, FileUploadByRemoteObjectCOMPLETEHandler);
-				this.fur.addEventListener(FileUploadByRemoteObjectEvent.RESULT, FileUploadByRemoteObjectRESULTHandler);
-				this.fur.addEventListener(FileUploadByRemoteObjectEvent.FAULT, FileUploadByRemoteObjectFAULTHandler);
-			}
+			
 
 			protected function clickHandler(event:Event):void
 			{
@@ -265,23 +226,10 @@
 				}
 			}
 			
-			public function changeLMS():void {
-				maxByte = 2000;
-				mode.text = "LMS";
-				confirm.visible = false;
-				IMessage_keyUpHandler(null);
-			}
-			
-			public function changeMMS():void {
-				maxByte = 2000;
-				mode.text = "MMS";
-				confirm.visible = false;
-				IMessage_keyUpHandler(null);
-			}
 			
 			public function changeSMS():void {
-				maxByte = 90;
-				mode.text = "SMS";
+				maxByte = 150;
+				mode.text = "해외문자";
 				IMessage_keyUpHandler(null);
 			}
 			
@@ -296,40 +244,9 @@
 				}
 			}
 			
-			private function FileUploadByRemoteObjectRESULTHandler(e:FileUploadByRemoteObjectEvent):void {
-				
-				var bvo:BooleanAndDescriptionVO = e.result as BooleanAndDescriptionVO;
-				
-				if (bvo.bResult) this.setPhoto(bvo.strDescription as String);
-				else SLibrary.alert(bvo.strDescription);
-				
-			}
-			private function FileUploadByRemoteObjectFAULTHandler(e:FileUploadByRemoteObjectEvent):void { SLibrary.alert(e.fault.toString()); }
-			
+		
 
-			
-			protected function IMessage_focusInHandler(event:FocusEvent):void
-			{
-				if (mode.text != "SMS") {
-					if (a.isPlaying) a.stop();
-					asmp.valueFrom = 154;
-					asmp.valueTo = 257;
-					a.play();
-				}
-				
-			}
-			
-			protected function IMessage_focusOutHandler(event:FocusEvent):void
-			{
-				if (mode.text != "SMS") {
-					if (a.isPlaying) a.stop();
-					asmp.valueFrom = 257;
-					asmp.valueTo = 154;
-					a.play();
-				}
-				
-			}
-			
+						
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -349,45 +266,26 @@
 				<s:Scroller width="200" height="100%">
 					<s:VGroup id="mBox" width="100%" height="100%">
 						<s:Group width="100%" height="100%">
-							<s:Label id="mode" fontSize="40" text="SMS" fontWeight="bold" alpha="0.2" verticalCenter="0" horizontalCenter="0"/>
+							<s:Label id="mode" fontSize="40" text="해외문자" fontWeight="bold" alpha="0.2" verticalCenter="0" horizontalCenter="0"/>
 							<s:TextArea id="IMessage" skinClass="skin.TextAreaSkinBG" width="200" height="100%" fontFamily="굴림체" fontSize="16" verticalScrollPolicy="off" enabled="{_enable}" color="0x000000" 
 										keyUp="IMessage_keyUpHandler(event)"
-										focusIn="IMessage_focusInHandler(event)"
-										focusOut="IMessage_focusOutHandler(event)"></s:TextArea>
+										></s:TextArea>
 						</s:Group>
 					</s:VGroup>
 				</s:Scroller>
 				
 				
 				<s:Group width="100%" height="32">
-					<s:Image source="images/main_40.png" left="0" buttonMode="true" useHandCursor="true" click="clickHandler(event)" verticalCenter="0" />
-					
-					<s:Image source="images/main_42.png" left="55" buttonMode="true" useHandCursor="true" click="parentApplication.subLoad('char')" verticalCenter="0" />
-					
-					<s:Label id="IByteLabel" right="30" fontSize="14" fontWeight="bold" text="90" textAlign="right" color="0x000000" verticalCenter="3"/>
+					<s:Label id="IByteLabel" right="30" fontSize="14" fontWeight="bold" text="150" textAlign="right" color="0x000000" verticalCenter="3"/>
 					<s:Label right="0" fontSize="14" text="byte" width="30" textAlign="right" color="0x000000" verticalCenter="3"/>
 				</s:Group>
 			</s:VGroup>
 		</s:Group>
 		<s:Group width="100%" height="23">
-			<s:Image source="images/btn_photo.gif" click="this.fur.addFiles()" left="0" verticalCenter="0" buttonMode="true" useHandCursor="true"/>
-			<s:Image source="images/name.gif" toolTip="이름넣기"  verticalCenter="0" left="47" click="setMessageAdd('{이름}')" buttonMode="true" useHandCursor="true" />
-			<!--<s:Image source="images/btn_preview.gif" left="110" buttonMode="true" useHandCursor="true"/>-->
-			<s:Image source="images/btn_again.gif" click="setMessage('');allDelPhoto();" left="78" verticalCenter="0" buttonMode="true" useHandCursor="true"/>
-			<s:Image source="images/main_47.png" right="0" buttonMode="true" useHandCursor="true" click="clickHandlerSave()" verticalCenter="0"/>
+			<s:Image source="@Embed('images/re.jpg')" click="setMessage('');allDelPhoto();" left="0" verticalCenter="0" buttonMode="true" useHandCursor="true"/>
+			<s:Image source="@Embed('images/saveNew.jpg')" left="65" buttonMode="true" useHandCursor="true" click="clickHandlerSave()" verticalCenter="0"/>
+			<s:Image source="@Embed('images/sentf.jpg')" right="0" verticalCenter="0" buttonMode="true" useHandCursor="true" click="parentApplication.subLoad('sent')"/>
 		</s:Group>
 	</s:VGroup>
-	
-	<s:Panel id="confirm" visible="false" height="100" top="4" left="4" right="4" title="전송선택">
-		<s:layout>
-			<s:VerticalLayout verticalAlign="middle" horizontalAlign="center"/>
-		</s:layout>
-		<s:Label text="LMS로 전환 하시겠습니까?" />
-		<s:Label text="전화번호당 3건 차감" />
-		<s:HGroup>
-			<s:Button label="전환" click="changeLMS()" />
-			<s:Button label="취소" click="cutBytes();confirm.visible=false;" />
-		</s:HGroup>
-	</s:Panel>
 	
 </s:Group>

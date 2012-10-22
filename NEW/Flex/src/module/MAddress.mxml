@@ -477,9 +477,13 @@
 				
 				var cnt:int = arr.length;
 				var xml:XML = null;
+				var phone:String = "";
 				for(var i:int = 0; i < cnt; i++) {
-					sendBtnAddr_ClickHandler(arr[i]);
+					phone += arr[i].phone+"||"+arr[i].name+",";
+					//sendBtnAddr_ClickHandler(arr[i]);
 				}
+				phone = phone.substr(0, phone.length -1);
+				parentApplication.phoneFunction("addPhone", phone);
 				
 			}
 			

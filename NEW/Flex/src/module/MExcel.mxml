@@ -131,8 +131,10 @@
 					// 0 이 빠진경우
 					if (tempStr != null && int(tempStr) != 0 && tempStr.length > 6 && tempStr.substr(0,1) != "0")
 						_userSelectedData.push( ["0"+tempStr ,this.excelData[i][nameColumn]] );
-					else
-						_userSelectedData.push( [this.excelData[i][phoneColumn],this.excelData[i][nameColumn]] );
+					else if ( SLibrary.bKoreaPhoneCheck( tempStr ) )
+						_userSelectedData.push( [tempStr,this.excelData[i][nameColumn]] );
+					//else if ( SLibrary.bKoreaPhoneCheck( this.excelData[i][phoneColumn] ) )
+					//	_userSelectedData.push( [this.excelData[i][phoneColumn],this.excelData[i][nameColumn]] );
 				}
 			}
 			
