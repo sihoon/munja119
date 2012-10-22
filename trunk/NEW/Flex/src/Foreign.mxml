@@ -2,7 +2,7 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
-			   width="950" height="540" xmlns:component="component.*"
+			   width="950" height="1100" xmlns:component="component.*"
 			   >
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -16,7 +16,7 @@
 	<fx:Script source="common.as" />
 	<fx:Script>
 		<![CDATA[
-			public var appName:String = "Main";
+			public var appName:String = "Normal";
 			
 			
 			// 로그인 되어 있을 경우 처리
@@ -38,22 +38,27 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:Group width="100%">
-		<s:VGroup left="0" top="15">
+
+	<s:VGroup width="100%" gap="0">
+		<s:Group width="100%">
 			<component:LoginBox id="loginBox" left="0" login="loginCheckHandler(event)" />
-			<s:Image source="images/sub_left02.jpg" useHandCursor="true" buttonMode="true" click="{ExternalInterface.call('eval','window.location.href=\'?content=billing\'')}" />
-			<s:Image source="images/customer.gif" />
-		</s:VGroup>
-		
-		<s:Group right="0">
-			<s:Image source="images/center_bg.jpg" />
-			<s:Image source="images/foreign_right.jpg" right="0" />
-			<s:ModuleLoader id="mPhone" left="15" width="276" height="535" url="module/MPhone.swf"/>
+			<s:Image right="0" source="images/foreign_top.jpg" />
 		</s:Group>
-	</s:Group>
+		
+		<s:HGroup width="100%" gap="19">
+			<s:VGroup horizontalAlign="center">
+				<s:ModuleLoader id="mPhone" width="276" height="535" url="module/MPhoneForeign.swf"/>
+				<s:Image source="images/sub_left02.jpg" useHandCursor="true" buttonMode="true" click="{ExternalInterface.call('eval','window.location.href=\'?content=billing\'')}" />
+				<s:Image source="images/customer.gif" />
+			</s:VGroup>
+			
+			<s:ModuleLoader id="mDef" url="module/MEmoticonForeign.swf"/>
+		</s:HGroup>
+	</s:VGroup>
+	
 	
 	<s:SkinnableContainer id="subContainer" visible="false" skinClass="skin.SkinableContainerSub" verticalCenter="0" horizontalCenter="0">
 		<s:Image source="images/AdvancedCloseBtn.png" buttonMode="true" useHandCursor="true" right="0" click="subContainer.visible=false" />
 		<s:ModuleLoader id="mSub" ready="subContainer.visible=true;"/>
 	</s:SkinnableContainer>
-</s:Application>	
+</s:Application>

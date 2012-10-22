@@ -38,6 +38,6 @@
 		]]>
 	</fx:Script>
 	
-	<s:Label id="txt" height="20" verticalAlign="middle" color="0x666666" />
+	<s:Label id="txt" height="20" fontSize="12" verticalAlign="middle" color="0x666666" />
 	
 </s:ItemRenderer>

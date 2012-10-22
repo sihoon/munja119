@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" gap="2">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		.dg
+		{
+			/*
+			headerBackgroundSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_headerBackgroundSkin");
+			columnDropIndicatorSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_columnDropIndicatorSkin");
+			columnResizeSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_columnResizeSkin");
+			headerSeparatorSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_headerSeparatorSkin");
+			sortArrowSkin: Embed(source="assets/flex_skins.swf", symbol="DataGrid_sortArrowSkin");
+			stretchCursor: Embed(source="assets/flex_skins.swf",symbol="DataGrid_stretchCursor");
+			*/
+			alternatingItemColors: #4f4f4f, #4f4f4f;
+			verticalGridLineColor: #464646;
+			roll-over-color: #666666;
+			selection-color: #333333;
+			font-size: 12;
+		}
+
+	</fx:Style>
+	<fx:Metadata>
+		[Event(name="validValue", type="lib.CustomEvent")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import lib.CustomEvent;
+			import lib.KoreaPhoneNumberFormatter;
+			import lib.SLibrary;
+			
+			import mx.collections.ArrayCollection;
+			
+			import spark.events.IndexChangeEvent;
+
+			[Bindable]
+			private var al:ArrayCollection = new ArrayCollection(); // 전화번호 리스트
+			private var Kpf:KoreaPhoneNumberFormatter = new KoreaPhoneNumberFormatter(); // 전화번호 포맷
+			
+			private var NUM:String = "002";
+			
+			public function init():void {
+				
+				this.al = new ArrayCollection();
+				setTotalCount();
+			}
+			
+			public function setTotalCount():void { 
+				this.totalCount.text = new String(this.al.length);
+				dispatchEvent(new CustomEvent("validValue", null));
+			}
+			
+			public function getTotalCount():Number { return  Number(this.totalCount.text); }
+			
+			public function get phoneList():ArrayCollection { return this.al; }
+			
+			
+			public function addList(str:String):void {
+				
+				var arr:Array = str.split(",");
+				var cnt:int = arr.length;
+				
+				var pvo:PhoneListVO = null;
+				var temp:Array = null;
+				var fNum:String = countryNum.text;
+				
+				if (fNum == null || fNum == "") {
+					ExternalInterface.call("alert","국가를 선택하세요.");
+				} else {
+					for (var i:int; i< cnt; i++) {
+						temp = arr[i].split("||");
+						
+						pvo = new PhoneListVO();
+						pvo.phoneNumber = (temp != null && temp.length > 0)?NUM+"-"+fNum+"-"+temp[0]:"";
+						pvo.phoneName = (temp != null && temp.length > 1)?temp[1]:"";					
+						phoneList.addItem(pvo);
+					}
+					setTotalCount();
+				}
+				
+				
+			}
+			
+			public function addListArray(arr:Array):void {
+				
+				var cnt:int = arr.length;
+				var vo:PhoneListVO = null;
+				var temp:Array = null;
+				
+				var addAc:ArrayCollection = new ArrayCollection();
+				var fNum:String = countryNum.text;
+				
+				if (fNum == null || fNum == "") {
+					ExternalInterface.call("alert","국가를 선택하세요.");
+				} else {
+					for (var i:int = 0; i < cnt; i++) {
+						
+						vo = new PhoneListVO();
+						temp = arr[i] as Array;
+						vo.phoneNumber = (temp.length > 0)? SLibrary.trim(NUM+"-"+fNum+"-"+temp[0]):"";
+						vo.phoneName = (temp.length > 1)? temp[1]:"";
+						
+						//if ( SLibrary.bKoreaPhoneCheck(vo.phoneNumber) )
+						//	addAc.addItem(vo);
+					}
+					phoneList.addAllAt(addAc, (phoneList.length < 1)? 0 : phoneList.length-1);
+					setTotalCount();
+				}
+			}
+
+			protected function addPhoneButton_clickHandler(event:MouseEvent):void {
+				if (phoneTextInput.text == "") ExternalInterface.call("alert","전화번호를 입력하세요.");
+				else {
+					addList(phoneTextInput.text);phoneTextInput.text = "";
+				}
+			}
+			
+			// 전화번호 포맷
+			private function phoneFomat(item:Object, column:DataGridColumn):String	{ 
+				return Kpf.format(item.phoneNumber); 
+			}
+			
+			private function duplicateCheck():void {
+				var cnt:int = phoneList.length;
+				var arr:ArrayCollection = new ArrayCollection();
+				var tempStr:String = "";
+				var dupCnt:Number = 0;
+				
+				var vo:PhoneListVO = null;
+				for (var i:int = 0; i < cnt; i++) {
+					
+					vo = phoneList.getItemAt(i) as PhoneListVO;
+					if (tempStr.search(vo.phoneNumber) == -1) {
+						//중복체크용 문자열에 값이 없으면 새로운 배열에 추가
+						arr.addItem(vo);
+						tempStr += vo.phoneNumber + " ";
+					}else {
+						dupCnt++;
+					}
+					
+				}
+				al = arr;
+				setTotalCount();
+				ExternalInterface.call("alert", dupCnt + " 건의 중복번호가 제거 되었습니다.");
+			}
+
+
+			protected function country_changeHandler(event:IndexChangeEvent):void
+			{
+				var obj:Object = country.selectedItem;
+				if (obj) {
+					countryNum.text = obj.num;
+					var d:Date = new Date();
+					var mi:Number = d.getTime(); 
+					var minus:Number =  Number(obj.time);
+					var rslt:Date = new Date(mi + (minus * 60*1000));
+					time.text = dtf.format(rslt);
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:DateTimeFormatter id="dtf" dateTimePattern="HH:mm" />
+	</fx:Declarations>
+	<s:HGroup paddingBottom="5" paddingTop="5">
+		<s:VGroup gap="10">
+			<s:Label text="받는사람" fontSize="11" color="0xffffff" paddingTop="3"/>
+			<s:TextInput id="countryNum" width="43" />
+		</s:VGroup>
+		
+		<s:VGroup gap="2">
+			<s:HGroup verticalAlign="middle">
+				<s:ComboBox id="country"  width="128" prompt="국가선택" labelField="label" change="country_changeHandler(event)">
+					<s:dataProvider>
+						<s:ArrayCollection>
+							<fx:Object num="233"  label="가나" time="-780" />
+							<fx:Object num="241"  label="가봉" time="-480" />
+							<fx:Object num="592"  label="가이아나" time="-780" />
+							<fx:Object num="220"  label="감비아" time="-540" />
+							<fx:Object num="590"  label="과들루프" time="-780" />
+							<fx:Object num="502"  label="과테말라" time="-900" />
+							<fx:Object num="671"  label="괌" time="60" />
+							<fx:Object num="1809"  label="그레나다" time="-780" />
+							<fx:Object num="995"  label="그루지아" time="-300" />
+							<fx:Object num="30"  label="그리스" time="-360" />
+							<fx:Object num="299"  label="그린랜드" time="-660" />
+							<fx:Object num="224"  label="기니공화국" time="-540" />
+							<fx:Object num="245"  label="기니 비사우" time="-540" />
+							<fx:Object num="374"  label="나고르노카라바흐" time="-240" />
+							<fx:Object num="264"  label="나미비아" time="-480" />
+							<fx:Object num="674"  label="나우루" time="180" />
+							<fx:Object num="234"  label="나이지리아" time="-480" />
+							<fx:Object num="27"  label="남아프리카공화국" time="-420" />
+							<fx:Object num="599"  label="네덜란드령 안틸레스" time="-780" />
+							<fx:Object num="31"  label="네델란드" time="420" />
+							<fx:Object num="977"  label="네팔" time="195" />
+							<fx:Object num="47"  label="노르웨이" time="-420" />
+							<fx:Object num="64"  label="뉴질랜드" time="180" />
+							<fx:Object num="687"  label="뉴칼레도니아" time="120" />
+							<fx:Object num="227"  label="니제르" time="-480" />
+							<fx:Object num="505"  label="니카라과" time="-900" />
+							<fx:Object num="886"  label="대만" time="-60" />
+							<fx:Object num="82"  label="대한민국" time="0" />
+							<fx:Object num="45"  label="덴마크" time="-420" />
+							<fx:Object num="1809"  label="도미니카 공화국" time="-780" />
+							<fx:Object num="49"  label="독일" time="-420" />
+							<fx:Object num="856"  label="라오스" time="-120" />
+							<fx:Object num="231"  label="라이베리아" time="-540" />
+							<fx:Object num="371"  label="라트비아" time="-360" />
+							<fx:Object num="7"  label="러시아" time="-300" />
+							<fx:Object num="961"  label="레바논" time="-360" />
+							<fx:Object num="266"  label="레소토" time="-420" />
+							<fx:Object num="262"  label="레위니옹" time="-480" />
+							<fx:Object num="40"  label="루마니아" time="-360" />
+							<fx:Object num="352"  label="룩셈부르크" time="-420" />
+							<fx:Object num="250"  label="르완다" time="-420" />
+							<fx:Object num="218"  label="리비아" time="-420" />
+							<fx:Object num="370"  label="리투아니아" time="-360" />
+							<fx:Object num="423"  label="리히텐슈타인" time="-420" />
+							<fx:Object num="261"  label="마다가스카르" time="-360" />
+							<fx:Object num="596"  label="마르티니크" time="-780" />
+							<fx:Object num="692"  label="마셜제도" time="-180" />
+							<fx:Object num="853"  label="마카오" time="-60" />
+							<fx:Object num="389"  label="마케도니아 공화국" time="-420" />
+							<fx:Object num="265"  label="말라위" time="-420" />
+							<fx:Object num="60"  label="말레이시아" time="-60" />
+							<fx:Object num="223"  label="말리" time="-540" />
+							<fx:Object num="52"  label="멕시코" time="-840" />
+							<fx:Object num="377"  label="모나코" time="-420" />
+							<fx:Object num="212"  label="모로코" time="-540" />
+							<fx:Object num="230"  label="모리셔스" time="-300" />
+							<fx:Object num="222"  label="모리타니아" time="-540" />
+							<fx:Object num="258"  label="모잠비크" time="-420" />
+							<fx:Object num="373"  label="몰도바" time="-360" />
+							<fx:Object num="960"  label="몰디브" time="-240" />
+							<fx:Object num="356"  label="몰타공화국" time="-420" />
+							<fx:Object num="976"  label="몽고" time="-60" />
+							<fx:Object num="1"  label="미국" time="-780" />
+							<fx:Object num="1340"  label="미국령버진군도" time="-780" />
+							<fx:Object num="95"  label="미얀마" time="-150" />
+							<fx:Object num="691"  label="미크로네시아" time="-120" />
+							<fx:Object num="678"  label="바누아투" time="120" />
+							<fx:Object num="973"  label="바레인" time="-360" />
+							<fx:Object num="1246"  label="바베이도즈" time="-780" />
+							<fx:Object num="379"  label="바티칸시국" time="-420" />
+							<fx:Object num="1242"  label="바하마" time="-780" />
+							<fx:Object num="880"  label="방글라데시" time="-180" />
+							<fx:Object num="1441"  label="버뮤다 제도" time="-720" />
+							<fx:Object num="58"  label="베네수엘라" time="-810" />
+							<fx:Object num="84"  label="베트남" time="-120" />
+							<fx:Object num="375"  label="벨라루스" time="-420" />
+							<fx:Object num="501"  label="벨리즈" time="-900" />
+							<fx:Object num="32"  label="벨기에" time="-420" />
+							<fx:Object num="387"  label="보스니아 헤르체고비나" time="-420" />
+							<fx:Object num="267"  label="보츠와나" time="-420" />
+							<fx:Object num="591"  label="볼리비아" time="-780" />
+							<fx:Object num="257"  label="부룬디" time="-420" />
+							<fx:Object num="226"  label="부르키나 파소" time="-540" />
+							<fx:Object num="975"  label="부탄" time="-180" />
+							<fx:Object num="359"  label="불가리아" time="-360" />
+							<fx:Object num="55"  label="브라질" time="-720" />
+							<fx:Object num="673"  label="브루나이" time="-60" />
+							<fx:Object num="685"  label="사모아" time="-1200" />
+							<fx:Object num="966"  label="사우디아라비아" time="-360" />
+							<fx:Object num="670"  label="사이판" time="60" />
+							<fx:Object num="378"  label="산마리노" time="-420" />
+							<fx:Object num="685"  label="서사모아" time="-540" />
+							<fx:Object num="221"  label="세네갈" time="-540" />
+							<fx:Object num="381"  label="세르비아 몬테그로" time="-420" />
+							<fx:Object num="248"  label="세이셸" time="-300" />
+							<fx:Object num="1758"  label="세인트루시아" time="-780" />
+							<fx:Object num="1784"  label="세인트빈센트그레나딘" time="-780" />
+							<fx:Object num="1869"  label="세인트키츠네비스" time="-780" />
+							<fx:Object num="252"  label="소말리아" time="-360" />
+							<fx:Object num="677"  label="솔로몬제도" time="120" />
+							<fx:Object num="249"  label="수단" time="-360" />
+							<fx:Object num="597"  label="수리남" time="-720" />
+							<fx:Object num="94"  label="스리랑카" time="-180" />
+							<fx:Object num="268"  label="스와질란드" time="-420" />
+							<fx:Object num="46"  label="스웨덴" time="-420" />
+							<fx:Object num="41"  label="스위스" time="-420" />
+							<fx:Object num="34"  label="스페인" time="-420" />
+							<fx:Object num="421"  label="슬로바키아" time="-420" />
+							<fx:Object num="386"  label="슬로베니아" time="-420" />
+							<fx:Object num="963"  label="시리아" time="-360" />
+							<fx:Object num="232"  label="시에라리온" time="-540" />
+							<fx:Object num="65"  label="싱가포르" time="-60" />
+							<fx:Object num="971"  label="아랍에미리트" time="-300" />
+							<fx:Object num="297"  label="아루바" time="-780" />
+							<fx:Object num="374"  label="아르메니아" time="-300" />
+							<fx:Object num="54"  label="아르헨티나" time="-720" />
+							<fx:Object num="1684"  label="아메리칸 사모아" time="-1200" />
+							<fx:Object num="354"  label="아이슬란드" time="540" />
+							<fx:Object num="509"  label="아이티" time="-840" />
+							<fx:Object num="353"  label="아일랜드" time="-480" />
+							<fx:Object num="994"  label="아제르바이잔" time="-240" />
+							<fx:Object num="93"  label="아프가니스탄" time="-270" />
+							<fx:Object num="376"  label="안도라" time="-420" />
+							<fx:Object num="1268"  label="안티쿠아바부다" time="-780" />
+							<fx:Object num="355"  label="알바니아" time="-420" />
+							<fx:Object num="213"  label="알제리" time="-480" />
+							<fx:Object num="244"  label="앙골라" time="-480" />
+							<fx:Object num="291"  label="에리트레아" time="-360" />
+							<fx:Object num="372"  label="에스토니아" time="-360" />
+							<fx:Object num="34"  label="에스파냐" time="-480" />
+							<fx:Object num="593"  label="에콰도르" time="-900" />
+							<fx:Object num="251"  label="에티오피아" time="-360" />
+							<fx:Object num="503"  label="엘살바도르" time="-900" />
+							<fx:Object num="44"  label="영국" time="-480" />
+							<fx:Object num="1809"  label="영국령버진군도" time="-780" />
+							<fx:Object num="967"  label="예멘" time="-360" />
+							<fx:Object num="968"  label="오만" time="-300" />
+							<fx:Object num="43"  label="오스트리아" time="-420" />
+							<fx:Object num="504"  label="온두라스" time="-900" />
+							<fx:Object num="962"  label="요르단" time="-360" />
+							<fx:Object num="256"  label="우간다" time="-360" />
+							<fx:Object num="598"  label="우르과이" time="-720" />
+							<fx:Object num="998"  label="우즈베키스탄" time="-240" />
+							<fx:Object num="380"  label="우크라이나" time="-360" />
+							<fx:Object num="964"  label="이라크" time="-360" />
+							<fx:Object num="98"  label="이란" time="-270" />
+							<fx:Object num="972"  label="이스라엘" time="-360" />
+							<fx:Object num="20"  label="이집트" time="-420" />
+							<fx:Object num="39"  label="이탈리아" time="-420" />
+							<fx:Object num="91"  label="인도" time="-210" />
+							<fx:Object num="62"  label="인도네시아" time="-60" />
+							<fx:Object num="81"  label="일본" time="0" />
+							<fx:Object num="1876"  label="자메이카" time="-840" />
+							<fx:Object num="260"  label="잠비아" time="-420" />
+							<fx:Object num="86"  label="중국" time="-60" />
+							<fx:Object num="236"  label="중앙아프리카공화국" time="-480" />
+							<fx:Object num="253"  label="지부티" time="-360" />
+							<fx:Object num="350"  label="지브롤터" time="-420" />
+							<fx:Object num="56"  label="차드" time="-480" />
+							<fx:Object num="420"  label="체코" time="-420" />
+							<fx:Object num="56"  label="칠레" time="-780" />
+							<fx:Object num="237"  label="카메룬" time="-480" />
+							<fx:Object num="238"  label="카보베르데" time="-600" />
+							<fx:Object num="7"  label="카자흐스탄" time="-180" />
+							<fx:Object num="974"  label="카타르" time="-360" />
+							<fx:Object num="855"  label="캄보디아" time="-120" />
+							<fx:Object num="1"  label="캐나다" time="-780" />
+							<fx:Object num="254"  label="케냐" time="-360" />
+							<fx:Object num="1345"  label="케이맨제도" time="-840" />
+							<fx:Object num="269"  label="코모로" time="-360" />
+							<fx:Object num="377"  label="코소보" time="-420" />
+							<fx:Object num="506"  label="코스타리카" time="-900" />
+							<fx:Object num="225"  label="코트디브아르" time="-540" />
+							<fx:Object num="57"  label="콜롬비아" time="-840" />
+							<fx:Object num="242"  label="콩고민주공화국" time="-480" />
+							<fx:Object num="53"  label="쿠바" time="-780" />
+							<fx:Object num="965"  label="쿠웨이트" time="-360" />
+							<fx:Object num="682"  label="쿡제도" time="-1140" />
+							<fx:Object num="385"  label="크로아티아" time="-420" />
+							<fx:Object num="996"  label="키르기스스탄" time="-180" />
+							<fx:Object num="686"  label="키리바시" time="240" />
+							<fx:Object num="357"  label="키프로스공화국" time="-360" />
+							<fx:Object num="992"  label="타지키스탄 공화국" time="-240" />
+							<fx:Object num="255"  label="탄자니아" time="-360" />
+							<fx:Object num="66"  label="태국" time="-120" />
+							<fx:Object num="90"  label="터키" time="-360" />
+							<fx:Object num="228"  label="토고" time="-540" />
+							<fx:Object num="1868"  label="트리니다드토바고" time="-780" />
+							<fx:Object num="676"  label="통가" time="240" />
+							<fx:Object num="993"  label="투르크메니스탄" time="-240" />
+							<fx:Object num="688"  label="투발루" time="180" />
+							<fx:Object num="216"  label="튀니지" time="-480" />
+							<fx:Object num="507"  label="파나마" time="-840" />
+							<fx:Object num="595"  label="파라과이" time="-780" />
+							<fx:Object num="92"  label="파키스탄" time="-240" />
+							<fx:Object num="675"  label="파푸아뉴기니" time="60" />
+							<fx:Object num="680"  label="팔라우" time="0" />
+							<fx:Object num="970"  label="팔레스타인" time="-360" />
+							<fx:Object num="51"  label="페루" time="-840" />
+							<fx:Object num="351"  label="포르투갈" time="-480" />
+							<fx:Object num="48"  label="폴란드" time="-420" />
+							<fx:Object num="689"  label="프랑스령폴리네시아" time="-1080" />
+							<fx:Object num="1787"  label="푸에르토리코" time="-780" />
+							<fx:Object num="33"  label="프랑스" time="-420" />
+							<fx:Object num="594"  label="프랑스령기아나" time="-720" />
+							<fx:Object num="679"  label="피지" time="180" />
+							<fx:Object num="358"  label="핀란드" time="-360" />
+							<fx:Object num="63"  label="필리핀" time="-60" />
+							<fx:Object num="36"  label="헝가리" time="-420" />
+							<fx:Object num="61"  label="호주" time="-60" />
+							<fx:Object num="852"  label="홍콩" time="-60" />
+						</s:ArrayCollection>
+					</s:dataProvider>
+				</s:ComboBox>
+				<s:Label id="time" fontSize="11" color="#00FFF6" fontWeight="bold" />
+			</s:HGroup>
+			<s:HGroup verticalAlign="middle">
+				<s:TextInput id="phoneTextInput" width="128" enter="addPhoneButton_clickHandler(null)" />
+				<s:Image id="addPhoneButton" source="@Embed('images/addf.jpg')" click="addPhoneButton_clickHandler(event)" useHandCursor="true" buttonMode="true"/>
+			</s:HGroup>
+		</s:VGroup>
+	</s:HGroup>
+	<mx:DataGrid id="sendDG" width="100%" height="90" borderVisible="true" borderColor="0x333333" dataProvider="{al}" selectable="false" color="0xffffff"
+				 showHeaders="false" styleName="dg" horizontalSeparatorSkin="@Embed('images/underbar.png')" verticalGridLines="false" horizontalGridLines="true">
+		<mx:columns>
+				<mx:DataGridColumn  headerText="이름" dataField="phoneName" width="60"></mx:DataGridColumn>
+				<mx:DataGridColumn  headerText="전화번호" dataField="phoneNumber"></mx:DataGridColumn>
+				<mx:DataGridColumn  sortable="false" itemRenderer="component.handphone.DeleteRenderer" width="20" ></mx:DataGridColumn>
+		</mx:columns>
+	</mx:DataGrid>
+	<s:Group width="100%" height="20">
+		<s:Image left="0" verticalCenter="0" source="images/btn_double.gif" click="duplicateCheck()" buttonMode="true" useHandCursor="true" />
+		<s:HGroup right="0" verticalCenter="0">
+			
+			<s:Label text="총인원 : " fontSize="11" color="0xffffff"/>
+			<s:Label fontSize="11" id="totalCount" text="" width="50" textAlign="right" color="0xffffff"></s:Label>
+			<s:Label fontSize="11" color="0xffffff" text="명" />	
+		</s:HGroup>
+	</s:Group>
+</s:VGroup>

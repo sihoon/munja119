@@ -2,7 +2,7 @@
 <s:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		  xmlns:s="library://ns.adobe.com/flex/spark" 
 		  xmlns:mx="library://ns.adobe.com/flex/mx" 
-		  width="655" minHeight="560" currentState="thema" xmlns:lib="lib.*">
+		  width="655" minHeight="250" currentState="thema" xmlns:lib="lib.*">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 		@namespace mx "library://ns.adobe.com/flex/mx";
@@ -40,19 +40,17 @@
 			private var acSub:ArrayCollection = new ArrayCollection();
 			
 			protected function cateList_creationCompleteHandler():void {
-				
 				emotiList.dataProvider = al;
 				cateList.dataProvider = ac;
 				subCateList.dataProvider = acSub;
 				// 저장문자시 카테고리 안가져옴
 				if (gubun == "my") {
-					paging.viewDataCount = 15; 
 					getEmotiList();
 				}
 				else {
-					paging.viewDataCount = 12; 
+					if (parentApplication.appName != "Normal") {	paging.viewDataCount = 6; emotiList.height=300;}
 					ro.set(RO_DESTINATION, cateList_ResultEventHandler);
-					ro.method.getEmotiCateListMMS(gubun);
+					ro.method.getEmotiForeignCateList(gubun);
 				}
 			}
 			
@@ -69,7 +67,7 @@
 			protected function getEmotiList():void {
 				
 				ro.set(RO_DESTINATION, emoti_ResultEventHandler);
-				ro.method.getEmotiCatePageMMS(gubun, cate, 0, paging.viewDataCount);
+				ro.method.getEmotiForeignCatePage(gubun, cate, 0, paging.viewDataCount);
 			}
 			protected function getMyList():void {
 				
@@ -104,13 +102,12 @@
 				al.removeAll();
 				if (rslt)
 					al.addAll(rslt);
-				//emotiList.dataProvider = al;
 			}
 			
 			
 			protected function paging_clickPageHandler(event:CustomEvent):void {
 				
-				ro.method.getEmotiCatePageMMS(gubun, cate, event.obj, paging.viewDataCount);
+				ro.method.getEmotiForeignCatePage(gubun, cate, event.obj, paging.viewDataCount);
 			}
 			
 			// 종류변경
@@ -137,7 +134,6 @@
 				}
 				acSub.removeAll();
 				cate = "";
-				//cateList_creationCompleteHandler();
 				
 			}
 			
@@ -179,7 +175,12 @@
 					}
 				}
 				acSub.removeAll();
-				acSub.addAll(tmp);
+				if (tmp.length > 0) {
+					acSub.addAll(tmp);
+					subCateList.visible = true;
+				}else
+					subCateList.visible = false;
+					
 			}
 			
 			//new
@@ -210,12 +211,12 @@
 				<s:Group id="cateBox" visible.save="false" width="600" height="86" height.save="0" >
 					
 					<s:Rect left="0" right="0" top="0" bottom="0" ><s:fill><s:SolidColor color="0xEEE3DD"/></s:fill></s:Rect>
-					<s:List id="cateList" left="10" change="cateList_changeHandler(event)" selectionColor="0xffffff" rollOverColor="0xEEE3DD" right="10" height="66" verticalCenter="0" skinClass="skin.ListBg"
+					<s:List id="cateList" change="cateList_changeHandler(event)"
 							itemRenderer="renderer.CateListItemRenderer"
-							creationComplete="cateList_creationCompleteHandler()">
+							left="10" selectionColor="0xffffff" rollOverColor="0xEEE3DD" right="10" height="66" verticalCenter="0" skinClass="skin.ListBg" creationComplete="cateList_creationCompleteHandler()">
 						<s:layout><lib:FlowLayout horizontalGap="10" /></s:layout>
 					</s:List>
-					
+
 				</s:Group>
 				
 				<s:List id="subCateList" width="600" height="24" change="subCateList_changeHandler(event)"
@@ -225,17 +226,17 @@
 					<s:layout><s:TileLayout/></s:layout>
 				</s:List>
 				
-				<s:List id="emotiList" rollOverColor="0xffffff" minWidth="600" itemRenderer.thema="renderer.EmotiRendererMMS" itemRenderer.upjong="renderer.EmotiRendererMMS" itemRenderer.save="renderer.MyMsgRenderer" skinClass="skin.ListBg">
-					<s:layout><s:TileLayout horizontalGap="30" verticalGap="12" requestedColumnCount="3"/></s:layout>
+				<s:List id="emotiList" minWidth="600" itemRenderer.thema="renderer.EmotiRenderer" itemRenderer.upjong="renderer.EmotiRenderer" itemRenderer.save="renderer.MyMsgRenderer" skinClass="skin.ListBg">
+					<s:layout><s:TileLayout horizontalGap="32" verticalGap="10" requestedColumnCount="3"/></s:layout>
 				</s:List>
 				<lib:Paging id="paging" height="30" clickPage="paging_clickPageHandler(event)" />
 			</s:VGroup>
 		</s:Group>
 		
 		<s:HGroup gap="0">
-			<s:Image source="images/photo_m01.jpg" source.thema="images/photo_m01_.jpg" click="emti_changeHandler(1)" useHandCursor="true" />
-			<s:Image source="images/photo_m02.jpg" source.upjong="images/photo_m02_.jpg" click="emti_changeHandler(0)" useHandCursor="true" />
-			<s:Image source="images/center_m03.gif" source.save="images/center_m03_.gif" click="emti_changeHandler(2)" useHandCursor="true" />
+			<s:Image source="images/center_m01.gif" source.thema="images/center_m01_.gif" click="emti_changeHandler(1)" buttonMode="true" useHandCursor="true" />
+			<s:Image source="images/center_m02.gif" source.upjong="images/center_m02_.gif" click="emti_changeHandler(0)" buttonMode="true" useHandCursor="true" />
+			<s:Image source="images/center_m03.gif" source.save="images/center_m03_.gif" click="emti_changeHandler(2)" buttonMode="true" useHandCursor="true" />
 		</s:HGroup>
 	</s:Group>
 </s:Module>

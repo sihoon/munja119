@@ -16,7 +16,7 @@
 			color:#000000;
 		}
 	</fx:Style>
-
+	
 	<fx:Script>
 		<![CDATA[
 			import lib.BooleanAndDescriptionVO;
@@ -53,13 +53,6 @@
 			}
 			
 			
-			public function setPhoto(source:String):void {
-				if ( Boolean(parentApplication.bLogin) == false ) ExternalInterface.call("alert","로그인 후 이용가능합니다.");
-				else {
-					cMessage.setPhoto(source);
-					ExternalInterface.call("alert", "메시지창에 적용되었습니다.");
-				}
-			}
 			
 			public function addList(phone:String):void{
 				this.cPhone.addList(phone);
@@ -94,8 +87,7 @@
 				this.cMessage.bLMSAuto = bLMSAuto;
 				
 				if (defMode == "SMS")this.cMessage.changeSMS();
-				else if (defMode == "LMS")this.cMessage.changeLMS();
-				else if (defMode == "MMS")this.cMessage.changeMMS();
+			
 				sendButton.enabled = false;
 				isValid();
 				
@@ -106,7 +98,6 @@
 				if (fun == "setMessage") setMessage(arg as String);
 				else if (fun == "setMessageAdd") setMessageAdd(arg as String);
 				else if (fun == "setAutoMessage") setAutoMessage(arg as Boolean);
-				else if (fun == "setPhoto") setPhoto(arg as String);
 				else if (fun == "addList") addList(arg as String);
 				else if (fun == "addListArray") addListArray(arg as Array);
 			}
@@ -178,36 +169,16 @@
 				
 				ro.addEventListener(ResultEvent.RESULT,send_ResultEventHandler);
 				
-				if (cMessage.maxByte == 2000 && cMessage.mode.text == "MMS") {
+				
 					
-					ro.sendMMSconf( cMessage.mmsImage, cMessage.getMessage(),
-						cPhone.phoneList,
-						cReturnPhone.returnPhone ,
-						cReservation.bReservation ? cReservation.strReservation +":00" : "" ,
-						cInterval.bInterval ? cInterval.cnt +"/"+ cInterval.minute : "" ,
-						cMessage.getMessage().indexOf("{이름}") > -1 ? true:false
-					);
-					
-				} else if (cMessage.maxByte == 2000 && cMessage.mode.text == "LMS") {
-					
-					ro.sendLMSconf( cMessage.getMessage(),
-						cPhone.phoneList,
-						cReturnPhone.returnPhone ,
-						cReservation.bReservation ? cReservation.strReservation +":00" : "",
-						cInterval.bInterval ? cInterval.cnt +"/"+ cInterval.minute : "" ,
-						cMessage.getMessage().indexOf("{이름}") > -1 ? true:false
-					);
-				}else {
-
-					ro.sendSMSconf( cMessage.getMessage(),
-						cPhone.phoneList,
-						cReturnPhone.returnPhone ,
-						cReservation.bReservation ? cReservation.strReservation +":00" : "" ,
-						cInterval.bInterval ? cInterval.cnt +"/"+ cInterval.minute : "" ,
-						cMessage.getMessage().indexOf("{이름}") > -1 ? true:false
-					);
-				}
-					
+				ro.sendForeignconf( cMessage.getMessage(),
+					cPhone.phoneList,
+					cReturnPhone.returnPhone ,
+					cReservation.bReservation ? cReservation.strReservation +":00" : "" ,
+					"" ,
+					cMessage.getMessage().indexOf("{이름}") > -1 ? true:false
+				);
+				
 				//sending count
 				if (sendingCount_intervalID)
 					clearInterval(sendingCount_intervalID);
@@ -284,15 +255,13 @@
 			private function confirmSetting():void {
 				
 				var sendtype:String = cMessage.mode.text;
-				var typeCnt:uint = 1;
-				if (sendtype == "LMS") typeCnt = 3;
-				else if (sendtype == "MMS") typeCnt = 15;
+				var typeCnt:uint = 12;
 				
 				type.text = sendtype;
 				cnt.text = cPhone.totalCount.text + " ("+uint(cPhone.totalCount.text)*typeCnt+"건 차감)";
 				sendTime.text = cReservation.bReservation ? cReservation.strReservation +":00" : "미설정";
-				interval.text = cInterval.bInterval ? cInterval.cnt +"건씩 "+ cInterval.minute+"분간격": "미설정";
-
+				interval.text = "";
+				
 				
 				if (cMessage.getMessage().indexOf("{이름}") > -1) {
 					mergeItem.visible = true;
@@ -323,10 +292,10 @@
 	<s:Group left="27" top="85">
 		<s:VGroup left="4" top="177" gap="2">
 			<handphone:ReturnPhone id="cReturnPhone" validValue="validHandler(event)"/>
-			<handphone:Phone id="cPhone" validValue="validHandler(event)"/>
+			<handphone:PhoneForeign id="cPhone" validValue="validHandler(event)"/>
 			<s:HGroup gap="2">
 				<handphone:Reservation id="cReservation" width="135" viewRes="{resLayer.visible=true}"/>
-				<handphone:Interval id="cInterval" width="78"/>
+				<!--<handphone:Interval id="cInterval" width="78"/>-->
 			</s:HGroup>
 			
 			<s:HGroup horizontalAlign="center" gap="10" width="100%">
@@ -334,7 +303,7 @@
 				<s:Image id="cancelButton" buttonMode="true" useHandCursor="true" click="cancelButton_clickHandler(event)" source="@Embed('images/btn_cancle2.gif')" />
 			</s:HGroup>
 		</s:VGroup>
-		<handphone:Message id="cMessage" width="100%" alert="message1_alertHandler(event)" validValue="validHandler(event)"/>
+		<handphone:MessageForeign id="cMessage" width="100%" alert="message1_alertHandler(event)" validValue="validHandler(event)"/>
 		
 	</s:Group> 
 	<handphone:ReservationLayer id="resLayer" visible="false" x="14" y="130" setReservation="resLayer_setReservationHandler(event)" cancelReservation="resLayer_cancelReservationHandler(event)" />
@@ -347,11 +316,11 @@
 		<s:Label text="전송하시겠습니까?" />
 		<s:Form>
 			<s:layout><s:FormLayout gap="-14"/></s:layout>
-			<s:FormItem label="방식"><s:Label id="type" text="SMS" /></s:FormItem>
+			<s:FormItem label="방식"><s:Label id="type" text="해외문자" /></s:FormItem>
 			<s:FormItem label="건수"><s:Label id="cnt" text="100건(100건차감)" /></s:FormItem>
 			<s:FormItem label="예약"><s:Label id="sendTime" text="미설정" /></s:FormItem>
 			<s:FormItem label="간격발송"><s:Label id="interval" text="10건씩 10분간격" /></s:FormItem>
-			<s:FormItem label="알림"><s:Label text="※한자 발송시&#13;미지원 단말기는&#13;문자가 깨질수 있습니다." color="0xff6347"/></s:FormItem>
+			<s:FormItem label="알림"><s:Label text="※한글,한자 발송시&#13;미지원 단말기는&#13;문자가 깨질수 있습니다." color="0xff6347"/></s:FormItem>
 			<s:FormItem id="mergeItem" visible="false" label="이름넣기">
 				<s:VGroup>
 					<s:Label id="merge" text="미설정" />
