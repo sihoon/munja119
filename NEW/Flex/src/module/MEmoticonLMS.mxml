@@ -170,17 +170,29 @@
 				var arr:Array = null;
 				var tmp:ArrayCollection = new ArrayCollection();
 				
-				for (var i:int = idx+1; i < cnt; i++) {
-					
-					arr = (ac.getItemAt(i) as String).split("_");
-					if (arr.length <= 1) break;
-					else {
-						tmp.addItem(ac.getItemAt(i) as String);
+				if (ac.getItemAt(idx) as String == "요일") {
+					tmp.addItem("월요일");
+					tmp.addItem("화요일");
+					tmp.addItem("수요일");
+					tmp.addItem("목요일");
+					tmp.addItem("금요일");
+					tmp.addItem("주말");
+				}else {
+					for (var i:int = idx+1; i < cnt; i++) {
+						
+						arr = (ac.getItemAt(i) as String).split("_");
+						if (arr.length <= 1) break;
+						else {
+							tmp.addItem(ac.getItemAt(i) as String);
+						}
 					}
 				}
+				
+				
 				acSub.removeAll();
 				if (tmp.length > 0) {
 					acSub.addAll(tmp);
+					subCateList.height = Math.floor(tmp.length/7)*24;
 					subCateList.visible = true;
 				}else
 					subCateList.visible = false;
@@ -226,7 +238,7 @@
 						itemRenderer="renderer.SubCateListItemRenderer"
 						borderVisible="false"
 						selectionColor="0xEEE3DD" >
-					<s:layout><s:TileLayout/></s:layout>
+					<s:layout><s:TileLayout /></s:layout>
 				</s:List>
 				
 				<s:List id="emotiList" minWidth="600" itemRenderer.thema="renderer.EmotiRendererLMS" itemRenderer.upjong="renderer.EmotiRendererLMS" itemRenderer.save="renderer.MyMsgRenderer" skinClass="skin.ListBg">
