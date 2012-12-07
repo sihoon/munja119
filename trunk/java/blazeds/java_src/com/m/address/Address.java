@@ -294,15 +294,36 @@ public class Address implements AddressAble {
 				buf.append("</addrs>");
 				bAddrsOpen = false;
 			}
+			
 			if (SLibrary.IfNull(hm, "grp").equals("0")) {
-				buf.append("<addrs idx='0' type='group' label='"+SLibrary.IfNull(hm, "grpName")+"'>");
+				buf.append("<addrs idx='0' type='group' label='"+xmlChar(SLibrary.IfNull(hm, "grpName"))+"'>");
 				bAddrsOpen = true;
 			}
 			
 			if (SLibrary.IfNull(hm, "grp").equals("1")) {
-				buf.append("<addr idx='"+SLibrary.IfNull(hm, "idx")+"' group='"+SLibrary.IfNull(hm, "grpName")+"' label='"+SLibrary.IfNull(hm, "name")+"' phone='"+SLibrary.IfNull(hm, "phone")+"' memo='"+SLibrary.IfNull(hm, "memo")+"' />");
+				buf.append("<addr idx='"+SLibrary.IfNull(hm, "idx")+"' group='"+xmlChar(SLibrary.IfNull(hm, "grpName"))+"' label='"+xmlChar(SLibrary.IfNull(hm, "name"))+"' phone='"+xmlChar(SLibrary.IfNull(hm, "phone"))+"' memo='"+xmlChar(SLibrary.IfNull(hm, "memo"))+"' />");
 			}
 			
+//			
+//			if (SLibrary.IfNull(hm, "grp").equals("0")) {
+//				buf.append("<addrs idx='0' type='group'>");
+//				buf.append("<label>");
+//				buf.append("<!CDATA[["+SLibrary.IfNull(hm, "grpName")+"]]>");
+//				buf.append("</label>");
+//				bAddrsOpen = true;
+//			}
+//			
+//			if (SLibrary.IfNull(hm, "grp").equals("1")) {
+//				buf.append("<addr idx='"+SLibrary.IfNull(hm, "idx")+"'>");
+//				buf.append("<group>");
+//				buf.append("<!CDATA[["+SLibrary.IfNull(hm, "grpName")+"]]>");
+//				buf.append("</group>");
+//				buf.append("<label>");
+//				buf.append("<!CDATA[["+SLibrary.IfNull(hm, "name")+"' phone='"+SLibrary.IfNull(hm, "phone")+"' memo='"+SLibrary.IfNull(hm, "memo")+"]]>");
+//				buf.append("</label>");
+//				buf.append("</addrs>");
+//			}
+//			
 		}
 		if (bAddrsOpen == true) {
 			buf.append("</addrs>");
@@ -313,6 +334,19 @@ public class Address implements AddressAble {
 		return buf;
 		
 	}
+	
+	private String xmlChar(String str) {
+		String rslt = "";
+		str = SLibrary.replaceAll(str, "&", "&amp;");
+		str = SLibrary.replaceAll(str, "\"", "&quot;");
+		str = SLibrary.replaceAll(str, "'", "&apos;");
+		str = SLibrary.replaceAll(str, "<", "&lt;");
+		str = SLibrary.replaceAll(str, ">", "&gt;");
+		
+		rslt = str;
+		return rslt;
+	}
+	
 	public String[] SelectGroup(Connection conn , String user_id) {
 
 		String[] arr = null;

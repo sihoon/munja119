@@ -219,13 +219,13 @@ public class Billing {
 			else if (bvo.getAmount() == ( 10000+( 10000 *0.1 ) ) ) point = 833;
 			else if (bvo.getAmount() == ( 30000+( 30000 *0.1 ) ) ) point = 2500;
 			else if (bvo.getAmount() == ( 50000+( 50000 *0.1 ) ) ) point = 4167;
-			else if (bvo.getAmount() == ( 100000+( 100000 *0.1 ) ) ) point = 8333;
-			else if (bvo.getAmount() == ( 300000+( 300000 *0.1 ) ) ) point = 25000;
-			else if (bvo.getAmount() == ( 500000+( 500000 *0.1 ) ) ) point = 43103;
-			else if (bvo.getAmount() == ( 1000000+( 1000000 *0.1 ) ) ) point = 90909;
-			else if (bvo.getAmount() == ( 3000000+( 3000000 *0.1 ) ) ) point = 280374;
-			else if (bvo.getAmount() == ( 5000000+( 5000000 *0.1 ) ) ) point = 485437;
-			else if (bvo.getAmount() == ( 10000000+( 10000000 *0.1 ) ) ) point = 1000000;
+			else if (bvo.getAmount() == ( 100000+( 100000 *0.1 ) ) ) point = 8475;
+			else if (bvo.getAmount() == ( 300000+( 300000 *0.1 ) ) ) point = 26087;
+			else if (bvo.getAmount() == ( 500000+( 500000 *0.1 ) ) ) point = 45455;
+			else if (bvo.getAmount() == ( 1000000+( 1000000 *0.1 ) ) ) point = 95238;
+			else if (bvo.getAmount() == ( 3000000+( 3000000 *0.1 ) ) ) point = 300000;
+//			else if (bvo.getAmount() == ( 5000000+( 5000000 *0.1 ) ) ) point = 485437;
+//			else if (bvo.getAmount() == ( 10000000+( 10000000 *0.1 ) ) ) point = 1000000;
 			else point = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount()/uvo.getUnit_cost()) ) );
 			
 			bvo.setPoint(point);
