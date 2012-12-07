@@ -97,6 +97,19 @@ public class Home {
 		return rslt;
 	}
 	
+	public String[] getMainForeignCate(Connection conn, String gubun) {
+		
+		String[] rslt = null;
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared( conn, VbyP.getSQL("selectMainEmtForeignCate") );
+		pq.setString(1, gubun);
+		
+		rslt = pq.ExecuteQuery();
+		
+		return rslt;
+	}
+	
 	public String[] getMainCateLMS(Connection conn, String gubun) {
 		
 		String[] rslt = null;

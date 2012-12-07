@@ -922,6 +922,32 @@ public class Admin extends SessionManagement {
 		
 	}
 	
+	public void updateEmotiForeign(int idx, String msg) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 해외이모티콘 업데이트 "+Integer.toString(idx));
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminEmoticonUpdateForeign"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setString(1, msg);
+				pq.setInt(2, idx);
+				pq.executeUpdate();
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("updateEmotiForeign >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
+	
 	public void updateEmotiCate(int idx, String gubun, String category, String msg) {
 		
 		Connection conn = null;
@@ -975,6 +1001,103 @@ public class Admin extends SessionManagement {
 		}
 		
 	}
+	public void firstEmoti(int idx) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 이모티콘 처음으로 "+Integer.toString(idx));
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminEmoticonFirst"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setInt(1, idx);
+				pq.executeUpdate();
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("firstEmoti >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
+	public void firstEmotiLMS(int idx) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> LMS 이모티콘 처음으로 "+Integer.toString(idx));
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminEmoticonFirstLMS"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setInt(1, idx);
+				pq.executeUpdate();
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("firstEmoti >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
+	public void firstEmotiMMS(int idx) {
+	
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> MMS 이모티콘 처음으로 "+Integer.toString(idx));
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminEmoticonFirstMMS"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setInt(1, idx);
+				pq.executeUpdate();
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("firstEmoti >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
+	
+	public void firstEmotiForeign(int idx) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> Foreign 이모티콘 처음으로 "+Integer.toString(idx));
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminEmoticonFirstForeign"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setInt(1, idx);
+				pq.executeUpdate();
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("firstEmoti >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
 	
 	public void deleteEmoti(int idx) {
 		
@@ -996,6 +1119,31 @@ public class Admin extends SessionManagement {
 			}catch (Exception e) {}	finally {			
 				try { if ( conn != null ) conn.close();
 				}catch(SQLException e) { VbyP.errorLog("deleteEmoti >> conn.close() Exception!"); }
+			}
+		}
+		
+	}
+	
+	public void deleteEmotiForeign(int idx) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 이모티콘 삭제 "+Integer.toString(idx));
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminEmoticonDeleteForeign"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setInt(1, idx);
+				pq.executeUpdate();
+				
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("deleteEmotiForeign >> conn.close() Exception!"); }
 			}
 		}
 		
