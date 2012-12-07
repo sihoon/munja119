@@ -162,7 +162,7 @@
 			//new
 			private function viewSubCate(idx:int):void {
 				
-				var cnt:int = ac.length;
+				/* var cnt:int = ac.length;
 				var arr:Array = null;
 				var tmp:ArrayCollection = new ArrayCollection();
 				
@@ -177,6 +177,38 @@
 				acSub.removeAll();
 				if (tmp.length > 0) {
 					acSub.addAll(tmp);
+					subCateList.visible = true;
+				}else
+					subCateList.visible = false; */
+				
+				var cnt:int = ac.length;
+				var arr:Array = null;
+				var tmp:ArrayCollection = new ArrayCollection();
+				
+				if (ac.getItemAt(idx) as String == "요일") {
+					tmp.addItem("요일_월요일");
+					tmp.addItem("요일_화요일");
+					tmp.addItem("요일_수요일");
+					tmp.addItem("요일_목요일");
+					tmp.addItem("요일_금요일");
+					tmp.addItem("요일_주말");
+				}else {
+					for (var i:int = idx+1; i < cnt; i++) {
+						
+						arr = (ac.getItemAt(i) as String).split("_");
+						if (arr.length <= 1) break;
+						else {
+							tmp.addItem(ac.getItemAt(i) as String);
+						}
+					}
+				}
+				
+				
+				acSub.removeAll();
+				if (tmp.length > 0) {
+					acSub.addAll(tmp);
+					subCateList.height = Math.floor(tmp.length/7)*24;
+					if ( subCateList.height <= 0 ) subCateList.height = 24; 
 					subCateList.visible = true;
 				}else
 					subCateList.visible = false;

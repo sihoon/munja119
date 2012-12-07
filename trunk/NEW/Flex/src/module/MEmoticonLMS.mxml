@@ -171,12 +171,12 @@
 				var tmp:ArrayCollection = new ArrayCollection();
 				
 				if (ac.getItemAt(idx) as String == "요일") {
-					tmp.addItem("월요일");
-					tmp.addItem("화요일");
-					tmp.addItem("수요일");
-					tmp.addItem("목요일");
-					tmp.addItem("금요일");
-					tmp.addItem("주말");
+					tmp.addItem("요일_월요일");
+					tmp.addItem("요일_화요일");
+					tmp.addItem("요일_수요일");
+					tmp.addItem("요일_목요일");
+					tmp.addItem("요일_금요일");
+					tmp.addItem("요일_주말");
 				}else {
 					for (var i:int = idx+1; i < cnt; i++) {
 						
@@ -193,6 +193,7 @@
 				if (tmp.length > 0) {
 					acSub.addAll(tmp);
 					subCateList.height = Math.floor(tmp.length/7)*24;
+					if ( subCateList.height <= 0 ) subCateList.height = 24; 
 					subCateList.visible = true;
 				}else
 					subCateList.visible = false;
