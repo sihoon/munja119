@@ -92,6 +92,10 @@
         </ul>
         
 		<div id="flashContent" style="display:none;border:1px solid red;"></div>
+		<img id="installImage" src="images/install.jpg" style="display:none;clear:both;" usemap="#map_install" />
+		<map name="map_install">
+			<area shape="rect" coords="470,255,580,280" href="flash.html" alt="다운로드 페이지 이동" />
+		</map>
 		<script type="text/javascript" src="flexlib/swfobject.js"></script>
 		<script type="text/javascript" src="main/main.js"></script>
 
@@ -104,12 +108,19 @@
             </ul>
             <div class="middle">
                 <div class="subTitle"><%
-                
+                String[] arr = null;
+        		String label = "";
+        		String style = "";
+        		
             	if (arrCate != null) {
             		int catCnt = arrCate.length;
+            		
             		for (int c = 0; c < catCnt; c++) {
+            			arr = arrCate[c].split("_");
+            			label = arr[arr.length-1];
+            			if (arr.length > 1) continue;
             	%>
-                	<a href="?gubun=<%=gubun %>&cate=<%=arrCate[c] %><%="&"+urllms+"&"+urlmms%>" class="<%=(arrCate[c].equals(cate))?"de":""%>"><%=arrCate[c] %></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                	<a href="?gubun=<%=gubun %>&cate=<%=label %><%="&"+urllms+"&"+urlmms%>" class="<%=(label.equals(cate))?"de":""%>" <%=style %>><%=label %></a>&nbsp;&nbsp;&nbsp;&nbsp;
                 <%
                 	}
                 }
@@ -147,8 +158,12 @@
             	if (arrCatelms != null) {
             		int catCnt = arrCatelms.length;
             		for (int c = 0; c < catCnt; c++) {
+            			
+            			arr = arrCatelms[c].split("_");
+            			label = arr[arr.length-1];
+            			if (arr.length > 1) continue;
             	%>
-                	<a href="?gubunlms=<%=gubunlms %>&catelms=<%=arrCatelms[c] %>" class="<%=(arrCatelms[c].equals(cate))?"de":""%>"><%=arrCatelms[c] %></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                	<a href="?gubunlms=<%=gubunlms %>&catelms=<%=label %>" class="<%=(label.equals(cate))?"de":""%>" <%=style %>><%=label %></a>&nbsp;&nbsp;&nbsp;&nbsp;
                 <%
                 	}
                 }
@@ -178,8 +193,12 @@
             	if (arrMmsCate != null) {
             		int catCnt = arrMmsCate.length;
             		for (int c = 0; c < catCnt; c++) {
+            			
+            			arr = arrMmsCate[c].split("_");
+            			label = arr[arr.length-1];
+            			if (arr.length > 1) continue;
             	%>
-                	<a href="?gubunmms=&mmscate=<%=arrMmsCate[c] %>" class="<%=(arrMmsCate[c].equals(cate))?"de":""%>"><%=arrMmsCate[c] %></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                	<a href="?gubunmms=&mmscate=<%=label %>" class="<%=(label.equals(cate))?"de":""%>" <%=style %>><%=label %></a>&nbsp;&nbsp;&nbsp;&nbsp;
                 <%
                 	}
                 }
@@ -192,7 +211,7 @@
             			hm = arrMms.get(m);
             			if (hm != null && !SLibrary.isNull( SLibrary.IfNull(hm, "msg") )) {
             		%><div style="float:left;width:180px;text-align:center;">
-							<img onclick="setPhoto(this.src)" src="<%= SLibrary.IfNull(hm, "msg") %>" class="potoimg" style="display:block;width:176px;height:144px;cursor:pointer" <%= m == (arrMms.size() -1) ? "style='margin-right:0px;'" : "" %> />
+							<img onclick="setPhoto('<%= SLibrary.IfNull(hm, "msg") %>')" src="<%= SLibrary.IfNull(hm, "msg") %>" class="potoimg" style="display:block;width:176px;height:144px;cursor:pointer" <%= m == (arrMms.size() -1) ? "style='margin-right:0px;'" : "" %> />
             				<p style="width:180px;overflow:hidden;height:20px" ><%= SLibrary.IfNull(hm, "title") %></p>
 						</div><%
             			}

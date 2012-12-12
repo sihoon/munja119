@@ -10,13 +10,14 @@ div.context {width:950px; height:auto; margin:0px auto;position: relative;}
 #logo {clear:both;width:950px; height:65px;background:url("../images/logo.gif") 15px 0px no-repeat;}
 #menu { width:950px;height:44px;}
 #menu a {display:block;float:left;overflow:hidden;display:inline;}
-#menu .sms {width:149px; height:44px;background:url("../images/tpm_01.jpg") 0 0 no-repeat; }
-#menu .lms {width:129px; height:44px;background:url("../images/tpm_02.jpg") 0 0 no-repeat; }
-#menu .mms {width:173px; height:44px;background:url("../images/tpm_03.jpg") 0 0 no-repeat; }
-#menu .billing {width:120px; height:44px;background:url("../images/tpm_04.jpg") 0 0 no-repeat; }
-#menu .sent {width:118px; height:44px;background:url("../images/m04.jpg") 0 0 no-repeat; }
-#menu .excel {width:131px; height:44px;background:url("../images/m05.jpg") 0 0 no-repeat; }
-#menu .address {width:130px; height:44px;background:url("../images/m06.jpg") 0 0 no-repeat; }
+#menu .sms {width:134px; height:44px;background:url("../images/ntop0.jpg") 0 0 no-repeat; }
+#menu .lms {width:124px; height:44px;background:url("../images/ntop1.jpg") 0 0 no-repeat; }
+#menu .mms {width:162px; height:44px;background:url("../images/ntop2.jpg") 0 0 no-repeat; }
+#menu .foreign {width:126px; height:44px;background:url("../images/ntop3.jpg") 0 0 no-repeat; }
+#menu .billing {width:90px; height:44px;background:url("../images/ntop4.jpg") 0 0 no-repeat; }
+#menu .sent {width:93px; height:44px;background:url("../images/ntop5.jpg") 0 0 no-repeat; }
+#menu .excel {width:118px; height:44px;background:url("../images/ntop6.jpg") 0 0 no-repeat; }
+#menu .address {width:103px; height:44px;background:url("../images/ntop7.jpg") 0 0 no-repeat; }
 #menu a:hover {background-position: 0 -44px;}
 #menu .over {background-position: 0 -44px;}
 
@@ -112,15 +113,15 @@ div.context {width:950px; height:auto; margin:0px auto;position: relative;}
 #main .mainlmstitle { width:100%;background:url("../images/main_tit02.gif") 0px 10px no-repeat;height:40px;}
 #main #emoticon .middle {width:946px;height:auto;border-left:2px solid #DAB4A8;border-right:2px solid #DAB4A8;overflow-y:auto;padding-bottom:5px;}
 #main #emoticon .middle .subTitle {margin-left:12px;width:880px;padding:10px 20px;background-color:#EEE3DD;margin-top:10px;}
-#main #emoticon .middle .subTitle a {width:75px;overflow:auto;text-align:center;}
+#main #emoticon .middle .subTitle a {width:75px;overflow:auto;text-align:center;font-size: 12px; font-family: '굴림체';}
 #main #emoticon .middle .subTitle .de {font-weight:bold;}
 #main #emoticon .middle .subTitle a.pre {width:16px;height:19px;background:url("../images/icon_left.gif") no-repeat;overflow:hidden;text-indent:-9999px;margin-right:10px;}
 #main #emoticon .middle .subTitle a.next {float:right;width:16px;height:19px;background:url("../images/icon_right.gif") no-repeat;overflow:hidden;text-indent:-9999px;}
 #main #emoticon .emtibox1 {margin-left:15px;width:925px;overflow:hidden;margin-top:10px;overflow-y:auto;}
 #main #emoticon .emtibox {width:940px;overflow:hidden;margin-top:10px;overflow-y:auto;text-align:center;}
 #main #emoticon .emtibox .emti1 {overflow:hidden;background: transparent;border:0px;display:block;float:left;width:117px; height:111px;padding:0 28px; padding-top:25px;background:url("../images/pro_bg.gif") no-repeat;margin-right:8px;margin-bottom:10px;font-size: 10pt;font-family: '굴림체';color: black;}
-#main #emoticon .emtibox .emti {background: transparent;border:0px;width:117px; height:115px;padding:0 30px; padding-top:29px;background:url("../images/pro_bg.gif") no-repeat;font-size: 14px; font-family: '굴림체';color: black;overflow:hidden;cursor:pointer}
-#main #emoticon .emtibox .emtiLms {background: transparent;border:0px;width:117px; height:170px;padding:0 30px; padding-top:29px;background:url("../images/pro_bg2.gif") no-repeat;font-size: 14px; font-family: '굴림체';color: black;overflow:hidden;cursor:pointer;}
+#main #emoticon .emtibox .emti {background: transparent;border:0px;width:117px; height:96px;padding:0 30px; padding-top:29px; padding-bottom:10px;background:url("../images/pro_bg.gif") no-repeat;font-size: 12px; font-family: '굴림체';color: black;overflow:hidden;cursor:pointer}
+#main #emoticon .emtibox .emtiLms {background: transparent;border:0px;width:117px; height:170px;padding:0 30px; padding-top:29px;background:url("../images/pro_bg2.gif") no-repeat;font-size: 12px; font-family: '굴림체';color: black;overflow:hidden;cursor:pointer;}
 
 
 #main .potomore {margin-top:10px;display:block;float:right;width:46px;height:16px;background:url("../images/more.gif") no-repeat;text-indent:-9999px;}
