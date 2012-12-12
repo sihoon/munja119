@@ -14,19 +14,29 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="Normal.mxml"/>
-    <application path="Sent.mxml"/>
+    <application path="Test.mxml"/>
     <application path="Excel.mxml"/>
+    <application path="Sent.mxml"/>
     <application path="Address.mxml"/>
-    <application path="Photo.mxml"/>
+    <application path="Normal.mxml"/>
+    <application path="Main.mxml"/>
+    <application path="Lms.mxml"/>
+    <application path="Mms.mxml"/>
+    <application path="Foreign.mxml"/>
   </applications>
   <modules>
-    <module application="src/Normal.mxml" destPath="module/MSent.swf" optimize="false" sourcePath="src/module/MSent.mxml"/>
-    <module application="src/Normal.mxml" destPath="module/MPhone.swf" optimize="false" sourcePath="src/module/MPhone.mxml"/>
+    <module application="src/Normal.mxml" destPath="module/MEmoticonLMS.swf" optimize="false" sourcePath="src/module/MEmoticonLMS.mxml"/>
     <module application="src/Normal.mxml" destPath="module/MPhoto.swf" optimize="false" sourcePath="src/module/MPhoto.mxml"/>
-    <module application="src/Normal.mxml" destPath="module/MAddress.swf" optimize="false" sourcePath="src/module/MAddress.mxml"/>
-    <module application="src/Normal.mxml" destPath="module/MExcel.swf" optimize="false" sourcePath="src/module/MExcel.mxml"/>
+    <module application="src/Normal.mxml" destPath="module/MSent.swf" optimize="false" sourcePath="src/module/MSent.mxml"/>
+    <module application="src/Normal.mxml" destPath="module/MCopyPaste.swf" optimize="false" sourcePath="src/module/MCopyPaste.mxml"/>
     <module application="src/Normal.mxml" destPath="module/MEmoticon.swf" optimize="false" sourcePath="src/module/MEmoticon.mxml"/>
+    <module application="src/Normal.mxml" destPath="module/MPhone.swf" optimize="false" sourcePath="src/module/MPhone.mxml"/>
+    <module application="src/Normal.mxml" destPath="module/MAddress.swf" optimize="false" sourcePath="src/module/MAddress.mxml"/>
+    <module application="src/Normal.mxml" destPath="module/MEmoticonMMS.swf" optimize="false" sourcePath="src/module/MEmoticonMMS.mxml"/>
+    <module application="src/Normal.mxml" destPath="module/MExcel.swf" optimize="false" sourcePath="src/module/MExcel.mxml"/>
+    <module application="src/Normal.mxml" destPath="module/MSpecChar.swf" optimize="false" sourcePath="src/module/MSpecChar.mxml"/>
+    <module application="src/Normal.mxml" destPath="module/MPhoneForeign.swf" optimize="false" sourcePath="src/module/MPhoneForeign.mxml"/>
+    <module application="src/Normal.mxml" destPath="module/MEmoticonForeign.swf" optimize="false" sourcePath="src/module/MEmoticonForeign.mxml"/>
   </modules>
   <buildCSSFiles/>
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
