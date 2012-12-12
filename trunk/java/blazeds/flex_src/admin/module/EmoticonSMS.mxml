@@ -40,7 +40,7 @@
 			private var acSub:ArrayCollection = new ArrayCollection();
 			[Binable] public var bMy:Boolean = false;
 			
-			protected function cateList_creationCompleteHandler():void {
+			public function cateList_creationCompleteHandler():void {
 				
 				emotiList.dataProvider = al;
 				//new
@@ -206,6 +206,13 @@
 				}
 				acSub.removeAll();
 				acSub.addAll(tmp);
+				if (tmp.length > 0) {
+					acSub.addAll(tmp);
+					subCateList.height = Math.floor(tmp.length/7)*24;
+					if ( subCateList.height <= 0 ) subCateList.height = 24; 
+					subCateList.visible = true;
+				}else
+					subCateList.visible = false;
 			}
 			
 			//new
@@ -265,7 +272,7 @@
 		
 		<s:Group top="20" width="100%">
 			
-			<s:Group top="37" height="700">
+			<s:Group top="37">
 				<s:Rect left="0" right="0" top="0" bottom="0" ><s:stroke><s:SolidColorStroke color="0xDCB8AC" weight="2" /></s:stroke></s:Rect>
 				
 				<s:VGroup top="11" left="0" right="0" horizontalAlign="center">

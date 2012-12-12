@@ -45,7 +45,7 @@
 			// 이미지 업로드 관련
 			private var fur:FileUploadByRemoteObject;
 			
-			protected function cateList_creationCompleteHandler():void {
+			public function cateList_creationCompleteHandler():void {
 				
 				emotiList.dataProvider = al;
 				//new
