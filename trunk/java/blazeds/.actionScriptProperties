@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <actionScriptProperties analytics="false" mainApplicationPath="flex.mxml" projectUUID="2a6fcbfd-0a15-4576-b9b1-6248200eb163" version="10">
-  <compiler additionalCompilerArguments="-services &quot;D:\Workspace\google119\blazeds\WebContent\WEB-INF\flex\services-config.xml&quot; -locale en_US" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="WebContent/blazeds-debug" removeUnusedRSL="true" rootURL="" sourceFolderPath="flex_src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+  <compiler additionalCompilerArguments="-services &quot;D:\Workspace\google119\blazeds\WebContent\WEB-INF\flex\services-config.xml&quot; -locale en_US" autoRSLOrdering="true" copyDependentFiles="true" flexSDK="Flex 4.5.1A" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="WebContent/blazeds-debug" removeUnusedRSL="true" sourceFolderPath="flex_src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath>
       <compilerSourcePathEntry kind="1" linkType="1" path="flex_src"/>
     </compilerSourcePath>
@@ -19,29 +19,38 @@
     <application path="flex.mxml"/>
   </applications>
   <modules>
-    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Point.swf" optimize="true" sourcePath="flex_src/admin/module/Point.mxml"/>
-    <module application="flex_src/flex.mxml" destPath="module/Sent.swf" optimize="true" sourcePath="flex_src/module/Sent.mxml"/>
-    <module application="flex_src/flex.mxml" destPath="module/ExcelLoader.swf" optimize="true" sourcePath="flex_src/module/ExcelLoader.mxml"/>
-    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/PointLog.swf" optimize="true" sourcePath="flex_src/admin/module/PointLog.mxml"/>
-    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Billing.swf" optimize="true" sourcePath="flex_src/admin/module/Billing.mxml"/>
-    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Sent.swf" optimize="true" sourcePath="flex_src/admin/module/Sent.mxml"/>
-    <module application="flex_src/flex.mxml" destPath="module/Login.swf" optimize="true" sourcePath="flex_src/module/Login.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="admin/module/EmoticonMMS.swf" optimize="true" sourcePath="flex_src/admin/module/EmoticonMMS.mxml"/>
     <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Stats.swf" optimize="true" sourcePath="flex_src/admin/module/Stats.mxml"/>
-    <module application="flex_src/flex.mxml" destPath="module/HandPhone.swf" optimize="true" sourcePath="flex_src/module/HandPhone.mxml"/>
-    <module application="flex_src/flex.mxml" destPath="module/Home.swf" optimize="true" sourcePath="flex_src/module/Home.mxml"/>
-    <module application="flex_src/flex.mxml" destPath="module/Count.swf" optimize="true" sourcePath="flex_src/module/Count.mxml"/>
-    <module application="flex_src/flex.mxml" destPath="module/Billing.swf" optimize="true" sourcePath="flex_src/module/Billing.mxml"/>
-    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Member.swf" optimize="true" sourcePath="flex_src/admin/module/Member.mxml"/>
-    <module application="flex_src/flex.mxml" destPath="module/Address.swf" optimize="true" sourcePath="flex_src/module/Address.mxml"/>
-    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/CashList.swf" optimize="true" sourcePath="flex_src/admin/module/CashList.mxml"/>
-    <module application="flex_src/flex.mxml" destPath="module/Emoticon.swf" optimize="true" sourcePath="flex_src/module/Emoticon.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Sent.swf" optimize="true" sourcePath="flex_src/module/Sent.mxml"/>
     <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Emoticon.swf" optimize="true" sourcePath="flex_src/admin/module/Emoticon.mxml"/>
-    <module application="flex_src/flex.mxml" destPath="module/CostInfo.swf" optimize="true" sourcePath="flex_src/module/CostInfo.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/CashList.swf" optimize="true" sourcePath="flex_src/admin/module/CashList.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Home.swf" optimize="true" sourcePath="flex_src/module/Home.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Login.swf" optimize="true" sourcePath="flex_src/module/Login.mxml"/>
     <module application="flex_src/flex.mxml" destPath="module/Join.swf" optimize="true" sourcePath="flex_src/module/Join.mxml"/>
-    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/EmoticonCate.swf" optimize="true" sourcePath="flex_src/admin/module/EmoticonCate.mxml"/>
-    <module application="flex_src/flex.mxml" destPath="module/Sangpum.swf" optimize="true" sourcePath="flex_src/module/Sangpum.mxml"/>
-    <module application="flex_src/flex.mxml" destPath="module/Notic.swf" optimize="true" sourcePath="flex_src/module/Notic.mxml"/>
     <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Notic.swf" optimize="true" sourcePath="flex_src/admin/module/Notic.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="admin/module/Faq.swf" optimize="true" sourcePath="flex_src/admin/module/Faq.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Notic.swf" optimize="true" sourcePath="flex_src/module/Notic.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/EmoticonCate.swf" optimize="true" sourcePath="flex_src/admin/module/EmoticonCate.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Sent.swf" optimize="true" sourcePath="flex_src/admin/module/Sent.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Emoticon.swf" optimize="true" sourcePath="flex_src/module/Emoticon.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Address.swf" optimize="true" sourcePath="flex_src/module/Address.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/ExcelLoader.swf" optimize="true" sourcePath="flex_src/module/ExcelLoader.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Modify.swf" optimize="true" sourcePath="flex_src/module/Modify.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Billing.swf" optimize="true" sourcePath="flex_src/module/Billing.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Sangpum.swf" optimize="true" sourcePath="flex_src/module/Sangpum.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Count.swf" optimize="true" sourcePath="flex_src/module/Count.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Faq.swf" optimize="true" sourcePath="flex_src/module/Faq.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/HandPhone.swf" optimize="true" sourcePath="flex_src/module/HandPhone.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/PointLog.swf" optimize="true" sourcePath="flex_src/admin/module/PointLog.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/EmoticonLMS.swf" optimize="true" sourcePath="flex_src/admin/module/EmoticonLMS.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Member.swf" optimize="true" sourcePath="flex_src/admin/module/Member.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Billing.swf" optimize="true" sourcePath="flex_src/admin/module/Billing.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/Faq.swf" optimize="true" sourcePath="flex_src/module/Faq.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/Point.swf" optimize="true" sourcePath="flex_src/admin/module/Point.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="module/CostInfo.swf" optimize="true" sourcePath="flex_src/module/CostInfo.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/EmoticonSMS.swf" optimize="true" sourcePath="flex_src/admin/module/EmoticonSMS.mxml"/>
+    <module application="flex_src/flex.mxml" destPath="admin/module/Tax.swf" optimize="true" sourcePath="flex_src/admin/module/Tax.mxml"/>
+    <module application="flex_src/admin/flex_admin.mxml" destPath="admin/module/EmoticonForeign.swf" optimize="true" sourcePath="flex_src/admin/module/EmoticonForeign.mxml"/>
   </modules>
   <buildCSSFiles/>
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
