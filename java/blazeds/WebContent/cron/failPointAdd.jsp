@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.m.member.UserInformationVO"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.ArrayList"%>
@@ -27,7 +27,7 @@
 	try {
 		out.println("Accept: "+request.getRemoteAddr());
 		
-		if (!request.getRemoteAddr().equals("127.0.0.1")) throw new Exception("no url");
+		if (!request.getRemoteAddr().equals("1.226.84.99")) throw new Exception("no url");
 		
 		out.println(SLibrary.getDateTimeString());
 		workDay = SLibrary.diffOfDay(-2, "yyyy-MM-dd");
@@ -50,7 +50,7 @@
 				mvo = new UserInformationVO();
 				mvo.setUser_id(SLibrary.IfNull(hm, "TR_ETC2"));
 				mvo.setPoint( Integer.toString( pm.getUserPoint( conn,  mvo.getUser_id() ) ));
-				//pm.insertUserPoint(conn, mvo, 17, SLibrary.intValue( SLibrary.IfNull(hm, "CNT") ) * PointManager.DEFULT_POINT);
+				pm.insertUserPoint(conn, mvo, 17, SLibrary.intValue( SLibrary.IfNull(hm, "CNT") ) * PointManager.DEFULT_POINT);
 				out.println(mvo.getUser_id()+"  "+ SLibrary.IfNull(hm, "CNT"));
 			}
 		}
