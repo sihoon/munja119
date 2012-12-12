@@ -130,11 +130,13 @@
 				if (chAmount.text != "") amount = new int( chAmount.text);
 				var unit:Number = 0;
 				
-					
-				if (amount < 1100000 ) unit = 12;
-				else if (amount < 3300000) unit = 11.5;
-				else if (amount < 5500000) unit = 11;
-				else if (amount >= 5500000 ) unit = 10.7;
+				
+				if (amount <= 55000 ) unit = 12;
+				else if (amount <= 110000 ) unit = 11.8;
+				else if (amount <= 330000) unit = 11.5;
+				else if (amount <= 550000) unit = 11;
+				else if (amount <= 1100000) unit = 10.5;
+				else if (amount >= 3300000 ) unit = 10;
 				else unit = 12;
 				
 				if (user_unit != 0) unit = user_unit;
