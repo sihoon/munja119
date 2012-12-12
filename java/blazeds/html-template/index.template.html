@@ -12,7 +12,7 @@
     // -->
     <head>
         <title>${title}</title>
-        <meta name="google" value="notranslate">         
+        <meta name="google" value="notranslate" />         
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <!-- Include CSS to eliminate any default margins/padding and set the height of the html element and 
              the body element to 100%, because Firefox, or any Gecko based browser, interprets percentage as 
@@ -45,7 +45,7 @@
             params.quality = "high";
             params.bgcolor = "${bgcolor}";
             params.allowscriptaccess = "sameDomain";
-            params.allowfullscreen = "false";
+            params.allowfullscreen = "true";
             var attributes = {};
             attributes.id = "${application}";
             attributes.name = "${application}";
@@ -57,17 +57,9 @@
                 flashvars, params, attributes);
             // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
             swfobject.createCSS("#flashContent", "display:block;text-align:left;");
-            
-            function yesThanks(method, amount,where) {
-
-            	document.form.smethod.value = method;
-            	document.form.amount.value = amount;
-            	document.form.action = where;
-            	document.form.submit();
-            }
         </script>
     </head>
-    <body scroll="no">
+    <body>
         <!-- SWFObject's dynamic embed method replaces this alternative HTML content with Flash content when enough 
              JavaScript and Flash plug-in support is available. The div is initially hidden so that it doesn't show
              when JavaScript is disabled.
@@ -111,12 +103,6 @@
                 </object>
                 <!--<![endif]-->
             </object>
-        </noscript>
-        <iframe src="_blank" id="nobody" name="nobody" frameborder="0" width="0" height="0" style="display:block;"></iframe>
-        <form name="form" target="nobody" mehtod="post" action="" >
-        	<input type="hidden" name="smethod" value="" />
-        	<input type="hidden" name="amount" value="" />
-        </form>
-        
+        </noscript>     
    </body>
 </html>
