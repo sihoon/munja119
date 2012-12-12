@@ -47,6 +47,7 @@
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			import mx.rpc.remoting.RemoteObject;
+			import mx.utils.Base64Decoder;
 			
 			private var ro:RO = new RO();
 			private var RO_DESTINATION:String = "WEB";
@@ -304,6 +305,59 @@
 				var bytes: ByteArray = xls.saveToByteArray();
 				var fr:FileReference = new FileReference();
 				fr.save(bytes, fileName);
+				
+			}
+			
+			public function saveCSV(event:MouseEvent,type:Number):void {
+				
+				var exportStr:String = "";
+				var delimiter:String = ",";
+				var fileName:String;
+				fileName = "119.csv";
+				exportStr += "전화번호" + delimiter; 
+				exportStr += "결과" + delimiter; 
+				exportStr += "결과시간" + delimiter;
+				exportStr += delimiter+delimiter+delimiter+"\n";
+				
+				// type : 0(전체), 1(성공), 2(실패)
+				var dataProviderCollection:ArrayCollection = dg.dataProvider as ArrayCollection;
+				var rowCount:int =  dataProviderCollection.length;
+				
+				var kpnf:KoreaPhoneNumberFormatter = new KoreaPhoneNumberFormatter();
+				var record:Object = null;
+				
+				var rowno:Number = 1;
+				
+				for(var r:int=0;r<rowCount;r++)
+				{
+					record = dataProviderCollection.getItemAt(r);
+					
+					if (type == 0) {
+						exportStr += "\" "+record.phone+" \""+delimiter;
+						exportStr += "\""+record.result+"\""+delimiter;
+						exportStr += "\""+record.resultDate+"\"\n";
+						
+						rowno++;
+					} else if (type == 1 && record.result == "성공") {
+						exportStr += "\" "+record.phone+" \""+delimiter;
+						exportStr += "\""+record.result+"\""+delimiter;
+						exportStr += "\""+record.resultDate+"\"\n";
+						
+						rowno++;
+					} else if (type == 2 && record.result != "성공") {
+						exportStr += "\" "+record.phone+" \""+delimiter;
+						exportStr += "\""+record.result+"\""+delimiter;
+						exportStr += "\""+record.resultDate+"\"\n";
+						rowno++;
+					}
+				}
+				
+				
+				var ba:ByteArray = new ByteArray();
+				ba.writeMultiByte(exportStr,"EUC-KR");
+				ba.position = 0;
+				var file:FileReference = new FileReference();
+				file.save(ba,fileName);
 				
 			}
 			
