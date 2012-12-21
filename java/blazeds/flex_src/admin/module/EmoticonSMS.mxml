@@ -205,7 +205,7 @@
 					}
 				}
 				acSub.removeAll();
-				acSub.addAll(tmp);
+				//acSub.addAll(tmp);
 				if (tmp.length > 0) {
 					acSub.addAll(tmp);
 					subCateList.height = Math.floor(tmp.length/7)*24;
