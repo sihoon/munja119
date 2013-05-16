@@ -330,6 +330,7 @@
 				
 			}
 			
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -345,11 +346,11 @@
 	<s:VGroup width="100%" height="100%" horizontalAlign="center" gap="0">
 		<s:Group id="msgGroup" width="100%" height="154">
 			<s:Image source="@Embed(source='images/messageBg.png')" width="100%" height="100%" fillMode="clip" />
+			<s:Label id="mode" fontSize="40" text="SMS" fontWeight="bold" alpha="0.2" verticalCenter="0" horizontalCenter="0"/>
 			<s:VGroup top="10" width="200" height="100%" horizontalCenter="0" horizontalAlign="center" gap="2">
 				<s:Scroller width="200" height="100%">
-					<s:VGroup id="mBox" width="100%" height="100%">
+					<s:VGroup id="mBox" width="100%" height="100%" >
 						<s:Group width="100%" height="100%">
-							<s:Label id="mode" fontSize="40" text="SMS" fontWeight="bold" alpha="0.2" verticalCenter="0" horizontalCenter="0"/>
 							<s:TextArea id="IMessage" skinClass="skin.TextAreaSkinBG" width="200" height="100%" fontFamily="굴림체" fontSize="16" verticalScrollPolicy="off" enabled="{_enable}" color="0x000000" 
 										keyUp="IMessage_keyUpHandler(event)"
 										focusIn="IMessage_focusInHandler(event)"
