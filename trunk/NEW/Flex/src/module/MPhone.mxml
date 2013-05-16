@@ -132,6 +132,7 @@
 				this.iAlert.text_label = s;
 				this.iAlert.end();
 				this.iAlertContainer.visible = true;
+				this.iAlertContainer.depth = 100;
 				this.iAlert.play_glow(); 
 			}
 			
@@ -320,6 +321,11 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:Image source="images/hpbgTr.png" />
+	<!--전송중 카운트-->
+	<s:VGroup id="iAlertContainer" x="34" y="100" width="165" depth="0" focusEnabled="false" visible="true" horizontalAlign="center">
+		<s:Label text="전송요청!!" fontSize="14" color="0x000000" visible="false"/>
+		<lib:AlertLabel id="iAlert" font_size="40" glow_color="0x000000" text_color="0xFFFFFF" text_label="" effectEnd="this.depth=0;this.iAlertContainer.visible=false"/>
+	</s:VGroup>
 	<s:Group left="27" top="85">
 		<s:VGroup left="4" top="177" gap="2">
 			<handphone:ReturnPhone id="cReturnPhone" validValue="validHandler(event)"/>
@@ -369,9 +375,5 @@
 			<s:Button label="취소" click="confirm.visible = false" />
 		</s:HGroup>
 	</s:Panel>
-	<!--전송중 카운트-->
-	<s:VGroup id="iAlertContainer" x="34" y="100" width="165" depth="7" focusEnabled="false" visible="true" horizontalAlign="center">
-		<s:Label text="전송요청!!" fontSize="14" color="0x000000" visible="false"/>
-		<lib:AlertLabel id="iAlert" font_size="40" glow_color="0x000000" text_color="0xFFFFFF" text_label="" effectEnd="this.iAlertContainer.visible=false"/>
-	</s:VGroup>
+	
 </s:Module>
