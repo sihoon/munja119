@@ -226,6 +226,9 @@
 					
 					if ( delList.selected )
 						cPhone.init();
+					if ( delMsg.selected ) {
+						cMessage.setMessage('');cMessage.allDelPhoto();
+					}
 					
 					isValid();
 					
@@ -368,6 +371,7 @@
 			</s:FormItem>
 			<s:FormItem label="발송후설정">
 				<s:CheckBox id="delList" label="전화번호 삭제" />
+				<s:CheckBox id="delMsg" label="메시지 삭제" />
 			</s:FormItem>
 		</s:Form>
 		<s:HGroup>

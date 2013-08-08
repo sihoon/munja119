@@ -109,7 +109,7 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:Label text="보낸사람" fontSize="11" color="0xffffff"/>
-	<s:ComboBox id="returnPhoneTextInput" restrict="0-9" labelField="phone" height="23"  width="128" itemRenderer="renderer.ComboBoxRenderer" change="returnPhoneTextInput_keyUpHandler(null)" />
+	<s:ComboBox id="returnPhoneTextInput" restrict="0-9\-" labelField="phone" height="23"  width="128" itemRenderer="renderer.ComboBoxRenderer" change="returnPhoneTextInput_keyUpHandler(null)" />
 	<!--<s:TextInput id="returnPhoneTextInput" height="20"  width="125" keyUp="returnPhoneTextInput_keyUpHandler(event)"/>-->
 	<s:Image id="saveReturnBtn" click="saveReturnBtn_clickHandler(event)" source="@Embed('images/savef.jpg')" buttonMode="true" useHandCursor="true" />
 </s:HGroup>
