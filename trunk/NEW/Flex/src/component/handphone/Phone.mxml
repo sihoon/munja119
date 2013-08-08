@@ -150,7 +150,7 @@
 				<s:Image source="@Embed('images/main_51.png')" buttonMode="true" useHandCursor="true" click="parentApplication.subLoad('sent')"/>
 			</s:HGroup>
 			<s:HGroup verticalAlign="middle">
-				<s:TextInput id="phoneTextInput" width="125" enter="addPhoneButton_clickHandler(null)" />
+				<s:TextInput id="phoneTextInput" width="125" enter="addPhoneButton_clickHandler(null)"  restrict="0-9\-" />
 				<s:Image id="addPhoneButton" source="images/btn_addd.gif" click="addPhoneButton_clickHandler(event)" useHandCursor="true" buttonMode="true"/>
 			</s:HGroup>
 		</s:VGroup>
