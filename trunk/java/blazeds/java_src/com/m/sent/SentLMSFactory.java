@@ -59,7 +59,7 @@ public class SentLMSFactory implements SentFactoryAble {
 		ArrayList<SentVO> rslt = new ArrayList<SentVO>();
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-		if (SLibrary.IfNull(line).equals("ktmms")) {
+		if (SLibrary.IfNull(line).startsWith("kt")) {
 			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentDataKTUser") );
 		}else
 			pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentData") );
@@ -90,7 +90,7 @@ public class SentLMSFactory implements SentFactoryAble {
 					if ( SLibrary.IfNull(h, "STATUS").equals("1") || SLibrary.IfNull(h, "STATUS").equals("2") )
 						strRslt = "전송중";
 					else {
-						if (SLibrary.IfNull(line).equals("ktmms")) strRslt = VbyP.getValue( "mmskt_"+SLibrary.IfNull(h, "RSLT"));
+						if (SLibrary.IfNull(line).startsWith("kt")) strRslt = VbyP.getValue( "mmskt_"+SLibrary.IfNull(h, "RSLT"));
 						else strRslt = VbyP.getValue( "mms_"+SLibrary.IfNull(h, "RSLT"));
 					}
 					
@@ -449,11 +449,11 @@ public class SentLMSFactory implements SentFactoryAble {
 				rvo = deleteSentGroupList(conn, connSMS, mvo.getUser_id(), idx, sendLine, mvo);
 			} else {
 				
-				int tranResultCount = SLibrary.IfNull(sendLine).equals("ktmms") ?  deleteSentDataOfTranTableKT(connSMS, mvo.getUser_id(), idx) : deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
+				int tranResultCount = SLibrary.IfNull(sendLine).startsWith("kt") ?  deleteSentDataOfTranTableKT(connSMS, mvo.getUser_id(), idx) : deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
 				VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  전송테이블 삭제 : "+Integer.toString(tranResultCount) );			
 				//int reservationResultCount = deleteSentDataOfReservationTable(connSMS, mvo.getUser_id(), idx);
 				//VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  예약테이블 삭제 : "+Integer.toString(reservationResultCount) );	
-				int failResultCount = SLibrary.IfNull(sendLine).equals("ktmms") ?selectSentDataOfLogTableKT(connSMS, mvo.getUser_id(), idx) : selectSentDataOfLogTable(connSMS, mvo.getUser_id(), idx);
+				int failResultCount = SLibrary.IfNull(sendLine).startsWith("kt") ?selectSentDataOfLogTableKT(connSMS, mvo.getUser_id(), idx) : selectSentDataOfLogTable(connSMS, mvo.getUser_id(), idx);
 				VbyP.debugLog(mvo.getUser_id() + " >> 예약취소  로그테이블 건수(수신거부,중복등등) : "+Integer.toString(failResultCount));	
 				
 				if ( sentGroupInfo.length == 2 && SLibrary.parseInt(sentGroupInfo[1]) != (tranResultCount  + failResultCount) ) 

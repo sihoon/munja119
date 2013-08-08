@@ -1191,15 +1191,20 @@ public class Web extends SessionManagement{
 			
 			mvo = getUserInformation( conn );
 			line = mvo.getLine();
+			
+			
 			if (line.equals("sk")) mvo.setLine("skmms");
 			else if (line.equals("kt")) mvo.setLine("ktmms");
+			else if (line.equals("kt1")) mvo.setLine("kt1mms");
+			else if (line.equals("kt2")) mvo.setLine("kt2mms");
+			else if (line.equals("kt3")) mvo.setLine("kt3mms");
 			else if (line.equals("han")) mvo.setLine("ktmms");
 			else if (line.equals("hanr")) mvo.setLine("ktmms");
 			else if (line.equals("it")) mvo.setLine("ktmms");
 			else if (line.equals("pp")) mvo.setLine("ktmms");
 			else  mvo.setLine("mms");
+			connLMS = VbyP.getDB(mvo.getLine());
 			
-			connLMS = VbyP.getDB("sms1");
 								
 			if (connLMS == null)
 				throw new Exception("LMS DB연결에 실패 하였습니다.");
@@ -1250,6 +1255,16 @@ public class Web extends SessionManagement{
 				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
 				
 				clientResult = lms.insertClient(connLMS, alClientVO, "ktmms");
+				
+			}else if (line.equals("kt1") || line.equals("kt2") || line.equals("kt3")) {
+				//step3	
+				alClientVO = lms.getMMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp, cnt, minute, bMerge);
+				VbyP.accessLog(user_id+" >> LMS 전송 요청 : getLMSClientVO 생성" + "경과 시간 : "+sw.getTime());
+				
+				//timeout 방지를 위해 닫는다.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
+				
+				clientResult = lms.insertClient(connLMS, alClientVO, mvo.getLine());
 				
 			}else {
 				//step3	
@@ -1578,6 +1593,9 @@ public class Web extends SessionManagement{
 			line = mvo.getLine();
 			if (line.equals("sk")) mvo.setLine("skmms");
 			else if (line.equals("kt")) mvo.setLine("ktmms");
+			else if (line.equals("kt1")) mvo.setLine("ktmms");
+			else if (line.equals("kt2")) mvo.setLine("ktmms");
+			else if (line.equals("kt3")) mvo.setLine("ktmms");
 			else if (line.equals("han")) mvo.setLine("ktmms");
 			else if (line.equals("hanr")) mvo.setLine("ktmms");
 			else if (line.equals("it")) mvo.setLine("ktmms");
@@ -1626,7 +1644,7 @@ public class Web extends SessionManagement{
 				System.out.println("#### SK MMS : "+imagePath+"####");
 				clientResult = sms.insertMMSClientSK(connLMS, alClientVOSK, imagePath);
 				
-			}else if (line.equals("kt") || line.equals("han")) {
+			}else if (line.startsWith("kt") || line.equals("han")) {
 				//step3	
 				alClientVO = mms.getMMSClientVOMeargeAndIntervalKT(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, imagePath, requestIp, cnt, minute, bMerge);
 				VbyP.accessLog(user_id+" >> MMS 전송 요청 : KT getSMSClientVOMeargeAndInterval 생성" + "경과 시간 : "+sw.getTime());
@@ -2474,6 +2492,9 @@ public class Web extends SessionManagement{
 				if (line.equals("mms") || line.equals("ktmms")) {	
 					connSMS = VbyP.getDB("sms1");
 					sf = SentLMSFactory.getInstance();
+				}else if (line.equals("kt1mms")|| line.equals("kt2mms")|| line.equals("kt3mms")) {	
+					connSMS = VbyP.getDB(line);
+					sf = SentLMSFactory.getInstance();
 				}
 				else connSMS = VbyP.getDB(line);
 				
@@ -2569,6 +2590,9 @@ public class Web extends SessionManagement{
 				
 				if (sendLine.equals("mms")||sendLine.equals("ktmms")) {	
 					connSMS = VbyP.getDB("sms1");
+					sf = SentLMSFactory.getInstance();
+				} else if (sendLine.equals("kt1mms")||sendLine.equals("kt2mms")||sendLine.equals("kt3mms")){
+					connSMS = VbyP.getDB(sendLine);
 					sf = SentLMSFactory.getInstance();
 				}else connSMS = VbyP.getDB(sendLine);
 				
