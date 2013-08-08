@@ -31,7 +31,7 @@ public class SentFactory implements SentFactoryAble {
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 		if (SLibrary.IfNull(line).equals("sk")|| SLibrary.IfNull(line).equals("skmms")) {
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataSK") );
-		}else if (SLibrary.IfNull(line).equals("kt") || SLibrary.IfNull(line).equals("ktmms")) {
+		}else if (SLibrary.IfNull(line).startsWith("kt")) {
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataKT") );
 		}else if (SLibrary.IfNull(line).equals("han")) {
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataHN") );
@@ -101,7 +101,7 @@ public class SentFactory implements SentFactoryAble {
 		String rslt = "";
 		if (SLibrary.IfNull(line).equals("sk") || SLibrary.IfNull(line).equals("skmms"))
 			rslt = VbyP.getValue( "sk_"+code);
-		else if (SLibrary.IfNull(line).equals("kt"))
+		else if (SLibrary.IfNull(line).startsWith("kt"))
 			rslt = VbyP.getValue( "kt_"+code);
 		else if (SLibrary.IfNull(line).equals("pp"))
 			rslt = VbyP.getValue( "pp_"+code);
@@ -119,7 +119,7 @@ public class SentFactory implements SentFactoryAble {
 				rslt = "2";
 		}
 		
-		if (SLibrary.IfNull(line).equals("kt")) {
+		if (SLibrary.IfNull(line).startsWith("kt")) {
 			if (stat.equals("1")||stat.equals("2"))
 				rslt = "1";
 			else if (stat.equals("3") || stat.equals("-1"))
@@ -333,7 +333,7 @@ public class SentFactory implements SentFactoryAble {
 				int tranResultCount = 0;
 				if(SLibrary.IfNull(sendLine).equals("sk")||SLibrary.IfNull(sendLine).equals("skmms")){
 					tranResultCount = deleteSentDataOfTranTableSK(connSMS, mvo.getUser_id(), idx);
-				}else if(SLibrary.IfNull(sendLine).equals("kt")){
+				}else if(SLibrary.IfNull(sendLine).startsWith("kt")){
 					tranResultCount = deleteSentDataOfTranTableKT(connSMS, mvo.getUser_id(), idx);
 				}else if(SLibrary.IfNull(sendLine).equals("han")){
 					tranResultCount = deleteSentDataOfTranTableHN(connSMS, mvo.getUser_id(), idx);
@@ -353,7 +353,7 @@ public class SentFactory implements SentFactoryAble {
 				int failResultCount = 0;
 				if (SLibrary.IfNull(sendLine).equals("sk")||SLibrary.IfNull(sendLine).equals("skmms")){
 					failResultCount = selectSentDataOfLogTableSK(connSMS, mvo.getUser_id(), idx);
-				}else if (SLibrary.IfNull(sendLine).equals("kt")){
+				}else if (SLibrary.IfNull(sendLine).startsWith("kt")){
 					failResultCount = selectSentDataOfLogTableKT(connSMS, mvo.getUser_id(), idx);
 				}else if (SLibrary.IfNull(sendLine).equals("han")){
 					failResultCount = selectSentDataOfLogTableHN(connSMS, mvo.getUser_id(), idx);

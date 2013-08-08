@@ -93,7 +93,7 @@ public class MMS implements MMSAble {
 		String sql = "";
 		int resultCount = 0;
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-		if (via.equals("ktmms")) sql =  VbyP.getSQL("insertMMSClientKT");
+		if (via.startsWith("kt")) sql =  VbyP.getSQL("insertMMSClientKT");
 		else  sql = VbyP.getSQL("insertMMSClient") ;
 		
 		pq.setPrepared( connMMS, sql );

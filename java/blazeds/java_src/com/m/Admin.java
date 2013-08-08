@@ -482,8 +482,8 @@ public class Admin extends SessionManagement {
 					if (SLibrary.IfNull(line).equals("sk")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataSK") );
 					else if (SLibrary.IfNull(line).equals("mms")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataLMS") );
 					else if (SLibrary.IfNull(line).equals("skmms")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataSK") );
-					else if (SLibrary.IfNull(line).equals("kt")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataKT") );
-					else if (SLibrary.IfNull(line).equals("ktmms")) pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentDataKT") );
+					else if (SLibrary.IfNull(line).equals("kt")||SLibrary.IfNull(line).equals("kt1")||SLibrary.IfNull(line).equals("kt2")||SLibrary.IfNull(line).equals("kt3")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataKT") );
+					else if (SLibrary.IfNull(line).equals("ktmms")||SLibrary.IfNull(line).equals("kt1mms")||SLibrary.IfNull(line).equals("kt2mms")||SLibrary.IfNull(line).equals("kt3mms")) pq.setPrepared( connSMS, VbyP.getSQL("selectLMSSentDataKT") );
 					else if (SLibrary.IfNull(line).equals("han")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataHN") );
 					else if (SLibrary.IfNull(line).equals("hanr")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataHNR") );
 					else if (SLibrary.IfNull(line).equals("it")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataIT") );

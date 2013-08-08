@@ -68,7 +68,7 @@ public class SMS implements SMSAble {
 		if (SLibrary.IfNull(via).equals("sk")) {
 			sql = VbyP.getSQL("insertClientSK");
 			resultStateCode = "9";
-		} else if (SLibrary.IfNull(via).equals("kt")) {
+		} else if (SLibrary.IfNull(via).startsWith("kt")) {
 			sql = VbyP.getSQL("insertClientKT");
 			resultStateCode = "3";
 		}
