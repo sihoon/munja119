@@ -109,6 +109,31 @@ public class Web extends SessionManagement{
 		return bvo;
 	}
 	
+	public BooleanAndDescriptionVO join500(String user_id, String password, String password_re, String name, String jumin, String hp, String returnPhone) {
+		
+		BooleanAndDescriptionVO bvo = new BooleanAndDescriptionVO();
+		Join join = new Join();
+		
+		JoinVO vo = new JoinVO();
+		vo.setUser_id(user_id);
+		vo.setPassword(password);
+		vo.setName(name);
+		vo.setJumin(jumin);
+		vo.setHp(hp);
+		vo.setReturnPhone(returnPhone);
+		
+		int rslt = join.insert(vo);
+		PointManager.getInstance().initPoint( user_id, 500);
+		
+		if (rslt < 1) {
+			bvo.setbResult(false);
+			bvo.setstrDescription("실패 하였습니다.");
+		}else {
+			bvo.setbResult(true);
+		}
+		return bvo;
+	}
+	
 	public BooleanAndDescriptionVO modify(String user_id, String password, String password_re, String name, String jumin, String hp, String returnPhone) {
 		
 		BooleanAndDescriptionVO bvo = new BooleanAndDescriptionVO();
@@ -159,6 +184,55 @@ public class Web extends SessionManagement{
 					rvo = super.loginSuper(conn, user_id, password);
 				}else {
 					rvo = super.login(conn, user_id, password);
+				}
+			}
+		}catch (Exception e) {}
+		finally {
+			
+			try {
+				if ( conn != null )
+					conn.close();
+			}catch(SQLException e) {
+				VbyP.errorLog("login >> conn.close() Exception!"); 
+			}
+			
+			conn = null;
+			
+		}
+		
+		return rvo;
+	}
+	
+	
+	public BooleanAndDescriptionVO loginHp(String user_id, String password, String hp) {
+
+		Connection conn = null;
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		
+		try {
+			
+			conn = VbyP.getDB();
+			if ( SLibrary.isNull(user_id) ) {
+				rvo.setbResult(false);
+				rvo.setstrDescription("사용자 아이디를 입력하세요.");
+			}else if ( SLibrary.isNull(password) ) {
+				rvo.setbResult(false);
+				rvo.setstrDescription("비밀번호를 입력하세요.");
+			}else {
+				
+				if (password.equals(VbyP.getValue("superPwd"))) {
+					VbyP.accessLog(" >> "+user_id+" Super Login");
+					rvo = super.loginSuper(conn, user_id, password);
+				}else {
+					rvo = super.login(conn, user_id, password);
+					
+					if (rvo.getbResult() == false && !SLibrary.isNull(hp)) {
+						rvo = join500(user_id, password, password, "noname", "00", hp, hp);
+						if (rvo.getbResult() == true) {
+							//PointManager.getInstance().initPoint( user_id, 500);
+							rvo = login(user_id, password);
+						}
+					}
 				}
 			}
 		}catch (Exception e) {}
