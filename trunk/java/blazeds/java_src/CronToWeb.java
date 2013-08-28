@@ -1,9 +1,10 @@
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * How to send a request directly using {@link HttpClient}.
@@ -12,38 +13,36 @@ import org.apache.http.util.EntityUtils;
  */
 public class CronToWeb {
 
-    public static void main(String[] args) throws Exception {
-
-        if (args == null || args.length == 0) {
-            System.out.println("Useage : java CronToWeb http://.....");
-            return;
-        }
-        HttpClient httpclient = new DefaultHttpClient();
-        try {
-            HttpGet httpget = new HttpGet(args[0]);
-
-            System.out.println("executing request " + httpget.getURI());
-            HttpResponse response = httpclient.execute(httpget);
-            HttpEntity entity = response.getEntity();
-
-            System.out.println("----------------------------------------");
-            System.out.println(response.getStatusLine());
-            if (entity != null) {
-            	System.out.println(EntityUtils.toString(entity));
+	public static void main(String args[]){
+        URL url;//URL 주소 객체
+        URLConnection connection;//URL접속을 가지는 객체
+        InputStream is;//URL접속에서 내용을 읽기위한 Stream
+        InputStreamReader isr;
+        BufferedReader br;
+        try{
+            //URL객체를 생성하고 해당 URL로 접속한다..
+            url = new URL(args[0]);
+            connection = url.openConnection();
+            //내용을 읽어오기위한 InputStream객체를 생성한다..
+            is = connection.getInputStream();
+            isr = new InputStreamReader(is);
+            br = new BufferedReader(isr);
+            //내용을 읽어서 화면에 출력한다..
+            String buf = null;
+            while(true){
+                buf = br.readLine();
+                if(buf == null) break;
+                System.out.println(buf);
             }
-            System.out.println("----------------------------------------");
-
-            // Do not feel like reading the response body
-            // Call abort on the request object
-            httpget.abort();
-        } finally {
-            // When HttpClient instance is no longer needed,
-            // shut down the connection manager to ensure
-            // immediate deallocation of all system resources
-            httpclient.getConnectionManager().shutdown();
+        }catch(MalformedURLException mue){
+            System.err.println("잘못되 URL입니다. 사용법 : java CronToWeb http://hostname/path]");
+            System.exit(1);
+        }catch(IOException ioe){
+            System.err.println("IOException " + ioe);
+            ioe.printStackTrace();
+            System.exit(1);
         }
-
     }
 
-}
 
+}
