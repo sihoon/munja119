@@ -226,13 +226,13 @@ public class Web extends SessionManagement{
 				}else {
 					rvo = super.login(conn, user_id, password);
 					
-					if (rvo.getbResult() == false && !SLibrary.isNull(hp)) {
-						rvo = join500(user_id, password, password, "noname", "00", hp, hp);
-						if (rvo.getbResult() == true) {
-							//PointManager.getInstance().initPoint( user_id, 500);
-							rvo = login(user_id, password);
-						}
-					}
+//					if (rvo.getbResult() == false && !SLibrary.isNull(hp)) {
+//						rvo = join500(user_id, password, password, "noname", "00", hp, hp);
+//						if (rvo.getbResult() == true) {
+//							//PointManager.getInstance().initPoint( user_id, 500);
+//							rvo = login(user_id, password);
+//						}
+//					}
 				}
 			}
 		}catch (Exception e) {}
