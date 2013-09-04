@@ -38,14 +38,14 @@
 				login.visible = false;
 				loginInfo.visible = true;
 				
-				userName = vo.user_id;
+				userName = vo.user_name;
 				point = SLibrary.addComma( vo.point );
-
+				
 			}
 			
 			public function loginNO():void {
 				
-				this.setCurrentState( "login" );
+				this.setCurrentState( "login" ); 
 			}
 			
 			public function creationCompleteHandler():void
@@ -90,7 +90,7 @@
 				}else {
 					
 					ro.set(RO_DESTINATION, login_ResultEventHandler);
-					ro.method.loginHp(login_id.text, login_pw.text, login_hp.text);
+					ro.method.login(login_id.text, login_pw.text);
 				}
 			}
 			private function login_ResultEventHandler(event:ResultEvent):void {
@@ -99,7 +99,7 @@
 				if (bVO.bResult) {
 					creationCompleteHandler();
 				} else {
-					SLibrary.alert("로그인 실패.(휴대폰 번호를 입력해 주세요.)");
+					SLibrary.alert("로그인 실패.");
 				}
 			}
 			
@@ -183,7 +183,7 @@
 			</s:stroke>
 		</s:Rect>
 		<s:VGroup id="login" includeIn="login" left="19" right="19" top="18" bottom="14" horizontalAlign="center" >
-			<s:VGroup gap="1">
+			<s:VGroup gap="8">
 				<s:HGroup>
 					<s:Image source="images/main_24.png" />
 					<s:TextInput id="login_id" width="120" prompt="id"/>
@@ -191,10 +191,6 @@
 				<s:HGroup>
 					<s:Image source="images/main_27.png" />
 					<s:TextInput id="login_pw" width="120" prompt="password" displayAsPassword="true" enter="login_button_clickHandler(null)"/>
-				</s:HGroup>
-				<s:HGroup width="100%">
-					<s:Image source="images/img_hp.jpg" />
-					<s:TextInput id="login_hp" width="120" prompt="휴대폰번호" displayAsPassword="true" enter="login_button_clickHandler(null)"/>
 				</s:HGroup>
 				<s:Image id="login_button" source="images/main_29.png" click="login_button_clickHandler(event)" buttonMode="true" useHandCursor="true"/>
 			</s:VGroup>
