@@ -52,6 +52,12 @@
 				if (this.phone.selectedIndex < 0) {
 					SLibrary.alert("전화번호 열을 선택 하세요");
 				}
+				else if (this.where.selectedIndex < 0) {
+					SLibrary.alert("어디에 를 선택 하세요. ");
+				}
+				else if (this.where.selectedIndex == 1 && this.comboBoxGroup.selectedIndex < 0) {
+					SLibrary.alert("주소록 그룹을 선택 하세요. 그룹이 없으면 주소록에서 생성하시기 바랍니다. ");
+				}
 				else {
 					spinnerStart();
 					
