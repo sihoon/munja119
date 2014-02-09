@@ -133,8 +133,8 @@ finally {
 		<tr onmouseover="this.style.backgroundColor='#fff0f0'" onmouseout="this.style.backgroundColor='#ffffff'">
 			<td><input type="radio" name="amount" value="3300000" /></td>
 			<td>3,000,000원</td>
-			<td>300,000건/포인트</td>
-			<td>10원/건</td>
+			<td>303,030건/포인트</td>
+			<td>9.9원/건</td>
 		</tr>
 		<!--
 		<tr onmouseover="this.style.backgroundColor='#fff0f0'" onmouseout="this.style.backgroundColor='#ffffff'">
