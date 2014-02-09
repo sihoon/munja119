@@ -40,6 +40,13 @@
 		if (!passwd1.equals(passwd2)) throw new Exception("비밀번호 확인이 다릅니다.");
 		if ( SLibrary.isNull(email) ) throw new Exception("이메일 주소가 없습니다.");
 		
+
+		String sessionCert = (String)session.getAttribute(hp+"_cert");
+		if (SLibrary.isNull(sessionCert) || !sessionCert.equals("ok")) {
+			throw new Exception("휴대폰 인증이 되어 있지 않습니다.");
+		}
+
+		
 		
 		JoinVO vo = new JoinVO();
 		vo.setUser_id(user_id);

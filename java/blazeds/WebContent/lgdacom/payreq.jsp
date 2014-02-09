@@ -1,3 +1,4 @@
+<%@page import="com.common.util.SLibrary"%>
 <%@ page  language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR" %>
 <%@ page import="java.io.*" %>
@@ -5,8 +6,9 @@
 <%@ page import="java.util.*" %>
 <%@ page import="java.net.*" %>
 <%@ page import="java.security.MessageDigest" %>
-<%@ page import="lgdacom.XPayClient.XPayClient"%>
-<%@ page import="com.common.VbyP,com.m.member.SessionManagement,com.m.member.UserInformationVO,com.common.util.SLibrary,com.common.UseFunction"%>
+<%@ page import="lgdacom.XPayClient.*"%>
+<%@ page import="com.common.*"%>
+<%@ page import="com.m.member.*"%>
 
 <%
 	String user_id = "";

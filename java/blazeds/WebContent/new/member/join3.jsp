@@ -48,7 +48,8 @@ try {
 		<tr><td class="t">비밀번호확인</td><td class="c"><input type="password" name="passwd2" id="passwd2" class="txt" value=""/> <span id="passwd2_check">비밀번호를 다시 한번 입력해 주세요.</span></td></tr>
 		<tr><td class="t">이름</td><td class="c"><input type="text" name="name" class="txt" value=""/> <span></span></td></tr>
 		<tr><td class="t">이메일</td><td class="c"><input type="text" name="email" class="txt" value=""/> <span>*필수 : 메일수신이 가능한 이메일주소</span></td></tr>
-		<tr><td class="t">핸드폰</td><td class="c"><input type="text" name="hp" class="txt" value=""/></td></tr>
+		<tr><td class="t">핸드폰</td><td class="c"><input type="text" name="hp" class="txt" value=""/><button onclick="sendCert()">인증번호요청</button></td></tr>
+		<tr id="certNum" style="display:none;"><td class="t">인증번호</td><td class="c"><input type="text" name="hpCert" class="txt" value=""/><button onclick="checkCert()">인증번호확인</button></td></tr>
 		<tr><td class="t">메일수신여부</td>
 			<td class="c"><input type="radio" name="emailok" id="emailok" /><label for="emailok">예</label>
 		<input type="radio" name="emailok" id="emailno" checked /><label for="emailno">아니오</label> &nbsp;&nbsp;<span>이벤트, 제품 정보, 주문정보 등에 대한 메일링 서비스</span></td></tr>

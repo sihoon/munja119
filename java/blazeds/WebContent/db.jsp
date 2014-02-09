@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR" import="java.sql.* , com.common.*, com.common.properties.*"%>
+    pageEncoding="EUC-KR" import="java.sql.* , com.common.*, com.common.properties.*, com.m.member.*"%>
 	<%@page import="java.text.DecimalFormat"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -9,7 +9,7 @@
 </head>
 <body>
 <%
-
+out.println( request.getContextPath() );
 /*
 	ReadPropertiesAble rp = ReadProperties.getInstance();
 	
@@ -19,6 +19,7 @@
 */
 //	out.println(VbyP.getValue("adminPhones"));
 
+UserInformationVO uvo = null;
 	Connection conn = null;
 	conn = VbyP.getDB();
 	if (conn != null) {

@@ -17,7 +17,7 @@
      * LG텔레콤으로 부터 내려받은 LGD_PAYKEY(인증Key)를 가지고 최종 결제요청.(파라미터 전달시 POST를 사용하세요)
      */
 
-    String configPath = "/home/sms/webapps/WebContent/lgdacom";  //LG텔레콤에서 제공한 환경파일("/conf/lgdacom.conf,/conf/mall.conf") 위치 지정.
+    String configPath = "/home/sms/webapps/ROOT/lgdacom";  //LG텔레콤에서 제공한 환경파일("/conf/lgdacom.conf,/conf/mall.conf") 위치 지정.
     
     /*
      *************************************************
@@ -137,6 +137,7 @@
 				bvo.setTimestamp(SLibrary.getDateTimeString("yyyyMMddHHmmss"));
 				
 				badvo = Billing.getInstance().setBilling(conn, bvo);
+
 				
          	}catch(Exception e) {
          		out.println(SLibrary.alertScript(e.getMessage(), ""));
@@ -147,7 +148,7 @@
         			}catch(SQLException e) { VbyP.errorLog("payres >> conn.close() Exception!"); }
          		}
          	}
-			
+
 			if (isDBOK) {
 				out.println(SLibrary.alertScript("결제가 완료 되었습니다.","parent.window.location.reload();"));
 			}

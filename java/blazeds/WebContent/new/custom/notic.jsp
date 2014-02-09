@@ -21,7 +21,7 @@ int viexIdx = 0;
 
 //페이징
 String url = "";
-int dateRowOfPage = 5;
+int dateRowOfPage = 25;
 int tcnt = 0; // 전체개수
 int nowPage = (SLibrary.isNull(request.getParameter("pg")))? 1: SLibrary.intValue(SLibrary.IfNull(request.getParameter("pg")));
 int startPage = ((nowPage -1) * dateRowOfPage)+1;//시작 index
@@ -139,7 +139,6 @@ try {
 		ppg.lastLink = "마지막 >>";
 		
 		ppg.delimiter = "|";
-
 		out.println( ppg.print() );
 		%></td></tr>
 	</table>

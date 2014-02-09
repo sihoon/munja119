@@ -28,9 +28,9 @@
 		smethod = VbyP.getPOST(request.getParameter("smethod"));
 		amount = VbyP.getPOST(request.getParameter("amount"));
 		if ( SLibrary.isNull(amount)) throw new Exception("금액이 없습니다.");
-		cash = VbyP.getPOST(request.getParameter("cash"));
+		cash = request.getParameter("cash");
 		if ( SLibrary.isNull(cash)) throw new Exception("계좌선택이 없습니다.");
-		cashName = VbyP.getPOST(request.getParameter("cashName"));
+		cashName = request.getParameter("cashName");
 		if ( SLibrary.isNull(cash)) throw new Exception("입금자명이 없습니다.");
 		
 		conn = VbyP.getDB();

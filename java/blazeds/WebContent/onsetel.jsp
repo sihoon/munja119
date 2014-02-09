@@ -10,27 +10,29 @@
 	Connection conn = null;
 	
 	try {
-		VbyP.accessLog("ìˆ˜ì‹ ê±°ë¶€ìš”ì²­ : "+T_ID+","+T_TIME+","+MENU_NAME+","+ANI+","+Integer.toString( DTMF_CNT )+","+DTMF_1);
 		
-		T_ID = SLibrary.IfNull(request.getParameter(""));
-		T_TIME = SLibrary.IfNull(request.getParameter(""));
-		MENU_NAME = SLibrary.IfNull(request.getParameter(""));
-		ANI = SLibrary.IfNull(request.getParameter(""));
-		DTMF_CNT = SLibrary.intValue( SLibrary.IfNull(request.getParameter("")) );
-		DTMF_1 = SLibrary.IfNull(request.getParameter(""));
+		
+		T_ID = SLibrary.IfNull(request.getParameter("T_ID"));
+		T_TIME = SLibrary.IfNull(request.getParameter("T_TIME"));
+		MENU_NAME = SLibrary.IfNull(request.getParameter("MENU_NAME"));
+		ANI = SLibrary.IfNull(request.getParameter("ANI"));
+		DTMF_CNT = SLibrary.intValue( SLibrary.IfNull(request.getParameter("DTMF_CNT")) );
+		DTMF_1 = SLibrary.IfNull(request.getParameter("DTMF_1"));
+
+		VbyP.accessLog("¼ö½Å°ÅºÎ¿äÃ» : "+T_ID+","+T_TIME+","+MENU_NAME+","+ANI+","+Integer.toString( DTMF_CNT )+","+DTMF_1);
 		
 		if (SLibrary.isNull(T_ID) || SLibrary.isNull(MENU_NAME) || SLibrary.isNull(DTMF_1) )
-			throw new Exception("í•„ìˆ˜ ì „ë¬¸ì´ ì—†ìŠµë‹ˆë‹¤.");
+			throw new Exception("ÇÊ¼ö Àü¹®ÀÌ ¾ø½À´Ï´Ù.");
 		
 		conn = VbyP.getDB();
 		
-		if (conn == null) throw new Exception("DB ì—°ê²°ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
+		if (conn == null) throw new Exception("DB ¿¬°á¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 		pq.setPrepared(conn, "insert into refuse(phone, reg_date) values(?, now())");
 		pq.setString(1, DTMF_1);
 		
-		if ( pq.executeUpdate() <= 0) throw new Exception("DB ì €ì¥ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
+		if ( pq.executeUpdate() <= 0) throw new Exception("DB ÀúÀå¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
 		
 %><form name='outfrm' method='post'>
 <input type='hidden' name='T_ID' value='<%=T_ID%>'>
@@ -41,24 +43,24 @@
 <input type='hidden' name='NEXT_MENU' value=''>
 <input type='hidden' name='MENT_FLAG' value='0'>
 <input type='hidden' name='MENT_CNT' value='1'>
-<input type='hidden' name='MENT_1' value='F_ë“±ë¡ì„±ê³µ'>
+<input type='hidden' name='MENT_1' value='F_µî·Ï¼º°ø'>
 </form><%
 	
 	
 	}catch(Exception e) {
 		VbyP.errorLog(e.getMessage());
 %><form name='outfrm' method='post'>
-<input type='hidden' name='T_ID' value='0401112000'>
-<input type='hidden' name='T_TIME' value='20110128105413'>
+<input type='hidden' name='T_ID' value='<%=T_ID%>'>
+<input type='hidden' name='T_TIME' value='<%=SLibrary.getDateTimeString("yyyyMMddHHmmss")%>'>
 <input type='hidden' name='RESULT' value='0'>
-<input type='hidden' name='MENU_NAME' value='0808881130'>
+<input type='hidden' name='MENU_NAME' value='<%=MENU_NAME%>'>
 <input type='hidden' name='ACTION_TYPE' value='3'>
 <input type='hidden' name='NEXT_MENU' value=''>
 <input type='hidden' name='MENT_FLAG' value='0'>
 <input type='hidden' name='MENT_CNT' value='1'>
-<input type='hidden' name='MENT_1' value='F_ë“±ë¡ì‹¤íŒ¨'>
+<input type='hidden' name='MENT_1' value='F_µî·Ï½ÇÆĞ'>
 </form><%
-		
+
 	}finally {
 		if ( conn != null ){
 			try{conn.close();}catch(Exception e){}

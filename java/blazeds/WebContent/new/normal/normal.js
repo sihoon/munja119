@@ -14,7 +14,7 @@ attributes.name = "Normal";
 attributes.align = "middle";
 swfobject.embedSWF(
     "normal/Normal.swf", "flashContent", 
-    "950", "1100", 
+    "950", "1160", 
     swfVersionStr, xiSwfUrlStr, 
     flashvars, params, attributes);
 // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.

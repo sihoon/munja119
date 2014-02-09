@@ -310,6 +310,8 @@ var swfobject = function() {
 		- Reference: http://www.adobe.com/cfusion/knowledgebase/index.cfm?id=6a253b75
 	*/
 	function showExpressInstall(att, par, replaceElemIdStr, callbackFn) {
+		window.location.href="http://www.munja119.com/new/flash.html";
+/*
 		isExpressInstallActive = true;
 		storedCallbackFn = callbackFn || null;
 		storedCallbackObj = {success:false, id:replaceElemIdStr};
@@ -354,6 +356,7 @@ var swfobject = function() {
 			}
 			createSWF(att, par, replaceElemIdStr);
 		}
+		*/
 	}
 	
 	/* Functions to abstract and display alternative content
@@ -685,11 +688,15 @@ var swfobject = function() {
 						callbackObj.ref = obj;
 					}
 					else if (xiSwfUrlStr && canExpressInstall()) { // show Adobe Express Install
+						document.getElementById("installImage").style.display = "block";
+						//window.location.href="http://www.munja119.com/new/flash.html";
 						att.data = xiSwfUrlStr;
 						showExpressInstall(att, par, replaceElemIdStr, callbackFn);
 						return;
 					}
 					else { // show alternative content
+						document.getElementById("installImage").style.display = "block";
+						//window.location.href="http://www.munja119.com/new/flash.html";
 						setVisibility(replaceElemIdStr, true);
 					}
 					if (callbackFn) { callbackFn(callbackObj); }
