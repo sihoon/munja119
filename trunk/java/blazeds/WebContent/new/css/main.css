@@ -136,7 +136,7 @@ div.context {width:950px; height:auto; margin:0px auto;position: relative;}
 #main #noti .more{display:block;float:right;text-indent:-9999px;height:27px;width:55px;margin-bottom:10px;}
 #main #noti .content{width:340px;height:22px;overflow:hidden;}
 #main #noti .content .title{float:left;display:block;width:275px;height:22px;background:url("../images/notice_icon.gif") 0px 5px no-repeat;text-indent:15px;}
-#main .bank {margin-top:14px;margin-right:10px;float:left;display:block;width:239px;height:154px; background:url("../images/bank.gif") no-repeat;text-indent:-9999px;}
+#main .bank {margin-top:14px;margin-right:10px;float:left;display:block;width:239px;height:154px; background:url("../images/bank_2.jpg") no-repeat;text-indent:-9999px;}
 #main .product {margin-top:14px;margin-right:10px;float:left;display:block;width:162px;height:154px; background:url("../images/proinfo.gif") no-repeat;text-indent:-9999px;}
 
 #main #etc{float:left;margin-top:14px;width:170px;height:auto; overflow-y:auto;}
@@ -156,7 +156,7 @@ div.context {width:950px; height:auto; margin:0px auto;position: relative;}
 #copyright .homeLink {float:left;display:block;text-indent:-9999px;width:58px;height:37px;background:url("../images/btn_home.gif") no-repeat;}
 #copyright .topLink {float:left;display:block;text-indent:-9999px;width:59px;height:37px;background:url("../images/btn_top.gif") no-repeat;}
 
-#copyright .copyRight{clear:both;width:950px;height:59px;background:url("../images/copyright.gif") no-repeat;}
+#copyright .copyRight{clear:both;width:950px;height:59px;background:url("../images/lg u+.jpg") no-repeat;}
 #copyright .family {display:block;float:right;}
 
 #joinBox {float:right;margin-top:10px; width:721px; height:auto;}

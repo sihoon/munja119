@@ -9,10 +9,11 @@
   //String path = getServletContext().getRealPath("/");
   
   String path = getServletContext().getRealPath("/");  // 스트링을 euc-kr 인코딩방식의 bytes로 불러와서 ISO-8895-1 인코딩으로 바꿈!
+  System.out.println(path);
   // ISO-8895-1 인코딩은 대부분의 브라우저에 설정된 기본 문자셋 이라고 함
   // 그니깐 euc-kr로 가져온 바이트를 브라우저 설정 문자셋으로 바꾼것 
   String fileName = "excel/munja119.xls";//new String(request.getParameter("filename").getBytes("euc-kr"), "ISO-8859-1");
-  
+    System.out.println(path+fileName);
   File file = new File(path+fileName);
   
   // page의 contentType 등등을 동적으로 바꾸기 위해서는 response를 다 날려버린다.

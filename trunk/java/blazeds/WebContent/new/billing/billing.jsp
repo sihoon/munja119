@@ -44,7 +44,7 @@ finally {
 <% } else { %>
 <fieldset id="loginInfo">
     <legend>로그인정보</legend>
-    <p><span class="name"><%=vo.getUser_name() %></span> 님 안녕하세요.</p>
+    <p><span class="name"><%=vo.getUser_id() %></span> 님 안녕하세요.</p>
    	<div><img src="images/usenum.gif" />&nbsp;<span class="cnt"><%=SLibrary.addComma( vo.getPoint() ) %></span><img src="images/cnt.gif" /></div>
    	<img src="images/btn_cashbuy.gif" class="hand" alt="충전하기" onclick="window.location.href='?content=billing'" />
     <div class="function"><img src="images/edit.gif" class="hand" alt="정보수정"/>&nbsp;<img src="images/logout.gif" onclick="window.location.href='member/_logout.jsp'" class="hand" alt="로그아웃" /></div>
@@ -71,21 +71,23 @@ finally {
 <div id="billingBox" >
 	<h2 class="txtMethod ti">결제 수단</h2>
 	<p class="selMethod">
-		<input type="radio" id="card" name="method" value="card" onclick="billingMethod()" checked /><label for="card">신용카드</label>&nbsp;&nbsp;
+		<input type="radio" id="card" name="method" value="card" onclick="billingMethod()" /><label for="card">신용카드</label>&nbsp;&nbsp;
 		<input type="radio" id="online" name="method" value="online" onclick="billingMethod()" /><label for="online">계좌이체</label>&nbsp;&nbsp;
 <!-- 		<input type="radio" id="mobile" name="method" value="mobile" onclick="billingMethod()" /><label for="mobile">휴대폰</label>&nbsp;&nbsp; -->
-		<input type="radio" id="cash" name="method" value="cash" onclick="billingMethod()" /><label for="cash">무통장입금</label>
+		<input type="radio" id="cash" name="method" value="cash" onclick="billingMethod()" checked /><label for="cash">무통장입금</label>
 	</p>
 	<h2 class="txtAmount"></h2>
-	<p style="float:right;width:100px;height:33px;background:url('images/vat.gif') no-repeat;">(vat 별도)</p>
+	<p style="float:right;width:100px;height:33px;background:url('images/vat.gif') no-repeat;margin-right:20px"></p>
 	<table width="721" border="0" cellpadding="0" cellspacing="0">
 		<tr><td colspan="4" class="title">&nbsp;</td></tr>
+		<!--
 		<tr onmouseover="this.style.backgroundColor='#fff0f0'" onmouseout="this.style.backgroundColor='#ffffff'">
 			<td width="70"><input type="radio" name="amount" value="5500" /></td>
 			<td width="210">5,000원</td>
 			<td width="220">417건/포인트</td>
 			<td>12원/건</td>
 		</tr>
+		-->
 		<tr onmouseover="this.style.backgroundColor='#fff0f0'" onmouseout="this.style.backgroundColor='#ffffff'">
 			<td><input type="radio" name="amount" value="11000" /></td>
 			<td>10,000원</td>
@@ -107,33 +109,34 @@ finally {
 		<tr onmouseover="this.style.backgroundColor='#fff0f0'" onmouseout="this.style.backgroundColor='#ffffff'">
 			<td><input type="radio" name="amount" value="110000" /></td>
 			<td>100,000원</td>
-			<td>8,333건/포인트</td>
-			<td>12원/건</td>
+			<td>8,475건/포인트</td>
+			<td>11.8원/건</td>
 		</tr>
 		<tr onmouseover="this.style.backgroundColor='#fff0f0'" onmouseout="this.style.backgroundColor='#ffffff'">
 			<td><input type="radio" name="amount" value="330000" /></td>
 			<td>300,000원</td>
-			<td>25,000건/포인트</td>
-			<td>12원/건</td>
+			<td>26,087건/포인트</td>
+			<td>11.5원/건</td>
 		</tr>
 		<tr onmouseover="this.style.backgroundColor='#fff0f0'" onmouseout="this.style.backgroundColor='#ffffff'">
 			<td><input type="radio" name="amount" value="550000" /></td>
 			<td>500,000원</td>
-			<td>43,103건/포인트</td>
-			<td>11.6원/건</td>
+			<td>45,455건/포인트</td>
+			<td>11원/건</td>
 		</tr>
 		<tr onmouseover="this.style.backgroundColor='#fff0f0'" onmouseout="this.style.backgroundColor='#ffffff'">
 			<td><input type="radio" name="amount" value="1100000" /></td>
 			<td>1,000,000원</td>
-			<td>90,909건/포인트</td>
-			<td>11원/건</td>
+			<td>95,238건/포인트</td>
+			<td>10.5원/건</td>
 		</tr>
 		<tr onmouseover="this.style.backgroundColor='#fff0f0'" onmouseout="this.style.backgroundColor='#ffffff'">
 			<td><input type="radio" name="amount" value="3300000" /></td>
 			<td>3,000,000원</td>
-			<td>280,374건/포인트</td>
-			<td>10.7원/건</td>
+			<td>300,000건/포인트</td>
+			<td>10원/건</td>
 		</tr>
+		<!--
 		<tr onmouseover="this.style.backgroundColor='#fff0f0'" onmouseout="this.style.backgroundColor='#ffffff'">
 			<td><input type="radio" name="amount" value="5500000" /></td>
 			<td>5,000,000원</td>
@@ -146,13 +149,14 @@ finally {
 			<td>1,000,000건/포인트</td>
 			<td>10원/건</td>
 		</tr>
-		<tr id="cashBox" style="display:none;">
+		-->
+		<tr id="cashBox" style="display:block;">
 			<td colspan="4" style="border:none;height:150px;text-align:left;">
 				
 				<p class="txtCash ti">계좌선택</p>
 				<ul class="cashList">
 					<li><input type="radio" name="cash" id="cash1" value="국민 - 최유진 517101-01-253003"  checked="checked" /><label for="cash1">국민 - 최유진 517101-01-253003</label></li>
-					<li><input type="radio" name="cash" id="cash2" value="농협 - 최유진 302-0270-9608-11" /><label for="cash2">농협 - 최유진 302-0270-9608-11</label></li>
+					<!--<li><input type="radio" name="cash" id="cash2" value="농협 - 최유진 356-0729-4934-93" /><label for="cash2">농협 - 최유진 356-0729-4934-93</label></li>-->
 					<li><input type="radio" name="cash" id="cash3" value="신한 - 최유진 110-304-851796" /><label for="cash3">신한 - 최유진 110-304-851796</label></li>
 					<li><input type="radio" name="cash" id="cash4" value="우리 - 최유진 191-420251-02-001" /><label for="cash4">우리 - 최유진 191-420251-02-001</label></li>
 				</ul>
@@ -161,7 +165,7 @@ finally {
 				</div>
 			</td>
 		</tr>
-		<tr id="etcBox"><td colspan="4" style="border:none;height:80px;"><img src="images/btn_payment.gif" style="cursor:pointer" onclick="billingCheck()" /></td></tr>
+		<tr id="etcBox" style="display:none;"><td colspan="4" style="border:none;height:80px;"><img src="images/btn_payment.gif" style="cursor:pointer" onclick="billingCheck()" /></td></tr>
 	</table>
 </div>
 </form>

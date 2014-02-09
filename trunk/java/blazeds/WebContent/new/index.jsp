@@ -1,7 +1,12 @@
 <%@page import="com.common.util.SLibrary"%>
+<%@page import="com.common.log.Log"%>
+<%@page import="java.net.URLDecoder"%>
+<%@page import="java.net.URL"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%
 	String strContent = SLibrary.IfNull(request.getParameter("content"));
 	String session_id = SLibrary.IfNull((String)session.getAttribute("user_id"));
+
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -21,6 +26,7 @@
 
 <body>
 <iframe src="" id="nobody" name="nobody" frameborder="0" width="0" height="0" style="display:none"></iframe>
+test
 <div id="wrapper">
 <div class="context">
 	
@@ -55,7 +61,7 @@
 	        <a href="" class="homeLink">HOME</a>
 	        <a href="" class="topLink">Top</a>
 	    </div>
-	    <div class="copyRight">copy right</div>
+	    <div class="copyRight"><div style="height:59px;width:300px;float:right;background-color:#FFF"><img src="images/telcom.jpg" style="display:block;float:right;"/></div></div>
 	
 	    <select class="family">
 			<option>::::패밀리싸이트::::</option>
@@ -67,6 +73,9 @@
 </div>
 <div id="sideBanner">
 <!--<img src="images/spam_button.jpg" style="display:block;margin-top:106px;cursor:pointer" onclick="window.location.href='spam.html'"/>-->
+<img src="custom/sun.jpg" style="display:block;margin-top:106px;cursor:pointer" onclick="window.location.href='custom/sun01.html'"/>
+<a href='download.jsp?filename=uninstall_flash_player.exe' style="width:100%;text-align:center;">◆ 플래쉬 제거 ◆</a></br>
+<a href='download.jsp?filename=install_flashplayer11x32ax_gtbd_chrd_dn_aih.exe' style="width:100%;text-align:center;">◆ 플래쉬 설치 ◆</a>
 </div>
 </div>
 

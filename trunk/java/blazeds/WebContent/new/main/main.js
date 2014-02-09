@@ -8,10 +8,12 @@ params.quality = "high";
 params.bgcolor = "#ffffff";
 params.allowscriptaccess = "sameDomain";
 params.allowfullscreen = "true";
+params.wmode = "opaque";
 var attributes = {};
 attributes.id = "Mainflex";
 attributes.name = "Mainflex";
 attributes.align = "middle";
+
 swfobject.embedSWF(
     "main/Main.swf", "flashContent", 
     "950", "540", 

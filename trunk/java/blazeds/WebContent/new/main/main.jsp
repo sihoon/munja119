@@ -20,23 +20,24 @@
 	String[] arrCatelms = null;
 	ArrayList<HashMap<String, String>> arrMms = null;
 	String[] arrMmsCate = null;
-	String gubun = SLibrary.IfNull( VbyP.getGET(request.getParameter("gubun")) );
-	String cate = SLibrary.IfNull( VbyP.getGET(request.getParameter("cate")) );
+	String gubun = SLibrary.IfNull(request.getParameter("gubun") );
+	String cate = SLibrary.IfNull( request.getParameter("cate") );
+
 	String url = "gubun="+gubun+"&cate="+cate;
 	
-	String gubunlms = SLibrary.IfNull( VbyP.getGET(request.getParameter("gubunlms")) );
-	String catelms = SLibrary.IfNull( VbyP.getGET(request.getParameter("catelms")) );
+	String gubunlms = SLibrary.IfNull( request.getParameter("gubunlms") );
+	String catelms = SLibrary.IfNull( request.getParameter("catelms") );
 	String urllms = "gubunlms="+gubunlms+"&catelms="+catelms;
 	
-	String mmscate = SLibrary.IfNull( VbyP.getGET(request.getParameter("mmscate")) );
+	String mmscate = SLibrary.IfNull( request.getParameter("mmscate") );
 	String urlmms = "mmscate="+mmscate;
 	ArrayList<HashMap<String, String>> notihm = null;
 	
 	try {
 		conn = VbyP.getDB();
 		
-		if ( SLibrary.isNull(gubun) ) gubun = "업종별문자";
-		if ( SLibrary.isNull(gubunlms) ) gubunlms = "업종별문자";
+		if ( SLibrary.isNull(gubun) ) gubun = "테마문자";
+		if ( SLibrary.isNull(gubunlms) ) gubunlms = "테마문자";
 		home = Home.getInstance();
 	
 		arrEmt = home.getMainEmt(conn, gubun, "%"+cate+"%", 0, 15);
@@ -102,15 +103,16 @@
 		<p class="mainsmstitle ti">단문문자</p>
         <fieldset id="emoticon">
             <ul class="title">
+				<li class="<%=(gubun.equals("테마문자"))?"themaover":"thema" %>" onclick="window.location.href='?gubun=테마문자<%="&"+urllms+"&"+urlmms%>'">테마별문자</li>
                 <li class="<%=(gubun.equals("업종별문자"))?"businessover":"business" %>" onclick="window.location.href='?gubun=업종별문자<%="&"+urllms+"&"+urlmms%>'">업종별문자</li>
-                <li class="<%=(gubun.equals("테마문자"))?"themaover":"thema" %>" onclick="window.location.href='?gubun=테마문자<%="&"+urllms+"&"+urlmms%>'">테마별문자</li>
+                
                 <li class="more" onclick="window.location.href='?content=normal'">더보기</li>
             </ul>
             <div class="middle">
                 <div class="subTitle"><%
                 String[] arr = null;
         		String label = "";
-        		String style = "";
+        		String style = " style='font-size:12px;' ";
         		
             	if (arrCate != null) {
             		int catCnt = arrCate.length;
@@ -148,12 +150,12 @@
         <p class="mainlmstitle ti">장문문자</p>
         <fieldset id="emoticon">
             <ul class="title">
-                <li class="<%=(gubunlms.equals("업종별문자"))?"businessover":"business" %>" onclick="window.location.href='?gubunlms=업종별문자<%="&"+url+"&"+urlmms%>'">업종별문자</li>
                 <li class="<%=(gubunlms.equals("테마문자"))?"themaover":"thema" %>" onclick="window.location.href='?gubunlms=테마문자<%="&"+url+"&"+urlmms%>'">테마별문자</li>
+				<li class="<%=(gubunlms.equals("업종별문자"))?"businessover":"business" %>" onclick="window.location.href='?gubunlms=업종별문자<%="&"+url+"&"+urlmms%>'">업종별문자</li>
                 <li class="more" onclick="window.location.href='?content=lms'">더보기</li>
             </ul>
             <div class="middle">
-                <div class="subTitle"><%
+               <div class="subTitle"><%
                 
             	if (arrCatelms != null) {
             		int catCnt = arrCatelms.length;
@@ -212,7 +214,7 @@
             			if (hm != null && !SLibrary.isNull( SLibrary.IfNull(hm, "msg") )) {
             		%><div style="float:left;width:180px;text-align:center;">
 							<img onclick="setPhoto('<%= SLibrary.IfNull(hm, "msg") %>')" src="<%= SLibrary.IfNull(hm, "msg") %>" class="potoimg" style="display:block;width:176px;height:144px;cursor:pointer" <%= m == (arrMms.size() -1) ? "style='margin-right:0px;'" : "" %> />
-            				<p style="width:180px;overflow:hidden;height:20px" ><%= SLibrary.IfNull(hm, "title") %></p>
+            				<p style="width:180px;overflow:hidden;height:20px;font-size:12px;" ><%= SLibrary.IfNull(hm, "title") %></p>
 						</div><%
             			}
             		}
@@ -232,7 +234,7 @@
             		for (int i = 0; i < size; i++) {
             			hm = notihm.get(i);
             			%>
-            			<div class="content"><a href="?content=notic&idx=<%=SLibrary.IfNull(hm, "idx") %>" class="title"><%=SLibrary.IfNull(hm, "title") %></a><span class="notiDate"></span></div>
+            			<div class="content"><a href="?content=notic&idx=<%=SLibrary.IfNull(hm, "idx") %>" class="title" <%=style%>><%=SLibrary.IfNull(hm, "title") %></a><span class="notiDate"></span></div>
             			<%
             		}
             	}
@@ -248,6 +250,12 @@
             <a href="?content=qna" class="mantoman">일대일문의</a>
         </div>
     </div><!--main End-->
+	<!--<div id="pop" style="width:500px;height:660px;display:block;position:absolute;top:10px;left:0px;margin:0 auto;overflow:hidden;border:1px solid #666;">
+		<div style="width:500px;height:20px;background-color:#666;padding:5px 0px;text-align:left;cursor:point;color:#FFF" onclick="document.getElementById('pop').style.display='none'">&nbsp;&nbsp;공지사항</div>
+		<img src="/new/images/pop.jpg" style="display:block;" width="500" height="598" />
+		<div style="width:500px;height:20px;background-color:#666;padding:5px 0px;text-align:right;cursor:point;color:#FFF" onclick="document.getElementById('pop').style.display='none'">닫기&nbsp;&nbsp;</div>
+	</div>-->
+	<!---->
     <script type="text/javascript" >
 function setMsg(msg) {
 	

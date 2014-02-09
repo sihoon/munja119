@@ -248,3 +248,40 @@ $("#passwd2").keyup(function() {
 		$("#passwd2_check").text("확인 되었습니다.");
 	}
 });
+
+
+function sendCert() {
+
+	var f = document.form;
+
+	if (!f.hp.value) {	alert("핸드폰 번호를 입력해주세요"); f.hp.focus(); return false; }
+
+	$.getJSON( "/new/member/_cert.jsp", {"mode":"send", "value":f.hp.value}, function(data) {
+					if (data != null && data.code && data.code == "0000") { 
+						
+						$("#certNum").show();
+						alert("["+f.hp.value+"] 번호로 인증번호가 발송 되었습니다.");
+						
+					}
+					else { alert( "인증번호 발송 실패\r\n\r\n"+data.msg ); }
+					}
+	);	
+}
+
+function checkCert() {
+
+	var f = document.form;
+
+	if (!f.hpCert.value) {	alert("인증번호를 입력해주세요"); f.hpCert.focus(); return false; }
+
+	$.getJSON( "/new/member/_cert.jsp", {"mode":"cert", "value":f.hp.value, "certNum":f.hpCert.value}, function(data) {
+					if (data != null && data.code && data.code == "0000") { 
+						
+						alert("인증 되었습니다.");
+
+						
+					}
+					else { alert( "인증번호 확인 실패\r\n\r\n"+data.msg ); }
+					}
+	);	
+}
