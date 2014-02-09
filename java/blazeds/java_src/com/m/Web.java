@@ -1320,7 +1320,7 @@ public class Web extends SessionManagement{
 				
 				clientResult = sms.insertLMSClient(connLMS, alClientVOSK, "sk");
 				
-			}else if (line.equals("kt") || line.equals("han")) {
+			}else if (line.equals("kt") || line.equals("han") || line.equals("pp")) {
 				//step3	
 				alClientVO = lms.getMMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp, cnt, minute, bMerge);
 				VbyP.accessLog(user_id+" >> LMS 전송 요청 : getLMSClientVO 생성" + "경과 시간 : "+sw.getTime());
