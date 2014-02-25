@@ -145,9 +145,15 @@
 				img.width = 180; */
 				mBox.addElementAt(img,mBox.numElements-1);
 				arrImage.push(source);
+				
+				
 				trace(arrImage.join(";"));
 				
 				changeMMS();
+			}
+			
+			private function imgClick(e:Event):void {
+				IMessage_focusInHandler(null);
 			}
 			
 			private function removeImage():void {
@@ -351,7 +357,7 @@
 				<s:Scroller width="200" height="100%">
 					<s:VGroup id="mBox" width="100%" height="100%" >
 						<s:Group width="100%" height="100%">
-							<s:TextArea id="IMessage" skinClass="skin.TextAreaSkinBG" width="200" height="100%" fontFamily="굴림체" fontSize="16" verticalScrollPolicy="off" enabled="{_enable}" color="0x000000" 
+							<s:TextArea id="IMessage" skinClass="skin.TextAreaSkinBG" width="200" height="100%" minHeight="40" fontFamily="굴림체" fontSize="16" verticalScrollPolicy="off" enabled="{_enable}" color="0x000000" 
 										keyUp="IMessage_keyUpHandler(event)"
 										focusIn="IMessage_focusInHandler(event)"
 										focusOut="IMessage_focusOutHandler(event)"></s:TextArea>
