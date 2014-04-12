@@ -359,7 +359,9 @@ public class MMS implements MMSAble {
 			vo.setCALLBACK( returnPhone );
 			vo.setSTATUS( CLIENT_SENDSTAT );
 			vo.setREQDATE( reservationDate );
+			
 			vo.setMSG( bMerge ? SLibrary.replaceAll(message, "{¿Ã∏ß}", name ):message );
+			System.out.println(bMerge+" "+vo.getMSG());
 			vo.setFILE_CNT( (SLibrary.isNull(imagePath))? 0: 1 );
 			vo.setFILE_CNT_REAL( (SLibrary.isNull(imagePath))? 0: 1 );
 			vo.setFILE_PATH1( (SLibrary.isNull(imagePath))? "": imagePath );			
