@@ -177,6 +177,7 @@ public class Address implements AddressAble {
 				
 				if (vo.phone != null) {
 					InsertMember(pq , user_id , vo);
+					vo.name = SLibrary.replaceAll(vo.name, ",", " ");
 					pq.addBatch();
 					
 					if (i >= maxBatch && (i%maxBatch) == 0 ) {
