@@ -1896,8 +1896,7 @@ public class SLibrary {
 
 	public static String getPhone(String phone) {
 		String number = phone.replaceAll("[^\\d]*", "");
-		boolean b = Pattern
-				.matches("^0[17][016789]-?\\d{3,4}-?\\d{4}$", number);
+		boolean b = Pattern.matches("^0[157][016789]-?\\d{3,4}-?\\d{4}$", number);
 		return b ? number : null;
 	}
 
