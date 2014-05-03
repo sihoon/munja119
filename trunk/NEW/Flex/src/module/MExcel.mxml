@@ -157,8 +157,13 @@
 							parentApplication.phoneFunction( "addPhoneArray", userSelectedData);
 							spinnerStop();
 						}else if (this.where.selectedItem == "주소록") {
-							spinnerStart();
-							addAddress();
+							if (this.comboBoxGroup.selectedIndex < 0) {
+								SLibrary.alert("주소록 그룹을 선택 하세요. 그룹이 없으면 주소록에서 생성하시기 바랍니다. ");
+							} else {
+								spinnerStart();
+								addAddress();
+							}
+							
 						}else {
 							ExternalInterface.call("alert","어디에 추가 하실지 정해 주세요.");
 						}
@@ -254,15 +259,21 @@
 				var ac:ArrayCollection = new ArrayCollection();
 				var obj:Object = null;
 				var cnt:int = arr.length;
-				
-				for ( var i:int; i < cnt; i++ ) {
+				if (arr == null || arr.length <= 0) {
+					SLibrary.alert("주소록 그룹이 없습니다.");
+				}else {
 					
-					obj = new Object();
-					obj.label = new String(arr[i]);
-					obj.data = new String(arr[i]);
-					ac.addItem(obj);
-				}				
-				comboBoxGroup.dataProvider = ac;
+					var cnt:int = arr.length;
+					for ( var i:int; i < cnt; i++ ) {
+						
+						obj = new Object();
+						obj.label = new String(arr[i]);
+						obj.data = new String(arr[i]);
+						ac.addItem(obj);
+					}				
+					comboBoxGroup.dataProvider = ac;
+				}
+				
 			}
 			
 			// 주소록 저장

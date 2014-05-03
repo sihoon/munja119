@@ -327,12 +327,12 @@
 			
 			protected function IMessage_focusOutHandler(event:FocusEvent):void
 			{
-				if (mode.text != "SMS") {
+				//if (mode.text != "SMS") {
 					if (a.isPlaying) a.stop();
 					asmp.valueFrom = 257;
 					asmp.valueTo = 154;
 					a.play();
-				}
+				//}
 				
 			}
 			
