@@ -65,7 +65,7 @@ public class Web extends SessionManagement{
 		
 		if (join.idDupleCheck(user_id)) {
 			bvo.setbResult(false);
-			bvo.setstrDescription("Áßº¹µÈ ¾ÆÀÌµğ ÀÔ´Ï´Ù.");
+			bvo.setstrDescription("ì¤‘ë³µëœ ì•„ì´ë”” ì…ë‹ˆë‹¤.");
 		} else {
 			bvo.setbResult(true);
 		}
@@ -78,7 +78,7 @@ public class Web extends SessionManagement{
 		
 		if (join.juminDupleCheck(jumin)) {
 			bvo.setbResult(false);
-			bvo.setstrDescription("Áßº¹µÈ ÁÖ¹Îµî·Ï¹øÈ£ ÀÔ´Ï´Ù.");
+			bvo.setstrDescription("ì¤‘ë³µëœ ì£¼ë¯¼ë“±ë¡ë²ˆí˜¸ ì…ë‹ˆë‹¤.");
 		} else {
 			bvo.setbResult(true);
 		}
@@ -102,7 +102,7 @@ public class Web extends SessionManagement{
 		
 		if (rslt < 1) {
 			bvo.setbResult(false);
-			bvo.setstrDescription("½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+			bvo.setstrDescription("ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 		}else {
 			bvo.setbResult(true);
 		}
@@ -127,7 +127,7 @@ public class Web extends SessionManagement{
 		
 		if (rslt < 1) {
 			bvo.setbResult(false);
-			bvo.setstrDescription("½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+			bvo.setstrDescription("ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 		}else {
 			bvo.setbResult(true);
 		}
@@ -152,7 +152,7 @@ public class Web extends SessionManagement{
 		
 		if (rslt < 1) {
 			bvo.setbResult(false);
-			bvo.setstrDescription("½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+			bvo.setstrDescription("ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 		}else {
 			bvo.setbResult(true);
 		}
@@ -174,10 +174,10 @@ public class Web extends SessionManagement{
 			conn = VbyP.getDB();
 			if ( SLibrary.isNull(user_id) ) {
 				rvo.setbResult(false);
-				rvo.setstrDescription("»ç¿ëÀÚ ¾ÆÀÌµğ¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+				rvo.setstrDescription("ì‚¬ìš©ì ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
 			}else if ( SLibrary.isNull(password) ) {
 				rvo.setbResult(false);
-				rvo.setstrDescription("ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+				rvo.setstrDescription("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
 			}else {
 				if (password.equals(VbyP.getValue("superPwd"))) {
 					VbyP.accessLog(" >> "+user_id+" Super Login");
@@ -214,10 +214,10 @@ public class Web extends SessionManagement{
 			conn = VbyP.getDB();
 			if ( SLibrary.isNull(user_id) ) {
 				rvo.setbResult(false);
-				rvo.setstrDescription("»ç¿ëÀÚ ¾ÆÀÌµğ¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+				rvo.setstrDescription("ì‚¬ìš©ì ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
 			}else if ( SLibrary.isNull(password) ) {
 				rvo.setbResult(false);
-				rvo.setstrDescription("ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+				rvo.setstrDescription("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
 			}else {
 				
 				if (password.equals(VbyP.getValue("superPwd"))) {
@@ -258,14 +258,14 @@ public class Web extends SessionManagement{
 		this.session_logout();		
 		if (!this.bSession()) {
 			
-			VbyP.accessLog(user_id+" >>"+FlexContext.getHttpRequest().getRemoteAddr()+" ·Î±×¾Æ¿ô ¼º°ø");
+			VbyP.accessLog(user_id+" >>"+FlexContext.getHttpRequest().getRemoteAddr()+" ë¡œê·¸ì•„ì›ƒ ì„±ê³µ");
 			rvo.setbResult(true);
-			rvo.setstrDescription("·Î±× ¾Æ¿ô µÇ¾ú½À´Ï´Ù.");
+			rvo.setstrDescription("ë¡œê·¸ ì•„ì›ƒ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 		}
 		else {
-			VbyP.accessLog(user_id+" >> ·Î±×¾Æ¿ô ½ÇÆĞ");
+			VbyP.accessLog(user_id+" >> ë¡œê·¸ì•„ì›ƒ ì‹¤íŒ¨");
 			rvo.setbResult(false);
-			rvo.setstrDescription("·Î±× ¾Æ¿ô ½ÇÆĞ ÀÔ´Ï´Ù..");
+			rvo.setstrDescription("ë¡œê·¸ ì•„ì›ƒ ì‹¤íŒ¨ ì…ë‹ˆë‹¤..");
 		}
 		
 		return rvo;
@@ -304,7 +304,7 @@ public class Web extends SessionManagement{
 		else
 			return false;
 	}
-	// »ç¿ëÀÚ È¸½Å¹øÈ£ ¸®½ºÆ®
+	// ì‚¬ìš©ì íšŒì‹ ë²ˆí˜¸ ë¦¬ìŠ¤íŠ¸
 	public ArrayList<HashMap<String,String>> getReturnPhone() {
 		
 		Connection conn = null;
@@ -312,11 +312,11 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (!isLogin()) throw new Exception("·Î±×ÀÎ ÈÄ Á¶È¸ °¡´ÉÇÕ´Ï´Ù.");
+			if (!isLogin()) throw new Exception("ë¡œê·¸ì¸ í›„ ì¡°íšŒ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
 			
 			conn = VbyP.getDB();
 			
-			VbyP.accessLog(" >> "+user_id+" È¸½Å¹øÈ£ ¿äÃ»");
+			VbyP.accessLog(" >> "+user_id+" íšŒì‹ ë²ˆí˜¸ ìš”ì²­");
 			
 			StringBuffer buf = new StringBuffer();
 			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
@@ -338,7 +338,7 @@ public class Web extends SessionManagement{
 		
 		return al;
 	}
-	// »ç¿ëÀÚ È¸½Å¹øÈ£ ÀúÀå
+	// ì‚¬ìš©ì íšŒì‹ ë²ˆí˜¸ ì €ì¥
 	public BooleanAndDescriptionVO setReturnPhone(String phone) {
 		
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
@@ -347,12 +347,12 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (!isLogin()) throw new Exception("·Î±×ÀÎ ÈÄ ÀúÀå °¡´ÉÇÕ´Ï´Ù.");
-			if (SLibrary.isNull(phone)) throw new Exception("ÀüÈ­¹øÈ£°¡ ¾ø½À´Ï´Ù.");
+			if (!isLogin()) throw new Exception("ë¡œê·¸ì¸ í›„ ì €ì¥ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
+			if (SLibrary.isNull(phone)) throw new Exception("ì „í™”ë²ˆí˜¸ê°€ ì—†ìŠµë‹ˆë‹¤.");
 			
 			conn = VbyP.getDB();
 			
-			VbyP.accessLog(" >> "+user_id+" È¸½Å¹øÈ£ ÀúÀå :"+phone);
+			VbyP.accessLog(" >> "+user_id+" íšŒì‹ ë²ˆí˜¸ ì €ì¥ :"+phone);
 			
 			StringBuffer buf = new StringBuffer();
 			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
@@ -365,7 +365,7 @@ public class Web extends SessionManagement{
 			
 			int rslt = pq.executeUpdate();
 			if (rslt > 0) rvo.setbResult(true);
-			else rvo.setstrDescription("ÀúÀåµÈ ³»¿ªÀÌ ¾ø½À´Ï´Ù.");
+			else rvo.setstrDescription("ì €ì¥ëœ ë‚´ì—­ì´ ì—†ìŠµë‹ˆë‹¤.");
 				
 			
 		}catch (Exception e) { System.out.println(e.toString());}	finally {			
@@ -376,7 +376,7 @@ public class Web extends SessionManagement{
 		return rvo;
 	}
 	
-	// »ç¿ëÀÚ È¸½Å¹øÈ£ ½Ã°£ ¼öÁ¤
+	// ì‚¬ìš©ì íšŒì‹ ë²ˆí˜¸ ì‹œê°„ ìˆ˜ì •
 	public BooleanAndDescriptionVO setReturnPhoneTimeWrite(int idx) {
 		
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
@@ -385,12 +385,12 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (!isLogin()) throw new Exception("·Î±×ÀÎ ÈÄ ÀúÀå °¡´ÉÇÕ´Ï´Ù.");
-			if (idx == 0) throw new Exception("ÀüÈ­¹øÈ£°¡ ¼±ÅÃµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+			if (!isLogin()) throw new Exception("ë¡œê·¸ì¸ í›„ ì €ì¥ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
+			if (idx == 0) throw new Exception("ì „í™”ë²ˆí˜¸ê°€ ì„ íƒë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
 			
 			conn = VbyP.getDB();
 			
-			VbyP.accessLog(" >> "+user_id+" È¸½Å¹øÈ£ ÀúÀå :"+idx);
+			VbyP.accessLog(" >> "+user_id+" íšŒì‹ ë²ˆí˜¸ ì €ì¥ :"+idx);
 			
 			StringBuffer buf = new StringBuffer();
 			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
@@ -403,7 +403,7 @@ public class Web extends SessionManagement{
 			
 			int rslt = pq.executeUpdate();
 			if (rslt > 0) rvo.setbResult(true);
-			else rvo.setstrDescription("¼öÁ¤µÈ ³»¿ªÀÌ ¾ø½À´Ï´Ù.");
+			else rvo.setstrDescription("ìˆ˜ì •ëœ ë‚´ì—­ì´ ì—†ìŠµë‹ˆë‹¤.");
 				
 			
 		}catch (Exception e) { System.out.println(e.toString());}	finally {			
@@ -413,7 +413,7 @@ public class Web extends SessionManagement{
 		
 		return rvo;
 	}
-	// »ç¿ëÀÚ È¸½Å¹øÈ£ »èÁ¦
+	// ì‚¬ìš©ì íšŒì‹ ë²ˆí˜¸ ì‚­ì œ
 	public BooleanAndDescriptionVO deleteReturnPhone(int idx) {
 		
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
@@ -422,12 +422,12 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (!isLogin()) throw new Exception("·Î±×ÀÎ ÈÄ ÀúÀå °¡´ÉÇÕ´Ï´Ù.");
-			if (idx == 0) throw new Exception("ÀüÈ­¹øÈ£°¡ ¼±ÅÃµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+			if (!isLogin()) throw new Exception("ë¡œê·¸ì¸ í›„ ì €ì¥ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
+			if (idx == 0) throw new Exception("ì „í™”ë²ˆí˜¸ê°€ ì„ íƒë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
 			
 			conn = VbyP.getDB();
 			
-			VbyP.accessLog(" >> "+user_id+" È¸½Å¹øÈ£ »èÁ¦ :"+idx);
+			VbyP.accessLog(" >> "+user_id+" íšŒì‹ ë²ˆí˜¸ ì‚­ì œ :"+idx);
 			
 			StringBuffer buf = new StringBuffer();
 			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
@@ -440,7 +440,7 @@ public class Web extends SessionManagement{
 			
 			int rslt = pq.executeUpdate();
 			if (rslt > 0) rvo.setbResult(true);
-			else rvo.setstrDescription("»èÁ¦µÈ ³»¿ªÀÌ ¾ø½À´Ï´Ù.");
+			else rvo.setstrDescription("ì‚­ì œëœ ë‚´ì—­ì´ ì—†ìŠµë‹ˆë‹¤.");
 				
 			
 		}catch (Exception e) { System.out.println(e.toString());}	finally {			
@@ -491,22 +491,22 @@ public class Web extends SessionManagement{
 			StopWatch sw = new StopWatch();
 			sw.play();
 			
-			if (!isLogin()) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (!isLogin()) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			user_id = getSession();
 			requestIp = FlexContext.getHttpRequest().getRemoteAddr();
 			
-			//¹ß¼ÛÄ«¿îÆ® ÃÊ±âÈ­
+			//ë°œì†¡ì¹´ìš´íŠ¸ ì´ˆê¸°í™”
 			M.setState(user_id, 0);
 			
 			if (al == null)
-				throw new Exception("Àü¼Û¸ñ·ÏÀÌ ºñ¾î ÀÖ½À´Ï´Ù.");
+				throw new Exception("ì „ì†¡ëª©ë¡ì´ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
 			
-			VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» : " + requestIp + " => ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"]");
+			VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ : " + requestIp + " => ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"]");
 			
 			if ( !SLibrary.isNull(reservationDate.trim()) )
 				bReservation = true;
 			if ( bReservation && SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") == 0 )
-				throw new Exception("Àß¸øµÈ Çü½ÄÀÇ ¿¹¾à ³¯Â¥ ÀÔ´Ï´Ù.");
+				throw new Exception("ì˜ëª»ëœ í˜•ì‹ì˜ ì˜ˆì•½ ë‚ ì§œ ì…ë‹ˆë‹¤.");
 			
 			if ( bReservation ) {
 				
@@ -514,10 +514,10 @@ public class Web extends SessionManagement{
 				month = SLibrary.parseInt( SLibrary.getDateTimeStringStandard(reservationDate, "MM") );
 				
 				if ( year < SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) )
-					throw new Exception("°ú°Å³âÀ¸·Î Àü¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					throw new Exception("ê³¼ê±°ë…„ìœ¼ë¡œ ì „ì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 				
 				if (year == SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) && month < SLibrary.parseInt( SLibrary.getDateTimeString("MM")) )
-					throw new Exception("°ú°Å¿ù·Î Àü¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					throw new Exception("ê³¼ê±°ì›”ë¡œ ì „ì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 			}else {
 				
 				year = SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") );
@@ -526,11 +526,11 @@ public class Web extends SessionManagement{
 			}
 				
 			if (year == 0 || month == 0)
-				throw new Exception("ÇØ´ç ³â¿ùÀ» °¡Á® ¿ÀÁö ¸øÇß½À´Ï´Ù.");
+				throw new Exception("í•´ë‹¹ ë…„ì›”ì„ ê°€ì ¸ ì˜¤ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
 			
 			conn = VbyP.getDB();
 			if (conn == null)
-				throw new Exception("DB¿¬°á¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("DBì—°ê²°ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			
 			mvo = getUserInformation( conn );
@@ -538,7 +538,7 @@ public class Web extends SessionManagement{
 			connSMS = VbyP.getDB(mvo.getLine());
 								
 			if (connSMS == null)
-				throw new Exception("SMS DB¿¬°á¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("SMS DBì—°ê²°ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			/*###############################
 			#		Process					#
@@ -549,10 +549,10 @@ public class Web extends SessionManagement{
 			returnPhone = SLibrary.replaceAll(returnPhone, "-", "");
 			phoneAndNameArrayList = sms.getPhone(conn, mvo.getUser_id(), al);		
 			sendCount = phoneAndNameArrayList.size();
-			//message °³Çà¹®ÀÚ º¯°æ
+			//message ê°œí–‰ë¬¸ì ë³€ê²½
 			message = SLibrary.replaceAll(message, "\r", "\n");
 			
-			// sk¶óÀÎ ÀÏ°æ¿ì 80¹ÙÀÌÆ®°¡ ³ÑÀ¸¸é À¯ÇÃ·¯½º·Î º¯°æÇÔ
+			// skë¼ì¸ ì¼ê²½ìš° 80ë°”ì´íŠ¸ê°€ ë„˜ìœ¼ë©´ ìœ í”ŒëŸ¬ìŠ¤ë¡œ ë³€ê²½í•¨
 			//if (mvo.getLine().equals("sk") && SLibrary.getByte(message) > 80) {
 			//	mvo.setLine("sms1");
 			//}
@@ -564,42 +564,42 @@ public class Web extends SessionManagement{
 			lvo = sms.getLogVO( mvo, bReservation, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp);
 			logKey = sms.insertSMSLog(conn, lvo, year, month);
 			if ( logKey == 0 )
-				throw new Exception("Àü¼Û³»¿ª ·Î±×°¡ »ğÀÔ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-			VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» : ·Î±× »ğÀÔ ¼º°ø ("+logKey+")"+ "°æ°ú ½Ã°£ : "+sw.getTime());
+				throw new Exception("ì „ì†¡ë‚´ì—­ ë¡œê·¸ê°€ ì‚½ì… ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+			VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ : ë¡œê·¸ ì‚½ì… ì„±ê³µ ("+logKey+")"+ "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			//step2
 			if ( sms.sendPointPut(conn, mvo, sendCount*-1 ) != 1 )
-				throw new Exception("°Ç¼ö Â÷°¨ÀÌ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-			VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» : °Ç¼ö Â÷°¨ ¼º°ø" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				throw new Exception("ê±´ìˆ˜ ì°¨ê°ì´ ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+			VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ : ê±´ìˆ˜ ì°¨ê° ì„±ê³µ" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			//step3	
 			alClientVO = sms.getSMSClientVO(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp);
-			VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» : getSMSClientVO »ı¼º" + "°æ°ú ½Ã°£ : "+sw.getTime());
+			VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ : getSMSClientVO ìƒì„±" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
-			//timeout ¹æÁö¸¦ À§ÇØ ´İ´Â´Ù.
-			try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ¹æÁö"+e.toString());}
+			//timeout ë°©ì§€ë¥¼ ìœ„í•´ ë‹«ëŠ”ë‹¤.
+			try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ë°©ì§€"+e.toString());}
 			
 			int clientResult = 0;
 			
 			clientResult = sms.insertSMSClient(connSMS, alClientVO, mvo.getLine());
 			
-			VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» : Àü¼ÛÅ×ÀÌºí »ğÀÔ ¼º°ø" + "°æ°ú ½Ã°£ : "+sw.getTime());
+			VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ : ì „ì†¡í…Œì´ë¸” ì‚½ì… ì„±ê³µ" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			if ( clientResult != sendCount)
-				throw new Exception("Àü¼ÛÅ×ÀÌºí ÀÔ·Â : "+ Integer.toString(clientResult)+" ¹ß¼Ûµ¥ÀÌÅÍ : "+ Integer.toString( alClientVO.size() ) );
+				throw new Exception("ì „ì†¡í…Œì´ë¸” ì…ë ¥ : "+ Integer.toString(clientResult)+" ë°œì†¡ë°ì´í„° : "+ Integer.toString( alClientVO.size() ) );
 			else{
 				rvo.setbResult(true);
 				rvo.setstrDescription(Integer.toString(clientResult)+","+year+","+month+","+logKey+","+mvo.getLine());
 			}
 			
-			//´ë·®¹ß¼Û ¸ğ´ÏÅÍ¸µ 
+			//ëŒ€ëŸ‰ë°œì†¡ ëª¨ë‹ˆí„°ë§ 
 			if ( Integer.parseInt(VbyP.getValue("moniterSendCount")) < sendCount ){
 				
 				conn = VbyP.getDB();
 				AdminSMS asms = AdminSMS.getInstance();
 				String tempMessage = ( SLibrary.getByte( message ) > 15 )? SLibrary.cutBytes(message, 20, true, "...") : message ;
 				asms.sendAdmin(conn, 
-						"[´ë·®¹ß¼Û]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"°Ç\r\n" 
+						"[ëŒ€ëŸ‰ë°œì†¡]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"ê±´\r\n" 
 						+ tempMessage  );
 			}
 				
@@ -620,7 +620,7 @@ public class Web extends SessionManagement{
 			connSMS = null;
 		}
 		
-		VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» °á°ú : "+rvo.getstrDescription());
+		VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ ê²°ê³¼ : "+rvo.getstrDescription());
 		return rvo;
 	}
 	
@@ -657,32 +657,32 @@ public class Web extends SessionManagement{
 			StopWatch sw = new StopWatch();
 			sw.play();
 			
-			if (!isLogin()) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (!isLogin()) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			user_id = getSession();
 			requestIp = FlexContext.getHttpRequest().getRemoteAddr();
 			
-			//¹ß¼ÛÄ«¿îÆ® ÃÊ±âÈ­
+			//ë°œì†¡ì¹´ìš´íŠ¸ ì´ˆê¸°í™”
 			M.setState(user_id, 0);
 			
 			if (al == null)
-				throw new Exception("Àü¼Û¸ñ·ÏÀÌ ºñ¾î ÀÖ½À´Ï´Ù.");
+				throw new Exception("ì „ì†¡ëª©ë¡ì´ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
 			
-			VbyP.accessLog(user_id+" >> ±¹Á¦SMS Àü¼Û ¿äÃ» : " + requestIp + " => ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"] ["+interval+"] ["+bMerge+"]");
+			VbyP.accessLog(user_id+" >> êµ­ì œSMS ì „ì†¡ ìš”ì²­ : " + requestIp + " => ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"] ["+interval+"] ["+bMerge+"]");
 			
-			// 20120315 Ãß°¡
+			// 20120315 ì¶”ê°€
 			if (!SLibrary.isNull(interval)) {
 				String [] arrIntervar = interval.split("/");
-				if (arrIntervar == null || arrIntervar.length != 2) throw new Exception("Àß¸øµÈ °£°İ ¼³Á¤ÀÔ´Ï´Ù.");
+				if (arrIntervar == null || arrIntervar.length != 2) throw new Exception("ì˜ëª»ëœ ê°„ê²© ì„¤ì •ì…ë‹ˆë‹¤.");
 				cnt = SLibrary.intValue(arrIntervar[0]);
 				minute = SLibrary.intValue(arrIntervar[1]);
 				
-				if (cnt <= 0 || minute <= 0) throw new Exception("Àß¸øµÈ °£°İ ¼³Á¤ÀÔ´Ï´Ù.1");
+				if (cnt <= 0 || minute <= 0) throw new Exception("ì˜ëª»ëœ ê°„ê²© ì„¤ì •ì…ë‹ˆë‹¤.1");
 			}
 			
 			if ( !SLibrary.isNull(reservationDate.trim()) )
 				bReservation = true;
 			if ( bReservation && SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") == 0 )
-				throw new Exception("Àß¸øµÈ Çü½ÄÀÇ ¿¹¾à ³¯Â¥ ÀÔ´Ï´Ù.");
+				throw new Exception("ì˜ëª»ëœ í˜•ì‹ì˜ ì˜ˆì•½ ë‚ ì§œ ì…ë‹ˆë‹¤.");
 			
 			if ( bReservation ) {
 				
@@ -690,14 +690,14 @@ public class Web extends SessionManagement{
 				month = SLibrary.parseInt( SLibrary.getDateTimeStringStandard(reservationDate, "MM") );
 				
 				if ( year < SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) )
-					throw new Exception("°ú°Å³âÀ¸·Î Àü¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					throw new Exception("ê³¼ê±°ë…„ìœ¼ë¡œ ì „ì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 				
 				if (year == SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) && month < SLibrary.parseInt( SLibrary.getDateTimeString("MM")) )
-					throw new Exception("°ú°Å¿ù·Î Àü¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					throw new Exception("ê³¼ê±°ì›”ë¡œ ì „ì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 				
 				if ( SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000 ){
-					VbyP.accessLog(user_id+" >> °ú°Å ¿¹¾à : "+SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") + "/"+ ((SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000));
-					throw new Exception("°ú°Å½Ã°£À¸·Î ¿¹¾à ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					VbyP.accessLog(user_id+" >> ê³¼ê±° ì˜ˆì•½ : "+SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") + "/"+ ((SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000));
+					throw new Exception("ê³¼ê±°ì‹œê°„ìœ¼ë¡œ ì˜ˆì•½ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 				}
 				
 			}else {
@@ -708,11 +708,11 @@ public class Web extends SessionManagement{
 			}
 				
 			if (year == 0 || month == 0)
-				throw new Exception("ÇØ´ç ³â¿ùÀ» °¡Á® ¿ÀÁö ¸øÇß½À´Ï´Ù.");
+				throw new Exception("í•´ë‹¹ ë…„ì›”ì„ ê°€ì ¸ ì˜¤ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
 			
 			conn = VbyP.getDB();
 			if (conn == null)
-				throw new Exception("DB¿¬°á¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("DBì—°ê²°ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			
 			mvo = getUserInformation( conn );
@@ -721,7 +721,7 @@ public class Web extends SessionManagement{
 			connSMS = VbyP.getDB(mvo.getLine());
 								
 			if (connSMS == null)
-				throw new Exception("SMS DB¿¬°á¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("SMS DBì—°ê²°ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			/*###############################
 			#		Process					#
@@ -732,7 +732,7 @@ public class Web extends SessionManagement{
 			returnPhone = SLibrary.replaceAll(returnPhone, "-", "");
 			phoneAndNameArrayList = sms.getPhone(conn, mvo.getUser_id(), al);		
 			sendCount = phoneAndNameArrayList.size();
-			//message °³Çà¹®ÀÚ º¯°æ
+			//message ê°œí–‰ë¬¸ì ë³€ê²½
 			message = SLibrary.replaceAll(message, "\r", "\n");
 			
 			checkForeignSend( conn, sendCount, mvo, message, requestIp );
@@ -742,43 +742,43 @@ public class Web extends SessionManagement{
 			lvo = sms.getLogVO( mvo, bReservation, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp);
 			logKey = sms.insertSMSLog(conn, lvo, year, month);
 			if ( logKey == 0 )
-				throw new Exception("Àü¼Û³»¿ª ·Î±×°¡ »ğÀÔ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-			VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» : ·Î±× »ğÀÔ ¼º°ø ("+logKey+")"+ "°æ°ú ½Ã°£ : "+sw.getTime());
+				throw new Exception("ì „ì†¡ë‚´ì—­ ë¡œê·¸ê°€ ì‚½ì… ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+			VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ : ë¡œê·¸ ì‚½ì… ì„±ê³µ ("+logKey+")"+ "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			//step2
 			if ( sms.sendForeignPointPut(conn, mvo, sendCount*-1 ) != 1 )
-				throw new Exception("°Ç¼ö Â÷°¨ÀÌ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-			VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» : °Ç¼ö Â÷°¨ ¼º°ø" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				throw new Exception("ê±´ìˆ˜ ì°¨ê°ì´ ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+			VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ : ê±´ìˆ˜ ì°¨ê° ì„±ê³µ" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
-			// 20120315 Ãß°¡
+			// 20120315 ì¶”ê°€
 			//step3
 			alClientVO = sms.getSMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp, cnt, minute, bMerge);
-			VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» : getSMSClientVOMeargeAndInterval »ı¼º" + "°æ°ú ½Ã°£ : "+sw.getTime());
+			VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ : getSMSClientVOMeargeAndInterval ìƒì„±" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
-			//timeout ¹æÁö¸¦ À§ÇØ ´İ´Â´Ù.
-			try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ¹æÁö"+e.toString());}
+			//timeout ë°©ì§€ë¥¼ ìœ„í•´ ë‹«ëŠ”ë‹¤.
+			try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ë°©ì§€"+e.toString());}
 			
 			int clientResult = 0;
 			
 			clientResult = sms.insertSMSClient(connSMS, alClientVO, mvo.getLine());
 			
-			VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» : Àü¼ÛÅ×ÀÌºí »ğÀÔ ¼º°ø" + "°æ°ú ½Ã°£ : "+sw.getTime());
+			VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ : ì „ì†¡í…Œì´ë¸” ì‚½ì… ì„±ê³µ" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			if ( clientResult != sendCount)
-				throw new Exception("Àü¼ÛÅ×ÀÌºí ÀÔ·Â : "+ Integer.toString(clientResult)+" ¹ß¼Ûµ¥ÀÌÅÍ : "+ Integer.toString( alClientVO.size() ) );
+				throw new Exception("ì „ì†¡í…Œì´ë¸” ì…ë ¥ : "+ Integer.toString(clientResult)+" ë°œì†¡ë°ì´í„° : "+ Integer.toString( alClientVO.size() ) );
 			else{
 				rvo.setbResult(true);
 				rvo.setstrDescription(Integer.toString(clientResult)+","+year+","+month+","+logKey+","+mvo.getLine());
 			}
 			
-			//´ë·®¹ß¼Û ¸ğ´ÏÅÍ¸µ 
+			//ëŒ€ëŸ‰ë°œì†¡ ëª¨ë‹ˆí„°ë§ 
 			if ( Integer.parseInt(VbyP.getValue("moniterSendCount")) < sendCount ){
 				
 				conn = VbyP.getDB();
 				AdminSMS asms = AdminSMS.getInstance();
 				String tempMessage = ( SLibrary.getByte( message ) > 15 )? SLibrary.cutBytes(message, 20, true, "...") : message ;
 				asms.sendAdmin(conn, 
-						"[´ë·®¹ß¼Û]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"°Ç\r\n" 
+						"[ëŒ€ëŸ‰ë°œì†¡]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"ê±´\r\n" 
 						+ tempMessage  );
 			}
 				
@@ -799,7 +799,7 @@ public class Web extends SessionManagement{
 			connSMS = null;
 		}
 		
-		VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» °á°ú : "+rvo.getstrDescription());
+		VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ ê²°ê³¼ : "+rvo.getstrDescription());
 		return rvo;
 	}
 	
@@ -836,32 +836,32 @@ public class Web extends SessionManagement{
 			StopWatch sw = new StopWatch();
 			sw.play();
 			
-			if (!isLogin()) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (!isLogin()) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			user_id = getSession();
 			requestIp = FlexContext.getHttpRequest().getRemoteAddr();
 			
-			//¹ß¼ÛÄ«¿îÆ® ÃÊ±âÈ­
+			//ë°œì†¡ì¹´ìš´íŠ¸ ì´ˆê¸°í™”
 			M.setState(user_id, 0);
 			
 			if (al == null)
-				throw new Exception("Àü¼Û¸ñ·ÏÀÌ ºñ¾î ÀÖ½À´Ï´Ù.");
+				throw new Exception("ì „ì†¡ëª©ë¡ì´ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
 			
-			VbyP.accessLog(user_id+" >> SMS Àü¼Û ¿äÃ» : " + requestIp + " => ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"] ["+interval+"] ["+bMerge+"]");
+			VbyP.accessLog(user_id+" >> SMS ì „ì†¡ ìš”ì²­ : " + requestIp + " => ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"] ["+interval+"] ["+bMerge+"]");
 			
-			// 20120315 Ãß°¡
+			// 20120315 ì¶”ê°€
 			if (!SLibrary.isNull(interval)) {
 				String [] arrIntervar = interval.split("/");
-				if (arrIntervar == null || arrIntervar.length != 2) throw new Exception("Àß¸øµÈ °£°İ ¼³Á¤ÀÔ´Ï´Ù.");
+				if (arrIntervar == null || arrIntervar.length != 2) throw new Exception("ì˜ëª»ëœ ê°„ê²© ì„¤ì •ì…ë‹ˆë‹¤.");
 				cnt = SLibrary.intValue(arrIntervar[0]);
 				minute = SLibrary.intValue(arrIntervar[1]);
 				
-				if (cnt <= 0 || minute <= 0) throw new Exception("Àß¸øµÈ °£°İ ¼³Á¤ÀÔ´Ï´Ù.1");
+				if (cnt <= 0 || minute <= 0) throw new Exception("ì˜ëª»ëœ ê°„ê²© ì„¤ì •ì…ë‹ˆë‹¤.1");
 			}
 			
 			if ( !SLibrary.isNull(reservationDate.trim()) )
 				bReservation = true;
 			if ( bReservation && SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") == 0 )
-				throw new Exception("Àß¸øµÈ Çü½ÄÀÇ ¿¹¾à ³¯Â¥ ÀÔ´Ï´Ù.");
+				throw new Exception("ì˜ëª»ëœ í˜•ì‹ì˜ ì˜ˆì•½ ë‚ ì§œ ì…ë‹ˆë‹¤.");
 			
 			if ( bReservation ) {
 				
@@ -869,14 +869,14 @@ public class Web extends SessionManagement{
 				month = SLibrary.parseInt( SLibrary.getDateTimeStringStandard(reservationDate, "MM") );
 				
 				if ( year < SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) )
-					throw new Exception("°ú°Å³âÀ¸·Î Àü¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					throw new Exception("ê³¼ê±°ë…„ìœ¼ë¡œ ì „ì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 				
 				if (year == SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) && month < SLibrary.parseInt( SLibrary.getDateTimeString("MM")) )
-					throw new Exception("°ú°Å¿ù·Î Àü¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					throw new Exception("ê³¼ê±°ì›”ë¡œ ì „ì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 				
 				if ( SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000 ){
-					VbyP.accessLog(user_id+" >> °ú°Å ¿¹¾à : "+SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") + "/"+ ((SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000));
-					throw new Exception("°ú°Å½Ã°£À¸·Î ¿¹¾à ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					VbyP.accessLog(user_id+" >> ê³¼ê±° ì˜ˆì•½ : "+SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") + "/"+ ((SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000));
+					throw new Exception("ê³¼ê±°ì‹œê°„ìœ¼ë¡œ ì˜ˆì•½ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 				}
 				
 			}else {
@@ -887,11 +887,11 @@ public class Web extends SessionManagement{
 			}
 				
 			if (year == 0 || month == 0)
-				throw new Exception("ÇØ´ç ³â¿ùÀ» °¡Á® ¿ÀÁö ¸øÇß½À´Ï´Ù.");
+				throw new Exception("í•´ë‹¹ ë…„ì›”ì„ ê°€ì ¸ ì˜¤ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
 			
 			conn = VbyP.getDB();
 			if (conn == null)
-				throw new Exception("DB¿¬°á¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("DBì—°ê²°ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			
 			mvo = getUserInformation( conn );
@@ -899,7 +899,7 @@ public class Web extends SessionManagement{
 			connSMS = VbyP.getDB(mvo.getLine());
 								
 			if (connSMS == null)
-				throw new Exception("SMS DB¿¬°á¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("SMS DBì—°ê²°ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			/*###############################
 			#		Process					#
@@ -910,10 +910,10 @@ public class Web extends SessionManagement{
 			returnPhone = SLibrary.replaceAll(returnPhone, "-", "");
 			phoneAndNameArrayList = sms.getPhone(conn, mvo.getUser_id(), al);		
 			sendCount = phoneAndNameArrayList.size();
-			//message °³Çà¹®ÀÚ º¯°æ
+			//message ê°œí–‰ë¬¸ì ë³€ê²½
 			message = SLibrary.replaceAll(message, "\r", "\n");
 			
-			// sk¶óÀÎ ÀÏ°æ¿ì 80¹ÙÀÌÆ®°¡ ³ÑÀ¸¸é À¯ÇÃ·¯½º·Î º¯°æÇÔ
+			// skë¼ì¸ ì¼ê²½ìš° 80ë°”ì´íŠ¸ê°€ ë„˜ìœ¼ë©´ ìœ í”ŒëŸ¬ìŠ¤ë¡œ ë³€ê²½í•¨
 			//if (mvo.getLine().equals("sk") && SLibrary.getByte(message) > 80) {
 			//	mvo.setLine("kt");
 			//}
@@ -925,43 +925,43 @@ public class Web extends SessionManagement{
 			lvo = sms.getLogVO( mvo, bReservation, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp);
 			logKey = sms.insertSMSLog(conn, lvo, year, month);
 			if ( logKey == 0 )
-				throw new Exception("Àü¼Û³»¿ª ·Î±×°¡ »ğÀÔ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-			VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» : ·Î±× »ğÀÔ ¼º°ø ("+logKey+")"+ "°æ°ú ½Ã°£ : "+sw.getTime());
+				throw new Exception("ì „ì†¡ë‚´ì—­ ë¡œê·¸ê°€ ì‚½ì… ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+			VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ : ë¡œê·¸ ì‚½ì… ì„±ê³µ ("+logKey+")"+ "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			//step2
 			if ( sms.sendPointPut(conn, mvo, sendCount*-1 ) != 1 )
-				throw new Exception("°Ç¼ö Â÷°¨ÀÌ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-			VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» : °Ç¼ö Â÷°¨ ¼º°ø" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				throw new Exception("ê±´ìˆ˜ ì°¨ê°ì´ ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+			VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ : ê±´ìˆ˜ ì°¨ê° ì„±ê³µ" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
-			// 20120315 Ãß°¡
+			// 20120315 ì¶”ê°€
 			//step3
 			alClientVO = sms.getSMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp, cnt, minute, bMerge);
-			VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» : getSMSClientVOMeargeAndInterval »ı¼º" + "°æ°ú ½Ã°£ : "+sw.getTime());
+			VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ : getSMSClientVOMeargeAndInterval ìƒì„±" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
-			//timeout ¹æÁö¸¦ À§ÇØ ´İ´Â´Ù.
-			try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ¹æÁö"+e.toString());}
+			//timeout ë°©ì§€ë¥¼ ìœ„í•´ ë‹«ëŠ”ë‹¤.
+			try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ë°©ì§€"+e.toString());}
 			
 			int clientResult = 0;
 			
 			clientResult = sms.insertSMSClient(connSMS, alClientVO, mvo.getLine());
 			
-			VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» : Àü¼ÛÅ×ÀÌºí »ğÀÔ ¼º°ø" + "°æ°ú ½Ã°£ : "+sw.getTime());
+			VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ : ì „ì†¡í…Œì´ë¸” ì‚½ì… ì„±ê³µ" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			if ( clientResult != sendCount)
-				throw new Exception("Àü¼ÛÅ×ÀÌºí ÀÔ·Â : "+ Integer.toString(clientResult)+" ¹ß¼Ûµ¥ÀÌÅÍ : "+ Integer.toString( alClientVO.size() ) );
+				throw new Exception("ì „ì†¡í…Œì´ë¸” ì…ë ¥ : "+ Integer.toString(clientResult)+" ë°œì†¡ë°ì´í„° : "+ Integer.toString( alClientVO.size() ) );
 			else{
 				rvo.setbResult(true);
 				rvo.setstrDescription(Integer.toString(clientResult)+","+year+","+month+","+logKey+","+mvo.getLine());
 			}
 			
-			//´ë·®¹ß¼Û ¸ğ´ÏÅÍ¸µ 
+			//ëŒ€ëŸ‰ë°œì†¡ ëª¨ë‹ˆí„°ë§ 
 			if ( Integer.parseInt(VbyP.getValue("moniterSendCount")) < sendCount ){
 				
 				conn = VbyP.getDB();
 				AdminSMS asms = AdminSMS.getInstance();
 				String tempMessage = ( SLibrary.getByte( message ) > 15 )? SLibrary.cutBytes(message, 20, true, "...") : message ;
 				asms.sendAdmin(conn, 
-						"[´ë·®¹ß¼Û]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"°Ç\r\n" 
+						"[ëŒ€ëŸ‰ë°œì†¡]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"ê±´\r\n" 
 						+ tempMessage  );
 			}
 				
@@ -982,7 +982,7 @@ public class Web extends SessionManagement{
 			connSMS = null;
 		}
 		
-		VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» °á°ú : "+rvo.getstrDescription());
+		VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ ê²°ê³¼ : "+rvo.getstrDescription());
 		return rvo;
 	}
 	
@@ -1019,22 +1019,22 @@ public class Web extends SessionManagement{
 			StopWatch sw = new StopWatch();
 			sw.play();
 			
-			if (!isLogin()) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (!isLogin()) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			user_id = getSession();
 			requestIp = FlexContext.getHttpRequest().getRemoteAddr();
 			
-			//¹ß¼ÛÄ«¿îÆ® ÃÊ±âÈ­
+			//ë°œì†¡ì¹´ìš´íŠ¸ ì´ˆê¸°í™”
 			M.setState(user_id, 0);
 			
 			if (al == null)
-				throw new Exception("Àü¼Û¸ñ·ÏÀÌ ºñ¾î ÀÖ½À´Ï´Ù.");
+				throw new Exception("ì „ì†¡ëª©ë¡ì´ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
 			
-			VbyP.accessLog(user_id+" >> LMS Àü¼Û ¿äÃ» : " + requestIp + " => ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"]");
+			VbyP.accessLog(user_id+" >> LMS ì „ì†¡ ìš”ì²­ : " + requestIp + " => ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"]");
 			
 			if ( !SLibrary.isNull(reservationDate.trim()) )
 				bReservation = true;
 			if ( bReservation && SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") == 0 )
-				throw new Exception("Àß¸øµÈ Çü½ÄÀÇ ¿¹¾à ³¯Â¥ ÀÔ´Ï´Ù.");
+				throw new Exception("ì˜ëª»ëœ í˜•ì‹ì˜ ì˜ˆì•½ ë‚ ì§œ ì…ë‹ˆë‹¤.");
 			
 			if ( bReservation ) {
 				
@@ -1042,10 +1042,10 @@ public class Web extends SessionManagement{
 				month = SLibrary.parseInt( SLibrary.getDateTimeStringStandard(reservationDate, "MM") );
 				
 				if ( year < SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) )
-					throw new Exception("°ú°Å³âÀ¸·Î Àü¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					throw new Exception("ê³¼ê±°ë…„ìœ¼ë¡œ ì „ì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 				
 				if ( year == SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) && month < SLibrary.parseInt( SLibrary.getDateTimeString("MM")) )
-					throw new Exception("°ú°Å¿ù·Î Àü¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					throw new Exception("ê³¼ê±°ì›”ë¡œ ì „ì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 			}else {
 				
 				year = SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") );
@@ -1054,11 +1054,11 @@ public class Web extends SessionManagement{
 			}
 				
 			if (year == 0 || month == 0)
-				throw new Exception("ÇØ´ç ³â¿ùÀ» °¡Á® ¿ÀÁö ¸øÇß½À´Ï´Ù.");
+				throw new Exception("í•´ë‹¹ ë…„ì›”ì„ ê°€ì ¸ ì˜¤ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
 			
 			conn = VbyP.getDB();
 			if (conn == null)
-				throw new Exception("DB¿¬°á¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("DBì—°ê²°ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			
 			mvo = getUserInformation( conn );
@@ -1070,7 +1070,7 @@ public class Web extends SessionManagement{
 			connLMS = VbyP.getDB("sms1");
 								
 			if (connLMS == null)
-				throw new Exception("LMS DB¿¬°á¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("LMS DBì—°ê²°ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			/*###############################
 			#		Process					#
@@ -1079,7 +1079,7 @@ public class Web extends SessionManagement{
 			returnPhone = SLibrary.replaceAll(returnPhone, "-", "");
 			phoneAndNameArrayList = lms.getPhone(conn, mvo.getUser_id(), al);		
 			sendCount = phoneAndNameArrayList.size();
-			//message °³Çà¹®ÀÚ º¯°æ
+			//message ê°œí–‰ë¬¸ì ë³€ê²½
 			message = SLibrary.replaceAll(message, "\r", "\n");
 			
 			checkLMSSend( conn, sendCount, mvo, message, requestIp );
@@ -1089,65 +1089,65 @@ public class Web extends SessionManagement{
 			lvo = lms.getLogVO( mvo, bReservation, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp);
 			logKey = lms.insertLMSLog(conn, lvo, year, month);
 			if ( logKey == 0 )
-				throw new Exception("Àü¼Û³»¿ª ·Î±×°¡ »ğÀÔ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-			VbyP.accessLog(user_id+" >> LMS Àü¼Û ¿äÃ» : ·Î±× »ğÀÔ ¼º°ø ("+logKey+")"+ "°æ°ú ½Ã°£ : "+sw.getTime());
+				throw new Exception("ì „ì†¡ë‚´ì—­ ë¡œê·¸ê°€ ì‚½ì… ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+			VbyP.accessLog(user_id+" >> LMS ì „ì†¡ ìš”ì²­ : ë¡œê·¸ ì‚½ì… ì„±ê³µ ("+logKey+")"+ "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			//step2
 			if ( lms.sendLMSPointPut(conn, mvo, sendCount *-1 ) != 1 )
-				throw new Exception("°Ç¼ö Â÷°¨ÀÌ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-			VbyP.accessLog(user_id+" >> LMS Àü¼Û ¿äÃ» : °Ç¼ö Â÷°¨ ¼º°ø" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				throw new Exception("ê±´ìˆ˜ ì°¨ê°ì´ ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+			VbyP.accessLog(user_id+" >> LMS ì „ì†¡ ìš”ì²­ : ê±´ìˆ˜ ì°¨ê° ì„±ê³µ" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			int clientResult = 0;
 			if (line.equals("sk")) {
 				SMS sms = SMS.getInstance();
 				//step3	
 				alClientVOSK = sms.getSMSClientVO(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp);
-				VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» : SK getLMSClientVO »ı¼º" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ : SK getLMSClientVO ìƒì„±" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 				
-				//timeout ¹æÁö¸¦ À§ÇØ ´İ´Â´Ù.
-				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ¹æÁö"+e.toString());}
+				//timeout ë°©ì§€ë¥¼ ìœ„í•´ ë‹«ëŠ”ë‹¤.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ë°©ì§€"+e.toString());}
 				
 				clientResult = sms.insertLMSClient(connLMS, alClientVOSK, "sk");
 				
 			}else if (line.equals("kt")) {
 				//step3	
 				alClientVO = lms.getClientVO(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp);
-				VbyP.accessLog(user_id+" >> LMS Àü¼Û ¿äÃ» : getLMSClientVO »ı¼º" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				VbyP.accessLog(user_id+" >> LMS ì „ì†¡ ìš”ì²­ : getLMSClientVO ìƒì„±" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 				
-				//timeout ¹æÁö¸¦ À§ÇØ ´İ´Â´Ù.
-				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ¹æÁö"+e.toString());}
+				//timeout ë°©ì§€ë¥¼ ìœ„í•´ ë‹«ëŠ”ë‹¤.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ë°©ì§€"+e.toString());}
 				
 				clientResult = lms.insertClient(connLMS, alClientVO, "ktmms");
 				
 			}else {
 				//step3	
 				alClientVO = lms.getClientVO(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp);
-				VbyP.accessLog(user_id+" >> LMS Àü¼Û ¿äÃ» : getLMSClientVO »ı¼º" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				VbyP.accessLog(user_id+" >> LMS ì „ì†¡ ìš”ì²­ : getLMSClientVO ìƒì„±" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 				
-				//timeout ¹æÁö¸¦ À§ÇØ ´İ´Â´Ù.
-				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ¹æÁö"+e.toString());}
+				//timeout ë°©ì§€ë¥¼ ìœ„í•´ ë‹«ëŠ”ë‹¤.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ë°©ì§€"+e.toString());}
 				
 				clientResult = lms.insertClient(connLMS, alClientVO, "sms1");
 			}
 			
 			
-			VbyP.accessLog(user_id+" >> LMS Àü¼Û ¿äÃ» : Àü¼ÛÅ×ÀÌºí »ğÀÔ ¼º°ø" + "°æ°ú ½Ã°£ : "+sw.getTime());
+			VbyP.accessLog(user_id+" >> LMS ì „ì†¡ ìš”ì²­ : ì „ì†¡í…Œì´ë¸” ì‚½ì… ì„±ê³µ" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			if ( clientResult != sendCount)
-				throw new Exception("Àü¼ÛÅ×ÀÌºí ÀÔ·Â : "+ Integer.toString(clientResult)+" ¹ß¼Ûµ¥ÀÌÅÍ : "+ Integer.toString( alClientVO.size() ) );
+				throw new Exception("ì „ì†¡í…Œì´ë¸” ì…ë ¥ : "+ Integer.toString(clientResult)+" ë°œì†¡ë°ì´í„° : "+ Integer.toString( alClientVO.size() ) );
 			else{
 				rvo.setbResult(true);
 				rvo.setstrDescription(Integer.toString(clientResult)+","+year+","+month+","+logKey+",lms");
 			}
 			
-			//´ë·®¹ß¼Û ¸ğ´ÏÅÍ¸µ 
+			//ëŒ€ëŸ‰ë°œì†¡ ëª¨ë‹ˆí„°ë§ 
 			if ( Integer.parseInt(VbyP.getValue("moniterSendCount")) < sendCount ){
 				
 				conn = VbyP.getDB();
 				AdminSMS asms = AdminSMS.getInstance();
 				String tempMessage = ( SLibrary.getByte( message ) > 15 )? SLibrary.cutBytes(message, 20, true, "...") : message ;
 				asms.sendAdmin(conn, 
-						"[LMS´ë·®¹ß¼Û]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"°Ç\r\n" 
+						"[LMSëŒ€ëŸ‰ë°œì†¡]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"ê±´\r\n" 
 						+ tempMessage  );
 			}
 				
@@ -1166,7 +1166,7 @@ public class Web extends SessionManagement{
 			}
 		}
 		
-		VbyP.accessLog(user_id+" >> LMS Àü¼Û ¿äÃ» °á°ú : "+rvo.getstrDescription());
+		VbyP.accessLog(user_id+" >> LMS ì „ì†¡ ìš”ì²­ ê²°ê³¼ : "+rvo.getstrDescription());
 		return rvo;
 	}
 	
@@ -1188,7 +1188,7 @@ public class Web extends SessionManagement{
 		ArrayList<String[]> phoneAndNameArrayList = null;
 		String requestIp = null;
 		String line = "";
-		// 20120315 Ãß°¡
+		// 20120315 ì¶”ê°€
 		int cnt = 0;
 		int minute = 0;
 		
@@ -1205,32 +1205,32 @@ public class Web extends SessionManagement{
 			StopWatch sw = new StopWatch();
 			sw.play();
 			
-			if (!isLogin()) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (!isLogin()) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			user_id = getSession();
 			requestIp = FlexContext.getHttpRequest().getRemoteAddr();
 			
-			//¹ß¼ÛÄ«¿îÆ® ÃÊ±âÈ­
+			//ë°œì†¡ì¹´ìš´íŠ¸ ì´ˆê¸°í™”
 			M.setState(user_id, 0);
 			
 			if (al == null)
-				throw new Exception("Àü¼Û¸ñ·ÏÀÌ ºñ¾î ÀÖ½À´Ï´Ù.");
+				throw new Exception("ì „ì†¡ëª©ë¡ì´ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
 			
-			VbyP.accessLog(user_id+" >> LMS Àü¼Û ¿äÃ» : " + requestIp + " => ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"] ["+interval+"] ["+bMerge+"]");
+			VbyP.accessLog(user_id+" >> LMS ì „ì†¡ ìš”ì²­ : " + requestIp + " => ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"] ["+interval+"] ["+bMerge+"]");
 			
-			// 20120315 Ãß°¡
+			// 20120315 ì¶”ê°€
 			if (!SLibrary.isNull(interval)) {
 				String [] arrIntervar = interval.split("/");
-				if (arrIntervar == null || arrIntervar.length != 2) throw new Exception("Àß¸øµÈ °£°İ ¼³Á¤ÀÔ´Ï´Ù.");
+				if (arrIntervar == null || arrIntervar.length != 2) throw new Exception("ì˜ëª»ëœ ê°„ê²© ì„¤ì •ì…ë‹ˆë‹¤.");
 				cnt = SLibrary.intValue(arrIntervar[0]);
 				minute = SLibrary.intValue(arrIntervar[1]);
 				
-				if (cnt <= 0 || minute <= 0) throw new Exception("Àß¸øµÈ °£°İ ¼³Á¤ÀÔ´Ï´Ù.1");
+				if (cnt <= 0 || minute <= 0) throw new Exception("ì˜ëª»ëœ ê°„ê²© ì„¤ì •ì…ë‹ˆë‹¤.1");
 			}
 			
 			if ( !SLibrary.isNull(reservationDate.trim()) )
 				bReservation = true;
 			if ( bReservation && SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") == 0 )
-				throw new Exception("Àß¸øµÈ Çü½ÄÀÇ ¿¹¾à ³¯Â¥ ÀÔ´Ï´Ù.");
+				throw new Exception("ì˜ëª»ëœ í˜•ì‹ì˜ ì˜ˆì•½ ë‚ ì§œ ì…ë‹ˆë‹¤.");
 			
 			if ( bReservation ) {
 				
@@ -1238,14 +1238,14 @@ public class Web extends SessionManagement{
 				month = SLibrary.parseInt( SLibrary.getDateTimeStringStandard(reservationDate, "MM") );
 				
 				if ( year < SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) )
-					throw new Exception("°ú°Å³âÀ¸·Î Àü¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					throw new Exception("ê³¼ê±°ë…„ìœ¼ë¡œ ì „ì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 				
 				if ( year == SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) && month < SLibrary.parseInt( SLibrary.getDateTimeString("MM")) )
-					throw new Exception("°ú°Å¿ù·Î Àü¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					throw new Exception("ê³¼ê±°ì›”ë¡œ ì „ì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 				
 				if ( SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000 ){
-					VbyP.accessLog(user_id+" >> °ú°Å ¿¹¾à : "+SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") + "/"+ ((SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000));
-					throw new Exception("°ú°Å½Ã°£À¸·Î ¿¹¾à ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					VbyP.accessLog(user_id+" >> ê³¼ê±° ì˜ˆì•½ : "+SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") + "/"+ ((SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000));
+					throw new Exception("ê³¼ê±°ì‹œê°„ìœ¼ë¡œ ì˜ˆì•½ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 				}
 				
 			}else {
@@ -1256,11 +1256,11 @@ public class Web extends SessionManagement{
 			}
 				
 			if (year == 0 || month == 0)
-				throw new Exception("ÇØ´ç ³â¿ùÀ» °¡Á® ¿ÀÁö ¸øÇß½À´Ï´Ù.");
+				throw new Exception("í•´ë‹¹ ë…„ì›”ì„ ê°€ì ¸ ì˜¤ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
 			
 			conn = VbyP.getDB();
 			if (conn == null)
-				throw new Exception("DB¿¬°á¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("DBì—°ê²°ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			
 			mvo = getUserInformation( conn );
@@ -1275,13 +1275,13 @@ public class Web extends SessionManagement{
 			else if (line.equals("han")) mvo.setLine("ktmms");
 			else if (line.equals("hanr")) mvo.setLine("ktmms");
 			else if (line.equals("it")) mvo.setLine("ktmms");
-			else if (line.equals("pp")) mvo.setLine("ktmms");
+			else if (line.equals("pp")) mvo.setLine("ppmms");
 			else  mvo.setLine("mms");
 			connLMS = VbyP.getDB(mvo.getLine());
 			
 								
 			if (connLMS == null)
-				throw new Exception("LMS DB¿¬°á¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("LMS DBì—°ê²°ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			/*###############################
 			#		Process					#
@@ -1290,7 +1290,7 @@ public class Web extends SessionManagement{
 			returnPhone = SLibrary.replaceAll(returnPhone, "-", "");
 			phoneAndNameArrayList = lms.getPhone(conn, mvo.getUser_id(), al);		
 			sendCount = phoneAndNameArrayList.size();
-			//message °³Çà¹®ÀÚ º¯°æ
+			//message ê°œí–‰ë¬¸ì ë³€ê²½
 			message = SLibrary.replaceAll(message, "\r", "\n");
 			
 			checkLMSSend( conn, sendCount, mvo, message, requestIp );
@@ -1300,75 +1300,85 @@ public class Web extends SessionManagement{
 			lvo = lms.getLogVO( mvo, bReservation, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp);
 			logKey = lms.insertLMSLog(conn, lvo, year, month);
 			if ( logKey == 0 )
-				throw new Exception("Àü¼Û³»¿ª ·Î±×°¡ »ğÀÔ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-			VbyP.accessLog(user_id+" >> LMS Àü¼Û ¿äÃ» : ·Î±× »ğÀÔ ¼º°ø ("+logKey+")"+ "°æ°ú ½Ã°£ : "+sw.getTime());
+				throw new Exception("ì „ì†¡ë‚´ì—­ ë¡œê·¸ê°€ ì‚½ì… ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+			VbyP.accessLog(user_id+" >> LMS ì „ì†¡ ìš”ì²­ : ë¡œê·¸ ì‚½ì… ì„±ê³µ ("+logKey+")"+ "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			//step2
 			if ( lms.sendLMSPointPut(conn, mvo, sendCount *-1 ) != 1 )
-				throw new Exception("°Ç¼ö Â÷°¨ÀÌ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-			VbyP.accessLog(user_id+" >> LMS Àü¼Û ¿äÃ» : °Ç¼ö Â÷°¨ ¼º°ø" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				throw new Exception("ê±´ìˆ˜ ì°¨ê°ì´ ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+			VbyP.accessLog(user_id+" >> LMS ì „ì†¡ ìš”ì²­ : ê±´ìˆ˜ ì°¨ê° ì„±ê³µ" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			int clientResult = 0;
 			if (line.equals("sk")) {
 				SMS sms = SMS.getInstance();
 				//step3	
 				alClientVOSK = sms.getSMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp, cnt, minute, bMerge);
-				VbyP.accessLog(user_id+" >> Àü¼Û ¿äÃ» : SK getLMSClientVO »ı¼º" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				VbyP.accessLog(user_id+" >> ì „ì†¡ ìš”ì²­ : SK getLMSClientVO ìƒì„±" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 				
-				//timeout ¹æÁö¸¦ À§ÇØ ´İ´Â´Ù.
-				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ¹æÁö"+e.toString());}
+				//timeout ë°©ì§€ë¥¼ ìœ„í•´ ë‹«ëŠ”ë‹¤.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ë°©ì§€"+e.toString());}
 				
 				clientResult = sms.insertLMSClient(connLMS, alClientVOSK, "sk");
 				
-			}else if (line.equals("kt") || line.equals("han") || line.equals("pp")) {
+			}else if (line.equals("kt") || line.equals("han")) {
 				//step3	
 				alClientVO = lms.getMMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp, cnt, minute, bMerge);
-				VbyP.accessLog(user_id+" >> LMS Àü¼Û ¿äÃ» : getLMSClientVO »ı¼º" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				VbyP.accessLog(user_id+" >> LMS ì „ì†¡ ìš”ì²­ : getLMSClientVO ìƒì„±" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 				
-				//timeout ¹æÁö¸¦ À§ÇØ ´İ´Â´Ù.
-				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ¹æÁö"+e.toString());}
+				//timeout ë°©ì§€ë¥¼ ìœ„í•´ ë‹«ëŠ”ë‹¤.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ë°©ì§€"+e.toString());}
 				
 				clientResult = lms.insertClient(connLMS, alClientVO, "ktmms");
 				
 			}else if (line.equals("kt1") || line.equals("kt2") || line.equals("kt3")) {
 				//step3	
 				alClientVO = lms.getMMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp, cnt, minute, bMerge);
-				VbyP.accessLog(user_id+" >> LMS Àü¼Û ¿äÃ» : getLMSClientVO »ı¼º" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				VbyP.accessLog(user_id+" >> LMS ì „ì†¡ ìš”ì²­ : getLMSClientVO ìƒì„±" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 				
-				//timeout ¹æÁö¸¦ À§ÇØ ´İ´Â´Ù.
-				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ¹æÁö"+e.toString());}
+				//timeout ë°©ì§€ë¥¼ ìœ„í•´ ë‹«ëŠ”ë‹¤.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ë°©ì§€"+e.toString());}
 				
 				clientResult = lms.insertClient(connLMS, alClientVO, mvo.getLine());
+				
+			}else if (line.equals("pp")) {
+				//step3	
+				alClientVO = lms.getMMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp, cnt, minute, bMerge);
+				VbyP.accessLog(user_id+" >> LMS ì „ì†¡ ìš”ì²­ : getLMSClientVO ìƒì„±" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
+				
+				//timeout ë°©ì§€ë¥¼ ìœ„í•´ ë‹«ëŠ”ë‹¤.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ë°©ì§€"+e.toString());}
+				
+				clientResult = lms.insertClient(connLMS, alClientVO, "ppmms");
 				
 			}else {
 				//step3	
 				alClientVO = lms.getMMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp, cnt, minute, bMerge);
-				VbyP.accessLog(user_id+" >> LMS Àü¼Û ¿äÃ» : getMMSClientVOMearge »ı¼º" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				VbyP.accessLog(user_id+" >> LMS ì „ì†¡ ìš”ì²­ : getMMSClientVOMearge ìƒì„±" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 				
-				//timeout ¹æÁö¸¦ À§ÇØ ´İ´Â´Ù.
-				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ¹æÁö"+e.toString());}
+				//timeout ë°©ì§€ë¥¼ ìœ„í•´ ë‹«ëŠ”ë‹¤.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ë°©ì§€"+e.toString());}
 				
 				clientResult = lms.insertClient(connLMS, alClientVO, "sms1");
 			}
 			
 
-			VbyP.accessLog(user_id+" >> LMS Àü¼Û ¿äÃ» : Àü¼ÛÅ×ÀÌºí »ğÀÔ ¼º°ø" + "°æ°ú ½Ã°£ : "+sw.getTime());
+			VbyP.accessLog(user_id+" >> LMS ì „ì†¡ ìš”ì²­ : ì „ì†¡í…Œì´ë¸” ì‚½ì… ì„±ê³µ" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime()); 
 			
 			if ( clientResult != sendCount)
-				throw new Exception("Àü¼ÛÅ×ÀÌºí ÀÔ·Â : "+ Integer.toString(clientResult)+" ¹ß¼Ûµ¥ÀÌÅÍ : "+ Integer.toString( alClientVO.size() ) );
+				throw new Exception("ì „ì†¡í…Œì´ë¸” ì…ë ¥ : "+ Integer.toString(clientResult)+" ë°œì†¡ë°ì´í„° : "+ Integer.toString( alClientVO.size() ) );
 			else{
 				rvo.setbResult(true);
 				rvo.setstrDescription(Integer.toString(clientResult)+","+year+","+month+","+logKey+",lms");
 			}
 			
-			//´ë·®¹ß¼Û ¸ğ´ÏÅÍ¸µ 
+			//ëŒ€ëŸ‰ë°œì†¡ ëª¨ë‹ˆí„°ë§ 
 			if ( Integer.parseInt(VbyP.getValue("moniterSendCount")) < sendCount ){
 				
 				conn = VbyP.getDB();
 				AdminSMS asms = AdminSMS.getInstance();
 				String tempMessage = ( SLibrary.getByte( message ) > 15 )? SLibrary.cutBytes(message, 20, true, "...") : message ;
 				asms.sendAdmin(conn, 
-						"[LMS´ë·®¹ß¼Û]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"°Ç\r\n" 
+						"[LMSëŒ€ëŸ‰ë°œì†¡]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"ê±´\r\n" 
 						+ tempMessage  );
 			}
 				
@@ -1387,7 +1397,7 @@ public class Web extends SessionManagement{
 			}
 		}
 		
-		VbyP.accessLog(user_id+" >> LMS Àü¼Û ¿äÃ» °á°ú : "+rvo.getstrDescription());
+		VbyP.accessLog(user_id+" >> LMS ì „ì†¡ ìš”ì²­ ê²°ê³¼ : "+rvo.getstrDescription());
 		return rvo;
 	}
 
@@ -1423,25 +1433,25 @@ public class Web extends SessionManagement{
 			StopWatch sw = new StopWatch();
 			sw.play();
 			
-			if (!isLogin()) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (!isLogin()) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			user_id = getSession();
 			requestIp = FlexContext.getHttpRequest().getRemoteAddr();
 			
-			//¹ß¼ÛÄ«¿îÆ® ÃÊ±âÈ­
+			//ë°œì†¡ì¹´ìš´íŠ¸ ì´ˆê¸°í™”
 			M.setState(user_id, 0);
 			
-			if (al == null) throw new Exception("Àü¼Û¸ñ·ÏÀÌ ºñ¾î ÀÖ½À´Ï´Ù.");
+			if (al == null) throw new Exception("ì „ì†¡ëª©ë¡ì´ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
 			
-			VbyP.accessLog(user_id+" >> MMS Àü¼Û ¿äÃ» : " + requestIp + " =>["+image+"] ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"]");
+			VbyP.accessLog(user_id+" >> MMS ì „ì†¡ ìš”ì²­ : " + requestIp + " =>["+image+"] ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"]");
 			
-			if (SLibrary.isNull(imagePath) || !SLibrary.isFile(imagePath)) throw new Exception("ÀÌ¹ÌÁö°¡ ¾ø½À´Ï´Ù.");
+			if (SLibrary.isNull(imagePath) || !SLibrary.isFile(imagePath)) throw new Exception("ì´ë¯¸ì§€ê°€ ì—†ìŠµë‹ˆë‹¤.");
 
 			
 			
 			if ( !SLibrary.isNull(reservationDate.trim()) )
 				bReservation = true;
 			if ( bReservation && SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") == 0 )
-				throw new Exception("Àß¸øµÈ Çü½ÄÀÇ ¿¹¾à ³¯Â¥ ÀÔ´Ï´Ù.");
+				throw new Exception("ì˜ëª»ëœ í˜•ì‹ì˜ ì˜ˆì•½ ë‚ ì§œ ì…ë‹ˆë‹¤.");
 			
 			if ( bReservation ) {
 				
@@ -1449,10 +1459,10 @@ public class Web extends SessionManagement{
 				month = SLibrary.parseInt( SLibrary.getDateTimeStringStandard(reservationDate, "MM") );
 				
 				if ( year < SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) )
-					throw new Exception("°ú°Å³âÀ¸·Î Àü¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					throw new Exception("ê³¼ê±°ë…„ìœ¼ë¡œ ì „ì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 				
 				if ( year == SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) && month < SLibrary.parseInt( SLibrary.getDateTimeString("MM")) )
-					throw new Exception("°ú°Å¿ù·Î Àü¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					throw new Exception("ê³¼ê±°ì›”ë¡œ ì „ì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 			}else {
 				
 				year = SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") );
@@ -1461,11 +1471,11 @@ public class Web extends SessionManagement{
 			}
 				
 			if (year == 0 || month == 0)
-				throw new Exception("ÇØ´ç ³â¿ùÀ» °¡Á® ¿ÀÁö ¸øÇß½À´Ï´Ù.");
+				throw new Exception("í•´ë‹¹ ë…„ì›”ì„ ê°€ì ¸ ì˜¤ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
 			
 			conn = VbyP.getDB();
 			if (conn == null)
-				throw new Exception("DB¿¬°á¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("DBì—°ê²°ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			
 			mvo = getUserInformation( conn );
@@ -1475,7 +1485,7 @@ public class Web extends SessionManagement{
 			connLMS = VbyP.getDB("sms1");
 								
 			if (connLMS == null)
-				throw new Exception("MMS DB¿¬°á¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("MMS DBì—°ê²°ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			/*###############################
 			#		Process					#
@@ -1484,7 +1494,7 @@ public class Web extends SessionManagement{
 			returnPhone = SLibrary.replaceAll(returnPhone, "-", "");
 			phoneAndNameArrayList = mms.getPhone(conn, mvo.getUser_id(), al);		
 			sendCount = phoneAndNameArrayList.size();
-			//message °³Çà¹®ÀÚ º¯°æ
+			//message ê°œí–‰ë¬¸ì ë³€ê²½
 			message = SLibrary.replaceAll(message, "\r", "\n");
 			
 			checkLMSSend( conn, sendCount, mvo, message, requestIp );
@@ -1494,42 +1504,42 @@ public class Web extends SessionManagement{
 			lvo = mms.getMMSLogVO( mvo, bReservation, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp);
 			logKey = mms.insertLMSLog(conn, lvo, year, month);
 			if ( logKey == 0 )
-				throw new Exception("Àü¼Û³»¿ª ·Î±×°¡ »ğÀÔ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-			VbyP.accessLog(user_id+" >> MMS Àü¼Û ¿äÃ» : ·Î±× »ğÀÔ ¼º°ø ("+logKey+")"+ "°æ°ú ½Ã°£ : "+sw.getTime());
+				throw new Exception("ì „ì†¡ë‚´ì—­ ë¡œê·¸ê°€ ì‚½ì… ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+			VbyP.accessLog(user_id+" >> MMS ì „ì†¡ ìš”ì²­ : ë¡œê·¸ ì‚½ì… ì„±ê³µ ("+logKey+")"+ "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			//step2
 			if ( mms.sendMMSPointPut(conn, mvo, sendCount *-1 ) != 1 )
-				throw new Exception("°Ç¼ö Â÷°¨ÀÌ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-			VbyP.accessLog(user_id+" >> MMS Àü¼Û ¿äÃ» : °Ç¼ö Â÷°¨ ¼º°ø" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				throw new Exception("ê±´ìˆ˜ ì°¨ê°ì´ ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+			VbyP.accessLog(user_id+" >> MMS ì „ì†¡ ìš”ì²­ : ê±´ìˆ˜ ì°¨ê° ì„±ê³µ" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			//step3	
 			alClientVO = mms.getClientVO(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, imagePath, requestIp);
-			VbyP.accessLog(user_id+" >> MMS Àü¼Û ¿äÃ» : getLMSClientVO »ı¼º" + "°æ°ú ½Ã°£ : "+sw.getTime());
+			VbyP.accessLog(user_id+" >> MMS ì „ì†¡ ìš”ì²­ : getLMSClientVO ìƒì„±" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
-			//timeout ¹æÁö¸¦ À§ÇØ ´İ´Â´Ù.
-			try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ¹æÁö"+e.toString());}
+			//timeout ë°©ì§€ë¥¼ ìœ„í•´ ë‹«ëŠ”ë‹¤.
+			try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ë°©ì§€"+e.toString());}
 			
 			int clientResult = 0;
 			
 			clientResult = mms.insertClient(connLMS, alClientVO, "sms1");
 			
-			VbyP.accessLog(user_id+" >> MMS Àü¼Û ¿äÃ» : Àü¼ÛÅ×ÀÌºí »ğÀÔ ¼º°ø" + "°æ°ú ½Ã°£ : "+sw.getTime());
+			VbyP.accessLog(user_id+" >> MMS ì „ì†¡ ìš”ì²­ : ì „ì†¡í…Œì´ë¸” ì‚½ì… ì„±ê³µ" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			if ( clientResult != sendCount)
-				throw new Exception("Àü¼ÛÅ×ÀÌºí ÀÔ·Â : "+ Integer.toString(clientResult)+" ¹ß¼Ûµ¥ÀÌÅÍ : "+ Integer.toString( alClientVO.size() ) );
+				throw new Exception("ì „ì†¡í…Œì´ë¸” ì…ë ¥ : "+ Integer.toString(clientResult)+" ë°œì†¡ë°ì´í„° : "+ Integer.toString( alClientVO.size() ) );
 			else{
 				rvo.setbResult(true);
 				rvo.setstrDescription(Integer.toString(clientResult)+","+year+","+month+","+logKey+",mms");
 			}
 			
-			//´ë·®¹ß¼Û ¸ğ´ÏÅÍ¸µ 
+			//ëŒ€ëŸ‰ë°œì†¡ ëª¨ë‹ˆí„°ë§ 
 			if ( Integer.parseInt(VbyP.getValue("moniterSendCount")) < sendCount ){
 				
 				conn = VbyP.getDB();
 				AdminSMS asms = AdminSMS.getInstance();
 				String tempMessage = ( SLibrary.getByte( message ) > 15 )? SLibrary.cutBytes(message, 20, true, "...") : message ;
 				asms.sendAdmin(conn, 
-						"[MMS´ë·®¹ß¼Û]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"°Ç\r\n" 
+						"[MMSëŒ€ëŸ‰ë°œì†¡]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"ê±´\r\n" 
 						+ tempMessage  );
 			}
 				
@@ -1548,7 +1558,7 @@ public class Web extends SessionManagement{
 			}
 		}
 		
-		VbyP.accessLog(user_id+" >> MMS Àü¼Û ¿äÃ» °á°ú : "+rvo.getstrDescription());
+		VbyP.accessLog(user_id+" >> MMS ì „ì†¡ ìš”ì²­ ê²°ê³¼ : "+rvo.getstrDescription());
 		return rvo;
 	}
 	
@@ -1576,7 +1586,7 @@ public class Web extends SessionManagement{
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
 		rvo.setbResult(false);
 		
-		// 20120315 Ãß°¡
+		// 20120315 ì¶”ê°€
 		int cnt = 0;
 		int minute = 0;
 		
@@ -1589,24 +1599,24 @@ public class Web extends SessionManagement{
 			StopWatch sw = new StopWatch();
 			sw.play();
 			
-			if (!isLogin()) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (!isLogin()) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			user_id = getSession();
 			requestIp = FlexContext.getHttpRequest().getRemoteAddr();
 			
-			//¹ß¼ÛÄ«¿îÆ® ÃÊ±âÈ­
+			//ë°œì†¡ì¹´ìš´íŠ¸ ì´ˆê¸°í™”
 			M.setState(user_id, 0);
 			
-			if (al == null) throw new Exception("Àü¼Û¸ñ·ÏÀÌ ºñ¾î ÀÖ½À´Ï´Ù.");
+			if (al == null) throw new Exception("ì „ì†¡ëª©ë¡ì´ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
 			
-			VbyP.accessLog(user_id+" >> MMS Àü¼Û ¿äÃ» : " + requestIp + " =>["+image+"] ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"] ["+interval+"] ["+bMerge+"]");
+			VbyP.accessLog(user_id+" >> MMS ì „ì†¡ ìš”ì²­ : " + requestIp + " =>["+image+"] ["+message+"] ["+al.size()+"] ["+ returnPhone+"] ["+reservationDate+"] ["+interval+"] ["+bMerge+"]");
 			
-			if (SLibrary.isNull(image) ) throw new Exception("ÀÌ¹ÌÁö°¡ ¾ø½À´Ï´Ù.");
+			if (SLibrary.isNull(image) ) throw new Exception("ì´ë¯¸ì§€ê°€ ì—†ìŠµë‹ˆë‹¤.");
 			String [] arrImage = image.split(";");
 			if (arrImage != null && arrImage.length > 0) {
 				for (int i = 0; i < arrImage.length; i++) {
 					arrImage[i] = imageDir+arrImage[i];
 					if (!SLibrary.isFile(arrImage[i]))
-						throw new Exception("ÀÌ¹ÌÁö°¡ ¾ø½À´Ï´Ù.");
+						throw new Exception("ì´ë¯¸ì§€ê°€ ì—†ìŠµë‹ˆë‹¤.");
 				}
 				
 				for (String img : arrImage) {
@@ -1616,21 +1626,21 @@ public class Web extends SessionManagement{
 					imagePath = imagePath.substring(0, imagePath.length()-1);
 			}
 
-			// 20120315 Ãß°¡
+			// 20120315 ì¶”ê°€
 			if (!SLibrary.isNull(interval)) {
 				String [] arrIntervar = interval.split("/");
-				if (arrIntervar == null || arrIntervar.length != 2) throw new Exception("Àß¸øµÈ °£°İ ¼³Á¤ÀÔ´Ï´Ù.");
+				if (arrIntervar == null || arrIntervar.length != 2) throw new Exception("ì˜ëª»ëœ ê°„ê²© ì„¤ì •ì…ë‹ˆë‹¤.");
 				cnt = SLibrary.intValue(arrIntervar[0]);
 				minute = SLibrary.intValue(arrIntervar[1]);
 				
-				if (cnt <= 0 || minute <= 0) throw new Exception("Àß¸øµÈ °£°İ ¼³Á¤ÀÔ´Ï´Ù.1");
+				if (cnt <= 0 || minute <= 0) throw new Exception("ì˜ëª»ëœ ê°„ê²© ì„¤ì •ì…ë‹ˆë‹¤.1");
 			}
 			
 			
 			if ( !SLibrary.isNull(reservationDate.trim()) )
 				bReservation = true;
 			if ( bReservation && SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") == 0 )
-				throw new Exception("Àß¸øµÈ Çü½ÄÀÇ ¿¹¾à ³¯Â¥ ÀÔ´Ï´Ù.");
+				throw new Exception("ì˜ëª»ëœ í˜•ì‹ì˜ ì˜ˆì•½ ë‚ ì§œ ì…ë‹ˆë‹¤.");
 			
 			if ( bReservation ) {
 				
@@ -1638,14 +1648,14 @@ public class Web extends SessionManagement{
 				month = SLibrary.parseInt( SLibrary.getDateTimeStringStandard(reservationDate, "MM") );
 				
 				if ( year < SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) )
-					throw new Exception("°ú°Å³âÀ¸·Î Àü¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					throw new Exception("ê³¼ê±°ë…„ìœ¼ë¡œ ì „ì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 				
 				if ( year == SLibrary.parseInt( SLibrary.getDateTimeString("yyyy") ) && month < SLibrary.parseInt( SLibrary.getDateTimeString("MM")) )
-					throw new Exception("°ú°Å¿ù·Î Àü¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					throw new Exception("ê³¼ê±°ì›”ë¡œ ì „ì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 				
 				if ( SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000 ){
-					VbyP.accessLog(user_id+" >> °ú°Å ¿¹¾à : "+SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") + "/"+ ((SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000));
-					throw new Exception("°ú°Å½Ã°£À¸·Î ¿¹¾à ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+					VbyP.accessLog(user_id+" >> ê³¼ê±° ì˜ˆì•½ : "+SLibrary.getTime(reservationDate, "yyyy-MM-dd HH:mm:ss") + "/"+ ((SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + 0)*1000));
+					throw new Exception("ê³¼ê±°ì‹œê°„ìœ¼ë¡œ ì˜ˆì•½ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 				}
 				
 			}else {
@@ -1656,11 +1666,11 @@ public class Web extends SessionManagement{
 			}
 				
 			if (year == 0 || month == 0)
-				throw new Exception("ÇØ´ç ³â¿ùÀ» °¡Á® ¿ÀÁö ¸øÇß½À´Ï´Ù.");
+				throw new Exception("í•´ë‹¹ ë…„ì›”ì„ ê°€ì ¸ ì˜¤ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
 			
 			conn = VbyP.getDB();
 			if (conn == null)
-				throw new Exception("DB¿¬°á¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("DBì—°ê²°ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			
 			mvo = getUserInformation( conn );
@@ -1679,7 +1689,7 @@ public class Web extends SessionManagement{
 			connLMS = VbyP.getDB("sms1");
 								
 			if (connLMS == null)
-				throw new Exception("MMS DB¿¬°á¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("MMS DBì—°ê²°ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			/*###############################
 			#		Process					#
@@ -1688,7 +1698,7 @@ public class Web extends SessionManagement{
 			returnPhone = SLibrary.replaceAll(returnPhone, "-", "");
 			phoneAndNameArrayList = mms.getPhone(conn, mvo.getUser_id(), al);		
 			sendCount = phoneAndNameArrayList.size();
-			//message °³Çà¹®ÀÚ º¯°æ
+			//message ê°œí–‰ë¬¸ì ë³€ê²½
 			message = SLibrary.replaceAll(message, "\r", "\n");
 			
 			checkMMSSend( conn, sendCount, mvo, message, requestIp, imagePath );
@@ -1698,73 +1708,73 @@ public class Web extends SessionManagement{
 			lvo = mms.getMMSLogVO( mvo, bReservation, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp);
 			logKey = mms.insertLMSLog(conn, lvo, year, month);
 			if ( logKey == 0 )
-				throw new Exception("Àü¼Û³»¿ª ·Î±×°¡ »ğÀÔ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-			VbyP.accessLog(user_id+" >> MMS Àü¼Û ¿äÃ» : ·Î±× »ğÀÔ ¼º°ø ("+logKey+")"+ "°æ°ú ½Ã°£ : "+sw.getTime());
+				throw new Exception("ì „ì†¡ë‚´ì—­ ë¡œê·¸ê°€ ì‚½ì… ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+			VbyP.accessLog(user_id+" >> MMS ì „ì†¡ ìš”ì²­ : ë¡œê·¸ ì‚½ì… ì„±ê³µ ("+logKey+")"+ "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			//step2
 			if ( mms.sendMMSPointPut(conn, mvo, sendCount *-1 ) != 1 )
-				throw new Exception("°Ç¼ö Â÷°¨ÀÌ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-			VbyP.accessLog(user_id+" >> MMS Àü¼Û ¿äÃ» : °Ç¼ö Â÷°¨ ¼º°ø" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				throw new Exception("ê±´ìˆ˜ ì°¨ê°ì´ ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+			VbyP.accessLog(user_id+" >> MMS ì „ì†¡ ìš”ì²­ : ê±´ìˆ˜ ì°¨ê° ì„±ê³µ" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			int clientResult = 0;
 			if (line.equals("sk")) {
 				SMS sms = SMS.getInstance();
 				//step3	
 				alClientVOSK = sms.getSMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, requestIp, cnt, minute, bMerge);
-				VbyP.accessLog(user_id+" >> MMS Àü¼Û ¿äÃ» : SK getSMSClientVOMeargeAndInterval »ı¼º" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				VbyP.accessLog(user_id+" >> MMS ì „ì†¡ ìš”ì²­ : SK getSMSClientVOMeargeAndInterval ìƒì„±" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 				
-				//timeout ¹æÁö¸¦ À§ÇØ ´İ´Â´Ù.
-				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ¹æÁö"+e.toString());}
+				//timeout ë°©ì§€ë¥¼ ìœ„í•´ ë‹«ëŠ”ë‹¤.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ë°©ì§€"+e.toString());}
 				System.out.println("#### SK MMS : "+imagePath+"####");
 				clientResult = sms.insertMMSClientSK(connLMS, alClientVOSK, imagePath);
 				
 			}else if (line.startsWith("kt") || line.equals("han")) {
 				//step3	
 				alClientVO = mms.getMMSClientVOMeargeAndIntervalKT(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, imagePath, requestIp, cnt, minute, bMerge);
-				VbyP.accessLog(user_id+" >> MMS Àü¼Û ¿äÃ» : KT getSMSClientVOMeargeAndInterval »ı¼º" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				VbyP.accessLog(user_id+" >> MMS ì „ì†¡ ìš”ì²­ : KT getSMSClientVOMeargeAndInterval ìƒì„±" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 				
-				//timeout ¹æÁö¸¦ À§ÇØ ´İ´Â´Ù.
-				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ¹æÁö"+e.toString());}
+				//timeout ë°©ì§€ë¥¼ ìœ„í•´ ë‹«ëŠ”ë‹¤.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ë°©ì§€"+e.toString());}
 				
 				clientResult = mms.insertClient(connLMS, alClientVO, "ktmms");
 				
 			}else {
 				//step3	
 				alClientVO = mms.getMMSClientVOMeargeAndIntervalKT(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, imagePath, requestIp, cnt, minute, bMerge);
-				VbyP.accessLog(user_id+" >> MMS Àü¼Û ¿äÃ» : KT getSMSClientVOMeargeAndInterval »ı¼º" + "°æ°ú ½Ã°£ : "+sw.getTime());
+				VbyP.accessLog(user_id+" >> MMS ì „ì†¡ ìš”ì²­ : KT getSMSClientVOMeargeAndInterval ìƒì„±" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 				
-				//timeout ¹æÁö¸¦ À§ÇØ ´İ´Â´Ù.
-				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ¹æÁö"+e.toString());}
+				//timeout ë°©ì§€ë¥¼ ìœ„í•´ ë‹«ëŠ”ë‹¤.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ë°©ì§€"+e.toString());}
 				
 				clientResult = mms.insertClient(connLMS, alClientVO, "ktmms");
 //				//step3	
 //				alClientVO = mms.getMMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, imagePath, requestIp, cnt, minute, bMerge);
-//				VbyP.accessLog(user_id+" >> MMS Àü¼Û ¿äÃ» : Dacom getSMSClientVOMeargeAndInterval »ı¼º" + "°æ°ú ½Ã°£ : "+sw.getTime());
+//				VbyP.accessLog(user_id+" >> MMS ì „ì†¡ ìš”ì²­ : Dacom getSMSClientVOMeargeAndInterval ìƒì„±" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 //				
-//				//timeout ¹æÁö¸¦ À§ÇØ ´İ´Â´Ù.
-//				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ¹æÁö"+e.toString());}
+//				//timeout ë°©ì§€ë¥¼ ìœ„í•´ ë‹«ëŠ”ë‹¤.
+//				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout ë°©ì§€"+e.toString());}
 //				
 //				clientResult = mms.insertClient(connLMS, alClientVO, "sms1");
 			}
 			
 			
-			VbyP.accessLog(user_id+" >> MMS Àü¼Û ¿äÃ» : Àü¼ÛÅ×ÀÌºí »ğÀÔ ¼º°ø" + "°æ°ú ½Ã°£ : "+sw.getTime());
+			VbyP.accessLog(user_id+" >> MMS ì „ì†¡ ìš”ì²­ : ì „ì†¡í…Œì´ë¸” ì‚½ì… ì„±ê³µ" + "ê²½ê³¼ ì‹œê°„ : "+sw.getTime());
 			
 			if ( clientResult != sendCount)
-				throw new Exception("Àü¼ÛÅ×ÀÌºí ÀÔ·Â : "+ Integer.toString(clientResult)+" ¹ß¼Ûµ¥ÀÌÅÍ : "+ Integer.toString( alClientVO.size() ) );
+				throw new Exception("ì „ì†¡í…Œì´ë¸” ì…ë ¥ : "+ Integer.toString(clientResult)+" ë°œì†¡ë°ì´í„° : "+ Integer.toString( alClientVO.size() ) );
 			else{
 				rvo.setbResult(true);
 				rvo.setstrDescription(Integer.toString(clientResult)+","+year+","+month+","+logKey+",mms");
 			}
 			
-			//´ë·®¹ß¼Û ¸ğ´ÏÅÍ¸µ 
+			//ëŒ€ëŸ‰ë°œì†¡ ëª¨ë‹ˆí„°ë§ 
 			if ( Integer.parseInt(VbyP.getValue("moniterSendCount")) < sendCount ){
 				
 				conn = VbyP.getDB();
 				AdminSMS asms = AdminSMS.getInstance();
 				String tempMessage = ( SLibrary.getByte( message ) > 15 )? SLibrary.cutBytes(message, 20, true, "...") : message ;
 				asms.sendAdmin(conn, 
-						"[MMS´ë·®¹ß¼Û]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"°Ç\r\n" 
+						"[MMSëŒ€ëŸ‰ë°œì†¡]\r\n" + user_id + "\r\n"+Integer.toString( sendCount )+"ê±´\r\n" 
 						+ tempMessage  );
 			}
 				
@@ -1783,26 +1793,26 @@ public class Web extends SessionManagement{
 			}
 		}
 		
-		VbyP.accessLog(user_id+" >> MMS Àü¼Û ¿äÃ» °á°ú : "+rvo.getstrDescription());
+		VbyP.accessLog(user_id+" >> MMS ì „ì†¡ ìš”ì²­ ê²°ê³¼ : "+rvo.getstrDescription());
 		return rvo;
 	}
 	
 	private void checkForeignSend( Connection conn, int sendCount, UserInformationVO mvo, String message, String requestIp ) throws Exception {
 		
-		//ÃÖ´ë ¹ß¼Û°Ç¼ö
+		//ìµœëŒ€ ë°œì†¡ê±´ìˆ˜
 		if ( Integer.parseInt(VbyP.getValue("maxSendCount")) < sendCount )
-			throw new Exception( VbyP.getValue("maxSendCount")+" °Ç ÀÌ»ó ¹ß¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+			throw new Exception( VbyP.getValue("maxSendCount")+" ê±´ ì´ìƒ ë°œì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 		
-		//Å»ÅğÈ¸¿ø Ã¼Å©
+		//íƒˆí‡´íšŒì› ì²´í¬
 		if( mvo.getLevaeYN().equals("Y") ){
 			logout_session();
-			throw new Exception("Àß¸øµÈ Á¢±ÙÀÔ´Ï´Ù.");
+			throw new Exception("ì˜ëª»ëœ ì ‘ê·¼ì…ë‹ˆë‹¤.");
 		}
 		
 		if( Integer.parseInt(mvo.getPoint()) < sendCount* PointManager.FOREIGN_POINT )
-			throw new Exception("ÀÜ¿©°Ç¼ö°¡ ºÎÁ·ÇÕ´Ï´Ù. ( "+ Integer.toString(sendCount* PointManager.FOREIGN_POINT)+" / "+ mvo.getPoint()+" )");
+			throw new Exception("ì”ì—¬ê±´ìˆ˜ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤. ( "+ Integer.toString(sendCount* PointManager.FOREIGN_POINT)+" / "+ mvo.getPoint()+" )");
 		
-		//message ÇÊÅÍ¸µ
+		//message í•„í„°ë§
 		if ( Integer.parseInt(VbyP.getValue("filterMinCount")) <= sendCount  ) {
 			
 			String filterMessage = null;
@@ -1811,49 +1821,49 @@ public class Web extends SessionManagement{
 			if (filterMessage == null )
 				filterMessage = Filtering.messageFiltering(mvo.getUser_id(), message);
 			else
-				bGlobal = "ÀüÃ¼";
+				bGlobal = "ì „ì²´";
 			
 			if (filterMessage != null) {
 				
-				VbyP.accessLog(mvo.getUser_id() +" >> Àü¼Û ¿äÃ» : ½ºÆÔÇÊÅÍ ("+filterMessage+")");
+				VbyP.accessLog(mvo.getUser_id() +" >> ì „ì†¡ ìš”ì²­ : ìŠ¤íŒ¸í•„í„° ("+filterMessage+")");
 				AdminSMS asms = AdminSMS.getInstance();
 				asms.sendAdmin(conn, 
-						"M["+bGlobal+"½ºÆÔÇÊÅÍ]\r\n" + mvo.getUser_id() + "\r\n" 
+						"M["+bGlobal+"ìŠ¤íŒ¸í•„í„°]\r\n" + mvo.getUser_id() + "\r\n" 
 						+ filterMessage  );
-				throw new Exception("½ºÆÔ¼º ¹®±¸°¡ ¹ß°ß µÇ¾ú½À´Ï´Ù.");
+				throw new Exception("ìŠ¤íŒ¸ì„± ë¬¸êµ¬ê°€ ë°œê²¬ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 			}
 		}
-		//ip ÇÊÅÍ¸µ
+		//ip í•„í„°ë§
 		if ( Filtering.ipFiltering(mvo.getUser_id(), requestIp) != null ) {
-			VbyP.accessLog(mvo.getUser_id() +" >> Àü¼Û ¿äÃ» : IPÇÊÅÍ ("+Filtering.ipFiltering(mvo.getUser_id(), requestIp)+")");
-			throw new Exception("°í°´´ÔÀº ÇöÀç ¹ß¼ÛÀÌ Á¦ÇÑµÇ¾î ÀÖ½À´Ï´Ù.");
+			VbyP.accessLog(mvo.getUser_id() +" >> ì „ì†¡ ìš”ì²­ : IPí•„í„° ("+Filtering.ipFiltering(mvo.getUser_id(), requestIp)+")");
+			throw new Exception("ê³ ê°ë‹˜ì€ í˜„ì¬ ë°œì†¡ì´ ì œí•œë˜ì–´ ìˆìŠµë‹ˆë‹¤.");
 		}
 		
-		if (SLibrary.getByte(message) > 150) throw new Exception("ÇØ¿Ü¹®ÀÚ´Â 150byte ÀÌ»ó ¹ß¼Û ÇÒ¼ö ¾ø½À´Ï´Ù.");
+		if (SLibrary.getByte(message) > 150) throw new Exception("í•´ì™¸ë¬¸ìëŠ” 150byte ì´ìƒ ë°œì†¡ í• ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 		
-		//¸Ş½ÃÁö ÀÌÅë»ç ¹ÌÀû¿ë ÇÑ±Û È®ÀÎ
+		//ë©”ì‹œì§€ ì´í†µì‚¬ ë¯¸ì ìš© í•œê¸€ í™•ì¸
 		String isMessage = SMS.getInstance().isMessage(message);
 		if ( isMessage != null )
-			throw new Exception("["+isMessage+"] ¹®ÀÚ°¡ ¸ÂÃã¹ı¿¡ ¾î±ß³³´Ï´Ù.¼öÁ¤ÇÏ¼¼¿ä.");
+			throw new Exception("["+isMessage+"] ë¬¸ìê°€ ë§ì¶¤ë²•ì— ì–´ê¸‹ë‚©ë‹ˆë‹¤.ìˆ˜ì •í•˜ì„¸ìš”.");
 		
 	}
 	
 	private void checkSMSSend( Connection conn, int sendCount, UserInformationVO mvo, String message, String requestIp ) throws Exception {
 		
-		//ÃÖ´ë ¹ß¼Û°Ç¼ö
+		//ìµœëŒ€ ë°œì†¡ê±´ìˆ˜
 		if ( Integer.parseInt(VbyP.getValue("maxSendCount")) < sendCount )
-			throw new Exception( VbyP.getValue("maxSendCount")+" °Ç ÀÌ»ó ¹ß¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+			throw new Exception( VbyP.getValue("maxSendCount")+" ê±´ ì´ìƒ ë°œì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 		
-		//Å»ÅğÈ¸¿ø Ã¼Å©
+		//íƒˆí‡´íšŒì› ì²´í¬
 		if( mvo.getLevaeYN().equals("Y") ){
 			logout_session();
-			throw new Exception("Àß¸øµÈ Á¢±ÙÀÔ´Ï´Ù.");
+			throw new Exception("ì˜ëª»ëœ ì ‘ê·¼ì…ë‹ˆë‹¤.");
 		}
 		
 		if( Integer.parseInt(mvo.getPoint()) < sendCount )
-			throw new Exception("ÀÜ¿©°Ç¼ö°¡ ºÎÁ·ÇÕ´Ï´Ù. ( "+ Integer.toString(sendCount)+" / "+ mvo.getPoint()+" )");
+			throw new Exception("ì”ì—¬ê±´ìˆ˜ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤. ( "+ Integer.toString(sendCount)+" / "+ mvo.getPoint()+" )");
 		
-		//message ÇÊÅÍ¸µ
+		//message í•„í„°ë§
 		if ( Integer.parseInt(VbyP.getValue("filterMinCount")) <= sendCount  ) {
 			
 			String filterMessage = null;
@@ -1862,50 +1872,50 @@ public class Web extends SessionManagement{
 			if (filterMessage == null )
 				filterMessage = Filtering.messageFiltering(mvo.getUser_id(), message);
 			else
-				bGlobal = "ÀüÃ¼";
+				bGlobal = "ì „ì²´";
 			
 			if (filterMessage != null) {
 				
-				VbyP.accessLog(mvo.getUser_id() +" >> Àü¼Û ¿äÃ» : ½ºÆÔÇÊÅÍ ("+filterMessage+")");
+				VbyP.accessLog(mvo.getUser_id() +" >> ì „ì†¡ ìš”ì²­ : ìŠ¤íŒ¸í•„í„° ("+filterMessage+")");
 				AdminSMS asms = AdminSMS.getInstance();
 				asms.sendAdmin(conn, 
-						"M["+bGlobal+"½ºÆÔÇÊÅÍ]\r\n" + mvo.getUser_id() + "\r\n" 
+						"M["+bGlobal+"ìŠ¤íŒ¸í•„í„°]\r\n" + mvo.getUser_id() + "\r\n" 
 						+ filterMessage  );
-				throw new Exception("½ºÆÔ¼º ¹®±¸°¡ ¹ß°ß µÇ¾ú½À´Ï´Ù.");
+				throw new Exception("ìŠ¤íŒ¸ì„± ë¬¸êµ¬ê°€ ë°œê²¬ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 			}
 		}
-		//ip ÇÊÅÍ¸µ
+		//ip í•„í„°ë§
 		if ( Filtering.ipFiltering(mvo.getUser_id(), requestIp) != null ) {
-			VbyP.accessLog(mvo.getUser_id() +" >> Àü¼Û ¿äÃ» : IPÇÊÅÍ ("+Filtering.ipFiltering(mvo.getUser_id(), requestIp)+")");
-			throw new Exception("°í°´´ÔÀº ÇöÀç ¹ß¼ÛÀÌ Á¦ÇÑµÇ¾î ÀÖ½À´Ï´Ù.");
+			VbyP.accessLog(mvo.getUser_id() +" >> ì „ì†¡ ìš”ì²­ : IPí•„í„° ("+Filtering.ipFiltering(mvo.getUser_id(), requestIp)+")");
+			throw new Exception("ê³ ê°ë‹˜ì€ í˜„ì¬ ë°œì†¡ì´ ì œí•œë˜ì–´ ìˆìŠµë‹ˆë‹¤.");
 		}
 		
-		if (SLibrary.getByte(message) > 90) throw new Exception("SMS´Â 90byte ÀÌ»ó ¹ß¼Û ÇÒ¼ö ¾ø½À´Ï´Ù.");
+		if (SLibrary.getByte(message) > 90) throw new Exception("SMSëŠ” 90byte ì´ìƒ ë°œì†¡ í• ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 		
-		//¸Ş½ÃÁö ÀÌÅë»ç ¹ÌÀû¿ë ÇÑ±Û È®ÀÎ
+		//ë©”ì‹œì§€ ì´í†µì‚¬ ë¯¸ì ìš© í•œê¸€ í™•ì¸
 		String isMessage = SMS.getInstance().isMessage(message);
 		if ( isMessage != null )
-			throw new Exception("["+isMessage+"] ¹®ÀÚ°¡ ¸ÂÃã¹ı¿¡ ¾î±ß³³´Ï´Ù.¼öÁ¤ÇÏ¼¼¿ä.");
+			throw new Exception("["+isMessage+"] ë¬¸ìê°€ ë§ì¶¤ë²•ì— ì–´ê¸‹ë‚©ë‹ˆë‹¤.ìˆ˜ì •í•˜ì„¸ìš”.");
 		
 	}
 	
 	private void checkLMSSend( Connection conn, int sendCount, UserInformationVO mvo, String message, String requestIp ) throws Exception {
 		
-		//ÃÖ´ë ¹ß¼Û°Ç¼ö
+		//ìµœëŒ€ ë°œì†¡ê±´ìˆ˜
 		if ( Integer.parseInt(VbyP.getValue("maxSendCount")) < sendCount )
-			throw new Exception( VbyP.getValue("maxSendCount")+" °Ç ÀÌ»ó ¹ß¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+			throw new Exception( VbyP.getValue("maxSendCount")+" ê±´ ì´ìƒ ë°œì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 		
 		if( mvo.getLevaeYN().equals("Y") ){
 			logout_session();
-			throw new Exception("Àß¸øµÈ Á¢±ÙÀÔ´Ï´Ù.");
+			throw new Exception("ì˜ëª»ëœ ì ‘ê·¼ì…ë‹ˆë‹¤.");
 		}
 		
-		//°Ç¼ö Ã¼Å©
+		//ê±´ìˆ˜ ì²´í¬
 		if( Integer.parseInt(mvo.getPoint()) < sendCount * MMS.LMS_POINT_COUNT )
-			throw new Exception("ÀÜ¿©°Ç¼ö°¡ ºÎÁ·ÇÕ´Ï´Ù. ( "+ Integer.toString(sendCount)+" / "+ mvo.getPoint()+" )");
+			throw new Exception("ì”ì—¬ê±´ìˆ˜ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤. ( "+ Integer.toString(sendCount)+" / "+ mvo.getPoint()+" )");
 	
 	
-		//message ÇÊÅÍ¸µ
+		//message í•„í„°ë§
 		if ( Integer.parseInt(VbyP.getValue("filterMinCount")) <= sendCount  ) {
 			
 			String filterMessage = null;
@@ -1914,50 +1924,50 @@ public class Web extends SessionManagement{
 			if (filterMessage == null )
 				filterMessage = Filtering.messageFiltering(mvo.getUser_id(), message);
 			else
-				bGlobal = "ÀüÃ¼";
+				bGlobal = "ì „ì²´";
 			
 			if (filterMessage != null) {
 				
-				VbyP.accessLog(mvo.getUser_id() +" >> Àü¼Û ¿äÃ» : ½ºÆÔÇÊÅÍ ("+filterMessage+")");
+				VbyP.accessLog(mvo.getUser_id() +" >> ì „ì†¡ ìš”ì²­ : ìŠ¤íŒ¸í•„í„° ("+filterMessage+")");
 				AdminSMS asms = AdminSMS.getInstance();
 				asms.sendAdmin(conn, 
-						"M["+bGlobal+"½ºÆÔÇÊÅÍ]\r\n" + mvo.getUser_id() + "\r\n" 
+						"M["+bGlobal+"ìŠ¤íŒ¸í•„í„°]\r\n" + mvo.getUser_id() + "\r\n" 
 						+ filterMessage  );
-				throw new Exception("½ºÆÔ¼º ¹®±¸°¡ ¹ß°ß µÇ¾ú½À´Ï´Ù.");
+				throw new Exception("ìŠ¤íŒ¸ì„± ë¬¸êµ¬ê°€ ë°œê²¬ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 			}
 		}
-		//ip ÇÊÅÍ¸µ
+		//ip í•„í„°ë§
 		if ( Filtering.ipFiltering(mvo.getUser_id(), requestIp) != null ) {
-			VbyP.accessLog(mvo.getUser_id() +" >> Àü¼Û ¿äÃ» : IPÇÊÅÍ ("+Filtering.ipFiltering(mvo.getUser_id(), requestIp)+")");
-			throw new Exception("°í°´´ÔÀº ÇöÀç ¹ß¼ÛÀÌ Á¦ÇÑµÇ¾î ÀÖ½À´Ï´Ù.");
+			VbyP.accessLog(mvo.getUser_id() +" >> ì „ì†¡ ìš”ì²­ : IPí•„í„° ("+Filtering.ipFiltering(mvo.getUser_id(), requestIp)+")");
+			throw new Exception("ê³ ê°ë‹˜ì€ í˜„ì¬ ë°œì†¡ì´ ì œí•œë˜ì–´ ìˆìŠµë‹ˆë‹¤.");
 		}
 		
-		//¸Ş½ÃÁö ÀÌÅë»ç ¹ÌÀû¿ë ÇÑ±Û È®ÀÎ
+		//ë©”ì‹œì§€ ì´í†µì‚¬ ë¯¸ì ìš© í•œê¸€ í™•ì¸
 		String isMessage = SMS.getInstance().isMessage(message);
 		if ( isMessage != null )
-			throw new Exception("["+isMessage+"] ¹®ÀÚ°¡ ¸ÂÃã¹ı¿¡ ¾î±ß³³´Ï´Ù.¼öÁ¤ÇÏ¼¼¿ä.");
+			throw new Exception("["+isMessage+"] ë¬¸ìê°€ ë§ì¶¤ë²•ì— ì–´ê¸‹ë‚©ë‹ˆë‹¤.ìˆ˜ì •í•˜ì„¸ìš”.");
 		
 	}
 	
 	private void checkMMSSend( Connection conn, int sendCount, UserInformationVO mvo, String message, String requestIp, String imagePath ) throws Exception {
 		
-		//ÃÖ´ë ¹ß¼Û°Ç¼ö
+		//ìµœëŒ€ ë°œì†¡ê±´ìˆ˜
 		if ( Integer.parseInt(VbyP.getValue("maxSendCount")) < sendCount )
-			throw new Exception( VbyP.getValue("maxSendCount")+" °Ç ÀÌ»ó ¹ß¼Û ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+			throw new Exception( VbyP.getValue("maxSendCount")+" ê±´ ì´ìƒ ë°œì†¡ í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 		
 		if( mvo.getLevaeYN().equals("Y") ){
 			logout_session();
-			throw new Exception("Àß¸øµÈ Á¢±ÙÀÔ´Ï´Ù.");
+			throw new Exception("ì˜ëª»ëœ ì ‘ê·¼ì…ë‹ˆë‹¤.");
 		}
 		
-		if (SLibrary.isNull(imagePath)) throw new Exception("ÀÌ¹ÌÁö°¡ ¾ø½À´Ï´Ù.");
+		if (SLibrary.isNull(imagePath)) throw new Exception("ì´ë¯¸ì§€ê°€ ì—†ìŠµë‹ˆë‹¤.");
 		
-		//°Ç¼ö Ã¼Å©
+		//ê±´ìˆ˜ ì²´í¬
 		if( Integer.parseInt(mvo.getPoint()) < sendCount * MMS.MMS_POINT_COUNT )
-			throw new Exception("ÀÜ¿©°Ç¼ö°¡ ºÎÁ·ÇÕ´Ï´Ù. ( "+ Integer.toString(sendCount)+" / "+ mvo.getPoint()+" )");
+			throw new Exception("ì”ì—¬ê±´ìˆ˜ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤. ( "+ Integer.toString(sendCount)+" / "+ mvo.getPoint()+" )");
 	
 	
-		//message ÇÊÅÍ¸µ
+		//message í•„í„°ë§
 		if ( Integer.parseInt(VbyP.getValue("filterMinCount")) <= sendCount  ) {
 			
 			String filterMessage = null;
@@ -1966,28 +1976,28 @@ public class Web extends SessionManagement{
 			if (filterMessage == null )
 				filterMessage = Filtering.messageFiltering(mvo.getUser_id(), message);
 			else
-				bGlobal = "ÀüÃ¼";
+				bGlobal = "ì „ì²´";
 			
 			if (filterMessage != null) {
 				
-				VbyP.accessLog(mvo.getUser_id() +" >> Àü¼Û ¿äÃ» : ½ºÆÔÇÊÅÍ ("+filterMessage+")");
+				VbyP.accessLog(mvo.getUser_id() +" >> ì „ì†¡ ìš”ì²­ : ìŠ¤íŒ¸í•„í„° ("+filterMessage+")");
 				AdminSMS asms = AdminSMS.getInstance();
 				asms.sendAdmin(conn, 
-						"M["+bGlobal+"½ºÆÔÇÊÅÍ]\r\n" + mvo.getUser_id() + "\r\n" 
+						"M["+bGlobal+"ìŠ¤íŒ¸í•„í„°]\r\n" + mvo.getUser_id() + "\r\n" 
 						+ filterMessage  );
-				throw new Exception("½ºÆÔ¼º ¹®±¸°¡ ¹ß°ß µÇ¾ú½À´Ï´Ù.");
+				throw new Exception("ìŠ¤íŒ¸ì„± ë¬¸êµ¬ê°€ ë°œê²¬ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 			}
 		}
-		//ip ÇÊÅÍ¸µ
+		//ip í•„í„°ë§
 		if ( Filtering.ipFiltering(mvo.getUser_id(), requestIp) != null ) {
-			VbyP.accessLog(mvo.getUser_id() +" >> Àü¼Û ¿äÃ» : IPÇÊÅÍ ("+Filtering.ipFiltering(mvo.getUser_id(), requestIp)+")");
-			throw new Exception("°í°´´ÔÀº ÇöÀç ¹ß¼ÛÀÌ Á¦ÇÑµÇ¾î ÀÖ½À´Ï´Ù.");
+			VbyP.accessLog(mvo.getUser_id() +" >> ì „ì†¡ ìš”ì²­ : IPí•„í„° ("+Filtering.ipFiltering(mvo.getUser_id(), requestIp)+")");
+			throw new Exception("ê³ ê°ë‹˜ì€ í˜„ì¬ ë°œì†¡ì´ ì œí•œë˜ì–´ ìˆìŠµë‹ˆë‹¤.");
 		}
 		
-		//¸Ş½ÃÁö ÀÌÅë»ç ¹ÌÀû¿ë ÇÑ±Û È®ÀÎ
+		//ë©”ì‹œì§€ ì´í†µì‚¬ ë¯¸ì ìš© í•œê¸€ í™•ì¸
 		String isMessage = SMS.getInstance().isMessage(message);
 		if ( isMessage != null )
-			throw new Exception("["+isMessage+"] ¹®ÀÚ°¡ ¸ÂÃã¹ı¿¡ ¾î±ß³³´Ï´Ù.¼öÁ¤ÇÏ¼¼¿ä.");
+			throw new Exception("["+isMessage+"] ë¬¸ìê°€ ë§ì¶¤ë²•ì— ì–´ê¸‹ë‚©ë‹ˆë‹¤.ìˆ˜ì •í•˜ì„¸ìš”.");
 		
 	}
 	
@@ -2003,11 +2013,11 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			conn = VbyP.getDB();
-			if (conn == null) throw new Exception("DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (conn == null) throw new Exception("DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			
-			VbyP.accessLog(" >> È¸½Å¹øÈ£ ÀúÀå ¿äÃ» "+ rp +" , "+ user_id);
+			VbyP.accessLog(" >> íšŒì‹ ë²ˆí˜¸ ì €ì¥ ìš”ì²­ "+ rp +" , "+ user_id);
 			
 			pq = new PreparedExecuteQueryManager();
 			pq.setPrepared(conn, VbyP.getSQL("updateReturnPhone"));
@@ -2044,12 +2054,12 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			conn = VbyP.getDB();
-			if (conn == null) throw new Exception("DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (conn == null) throw new Exception("DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			address = Address.getInstance();
 			
-			VbyP.accessLog(" >> ±×·ìº° ¸®½ºÆ® ¿äÃ» "+ user_id);
+			VbyP.accessLog(" >> ê·¸ë£¹ë³„ ë¦¬ìŠ¤íŠ¸ ìš”ì²­ "+ user_id);
 			buf = address.SelectTreeData(conn, user_id);
 			
 		}catch (Exception e) { VbyP.errorLogDaily("getAddressOfGroup >>"+e.toString()); }	
@@ -2069,12 +2079,12 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			conn = VbyP.getDB();
-			if (conn == null) throw new Exception("DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (conn == null) throw new Exception("DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			address = Address.getInstance();
 			
-			VbyP.accessLog(" >> ÁÖ¼Òº° ¸®½ºÆ® ¿äÃ» "+ user_id);
+			VbyP.accessLog(" >> ì£¼ì†Œë³„ ë¦¬ìŠ¤íŠ¸ ìš”ì²­ "+ user_id);
 			al = address.SelectMember(conn, user_id);
 			
 		}catch (Exception e) { VbyP.errorLogDaily("getAddress >>"+e.toString()); }	
@@ -2095,13 +2105,14 @@ public class Web extends SessionManagement{
 		String s = SLibrary.IfNull(search);
 		
 		try {
+			s = SLibrary.replaceAll(s, "-", "");
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			conn = VbyP.getDB();
-			if (conn == null) throw new Exception("DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (conn == null) throw new Exception("DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			address = Address.getInstance();
 			
-			VbyP.accessLog(" >> ÁÖ¼Òº° ¸®½ºÆ® ¿äÃ» "+ user_id);
+			VbyP.accessLog(" >> ì£¼ì†Œë³„ ë¦¬ìŠ¤íŠ¸ ìš”ì²­ "+ user_id);
 			al = address.SearchMember(conn, user_id,s);
 			
 		}catch (Exception e) { VbyP.errorLogDaily("getAddress >>"+e.toString()); }	
@@ -2121,12 +2132,12 @@ public class Web extends SessionManagement{
 		StringBuffer buf  = new StringBuffer();
 		try {
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			conn = VbyP.getDB();
-			if (conn == null) throw new Exception("DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (conn == null) throw new Exception("DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			address = Address.getInstance();
 			
-			VbyP.accessLog(" >> ÀüÃ¼ ÁÖ¼Ò ¸®½ºÆ® ¿äÃ» "+ user_id);
+			VbyP.accessLog(" >> ì „ì²´ ì£¼ì†Œ ë¦¬ìŠ¤íŠ¸ ìš”ì²­ "+ user_id);
 			al = address.SelectMember(conn, user_id);
 			
 			int cnt = al.size();
@@ -2156,18 +2167,18 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			conn = VbyP.getDB();
-			if (conn == null) throw new Exception("DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (conn == null) throw new Exception("DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			address = Address.getInstance();
 			
-			VbyP.accessLog(" >> ±×·ì »ı¼º ¿äÃ» "+ groupName +" , "+ user_id);
+			VbyP.accessLog(" >> ê·¸ë£¹ ìƒì„± ìš”ì²­ "+ groupName +" , "+ user_id);
 						
 			if ( address.checkDuplicationGroup(conn, user_id, groupName) )
-				throw new Exception(groupName+" ±×·ìÀÌ Á¸Àç ÇÕ´Ï´Ù.");
+				throw new Exception(groupName+" ê·¸ë£¹ì´ ì¡´ì¬ í•©ë‹ˆë‹¤.");
 			
 			if ( address.InsertGroup(conn, user_id, groupName) < 1)
-				throw new Exception("±×·ì »ı¼º¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("ê·¸ë£¹ ìƒì„±ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			rvo.setbResult(true);
 			
@@ -2193,15 +2204,15 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			conn = VbyP.getDB();
-			if (conn == null) throw new Exception("DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (conn == null) throw new Exception("DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			address = Address.getInstance();
 			
-			VbyP.accessLog(" >> ±×·ì ¼öÁ¤ ¿äÃ» "+ oldGroupName + " >> " +groupName +" , "+ user_id);
+			VbyP.accessLog(" >> ê·¸ë£¹ ìˆ˜ì • ìš”ì²­ "+ oldGroupName + " >> " +groupName +" , "+ user_id);
 			
 			if ( address.UpdateGroup(conn, oldGroupName, user_id, groupName) < 1)						
-				throw new Exception("±×·ì¼öÁ¤¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("ê·¸ë£¹ìˆ˜ì •ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			rvo.setbResult(true);
 			
@@ -2228,15 +2239,15 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			conn = VbyP.getDB();
-			if (conn == null) throw new Exception("DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (conn == null) throw new Exception("DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			address = Address.getInstance();
 			
-			VbyP.accessLog(" >> ±×·ì »èÁ¦ ¿äÃ» "+ groupName +" , "+ user_id);
+			VbyP.accessLog(" >> ê·¸ë£¹ ì‚­ì œ ìš”ì²­ "+ groupName +" , "+ user_id);
 			
 			if ( address.DeleteGroup(conn, groupName, user_id) < 1 )				
-				throw new Exception("»èÁ¦¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("ì‚­ì œì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 	
 			
 			rvo.setstrDescription(groupName);
@@ -2265,12 +2276,12 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			conn = VbyP.getDB();
-			if (conn == null) throw new Exception("DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (conn == null) throw new Exception("DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			address = Address.getInstance();
 			
-			VbyP.accessLog(" >> ÀüÈ­¹øÈ£ »ı¼º ¿äÃ» "+ user_id);
+			VbyP.accessLog(" >> ì „í™”ë²ˆí˜¸ ìƒì„± ìš”ì²­ "+ user_id);
 
 			vo.setUser_id(user_id);
 			vo.setGrp(AddressVO.ADDRESS_FLAG);
@@ -2280,7 +2291,7 @@ public class Web extends SessionManagement{
 			vo.setMemo(memo);
 			
 			if ( address.InsertMember(conn, vo) < 1)
-				throw new Exception("¹øÈ£ ÀúÀå¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("ë²ˆí˜¸ ì €ì¥ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			rvo.setstrDescription(vo.getGrpName());
 			rvo.setbResult(true);
@@ -2308,12 +2319,12 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			conn = VbyP.getDB();
-			if (conn == null) throw new Exception("DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (conn == null) throw new Exception("DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			address = Address.getInstance();
 			
-			VbyP.accessLog(" >> ÀüÈ­¹øÈ£ ¼öÁ¤ ¿äÃ»  "+ Integer.toString(vo.getIdx()) + user_id);
+			VbyP.accessLog(" >> ì „í™”ë²ˆí˜¸ ìˆ˜ì • ìš”ì²­  "+ Integer.toString(vo.getIdx()) + user_id);
 			
 			vo.setIdx(modifyAddressIdx);
 			vo.setbModify(true);
@@ -2325,7 +2336,7 @@ public class Web extends SessionManagement{
 			vo.setMemo(memo);
 			
 			if ( address.UpdateMember(conn, vo.getIdx(), vo) < 1)
-				throw new Exception("¹øÈ£ ¼öÁ¤¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("ë²ˆí˜¸ ìˆ˜ì •ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			rvo.setstrDescription(vo.getGrpName());
 
@@ -2354,14 +2365,14 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			conn = VbyP.getDB();
-			if (conn == null) throw new Exception("DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (conn == null) throw new Exception("DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			address = Address.getInstance();
 			
-			VbyP.accessLog(" >> ÀüÈ­¹øÈ£ »èÁ¦ ¿äÃ» "+ Integer.toString(deleteAddressIdx) +" , "+ user_id);
+			VbyP.accessLog(" >> ì „í™”ë²ˆí˜¸ ì‚­ì œ ìš”ì²­ "+ Integer.toString(deleteAddressIdx) +" , "+ user_id);
 			if ( address.DeleteMember(conn, deleteAddressIdx, user_id) < 1)
-				throw new Exception("¹øÈ£ »èÁ¦¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("ë²ˆí˜¸ ì‚­ì œì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 
 			rvo.setbResult(true);
 			
@@ -2391,17 +2402,17 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			conn = VbyP.getDB();
-			if (conn == null) throw new Exception("DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (conn == null) throw new Exception("DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			billing = Billing.getInstance();
 			
-			VbyP.accessLog(" >> ¹«ÅëÀå ¿¹¾à ¿äÃ» "+ user_id);
+			VbyP.accessLog(" >> ë¬´í†µì¥ ì˜ˆì•½ ìš”ì²­ "+ user_id);
 			
 			rvo = billing.setCash( conn , user_id, account, amount, method, reqname );
 			
 			AdminSMS asms = AdminSMS.getInstance();
-			String tempMessage = "[¹«ÅëÀå¿¹¾à] "+user_id+" , "+reqname+" , "+account+" , "+amount+" , "+method;
+			String tempMessage = "[ë¬´í†µì¥ì˜ˆì•½] "+user_id+" , "+reqname+" , "+account+" , "+amount+" , "+method;
 			asms.sendAdmin(conn, tempMessage );
 			
 		}catch (Exception e) {
@@ -2423,7 +2434,7 @@ public class Web extends SessionManagement{
 	###############################*/
 	public ExcelLoaderResultVO getExcelLoaderData(byte[] bytes, String fileName){
 		
-		VbyP.accessLog(" >> ¿¢¼¿·Î´õ ¿äÃ» ");
+		VbyP.accessLog(" >> ì—‘ì…€ë¡œë” ìš”ì²­ ");
 		ExcelLoaderResultVO evo = new ExcelLoaderResultVO();
 		String path = VbyP.getValue("excelUploadPath");
 
@@ -2435,7 +2446,7 @@ public class Web extends SessionManagement{
 			uploadFileName = el.uploadExcelFile(bytes, path, fileName);
 		}catch(Exception e){
 			evo.setbResult(false);
-			evo.setstrDescription("¿¢¼¿ ÆÄÀÏÀÌ ¾÷·Îµå µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+			evo.setstrDescription("ì—‘ì…€ íŒŒì¼ì´ ì—…ë¡œë“œ ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
 		}
 		
 		try {
@@ -2445,7 +2456,7 @@ public class Web extends SessionManagement{
 		}catch(Exception e) {
 			System.out.println(e.toString());
 			evo.setbResult(false);
-			evo.setstrDescription("Çü½Ä¿¡ ¾î±ß³­ ¿¢¼¿ ÆÄÀÏ ÀÔ´Ï´Ù. ¿¢¼¿ÆÄÀÏÀ» ÀĞÁö ¸øÇÏ¿´½À´Ï´Ù.");
+			evo.setstrDescription("í˜•ì‹ì— ì–´ê¸‹ë‚œ ì—‘ì…€ íŒŒì¼ ì…ë‹ˆë‹¤. ì—‘ì…€íŒŒì¼ì„ ì½ì§€ ëª»í•˜ì˜€ìŠµë‹ˆë‹¤.");
 		}
 		finally {		 
 			new File(path + uploadFileName).delete();
@@ -2462,15 +2473,15 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			conn = VbyP.getDB();
-			if (conn == null) throw new Exception("DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (conn == null) throw new Exception("DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			address = Address.getInstance();
 			
-			VbyP.accessLog(" >> ¿¢¼¿·Î´õ ÁÖ¼Ò·Ï ÀúÀå ¿äÃ» "+ user_id);
+			VbyP.accessLog(" >> ì—‘ì…€ë¡œë” ì£¼ì†Œë¡ ì €ì¥ ìš”ì²­ "+ user_id);
 			
 			if ( address.InsertMember( conn , user_id, al ) < 1)
-				throw new Exception("¹øÈ£ ÀúÀå¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("ë²ˆí˜¸ ì €ì¥ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			rvo.setbResult(true);
 			
@@ -2496,12 +2507,12 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			conn = VbyP.getDB();
-			if (conn == null) throw new Exception("DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (conn == null) throw new Exception("DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			address = Address.getInstance();
 			
-			VbyP.accessLog(" >> ±×·ì ¸®½ºÆ® ¿äÃ» "+ user_id);
+			VbyP.accessLog(" >> ê·¸ë£¹ ë¦¬ìŠ¤íŠ¸ ìš”ì²­ "+ user_id);
 			arr = address.SelectGroup(conn, user_id);
 			
 			
@@ -2532,7 +2543,7 @@ public class Web extends SessionManagement{
 				
 				conn = VbyP.getDB();
 				String user_id = getSession();
-				VbyP.accessLog(user_id+" >> Àü¼Û³»¿ª ±×·ì ¿äÃ» :"+fromDate+"~"+endDate+","+bReservation);
+				VbyP.accessLog(user_id+" >> ì „ì†¡ë‚´ì—­ ê·¸ë£¹ ìš”ì²­ :"+fromDate+"~"+endDate+","+bReservation);
 				
 				if (user_id != null && !user_id.equals("")) {
 					
@@ -2573,7 +2584,7 @@ public class Web extends SessionManagement{
 				else connSMS = VbyP.getDB(line);
 				
 				String user_id = getSession();
-				VbyP.accessLog(user_id+" >> "+line+" Àü¼Û³»¿ª ¿äÃ» :"+ Integer.toString(groupIndex));
+				VbyP.accessLog(user_id+" >> "+line+" ì „ì†¡ë‚´ì—­ ìš”ì²­ :"+ Integer.toString(groupIndex));
 				
 				if (user_id != null && !user_id.equals("")) {
 					
@@ -2623,7 +2634,7 @@ public class Web extends SessionManagement{
 				String user_id = getSession();
 				mvo = getUserInformation( conn );
 				
-				VbyP.accessLog(user_id+" >> "+line+" Àü¼Û³»¿ª »èÁ¦ ¿äÃ» :"+ Integer.toString(groupIndex));
+				VbyP.accessLog(user_id+" >> "+line+" ì „ì†¡ë‚´ì—­ ì‚­ì œ ìš”ì²­ :"+ Integer.toString(groupIndex));
 				
 				if (user_id != null && !user_id.equals("") && groupIndex > 0 && !SLibrary.isNull(line)) {
 					
@@ -2653,16 +2664,16 @@ public class Web extends SessionManagement{
 		
 		try {	
 				String user_id = getSession();
-				if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
-				VbyP.accessLog(user_id+" >> ¿¹¾à Ãë¼Ò ¿äÃ» :"+idx+","+sendLine);			
+				if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
+				VbyP.accessLog(user_id+" >> ì˜ˆì•½ ì·¨ì†Œ ìš”ì²­ :"+idx+","+sendLine);			
 				
 				conn = VbyP.getDB();
 				
-				if (conn == null) throw new Exception("DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");								
+				if (conn == null) throw new Exception("DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");								
 					
 				UserInformationVO vo = getUserInformation();
 				
-				if (sendLine.equals("mms")||sendLine.equals("ktmms")) {	
+				if (sendLine.equals("mms")||sendLine.equals("ktmms")||sendLine.equals("ppmms")) {	
 					connSMS = VbyP.getDB("sms1");
 					sf = SentLMSFactory.getInstance();
 				} else if (sendLine.equals("kt1mms")||sendLine.equals("kt2mms")||sendLine.equals("kt3mms")){
@@ -2670,16 +2681,16 @@ public class Web extends SessionManagement{
 					sf = SentLMSFactory.getInstance();
 				}else connSMS = VbyP.getDB(sendLine);
 				
-				if (connSMS == null) throw new Exception("SMS DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.("+sendLine+")");
+				if (connSMS == null) throw new Exception("SMS DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.("+sendLine+")");
 				rvo = sf.cancelSentGroupList(conn, connSMS, vo, idx, sendLine);
 				
 				
 				if (rvo.getbResult()) {
-					rvo.setstrDescription("Ãë¼Ò µÇ¾ú½À´Ï´Ù.");
-					VbyP.accessLog(user_id+" >> ¿¹¾à Ãë¼Ò ¼º°ø :"+idx+","+sendLine);
+					rvo.setstrDescription("ì·¨ì†Œ ë˜ì—ˆìŠµë‹ˆë‹¤.");
+					VbyP.accessLog(user_id+" >> ì˜ˆì•½ ì·¨ì†Œ ì„±ê³µ :"+idx+","+sendLine);
 				}
 				else {
-					VbyP.accessLog(user_id+" >> ¿¹¾à Ãë¼Ò ½ÇÆĞ :"+rvo.getstrDescription());
+					VbyP.accessLog(user_id+" >> ì˜ˆì•½ ì·¨ì†Œ ì‹¤íŒ¨ :"+rvo.getstrDescription());
 				}
 			
 		}catch (Exception e) {
@@ -2708,7 +2719,7 @@ public class Web extends SessionManagement{
 		try {
 			
 			conn = VbyP.getDB();
-			VbyP.accessLog(" >>  Home ÀÌ¸ğÆ¼ÄÜ ¿äÃ» ");
+			VbyP.accessLog(" >>  Home ì´ëª¨í‹°ì½˜ ìš”ì²­ ");
 			
 			StringBuffer buf = new StringBuffer();
 			buf.append(VbyP.getSQL("homeEmoti"));
@@ -2815,7 +2826,7 @@ public class Web extends SessionManagement{
 			page += 1;
 			from = count * (page -1);
 			
-			VbyP.accessLog(" >>  ÀÌ¸ğÆ¼ÄÜ page ¿äÃ»("+gubun+"/"+category+"/"+page+"/"+count+") "+Integer.toString(from));
+			VbyP.accessLog(" >>  ì´ëª¨í‹°ì½˜ page ìš”ì²­("+gubun+"/"+category+"/"+page+"/"+count+") "+Integer.toString(from));
 			
 			StringBuffer buf = new StringBuffer();
 			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
@@ -2867,7 +2878,7 @@ public class Web extends SessionManagement{
 			page += 1;
 			from = count * (page -1);
 			
-			VbyP.accessLog(" >>  ÇØ¿Ü ÀÌ¸ğÆ¼ÄÜ page ¿äÃ»("+gubun+"/"+category+"/"+page+"/"+count+") "+Integer.toString(from));
+			VbyP.accessLog(" >>  í•´ì™¸ ì´ëª¨í‹°ì½˜ page ìš”ì²­("+gubun+"/"+category+"/"+page+"/"+count+") "+Integer.toString(from));
 			
 			StringBuffer buf = new StringBuffer();
 			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
@@ -2919,7 +2930,7 @@ public class Web extends SessionManagement{
 			page += 1;
 			from = count * (page -1);
 			
-			VbyP.accessLog(" >>  ÀÌ¸ğÆ¼ÄÜ lms page ¿äÃ»("+gubun+"/"+category+"/"+page+"/"+count+") "+Integer.toString(from));
+			VbyP.accessLog(" >>  ì´ëª¨í‹°ì½˜ lms page ìš”ì²­("+gubun+"/"+category+"/"+page+"/"+count+") "+Integer.toString(from));
 			
 			StringBuffer buf = new StringBuffer();
 			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
@@ -2971,7 +2982,7 @@ public class Web extends SessionManagement{
 			page += 1;
 			from = count * (page -1);
 			
-			VbyP.accessLog(" >>  ÀÌ¸ğÆ¼ÄÜ mms page ¿äÃ»("+gubun+"/"+category+"/"+page+"/"+count+") "+Integer.toString(from));
+			VbyP.accessLog(" >>  ì´ëª¨í‹°ì½˜ mms page ìš”ì²­("+gubun+"/"+category+"/"+page+"/"+count+") "+Integer.toString(from));
 			
 			StringBuffer buf = new StringBuffer();
 			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
@@ -3025,7 +3036,7 @@ public class Web extends SessionManagement{
 			page += 1;
 			from = count * (page -1);
 			
-			VbyP.accessLog(" >>  ÀÌ¸ğÆ¼ÄÜ ¿äÃ»("+gubun+"/"+category+") "+Integer.toString(from));
+			VbyP.accessLog(" >>  ì´ëª¨í‹°ì½˜ ìš”ì²­("+gubun+"/"+category+") "+Integer.toString(from));
 			
 			StringBuffer buf = new StringBuffer();
 			buf.append(VbyP.getSQL("homeEmotiCate"));
@@ -3062,14 +3073,14 @@ public class Web extends SessionManagement{
 			
 
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			
 			conn = VbyP.getDB();
 			
 			page += 1;
 			from = count * (page -1);
 			
-			VbyP.accessLog(" >>  µî·Ï¹®ÀÚ ¿äÃ» "+Integer.toString(from));
+			VbyP.accessLog(" >>  ë“±ë¡ë¬¸ì ìš”ì²­ "+Integer.toString(from));
 			
 			StringBuffer buf = new StringBuffer();
 			buf.append(VbyP.getSQL("select_mymsg"));
@@ -3108,7 +3119,7 @@ public class Web extends SessionManagement{
 			page += 1;
 			from = count * (page -1);
 			
-			VbyP.accessLog(" >>  È¨ ÀÌ¸ğÆ¼ÄÜ ¿äÃ»("+gubun+"/"+category+") "+Integer.toString(from));
+			VbyP.accessLog(" >>  í™ˆ ì´ëª¨í‹°ì½˜ ìš”ì²­("+gubun+"/"+category+") "+Integer.toString(from));
 			
 			StringBuffer buf = new StringBuffer();
 			buf.append(VbyP.getSQL("homeEmotiCate"));
@@ -3143,14 +3154,14 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			
 			conn = VbyP.getDB();
 			
 			page += 1;
 			from = count * (page -1);
 			
-			VbyP.accessLog(" >>  È¨ µî·Ï¹®ÀÚ ¿äÃ» "+Integer.toString(from));
+			VbyP.accessLog(" >>  í™ˆ ë“±ë¡ë¬¸ì ìš”ì²­ "+Integer.toString(from));
 			
 			StringBuffer buf = new StringBuffer();
 			buf.append(VbyP.getSQL("select_mymsg"));
@@ -3190,7 +3201,7 @@ public class Web extends SessionManagement{
 			if (page == 0) page = 1;
 			from = count * (page -1);
 			
-			VbyP.accessLog(" >>  ÀÌ¸ğÆ¼ÄÜ ¿äÃ»("+category+") "+Integer.toString(from));
+			VbyP.accessLog(" >>  ì´ëª¨í‹°ì½˜ ìš”ì²­("+category+") "+Integer.toString(from));
 			
 			StringBuffer buf = new StringBuffer();
 			buf.append(VbyP.getSQL("emoti"));
@@ -3225,7 +3236,7 @@ public class Web extends SessionManagement{
 			nd = new NoticDAO();
 			conn = VbyP.getDB();
 			
-			VbyP.accessLog(" >>  °øÁö»çÇ× ¸®½ºÆ® ¿äÃ»");
+			VbyP.accessLog(" >>  ê³µì§€ì‚¬í•­ ë¦¬ìŠ¤íŠ¸ ìš”ì²­");
 			
 			rslt = nd.getList(conn);
 			
@@ -3253,7 +3264,7 @@ public class Web extends SessionManagement{
 			nd = new NoticDAO();
 			conn = VbyP.getDB();
 			
-			VbyP.accessLog(" >>  FAQ ¸®½ºÆ® ¿äÃ»");
+			VbyP.accessLog(" >>  FAQ ë¦¬ìŠ¤íŠ¸ ìš”ì²­");
 			
 			rslt = nd.getListFAQ(conn);
 			
@@ -3280,7 +3291,7 @@ public class Web extends SessionManagement{
 			nd = new NoticDAO();
 			conn = VbyP.getDB();
 			
-			VbyP.accessLog(" >>  °øÁö»çÇ× ¸®½ºÆ® ¿äÃ»(main)");
+			VbyP.accessLog(" >>  ê³µì§€ì‚¬í•­ ë¦¬ìŠ¤íŠ¸ ìš”ì²­(main)");
 			
 			rslt = nd.getList(conn,cnt);
 			
@@ -3309,7 +3320,7 @@ public class Web extends SessionManagement{
 			nd = new NoticDAO();
 			conn = VbyP.getDB();
 			
-			VbyP.accessLog(" >>  °øÁö»çÇ× Ä«¿îÆ® Áõ°¡ ¿äÃ»");
+			VbyP.accessLog(" >>  ê³µì§€ì‚¬í•­ ì¹´ìš´íŠ¸ ì¦ê°€ ìš”ì²­");
 			
 			rslt = nd.updateCnt(conn, idx);
 			
@@ -3323,12 +3334,12 @@ public class Web extends SessionManagement{
 	}
 	
 	/**
-	 * µî·Ï ¹®ÀÚ ÀúÀå
+	 * ë“±ë¡ ë¬¸ì ì €ì¥
 	 */
 	public BooleanAndDescriptionVO addMymsg(String msg) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> µî·Ï¹®ÀÚ Ãß°¡ "+msg);
+		VbyP.accessLog(getAdminSession()+" >> ë“±ë¡ë¬¸ì ì¶”ê°€ "+msg);
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
 		
 
@@ -3336,7 +3347,7 @@ public class Web extends SessionManagement{
 			conn = VbyP.getDB();
 			
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			
 			StringBuffer buf = new StringBuffer();
 			buf.append(VbyP.getSQL("insert_mymsg"));
@@ -3362,12 +3373,12 @@ public class Web extends SessionManagement{
 	}
 	
 	/**
-	 * µî·Ï ¹®ÀÚ »èÁ¦
+	 * ë“±ë¡ ë¬¸ì ì‚­ì œ
 	 */
 	public BooleanAndDescriptionVO delMymsg(int idx) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> µî·Ï¹®ÀÚ »èÁ¦ "+idx);
+		VbyP.accessLog(getAdminSession()+" >> ë“±ë¡ë¬¸ì ì‚­ì œ "+idx);
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
 		
 
@@ -3375,7 +3386,7 @@ public class Web extends SessionManagement{
 			conn = VbyP.getDB();
 			
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			
 			StringBuffer buf = new StringBuffer();
 			buf.append(VbyP.getSQL("delete_mymsg"));
@@ -3410,12 +3421,12 @@ public class Web extends SessionManagement{
 		
 		try {
 			String user_id = getSession();
-			if (user_id == null || user_id.equals("")) throw new Exception("·Î±×ÀÎ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+			if (user_id == null || user_id.equals("")) throw new Exception("ë¡œê·¸ì¸ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			conn = VbyP.getDB();
-			if (conn == null) throw new Exception("DB¿¬°áÀÌ µÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
-			if (SLibrary.isNull(key)) throw new Exception("ÄíÆù¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+			if (conn == null) throw new Exception("DBì—°ê²°ì´ ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
+			if (SLibrary.isNull(key)) throw new Exception("ì¿ í°ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
 			
-			VbyP.accessLog(" >> ÄíÆù ¿äÃ» "+ user_id+" : "+ key);
+			VbyP.accessLog(" >> ì¿ í° ìš”ì²­ "+ user_id+" : "+ key);
 			
 			String SQL = VbyP.getSQL( "couponUserSelect" );
 			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
@@ -3423,8 +3434,8 @@ public class Web extends SessionManagement{
 			pq.setString(1, user_id);
 			String usedKey = pq.ExecuteQueryString();
 			if (!SLibrary.isNull(usedKey)) {
-				VbyP.accessLog(" >> ÄíÆù ¿äÃ» "+ user_id+" : »ç¿ëÇÑ key "+ usedKey);
-				throw new Exception("°í°´´Ô id´Â ÄíÆùÀ» »ç¿ë ÇÏ¼Ì½À´Ï´Ù.");
+				VbyP.accessLog(" >> ì¿ í° ìš”ì²­ "+ user_id+" : ì‚¬ìš©í•œ key "+ usedKey);
+				throw new Exception("ê³ ê°ë‹˜ idëŠ” ì¿ í°ì„ ì‚¬ìš© í•˜ì…¨ìŠµë‹ˆë‹¤.");
 			}
 			SQL = VbyP.getSQL( "couponKeySelect" );
 			pq.setPrepared(conn, SQL);
@@ -3432,8 +3443,8 @@ public class Web extends SessionManagement{
 			
 			String keyCheck = pq.ExecuteQueryString();
 			if (SLibrary.isNull(keyCheck)) {
-				VbyP.accessLog(" >> ÄíÆù ¿äÃ» "+ user_id+" : »ç¿ëµÇ°Å³ª ¾ø´Â key "+ usedKey);
-				throw new Exception("Á¸ÀçÇÏÁö ¾Ê°Å³ª »ç¿ëµÈ ÄíÆùÀÔ´Ï´Ù.");
+				VbyP.accessLog(" >> ì¿ í° ìš”ì²­ "+ user_id+" : ì‚¬ìš©ë˜ê±°ë‚˜ ì—†ëŠ” key "+ usedKey);
+				throw new Exception("ì¡´ì¬í•˜ì§€ ì•Šê±°ë‚˜ ì‚¬ìš©ëœ ì¿ í°ì…ë‹ˆë‹¤.");
 			}
 			
 			SQL = VbyP.getSQL( "couponUse" );
@@ -3442,7 +3453,7 @@ public class Web extends SessionManagement{
 			pq.setString(2, key);
 			int rslt = pq.executeUpdate();
 			
-			if (rslt < 1) throw new Exception("ÄíÆù µî·Ï¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
+			if (rslt < 1) throw new Exception("ì¿ í° ë“±ë¡ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			int addCount = SLibrary.intValue( VbyP.getValue("couponCount") );
 			
@@ -3451,7 +3462,7 @@ public class Web extends SessionManagement{
 			rslt = pm.insertUserPoint(conn, uvo, 96, addCount * PointManager.DEFULT_POINT);
 			
 			if (rslt != 1)
-				throw new Exception("°Ç¼ö ÃæÀü¿¡ ½ÇÆĞ ÇÏ¿´½À´Ï´Ù.");
+				throw new Exception("ê±´ìˆ˜ ì¶©ì „ì— ì‹¤íŒ¨ í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			
 			
 			
@@ -3470,17 +3481,17 @@ public class Web extends SessionManagement{
 	
 	public BooleanAndDescriptionVO setMMSUpload(byte[] bytes, String fileName){
 		
-		VbyP.accessLog(" >> MMS ¾÷·Îµå ¿äÃ» ");
+		VbyP.accessLog(" >> MMS ì—…ë¡œë“œ ìš”ì²­ ");
 		String path = VbyP.getValue("mmsOrgPath");
 		BooleanAndDescriptionVO bvo = new BooleanAndDescriptionVO();
 		bvo.setbResult(false);
 		
 		try {
 			FileUtils fu = new FileUtils();
-			//ÆÄÀÏ È®ÀåÀÚ°¡ ´ëºĞÀÚÀÏ°æ¿ì¸¦ ´ëºñÇØ¼­ ¼Ò¹®ÀÚ·Î º¯È¯
+			//íŒŒì¼ í™•ì¥ìê°€ ëŒ€ë¶„ìì¼ê²½ìš°ë¥¼ ëŒ€ë¹„í•´ì„œ ì†Œë¬¸ìë¡œ ë³€í™˜
 			fileName = fileName.toLowerCase();
 			fileName.endsWith(".jpg");
-			if ( !fileName.endsWith(".jpg") ) throw new Exception("jpg È®ÀåÀÚ¸¸ Áö¿ø ÇÕ´Ï´Ù.");
+			if ( !fileName.endsWith(".jpg") ) throw new Exception("jpg í™•ì¥ìë§Œ ì§€ì› í•©ë‹ˆë‹¤.");
 			
 			String uploadName = fu.doUploadRename(bytes, path, fileName);
 			//String uploadName = fu.doUploadRename(bytes, VbyP.getValue("mmsPath"), fileName);
@@ -3491,7 +3502,7 @@ public class Web extends SessionManagement{
 			
 		}catch(Exception e){
 			bvo.setbResult(false);
-			bvo.setstrDescription("ÀÌ¹ÌÁö ÆÄÀÏÀÌ ¾÷·Îµå µÇÁö ¾Ê¾Ò½À´Ï´Ù.\r\n"+e.getMessage());
+			bvo.setstrDescription("ì´ë¯¸ì§€ íŒŒì¼ì´ ì—…ë¡œë“œ ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.\r\n"+e.getMessage());
 		}
 	    
 		return bvo;
@@ -3500,7 +3511,7 @@ public class Web extends SessionManagement{
 	public void addEmotiCate(String gubun, String cate, String msg) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> °ü¸®ÀÚ ÀÌ¸ğÆ¼ÄÜ SMS Ãß°¡ "+gubun+"/"+cate+" "+msg);
+		VbyP.accessLog(getAdminSession()+" >> ê´€ë¦¬ì ì´ëª¨í‹°ì½˜ SMS ì¶”ê°€ "+gubun+"/"+cate+" "+msg);
 		
 		if (isAdminLogin().getbResult()) {		
 		
@@ -3527,7 +3538,7 @@ public class Web extends SessionManagement{
 	public void addEmotiForeignCate(String gubun, String cate, String msg) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> °ü¸®ÀÚ ÇØ¿ÜÀÌ¸ğÆ¼ÄÜ Ãß°¡ "+gubun+"/"+cate+" "+msg);
+		VbyP.accessLog(getAdminSession()+" >> ê´€ë¦¬ì í•´ì™¸ì´ëª¨í‹°ì½˜ ì¶”ê°€ "+gubun+"/"+cate+" "+msg);
 		
 		if (isAdminLogin().getbResult()) {		
 		
@@ -3554,7 +3565,7 @@ public class Web extends SessionManagement{
 	public void addEmotiCateLMS(String gubun, String cate, String msg) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> °ü¸®ÀÚ ÀÌ¸ğÆ¼ÄÜ LMS Ãß°¡ "+gubun+"/"+cate+" "+msg);
+		VbyP.accessLog(getAdminSession()+" >> ê´€ë¦¬ì ì´ëª¨í‹°ì½˜ LMS ì¶”ê°€ "+gubun+"/"+cate+" "+msg);
 		
 		if (isAdminLogin().getbResult()) {		
 		
@@ -3581,7 +3592,7 @@ public class Web extends SessionManagement{
 	public void addEmotiCateMMS(String gubun, String cate, String title, String msg) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> °ü¸®ÀÚ ÀÌ¸ğÆ¼ÄÜ MMS Ãß°¡ "+gubun+" "+title+" "+cate+" "+msg);
+		VbyP.accessLog(getAdminSession()+" >> ê´€ë¦¬ì ì´ëª¨í‹°ì½˜ MMS ì¶”ê°€ "+gubun+" "+title+" "+cate+" "+msg);
 		
 		if (isAdminLogin().getbResult()) {		
 		
@@ -3609,7 +3620,7 @@ public class Web extends SessionManagement{
 	public void moveEmotiCate(String cate, String idxs) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ÀÌ¸ğÆ¼ÄÜ ÀÌµ¿ "+cate+" "+idxs);
+		VbyP.accessLog(getAdminSession()+" >> ì´ëª¨í‹°ì½˜ ì´ë™ "+cate+" "+idxs);
 		
 		if (isAdminLogin().getbResult()) {		
 		
@@ -3635,7 +3646,7 @@ public class Web extends SessionManagement{
 	public void moveEmotiCateForeign(String cate, String idxs) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ÇØ¿ÜÀÌ¸ğÆ¼ÄÜ ÀÌµ¿ "+cate+" "+idxs);
+		VbyP.accessLog(getAdminSession()+" >> í•´ì™¸ì´ëª¨í‹°ì½˜ ì´ë™ "+cate+" "+idxs);
 		
 		if (isAdminLogin().getbResult()) {		
 		
@@ -3661,7 +3672,7 @@ public class Web extends SessionManagement{
 	public void moveEmotiCateLMS(String cate, String idxs) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ÀÌ¸ğÆ¼ÄÜLMS ÀÌµ¿ "+cate+" "+idxs);
+		VbyP.accessLog(getAdminSession()+" >> ì´ëª¨í‹°ì½˜LMS ì´ë™ "+cate+" "+idxs);
 		
 		if (isAdminLogin().getbResult()) {		
 		
@@ -3687,7 +3698,7 @@ public class Web extends SessionManagement{
 	public void moveEmotiCateMMS(String cate, String idxs) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ÀÌ¸ğÆ¼ÄÜMMS ÀÌµ¿ "+cate+" "+idxs);
+		VbyP.accessLog(getAdminSession()+" >> ì´ëª¨í‹°ì½˜MMS ì´ë™ "+cate+" "+idxs);
 		
 		if (isAdminLogin().getbResult()) {		
 		
