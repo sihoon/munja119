@@ -41,6 +41,8 @@ public class SentFactory implements SentFactoryAble {
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataIT") );
 		}else if (SLibrary.IfNull(line).equals("pp")) {
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataPP") );
+		}else if (SLibrary.IfNull(line).equals("ppmms")) {
+			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataPP") );
 		}else
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentData") );
 		
@@ -67,7 +69,7 @@ public class SentFactory implements SentFactoryAble {
 					h = al.get(i);
 					
 					if ( getSendStat(line, SLibrary.IfNull(h, "TR_SENDSTAT")).equals("1"))
-						strRslt = "Àü¼ÛÁß";
+						strRslt = "ì „ì†¡ì¤‘";
 					else 
 						strRslt = getSendResult(line, SLibrary.IfNull(h, "TR_RSLTSTAT"));
 					
@@ -79,7 +81,7 @@ public class SentFactory implements SentFactoryAble {
 							SLibrary.IfNull(h, "TR_ETC1"),
 							SLibrary.IfNull(h, "TR_CALLBACK"),
 							SLibrary.IfNull(h, "TR_MSG"),
-							SLibrary.isNull(strRslt)?"½ÇÆĞ":strRslt,
+							SLibrary.isNull(strRslt)?"ì‹¤íŒ¨":strRslt,
 							SLibrary.IfNull(h, "TR_RSLTDATE"),
 							getSendStat(line, SLibrary.IfNull(h, "TR_SENDSTAT")),
 							SLibrary.IfNull(h, "TR_RSLTSTAT")
@@ -105,6 +107,8 @@ public class SentFactory implements SentFactoryAble {
 			rslt = VbyP.getValue( "kt_"+code);
 		else if (SLibrary.IfNull(line).equals("pp"))
 			rslt = VbyP.getValue( "pp_"+code);
+		else if (SLibrary.IfNull(line).equals("ppmms"))
+			rslt = VbyP.getValue( "ppmms_"+code);
 		else
 			rslt = VbyP.getValue( "dacom_"+code);
 		return rslt;
@@ -216,7 +220,7 @@ public class SentFactory implements SentFactoryAble {
 	
 	public BooleanAndDescriptionVO deleteSentGroupList(Connection conn, Connection connSMS, String user_id, int idx, String line, UserInformationVO mvo) {
 		
-		VbyP.debugLog(user_id + " >> ³»¿ª»èÁ¦ ½ÃÀÛ "+Integer.toString(idx));
+		VbyP.debugLog(user_id + " >> ë‚´ì—­ì‚­ì œ ì‹œì‘ "+Integer.toString(idx));
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
 		rvo.setbResult(false);
 		
@@ -241,19 +245,19 @@ public class SentFactory implements SentFactoryAble {
 			else
 				cancelPointPut(conn, mvo, tranResultCount);
 			
-			rvo.setstrDescription("³»¿ªÁß ¹Ì¹ß¼Û ³»¿ª "+Integer.toString(tranResultCount)+"°ÇÀÌ Ãë¼Ò ÈÄ º¸»ó µÇ¾ú½À´Ï´Ù.");
+			rvo.setstrDescription("ë‚´ì—­ì¤‘ ë¯¸ë°œì†¡ ë‚´ì—­"+Integer.toString(tranResultCount)+"ê±´ì´ ì·¨ì†Œ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 		}else {
 			int updateResultCount = updateSentGroup(conn, user_id, idx, "logdel");
-			VbyP.debugLog(user_id + " >> ³»¿ª»èÁ¦  Àü¼Û±×·ìÅ×ÀÌºí ¾÷µ¥ÀÌÆ® : "+Integer.toString(updateResultCount) );			
+			VbyP.debugLog(user_id + " >>ë‚´ì—­ì‚­ì œ  ì „ì†¡ê·¸ë£¹í…Œì´ë¸” ì—…ë°ì´íŠ¸  : "+Integer.toString(updateResultCount) );			
 					
 			if ( updateResultCount == 1 ) {
 				
 				rvo.setbResult(true);
-				VbyP.debugLog(user_id + " >> ³»¿ª»èÁ¦ ¼º°ø  " );
+				VbyP.debugLog(user_id + " >> ë‚´ì—­ì‚­ì œ ì„±ê³µ " );
 				
 			} else {
 				
-				rvo.setstrDescription("³»¿ªÀÌ »èÁ¦ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+				rvo.setstrDescription("ë‚´ì—­ì´ ì‚­ì œ ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
 			}
 		}
 		
@@ -264,21 +268,21 @@ public class SentFactory implements SentFactoryAble {
 	
 	public BooleanAndDescriptionVO deleteSentGroupList(Connection conn, String user_id, int idx) {
 		
-		VbyP.debugLog(user_id + " >> ³»¿ª»èÁ¦ ½ÃÀÛ "+Integer.toString(idx));
+		VbyP.debugLog(user_id + " >> ë‚´ì—­ì‚­ì œ ì‹œì‘ "+Integer.toString(idx));
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
 		rvo.setbResult(false);
 		
 		int updateResultCount = updateSentGroup(conn, user_id, idx, "logdel");
-		VbyP.debugLog(user_id + " >> ³»¿ª»èÁ¦  Àü¼Û±×·ìÅ×ÀÌºí ¾÷µ¥ÀÌÆ® : "+Integer.toString(updateResultCount) );			
+		VbyP.debugLog(user_id + " >>ë‚´ì—­ì‚­ì œ  ì „ì†¡ê·¸ë£¹í…Œì´ë¸” ì—…ë°ì´íŠ¸: "+Integer.toString(updateResultCount) );			
 				
 		if ( updateResultCount == 1 ) {
 			
 			rvo.setbResult(true);
-			VbyP.debugLog(user_id + " >> ³»¿ª»èÁ¦ ¼º°ø  " );
+			VbyP.debugLog(user_id + " >> ë‚´ì—­ì‚­ì œ ì„±ê³µ   " );
 			
 		} else {
 			
-			rvo.setstrDescription("³»¿ªÀÌ »èÁ¦ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+			rvo.setstrDescription("ë‚´ì—­ì´ ì‚­ì œ ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
 		}
 		
 		return rvo;
@@ -286,23 +290,23 @@ public class SentFactory implements SentFactoryAble {
 	
 	public BooleanAndDescriptionVO deleteSentGroupList(Connection conn, String user_id) {
 		
-		VbyP.debugLog(user_id + " >> ³»¿ª»èÁ¦ ½ÃÀÛ ");
+		VbyP.debugLog(user_id + " >>ë‚´ì—­ì‚­ì œ ì‹œì‘");
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
 		rvo.setbResult(false);
 		
 		
 		
 		int updateResultCount = updateSentGroup(conn, user_id, "logdel");
-		VbyP.debugLog(user_id + " >> ³»¿ª»èÁ¦  Àü¼Û±×·ìÅ×ÀÌºí ¾÷µ¥ÀÌÆ® : "+Integer.toString(updateResultCount) );			
+		VbyP.debugLog(user_id + " >> ë‚´ì—­ì‚­ì œ  ì „ì†¡ê·¸ë£¹í…Œì´ë¸” ì—…ë°ì´íŠ¸ : "+Integer.toString(updateResultCount) );			
 				
 		if ( updateResultCount == 1 ) {
 			
 			rvo.setbResult(true);
-			VbyP.debugLog(user_id + " >> ³»¿ª»èÁ¦ ¼º°ø  " );
+			VbyP.debugLog(user_id + " >> ë‚´ì—­ì‚­ì œ ì„±ê³µ    " );
 			
 		} else {
 			
-			rvo.setstrDescription("³»¿ªÀÌ »èÁ¦ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+			rvo.setstrDescription("ë‚´ì—­ì´ ì‚­ì œ ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
 		}
 		
 		return rvo;
@@ -310,7 +314,7 @@ public class SentFactory implements SentFactoryAble {
 	
 	public BooleanAndDescriptionVO cancelSentGroupList(Connection conn, Connection connSMS, UserInformationVO mvo, int idx, String sendLine) throws Exception {
 		
-		VbyP.debugLog(mvo.getUser_id() + " >> ¿¹¾àÃë¼Ò ½ÃÀÛ "+Integer.toString(idx));
+		VbyP.debugLog(mvo.getUser_id() + " >>ì˜ˆì•½ì·¨ì†Œ ì‹œì‘"+Integer.toString(idx));
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
 		rvo.setbResult(false);
 		
@@ -323,7 +327,7 @@ public class SentFactory implements SentFactoryAble {
 					&& SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") >= (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ))*1000
 					&& SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ) + CANCEL_GAP)*1000
 					) {
-				throw new Exception( "¹ß¼Û "+CANCEL_GAP/60+"ºĞÀü ¿¹¾àÀº Ãë¼Ò ÇÒ ¼ö ¾ø½À´Ï´Ù." );
+				throw new Exception( "ë°œì†¡ "+CANCEL_GAP/60+"ë¶„ì „ ì˜ˆì•½ì€ ì·¨ì†Œ í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤." );
 			}else if (sentGroupInfo.length == 2 
 					&& SLibrary.getTime(sentGroupInfo[0], "yyyy-MM-dd HH:mm:ss") < (SLibrary.parseLong( SLibrary.getUnixtimeStringSecond() ))*1000
 					){				
@@ -347,9 +351,8 @@ public class SentFactory implements SentFactoryAble {
 					tranResultCount = deleteSentDataOfTranTable(connSMS, mvo.getUser_id(), idx);
 				}
 				
-				VbyP.debugLog(mvo.getUser_id() + " >> ¿¹¾àÃë¼Ò  Àü¼ÛÅ×ÀÌºí »èÁ¦ : "+Integer.toString(tranResultCount) );			
-				//int reservationResultCount = deleteSentDataOfReservationTable(connSMS, mvo.getUser_id(), idx);
-				//VbyP.debugLog(mvo.getUser_id() + " >> ¿¹¾àÃë¼Ò  ¿¹¾àÅ×ÀÌºí »èÁ¦ : "+Integer.toString(reservationResultCount) );	
+				VbyP.debugLog(mvo.getUser_id() + " >>  ì˜ˆì•½ì·¨ì†Œ  ì „ì†¡í…Œì´ë¸” ì‚­ì œ  : "+Integer.toString(tranResultCount) );			
+				
 				int failResultCount = 0;
 				if (SLibrary.IfNull(sendLine).equals("sk")||SLibrary.IfNull(sendLine).equals("skmms")){
 					failResultCount = selectSentDataOfLogTableSK(connSMS, mvo.getUser_id(), idx);
@@ -367,16 +370,16 @@ public class SentFactory implements SentFactoryAble {
 				else {
 					failResultCount = selectSentDataOfLogTable(connSMS, mvo.getUser_id(), idx);
 				}
-				VbyP.debugLog(mvo.getUser_id() + " >> ¿¹¾àÃë¼Ò  ·Î±×Å×ÀÌºí °Ç¼ö(¼ö½Å°ÅºÎ,Áßº¹µîµî) : "+Integer.toString(failResultCount) );	
+				VbyP.debugLog(mvo.getUser_id() + " >>  ì˜ˆì•½ì·¨ì†Œ  ì „ì†¡í…Œì´ë¸” ì‚­ì œ : "+Integer.toString(failResultCount) );	
 				
 				if ( sentGroupInfo.length == 2 && SLibrary.parseInt(sentGroupInfo[1]) != (tranResultCount +  failResultCount) ) 
-					throw new Exception( "»èÁ¦µÈ ¹ß¼Û Å×ÀÌÅÍ¿Í ¿¹¾à °Ç¼ö°¡ ´Ş¶ó µ¥ÀÌÅÍ »èÁ¦¸¸ µÇ¾ú½À´Ï´Ù.("+Integer.toString(tranResultCount +  failResultCount)+"/"+sentGroupInfo[1]+") ¿¬¶ô ÁÖ¼¼¿ä." ); 
+					throw new Exception( " ì‚­ì œëœ ë°œì†¡ í…Œì´í„°ì™€ ì˜ˆì•½ ê±´ìˆ˜ê°€ ë‹¬ë¼ ë°ì´í„° ì‚­ì œë§Œ ë˜ì—ˆìŠµë‹ˆë‹¤.("+Integer.toString(tranResultCount +  failResultCount)+"/"+sentGroupInfo[1]+")  ì—°ë½ ì£¼ì„¸ìš”." ); 
 				
 				int updateResultCount = updateSentGroup(conn, mvo.getUser_id(), idx, "cancel");
-				VbyP.debugLog(mvo.getUser_id() + " >> ¿¹¾àÃë¼Ò  Àü¼Û±×·ìÅ×ÀÌºí ¾÷µ¥ÀÌÆ® : "+Integer.toString(updateResultCount) );
+				VbyP.debugLog(mvo.getUser_id() + " >> ì˜ˆì•½ì·¨ì†Œ  ì „ì†¡ê·¸ë£¹í…Œì´ë¸” ì—…ë°ì´íŠ¸: "+Integer.toString(updateResultCount) );
 				
 				if ( updateResultCount != 1 )
-					throw new Exception( "Ãë¼Ò»óÅÂ°¡ º¯°æ µÇÁö ¾Ê¾Ò½À´Ï´Ù." );
+					throw new Exception( "ì·¨ì†Œìƒíƒœê°€ ë³€ê²½ ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤." );
 				
 				int rsltcnt = 0;
 				if (SLibrary.IfNull(sendLine).equals("skmms"))
@@ -386,9 +389,9 @@ public class SentFactory implements SentFactoryAble {
 				
 				if ( rsltcnt == 1 ) {
 						rvo.setbResult(true);
-						VbyP.debugLog(mvo.getUser_id() + " >> ¿¹¾àÃë¼Ò  °Ç¼ö Ãß°¡ : "+Integer.toString(tranResultCount ) );					
+						VbyP.debugLog(mvo.getUser_id() + " >> ì˜ˆì•½ì·¨ì†Œ  ê±´ìˆ˜ ì¶”ê°€: "+Integer.toString(tranResultCount ) );					
 				} else {
-					throw new Exception( "¿¹¾à Ãë¼Ò°Ç¼ö°¡ Ãß°¡ µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+					throw new Exception( "ì˜ˆì•½ ì·¨ì†Œê±´ìˆ˜ê°€ ì¶”ê°€ ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
 				} 
 				
 			}
