@@ -176,8 +176,9 @@ public class Address implements AddressAble {
 				vo.phone = SLibrary.getPhone(vo.phone);
 				
 				if (vo.phone != null) {
-					InsertMember(pq , user_id , vo);
 					vo.name = SLibrary.replaceAll(vo.name, ",", " ");
+					InsertMember(pq , user_id , vo);
+					
 					pq.addBatch();
 					
 					if (i >= maxBatch && (i%maxBatch) == 0 ) {
@@ -414,7 +415,7 @@ public class Address implements AddressAble {
 	}
 
 	
-	//ÀüÃ¼
+	//ï¿½ï¿½Ã¼
 	public ArrayList<HashMap<String, String>> SelectMember(Connection conn , String user_id) {
 
 		ArrayList<HashMap<String, String>> al = null;
@@ -456,7 +457,7 @@ public class Address implements AddressAble {
 		return rslt;
 	}
 	
-	//ÀüÃ¼
+	//ï¿½ï¿½Ã¼
 	public ArrayList<HashMap<String, String>> SelectMember(Connection conn , String user_id , int startPage , int endPage) {
 
 		ArrayList<HashMap<String, String>> al = null;
@@ -571,11 +572,11 @@ public class Address implements AddressAble {
 	}
 	
 	/**
-	 * ÇØ´ç ±×·ìÀÇ columnÀ» ¹ÝÈ¯ÇÑ´Ù.
+	 * ï¿½Ø´ï¿½ ï¿½×·ï¿½ï¿½ï¿½ columnï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 	 * @param conn - DB Connection
-	 * @param strColumns - column ¸í
-	 * @param user_id - »ç¿ëÀÚ ID
-	 * @param groupIdx - ±×·ì IDX
+	 * @param strColumns - column ï¿½ï¿½
+	 * @param user_id - ï¿½ï¿½ï¿½ï¿½ï¿½ ID
+	 * @param groupIdx - ï¿½×·ï¿½ IDX
 	 * @return arrayList 
 	 */
 	public ArrayList<HashMap<String, String>> getSendListOfGroup( Connection conn , String strColumns , String user_id , String groupIdx) {
@@ -591,11 +592,11 @@ public class Address implements AddressAble {
 	}
 	
 	/**
-	 * ÇØ´ç IDXÀÇ columnÀ» ¹ÝÈ¯ÇÑ´Ù.
+	 * ï¿½Ø´ï¿½ IDXï¿½ï¿½ columnï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 	 * @param conn - DB Connection
-	 * @param strColumns - column ¸í
-	 * @param user_id - »ç¿ëÀÚ ID
-	 * @param groupIdx - ±×·ì IDX
+	 * @param strColumns - column ï¿½ï¿½
+	 * @param user_id - ï¿½ï¿½ï¿½ï¿½ï¿½ ID
+	 * @param groupIdx - ï¿½×·ï¿½ IDX
 	 * @return arrayList 
 	 */
 	public ArrayList<HashMap<String, String>> getSendListOfMember( Connection conn , String strColumns , String user_id , String idxInQuery , String notInGroupQuery ) {
@@ -611,11 +612,11 @@ public class Address implements AddressAble {
 	}
 	
 	/**
-	 * ÇØ´ç ±×·ìÀÇ columnÀ» ¹ÝÈ¯ÇÑ´Ù.
+	 * ï¿½Ø´ï¿½ ï¿½×·ï¿½ï¿½ï¿½ columnï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 	 * @param conn - DB Connection
-	 * @param strColumns - column ¸í
-	 * @param user_id - »ç¿ëÀÚ ID
-	 * @param groupIdx - ±×·ì IDX
+	 * @param strColumns - column ï¿½ï¿½
+	 * @param user_id - ï¿½ï¿½ï¿½ï¿½ï¿½ ID
+	 * @param groupIdx - ï¿½×·ï¿½ IDX
 	 * @return arrayList 
 	 */
 	public ArrayList<HashMap<String, String>> getSaveOfGroup( Connection conn , String strColumns , String user_id , String groupIdx) {
@@ -631,11 +632,11 @@ public class Address implements AddressAble {
 	}
 	
 	/**
-	 * ÇØ´ç IDXÀÇ columnÀ» ¹ÝÈ¯ÇÑ´Ù.
+	 * ï¿½Ø´ï¿½ IDXï¿½ï¿½ columnï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 	 * @param conn - DB Connection
-	 * @param strColumns - column ¸í
-	 * @param user_id - »ç¿ëÀÚ ID
-	 * @param groupIdx - ±×·ì IDX
+	 * @param strColumns - column ï¿½ï¿½
+	 * @param user_id - ï¿½ï¿½ï¿½ï¿½ï¿½ ID
+	 * @param groupIdx - ï¿½×·ï¿½ IDX
 	 * @return arrayList 
 	 */
 	public ArrayList<HashMap<String, String>> getSaveOfMember( Connection conn , String strColumns , String user_id , String idxInQuery , String notInGroupQuery ) {
@@ -667,7 +668,7 @@ public class Address implements AddressAble {
 	
 	
 	/**
-	 * ÀüÃ¼°Ç¼ö Äõ¸® ¹®ÀÚ¿­À» ¹ÝÈ¯ÇÑ´Ù.
+	 * ï¿½ï¿½Ã¼ï¿½Ç¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 	 */
 	private String countQueryString(String sql){
 		
@@ -678,7 +679,7 @@ public class Address implements AddressAble {
 	}
 	
 	/**
-	 * ¹®ÀÚ¿­¿¡ Object¹è¿­À» FormatÇÏ¿© ¹ÝÈ¯ÇÑ´Ù.
+	 * ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ Objectï¿½è¿­ï¿½ï¿½ Formatï¿½Ï¿ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 	 * */
 	public String messageFormat(String pattern , Object[] obj) {
 		
