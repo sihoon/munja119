@@ -173,10 +173,11 @@ public class Address implements AddressAble {
 				vo = null;
 				vo = (AddressVO)al.get(i);
 				
-				vo.phone = SLibrary.getPhone(vo.phone);
+				vo.phone = SLibrary.getPhone(vo.phone); 
 				
 				if (vo.phone != null) {
-					vo.name = SLibrary.replaceAll(vo.name, ",", " ");
+					if (vo.name != null) vo.name = SLibrary.replaceAll(vo.name, ",", " ");
+					
 					InsertMember(pq , user_id , vo);
 					
 					pq.addBatch();
