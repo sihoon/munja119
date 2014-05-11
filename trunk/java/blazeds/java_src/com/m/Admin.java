@@ -36,10 +36,10 @@ public class Admin extends SessionManagement {
 			conn = VbyP.getDB();
 			if ( SLibrary.isNull(user_id) ) {
 				rvo.setbResult(false);
-				rvo.setstrDescription("·Î±×ÀÎ ½ÇÆĞ.");
+				rvo.setstrDescription("ë¡œê·¸ì¸ ì‹¤íŒ¨.");
 			}else if ( SLibrary.isNull(password) ) {
 				rvo.setbResult(false);
-				rvo.setstrDescription("·Î±×ÀÎ ½ÇÆĞ.");
+				rvo.setstrDescription("ë¡œê·¸ì¸ ì‹¤íŒ¨.");
 			}else {
 				rvo = super.loginAdmin(conn, user_id, password);
 			}
@@ -74,7 +74,7 @@ public class Admin extends SessionManagement {
 		
 		Connection conn = null;
 		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
-		VbyP.accessLog(getAdminSession()+" >> È¸¿ø ¸®½ºÆ®");
+		VbyP.accessLog(getAdminSession()+" >> íšŒì› ë¦¬ìŠ¤íŠ¸");
 		
 		if (isLogin().getbResult()) {		
 		
@@ -111,7 +111,7 @@ public class Admin extends SessionManagement {
 	public int updateMember(MemberVO mvo) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> È¸¿ø ¼öÁ¤"+mvo.getUser_id());
+		VbyP.accessLog(getAdminSession()+" >> íšŒì› ìˆ˜ì •"+mvo.getUser_id());
 		int rslt = 0;
 		
 		if (isLogin().getbResult()) {		
@@ -158,7 +158,7 @@ public class Admin extends SessionManagement {
 	public int updateMemberPasswd(String user_id) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> È¸¿ø ºñ¹Ğ¹øÈ£ ÃÊ±âÈ­ "+user_id);
+		VbyP.accessLog(getAdminSession()+" >> íšŒì› ë¹„ë°€ë²ˆí˜¸ ì´ˆê¸°í™” "+user_id);
 		int rslt = 0;
 		
 		if (isLogin().getbResult()) {		
@@ -188,7 +188,7 @@ public class Admin extends SessionManagement {
 	public int deleteMember(String user_id) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> È¸¿ø »èÁ¦ "+user_id);
+		VbyP.accessLog(getAdminSession()+" >> íšŒì› ì‚­ì œ "+user_id);
 		int rslt = 0;
 		
 		if (isLogin().getbResult()) {		
@@ -225,7 +225,7 @@ public class Admin extends SessionManagement {
 		
 		Connection conn = null;
 		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
-		VbyP.accessLog(getAdminSession()+" >> Æ÷ÀÎÆ® ¸®½ºÆ®");
+		VbyP.accessLog(getAdminSession()+" >> í¬ì¸íŠ¸ ë¦¬ìŠ¤íŠ¸");
 		
 		if (isLogin().getbResult()) {		
 		
@@ -259,7 +259,7 @@ public class Admin extends SessionManagement {
 	public int setPoint(String user_id, int point) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> Æ÷ÀÎÆ® ¼³Á¤");
+		VbyP.accessLog(getAdminSession()+" >> í¬ì¸íŠ¸ ì„¤ì •");
 		
 		SessionManagement sm = new SessionManagement();
 		UserInformationVO mvo = null;
@@ -278,7 +278,7 @@ public class Admin extends SessionManagement {
 				
 				if (point * PointManager.DEFULT_POINT > 0 && !SLibrary.isNull( mvo.getHp() ) ) {
 					AdminSMS asms = AdminSMS.getInstance();
-					String tempMessage = "[munja119] "+SLibrary.addComma( point * PointManager.DEFULT_POINT )+" °Ç ÃæÀüÀÌ ¿Ï·á µÇ¾ú½À´Ï´Ù.";
+					String tempMessage = "[munja119] "+SLibrary.addComma( point * PointManager.DEFULT_POINT )+" ê±´ ì¶©ì „ì´ ì™„ë£Œ ë˜ì—ˆìŠµë‹ˆë‹¤.";
 					asms.sendAdmin(conn, tempMessage , mvo.getHp() , "16000816");
 				}
 				
@@ -294,7 +294,7 @@ public class Admin extends SessionManagement {
 		
 		String rslt = "0";
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> °ü¸®ÀÚ »ç¿ëÀÚ ´Ü°¡ È®ÀÎ : "+ user_id);
+		VbyP.accessLog(getAdminSession()+" >> ê´€ë¦¬ì ì‚¬ìš©ì ë‹¨ê°€ í™•ì¸ : "+ user_id);
 		
 		if (isLogin().getbResult()) {		
 			
@@ -321,7 +321,7 @@ public class Admin extends SessionManagement {
 	public BooleanAndDescriptionVO setCash(String user_id, int amount, int point, boolean bSMS) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> °ü¸®ÀÚ ÃæÀü");
+		VbyP.accessLog(getAdminSession()+" >> ê´€ë¦¬ì ì¶©ì „");
 
 		BooleanAndDescriptionVO badvo = null;
 		
@@ -353,7 +353,7 @@ public class Admin extends SessionManagement {
 		
 		Connection conn = null;
 		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
-		VbyP.accessLog(getAdminSession()+" >> ·ÎÀÎÆ® ·Î±× ¸®½ºÆ®");
+		VbyP.accessLog(getAdminSession()+" >> ë¡œì¸íŠ¸ ë¡œê·¸ ë¦¬ìŠ¤íŠ¸");
 		
 		if (isLogin().getbResult()) {		
 		
@@ -391,7 +391,7 @@ public class Admin extends SessionManagement {
 		
 		Connection conn = null;
 		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
-		VbyP.accessLog(getAdminSession()+" >> Àü¼Û³»¿ª");
+		VbyP.accessLog(getAdminSession()+" >> ì „ì†¡ë‚´ì—­");
 		
 		if (isLogin().getbResult()) {		
 		
@@ -437,7 +437,7 @@ public class Admin extends SessionManagement {
 				
 				conn = VbyP.getDB();
 				String user_id = getAdminSession();
-				VbyP.accessLog(user_id+" >> »ó¼¼³»¿ª:"+fromDate+"~"+endDate+","+bReservation);
+				VbyP.accessLog(user_id+" >> ìƒì„¸ë‚´ì—­:"+fromDate+"~"+endDate+","+bReservation);
 				
 				if (user_id != null && !user_id.equals("")) {
 					
@@ -474,7 +474,7 @@ public class Admin extends SessionManagement {
 			try {
 				
 				connSMS = VbyP.getDB(line);
-				VbyP.accessLog(getAdminSession()+" >> "+line+" Àü¼Û³»¿ª:"+ Integer.toString(groupIndex));
+				VbyP.accessLog(getAdminSession()+" >> "+line+" ì „ì†¡ë‚´ì—­:"+ Integer.toString(groupIndex));
 				
 				if (user_id != null && !user_id.equals("")) {
 							
@@ -488,6 +488,7 @@ public class Admin extends SessionManagement {
 					else if (SLibrary.IfNull(line).equals("hanr")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataHNR") );
 					else if (SLibrary.IfNull(line).equals("it")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataIT") );
 					else if (SLibrary.IfNull(line).equals("pp")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataPP") );
+					else if (SLibrary.IfNull(line).equals("ppmms")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataPP") );
 					else pq.setPrepared( connSMS, VbyP.getSQL("selectSentData") );
 					pq.setString(1, user_id);
 					pq.setString(2, Integer.toString(groupIndex));
@@ -512,7 +513,7 @@ public class Admin extends SessionManagement {
 		
 		Connection conn = null;
 		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
-		VbyP.accessLog(getAdminSession()+" >> °áÁ¦³»¿ª");
+		VbyP.accessLog(getAdminSession()+" >> ê²°ì œë‚´ì—­");
 		
 		if (isLogin().getbResult()) {		
 		
@@ -546,7 +547,7 @@ public class Admin extends SessionManagement {
 	public int updateBilling(BillingVO bvo) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> °áÁ¦ ¼öÁ¤"+bvo.getUser_id());
+		VbyP.accessLog(getAdminSession()+" >> ê²°ì œ ìˆ˜ì •"+bvo.getUser_id());
 		int rslt = 0;
 		
 		if (isLogin().getbResult()) {		
@@ -583,7 +584,7 @@ public class Admin extends SessionManagement {
 	public int deleteBilling(int idx) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> °áÁ¦ »èÁ¦"+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> ê²°ì œ ì‚­ì œ"+Integer.toString(idx));
 		int rslt = 0;
 		
 		if (isLogin().getbResult()) {		
@@ -611,7 +612,7 @@ public class Admin extends SessionManagement {
 
 		Connection conn = null;
 		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
-		VbyP.accessLog(getAdminSession()+" >> ¹«ÅëÀåÀÔ±İ ¿¹¾à");
+		VbyP.accessLog(getAdminSession()+" >> ë¬´í†µì¥ì…ê¸ˆ ì˜ˆì•½");
 		
 		if (isLogin().getbResult()) {		
 		
@@ -646,7 +647,7 @@ public class Admin extends SessionManagement {
 
 		Connection conn = null;
 		ArrayList<HashMap<String, String>> al = new ArrayList<HashMap<String, String>>();
-		VbyP.accessLog(getAdminSession()+" >> ¼¼±İ°è»ê¼­");
+		VbyP.accessLog(getAdminSession()+" >> ì„¸ê¸ˆê³„ì‚°ì„œ");
 		
 		if (isLogin().getbResult()) {		
 		
@@ -680,7 +681,7 @@ public class Admin extends SessionManagement {
 	public int deleteCash(int idx) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ¹«ÅëÀå ¿¹¾à »èÁ¦"+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> ë¬´í†µì¥ ì˜ˆì•½ ì‚­ì œ"+Integer.toString(idx));
 		int rslt = 0;
 		
 		if (isLogin().getbResult()) {		
@@ -707,7 +708,7 @@ public class Admin extends SessionManagement {
 	public int setTaxDelete(int idx) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ¼¼±İ°è»ê¼­ »èÁ¦"+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> ì„¸ê¸ˆê³„ì‚°ì„œ ì‚­ì œ"+Integer.toString(idx));
 		int rslt = 0;
 		
 		if (isLogin().getbResult()) {		
@@ -734,7 +735,7 @@ public class Admin extends SessionManagement {
 	public int setTaxComplet(int idx) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ¼¼±İ°è»ê¼­ ¿Ï·á"+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> ì„¸ê¸ˆê³„ì‚°ì„œ ì™„ë£Œ"+Integer.toString(idx));
 		int rslt = 0;
 		
 		if (isLogin().getbResult()) {		
@@ -778,7 +779,7 @@ public class Admin extends SessionManagement {
 			if (page == 0) page = 1;
 			from = count * (page -1);
 			
-			VbyP.accessLog(" >>  °ü¸®ÀÚ ÀÌ¸ğÆ¼ÄÜ ¿äÃ»("+category+") "+Integer.toString(from));
+			VbyP.accessLog(" >>  ê´€ë¦¬ì ì´ëª¨í‹°ì½˜ ìš”ì²­("+category+") "+Integer.toString(from));
 			
 			StringBuffer buf = new StringBuffer();
 			buf.append(VbyP.getSQL("adminEmoticon"));
@@ -826,7 +827,7 @@ public class Admin extends SessionManagement {
 			if (page == 0) page = 1;
 			from = count * (page -1);
 			
-			VbyP.accessLog(" >>  °ü¸®ÀÚ ÀÌ¸ğÆ¼ÄÜ ¿äÃ»("+Gubun+"/"+category+") "+Integer.toString(from));
+			VbyP.accessLog(" >>  ê´€ë¦¬ì ì´ëª¨í‹°ì½˜ ìš”ì²­("+Gubun+"/"+category+") "+Integer.toString(from));
 			
 			StringBuffer buf = new StringBuffer();
 			buf.append(VbyP.getSQL("adminEmoticonCate"));
@@ -872,7 +873,7 @@ public class Admin extends SessionManagement {
 			if (page == 0) page = 1;
 			from = count * (page -1);
 			
-			VbyP.accessLog(" >>  °ü¸®ÀÚ ÀÌ¸ğÆ¼ÄÜ ¿äÃ»("+Gubun+"/"+category+") "+Integer.toString(from));
+			VbyP.accessLog(" >>  ê´€ë¦¬ì ì´ëª¨í‹°ì½˜ ìš”ì²­("+Gubun+"/"+category+") "+Integer.toString(from));
 			
 			StringBuffer buf = new StringBuffer();
 			buf.append(VbyP.getSQL("adminEmoticonCate"));
@@ -899,7 +900,7 @@ public class Admin extends SessionManagement {
 	public void updateEmoti(int idx, String msg) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ÀÌ¸ğÆ¼ÄÜ ¾÷µ¥ÀÌÆ® "+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> ì´ëª¨í‹°ì½˜ ì—…ë°ì´íŠ¸ "+Integer.toString(idx));
 		
 		if (isLogin().getbResult()) {		
 		
@@ -925,7 +926,7 @@ public class Admin extends SessionManagement {
 	public void updateEmotiForeign(int idx, String msg) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ÇØ¿ÜÀÌ¸ğÆ¼ÄÜ ¾÷µ¥ÀÌÆ® "+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> í•´ì™¸ì´ëª¨í‹°ì½˜ ì—…ë°ì´íŠ¸ "+Integer.toString(idx));
 		
 		if (isLogin().getbResult()) {		
 		
@@ -951,7 +952,7 @@ public class Admin extends SessionManagement {
 	public void updateEmotiCate(int idx, String gubun, String category, String msg) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ÀÌ¸ğÆ¼ÄÜ ¾÷µ¥ÀÌÆ® "+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> ì´ëª¨í‹°ì½˜ ì—…ë°ì´íŠ¸ "+Integer.toString(idx));
 		
 		if (isLogin().getbResult()) {		
 		
@@ -979,7 +980,7 @@ public class Admin extends SessionManagement {
 	public void updateEmotiCateLMS(int idx, String msg) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ÀÌ¸ğÆ¼ÄÜ LMS ¾÷µ¥ÀÌÆ® "+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> ì´ëª¨í‹°ì½˜ LMS ì—…ë°ì´íŠ¸ "+Integer.toString(idx));
 		
 		if (isLogin().getbResult()) {		
 		
@@ -1004,7 +1005,7 @@ public class Admin extends SessionManagement {
 	public void firstEmoti(int idx) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ÀÌ¸ğÆ¼ÄÜ Ã³À½À¸·Î "+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> ì´ëª¨í‹°ì½˜ ì²˜ìŒìœ¼ë¡œ "+Integer.toString(idx));
 		
 		if (isLogin().getbResult()) {		
 		
@@ -1028,7 +1029,7 @@ public class Admin extends SessionManagement {
 	public void firstEmotiLMS(int idx) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> LMS ÀÌ¸ğÆ¼ÄÜ Ã³À½À¸·Î "+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> LMS ì´ëª¨í‹°ì½˜ ì²˜ìŒìœ¼ë¡œ "+Integer.toString(idx));
 		
 		if (isLogin().getbResult()) {		
 		
@@ -1052,7 +1053,7 @@ public class Admin extends SessionManagement {
 	public void firstEmotiMMS(int idx) {
 	
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> MMS ÀÌ¸ğÆ¼ÄÜ Ã³À½À¸·Î "+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> MMS ì´ëª¨í‹°ì½˜ ì²˜ìŒìœ¼ë¡œ "+Integer.toString(idx));
 		
 		if (isLogin().getbResult()) {		
 		
@@ -1077,7 +1078,7 @@ public class Admin extends SessionManagement {
 	public void firstEmotiForeign(int idx) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> Foreign ÀÌ¸ğÆ¼ÄÜ Ã³À½À¸·Î "+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> Foreign ì´ëª¨í‹°ì½˜ ì²˜ìŒìœ¼ë¡œ "+Integer.toString(idx));
 		
 		if (isLogin().getbResult()) {		
 		
@@ -1102,7 +1103,7 @@ public class Admin extends SessionManagement {
 	public void deleteEmoti(int idx) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ÀÌ¸ğÆ¼ÄÜ »èÁ¦ "+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> ì´ëª¨í‹°ì½˜ ì‚­ì œ "+Integer.toString(idx));
 		
 		if (isLogin().getbResult()) {		
 		
@@ -1127,7 +1128,7 @@ public class Admin extends SessionManagement {
 	public void deleteEmotiForeign(int idx) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ÀÌ¸ğÆ¼ÄÜ »èÁ¦ "+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> ì´ëª¨í‹°ì½˜ ì‚­ì œ "+Integer.toString(idx));
 		
 		if (isLogin().getbResult()) {		
 		
@@ -1152,7 +1153,7 @@ public class Admin extends SessionManagement {
 	public void deleteEmotiLMS(int idx) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ÀÌ¸ğÆ¼ÄÜ LMS »èÁ¦ "+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> ì´ëª¨í‹°ì½˜ LMS ì‚­ì œ "+Integer.toString(idx));
 		
 		if (isLogin().getbResult()) {		
 		
@@ -1177,7 +1178,7 @@ public class Admin extends SessionManagement {
 	public void deleteEmotiMMS(int idx) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ÀÌ¸ğÆ¼ÄÜ MMS »èÁ¦ "+Integer.toString(idx));
+		VbyP.accessLog(getAdminSession()+" >> ì´ëª¨í‹°ì½˜ MMS ì‚­ì œ "+Integer.toString(idx));
 		
 		if (isLogin().getbResult()) {		
 		
@@ -1202,7 +1203,7 @@ public class Admin extends SessionManagement {
 	public void addEmoti(String cate, String msg) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ÀÌ¸ğÆ¼ÄÜ Ãß°¡ "+cate+" "+msg);
+		VbyP.accessLog(getAdminSession()+" >> ì´ëª¨í‹°ì½˜ ì¶”ê°€ "+cate+" "+msg);
 		
 		if (isLogin().getbResult()) {		
 		
@@ -1228,7 +1229,7 @@ public class Admin extends SessionManagement {
 	public void addEmotiCate(String gubun, String cate, String msg) {
 		
 		Connection conn = null;
-		VbyP.accessLog(getAdminSession()+" >> ÀÌ¸ğÆ¼ÄÜ Ãß°¡ "+gubun+"/"+cate+" "+msg);
+		VbyP.accessLog(getAdminSession()+" >> ì´ëª¨í‹°ì½˜ ì¶”ê°€ "+gubun+"/"+cate+" "+msg);
 		
 		if (isLogin().getbResult()) {		
 		
@@ -1265,7 +1266,7 @@ public class Admin extends SessionManagement {
 			nd = new NoticDAO();
 			conn = VbyP.getDB();
 			
-			VbyP.accessLog(" >>  °øÁö»çÇ× ¸®½ºÆ® ¿äÃ»");
+			VbyP.accessLog(" >>  ê³µì§€ì‚¬í•­ ë¦¬ìŠ¤íŠ¸ ìš”ì²­");
 			
 			rslt = nd.getList(conn);
 			
@@ -1291,7 +1292,7 @@ public class Admin extends SessionManagement {
 			nd = new NoticDAO();
 			conn = VbyP.getDB();
 			
-			VbyP.accessLog(" >>  °øÁö»çÇ× Ãß°¡ ¿äÃ»");
+			VbyP.accessLog(" >>  ê³µì§€ì‚¬í•­ ì¶”ê°€ ìš”ì²­");
 			
 			rslt = nd.insert(conn, vo);
 			
@@ -1315,7 +1316,7 @@ public class Admin extends SessionManagement {
 			nd = new NoticDAO();
 			conn = VbyP.getDB();
 			
-			VbyP.accessLog(" >>  °øÁö»çÇ× ¼öÁ¤ ¿äÃ»");
+			VbyP.accessLog(" >>  ê³µì§€ì‚¬í•­ ìˆ˜ì • ìš”ì²­");
 			
 			rslt = nd.modify(conn, vo);
 			
@@ -1339,7 +1340,7 @@ public class Admin extends SessionManagement {
 			nd = new NoticDAO();
 			conn = VbyP.getDB();
 			
-			VbyP.accessLog(" >>  °øÁö»çÇ× »èÁ¦ ¿äÃ»");
+			VbyP.accessLog(" >>  ê³µì§€ì‚¬í•­ ì‚­ì œ ìš”ì²­");
 			
 			rslt = nd.delete(conn, idx);
 			
@@ -1364,7 +1365,7 @@ public class Admin extends SessionManagement {
 			nd = new NoticDAO();
 			conn = VbyP.getDB();
 			
-			VbyP.accessLog(" >>  FAQ ¸®½ºÆ® ¿äÃ»");
+			VbyP.accessLog(" >>  FAQ ë¦¬ìŠ¤íŠ¸ ìš”ì²­");
 			
 			rslt = nd.getListFAQ(conn);
 			
@@ -1390,7 +1391,7 @@ public class Admin extends SessionManagement {
 			nd = new NoticDAO();
 			conn = VbyP.getDB();
 			
-			VbyP.accessLog(" >>  FAQ Ãß°¡ ¿äÃ»");
+			VbyP.accessLog(" >>  FAQ ì¶”ê°€ ìš”ì²­");
 			
 			rslt = nd.insertFAQ(conn, vo);
 			
@@ -1414,7 +1415,7 @@ public class Admin extends SessionManagement {
 			nd = new NoticDAO();
 			conn = VbyP.getDB();
 			
-			VbyP.accessLog(" >>  FAQ ¼öÁ¤ ¿äÃ»");
+			VbyP.accessLog(" >>  FAQ ìˆ˜ì • ìš”ì²­");
 			
 			rslt = nd.modifyFAQ(conn, vo);
 			
@@ -1438,7 +1439,7 @@ public class Admin extends SessionManagement {
 			nd = new NoticDAO();
 			conn = VbyP.getDB();
 			
-			VbyP.accessLog(" >>  FAQ »èÁ¦ ¿äÃ»");
+			VbyP.accessLog(" >>  FAQ ì‚­ì œ ìš”ì²­");
 			
 			rslt = nd.deleteFAQ(conn, idx);
 			
