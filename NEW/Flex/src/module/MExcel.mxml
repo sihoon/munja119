@@ -260,7 +260,7 @@
 				var obj:Object = null;
 				var cnt:int = arr.length;
 				if (arr == null || arr.length <= 0) {
-					SLibrary.alert("주소록 그룹이 없습니다.");
+				
 				}else {
 					
 					var cnt:int = arr.length;
