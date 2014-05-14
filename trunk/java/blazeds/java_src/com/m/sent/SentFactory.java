@@ -29,7 +29,7 @@ public class SentFactory implements SentFactoryAble {
 		ArrayList<SentVO> rslt = new ArrayList<SentVO>();
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
-		if (SLibrary.IfNull(line).equals("sk")|| SLibrary.IfNull(line).equals("skmms")) {
+		if (SLibrary.IfNull(line).equals("sk")|| SLibrary.IfNull(line).equals("skmms")|| SLibrary.IfNull(line).equals("skb")) {
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataSK") );
 		}else if (SLibrary.IfNull(line).startsWith("kt")) {
 			pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataKT") );
@@ -101,7 +101,7 @@ public class SentFactory implements SentFactoryAble {
 	private String getSendResult(String line, String code) {
 
 		String rslt = "";
-		if (SLibrary.IfNull(line).equals("sk") || SLibrary.IfNull(line).equals("skmms"))
+		if (SLibrary.IfNull(line).equals("sk") || SLibrary.IfNull(line).equals("skmms")|| SLibrary.IfNull(line).equals("skb"))
 			rslt = VbyP.getValue( "sk_"+code);
 		else if (SLibrary.IfNull(line).startsWith("kt"))
 			rslt = VbyP.getValue( "kt_"+code);
@@ -116,7 +116,7 @@ public class SentFactory implements SentFactoryAble {
 	private String getSendStat(String line, String stat) {
 		
 		String rslt = stat;
-		if (SLibrary.IfNull(line).equals("sk") || SLibrary.IfNull(line).equals("skmms")) {
+		if (SLibrary.IfNull(line).equals("sk") || SLibrary.IfNull(line).equals("skmms") || SLibrary.IfNull(line).equals("skb")) {
 			if (stat.equals("1")||stat.equals("2"))
 				rslt = "1";
 			else if (stat.equals("9"))
@@ -225,7 +225,7 @@ public class SentFactory implements SentFactoryAble {
 		rvo.setbResult(false);
 		
 		int tranResultCount = 0;
-		if(SLibrary.IfNull(line).equals("sk")||SLibrary.IfNull(line).equals("skmms")){
+		if(SLibrary.IfNull(line).equals("sk")||SLibrary.IfNull(line).equals("skmms")||SLibrary.IfNull(line).equals("skb")){
 			tranResultCount = deleteSentDataOfTranTableSK(connSMS, user_id, idx);
 		}else if(SLibrary.IfNull(line).equals("kt")){
 			tranResultCount = deleteSentDataOfTranTableKT(connSMS, user_id, idx);
