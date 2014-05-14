@@ -95,6 +95,7 @@ public class MMS implements MMSAble {
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 		if (via.startsWith("kt")) sql =  VbyP.getSQL("insertMMSClientKT");
 		else if (via.equals("ppmms")) sql =  VbyP.getSQL("insertMMSClientPP");
+		else if (via.equals("skbmms")) sql =  VbyP.getSQL("insertMMSClient");
 		else  sql = VbyP.getSQL("insertMMSClient") ;
 		
 		pq.setPrepared( connMMS, sql );
@@ -132,7 +133,7 @@ public class MMS implements MMSAble {
 					}
 					
 				}
-				//���Űź�
+
 				if (Refuse.isRefuse(hashTable_refuse, vo.PHONE)){
 					
 					insertClientPqSetter_fail(pq, vo, "98");
@@ -146,7 +147,6 @@ public class MMS implements MMSAble {
 				
 				pq.addBatch();
 				
-				//�߼�ī��Ʈ
 				M.setState(vo.ID, i+1);
 				
 				if (i >= maxBatch && (i%maxBatch) == 0 ) {
@@ -360,6 +360,7 @@ public class MMS implements MMSAble {
 		
 		if (cnt > 0 && minute > 0) bInterval = true;
 		
+		String msg = "";
 		for (int i = 0; i < count; i++) {
 			
 			vo = new MMSClientVO();
@@ -370,15 +371,15 @@ public class MMS implements MMSAble {
 			if (bInterval &&  i != 0 && (i+1)%cnt == 0) {
 				reservationDate = SLibrary.getDateAddSecond(reservationDate, minute*60);
 			}
-			
-			vo.setSUBJECT( (message.length() > 20)? message.substring(0,20) : message );
+			msg = bMerge ? SLibrary.replaceAll(message, "{이름}", name ):message;
+			vo.setSUBJECT( (msg.length() > 20)? msg.substring(0,20) : msg );
 			vo.setPHONE((temp.length > 0)? SLibrary.IfNull(temp[0]):"");
 			vo.setCALLBACK( returnPhone );
 			vo.setSTATUS( CLIENT_SENDSTAT );
 			vo.setREQDATE( reservationDate );
 			
-			vo.setMSG( bMerge ? SLibrary.replaceAll(message, "{이름}", name ):message );
-			System.out.println(bMerge+" "+vo.getMSG());
+			vo.setMSG( msg );
+			
 			vo.setFILE_CNT( (SLibrary.isNull(imagePath))? 0: 1 );
 			vo.setFILE_CNT_REAL( (SLibrary.isNull(imagePath))? 0: 1 );
 			vo.setFILE_PATH1( (SLibrary.isNull(imagePath))? "": imagePath );			
@@ -425,6 +426,7 @@ public class MMS implements MMSAble {
 		
 		if (cnt > 0 && minute > 0) bInterval = true;
 		
+		String msg = "";
 		for (int i = 0; i < count; i++) {
 			
 			vo = new MMSClientVO();
@@ -435,13 +437,13 @@ public class MMS implements MMSAble {
 			if (bInterval &&  i != 0 && (i+1)%cnt == 0) {
 				reservationDate = SLibrary.getDateAddSecond(reservationDate, minute*60);
 			}
-			
-			vo.setSUBJECT( (message.length() > 20)? message.substring(0,20) : message );
+			msg = bMerge ? SLibrary.replaceAll(message, "{이름}", name ):message;
+			vo.setSUBJECT( (msg.length() > 20)? msg.substring(0,20) : msg );
 			vo.setPHONE((temp.length > 0)? SLibrary.IfNull(temp[0]):"");
 			vo.setCALLBACK( returnPhone );
 			vo.setSTATUS( CLIENT_SENDSTAT );
 			vo.setREQDATE( reservationDate );
-			vo.setMSG( bMerge ? SLibrary.replaceAll(message, "{이름}", name ):message );
+			vo.setMSG( msg );
 			vo.setFILE_CNT( imgCnt );
 			vo.setFILE_CNT_REAL( imgCnt );
 			vo.setFILE_PATH1( image );			
