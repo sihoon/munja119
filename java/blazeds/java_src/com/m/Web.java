@@ -2590,6 +2590,9 @@ public class Web extends SessionManagement{
 				}else if (line.equals("kt1mms")|| line.equals("kt2mms")|| line.equals("kt3mms")) {	
 					connSMS = VbyP.getDB(line);
 					sf = SentLMSFactory.getInstance();
+				}else if (line.equals("skbmms")) {	
+					connSMS = VbyP.getDB(line);
+					sf = SentLMSFactory.getInstance();
 				}
 				else connSMS = VbyP.getDB(line);
 				
@@ -2687,6 +2690,9 @@ public class Web extends SessionManagement{
 					connSMS = VbyP.getDB("sms1");
 					sf = SentLMSFactory.getInstance();
 				} else if (sendLine.equals("kt1mms")||sendLine.equals("kt2mms")||sendLine.equals("kt3mms")){
+					connSMS = VbyP.getDB(sendLine);
+					sf = SentLMSFactory.getInstance();
+				}else if (sendLine.equals("skbmms")){
 					connSMS = VbyP.getDB(sendLine);
 					sf = SentLMSFactory.getInstance();
 				}else connSMS = VbyP.getDB(sendLine);

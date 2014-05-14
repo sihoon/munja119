@@ -432,7 +432,7 @@ public class SentLMSFactory implements SentFactoryAble {
 	public BooleanAndDescriptionVO cancelSentGroupList(Connection conn, Connection connSMS, UserInformationVO mvo, int idx, String sendLine) throws Exception {
 		
 		VbyP.debugLog(mvo.getUser_id() + " >> LMS 예약취소 시작"+Integer.toString(idx));
-		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
+		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO(); 
 		rvo.setbResult(false);
 		
 		try {
