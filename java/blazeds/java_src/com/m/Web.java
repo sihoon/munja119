@@ -1276,6 +1276,7 @@ public class Web extends SessionManagement{
 			else if (line.equals("hanr")) mvo.setLine("ktmms");
 			else if (line.equals("it")) mvo.setLine("ktmms");
 			else if (line.equals("pp")) mvo.setLine("ppmms");
+			else if (line.equals("skb")) mvo.setLine("skbmms");
 			else  mvo.setLine("mms");
 			connLMS = VbyP.getDB(mvo.getLine());
 			
@@ -1350,6 +1351,15 @@ public class Web extends SessionManagement{
 				
 				clientResult = lms.insertClient(connLMS, alClientVO, "ppmms");
 				
+			}else if (line.equals("skb")) {
+				//step3	
+				alClientVO = lms.getMMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp, cnt, minute, bMerge);
+				VbyP.accessLog(user_id+" >> LMS 전송 요청 SKB : getMMSClientVOMearge 생성" + "경과 시간 : "+sw.getTime());
+				
+				//timeout 방지를 위해 닫는다.
+				try { if ( conn != null ) { conn.close(); conn = null; } } catch(Exception e) { VbyP.errorLog("sendSMS >> conn.close() timeout 방지"+e.toString());}
+				
+				clientResult = lms.insertClient(connLMS, alClientVO, "skbmms");
 			}else {
 				//step3	
 				alClientVO = lms.getMMSClientVOMeargeAndInterval(conn, mvo, bReservation, logKey, message, phoneAndNameArrayList, returnPhone, reservationDate, "", requestIp, cnt, minute, bMerge);

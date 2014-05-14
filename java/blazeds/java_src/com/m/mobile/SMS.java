@@ -65,7 +65,7 @@ public class SMS implements SMSAble {
 		int resultCount = 0;
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 		String resultStateCode = "2";
-		if (SLibrary.IfNull(via).equals("sk")) {
+		if (SLibrary.IfNull(via).equals("sk") || SLibrary.IfNull(via).equals("skb")) {
 			sql = VbyP.getSQL("insertClientSK");
 			resultStateCode = "9";
 		} else if (SLibrary.IfNull(via).startsWith("kt")) {
@@ -112,19 +112,19 @@ public class SMS implements SMSAble {
 				//수신거부
 				if (Refuse.isRefuse(hashTable_refuse, vo.TR_PHONE)){
 					
-					if (SLibrary.IfNull(via).equals("sk")) 
+					if (SLibrary.IfNull(via).equals("sk") || SLibrary.IfNull(via).equals("skb")) 
 						insertSMSClientPqSetter_failSK(pq, vo,resultStateCode, "98", i);
 					else
 						insertSMSClientPqSetter_fail(pq, vo,resultStateCode, "98");
 					
 				} else if (hashTable.containsKey(vo.TR_PHONE)){
-					if (SLibrary.IfNull(via).equals("sk")) 
+					if (SLibrary.IfNull(via).equals("sk") || SLibrary.IfNull(via).equals("skb")) 
 						insertSMSClientPqSetter_failSK(pq, vo,resultStateCode, "99", i);
 					else
 						insertSMSClientPqSetter_fail(pq, vo,resultStateCode, "99");
 				}else {
 					hashTable.put(vo.TR_PHONE, "");
-					if (SLibrary.IfNull(via).equals("sk")) 
+					if (SLibrary.IfNull(via).equals("sk") || SLibrary.IfNull(via).equals("skb")) 
 						insertSMSClientPqSetterSK(pq, vo, i);
 					else
 						insertSMSClientPqSetter(pq, vo);
