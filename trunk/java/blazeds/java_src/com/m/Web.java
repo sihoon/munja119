@@ -895,7 +895,7 @@ public class Web extends SessionManagement{
 			
 			
 			mvo = getUserInformation( conn );
-			
+			if (mvo.getLine().equals("skb")) mvo.setLine("sk");
 			connSMS = VbyP.getDB(mvo.getLine());
 								
 			if (connSMS == null)
