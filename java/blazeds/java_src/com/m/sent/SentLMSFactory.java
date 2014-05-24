@@ -10,6 +10,7 @@ import com.common.util.SLibrary;
 import com.m.common.BooleanAndDescriptionVO;
 import com.m.common.PointManager;
 import com.m.member.UserInformationVO;
+import com.m.mobile.MMS;
 
 public class SentLMSFactory implements SentFactoryAble {
 	
@@ -435,6 +436,7 @@ public class SentLMSFactory implements SentFactoryAble {
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO(); 
 		rvo.setbResult(false);
 		
+		
 		try {
 			
 			String[] sentGroupInfo =  selectTimeAndCountSentGroupData(conn, mvo.getUser_id(), idx);
@@ -587,7 +589,7 @@ public class SentLMSFactory implements SentFactoryAble {
 		
 		PointManager pm = PointManager.getInstance();
 		
-		return pm.insertUserPoint(conn, mvo, 46, cnt * PointManager.DEFULT_POINT*3);
+		return pm.insertUserPoint(conn, mvo, 46, (int)Math.round(cnt * MMS.LMS_POINT_COUNT * PointManager.DEFULT_POINT));
 	}
 	
 	private int deleteSentDataOfTranTablePP(Connection conn, String user_id, int idx) {
