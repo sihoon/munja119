@@ -29,7 +29,7 @@ public class ExcelManagerByPOI36 {
 		sheetName = null;
 		maxCountColumn = 0;
 		limitColumn = 50;
-		limitRow = 500000;
+		limitRow = 5000000;
 	}
 	
 	public void setSheetName(String str){ this.sheetName = str; }
@@ -102,11 +102,11 @@ public class ExcelManagerByPOI36 {
 
 				int cellType = cell.getCellType();
 				
-				// cell Å¸ÀÔ¿¡ µû¸¥ °ªÀ» Ãâ·Â½ÃÅ²´Ù
+				// cell Å¸ï¿½Ô¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â½ï¿½Å²ï¿½ï¿½
 				switch (cellType) {
 					case Cell.CELL_TYPE_NUMERIC:		// 0
 						double d = cell.getNumericCellValue();
-						// µ¥ÀÌÆ® Å¸ÀÔ¿©ºÎ¸¦ Ã¼Å©ÇÑ´Ù.
+						// ï¿½ï¿½ï¿½ï¿½Æ® Å¸ï¿½Ô¿ï¿½ï¿½Î¸ï¿½ Ã¼Å©ï¿½Ñ´ï¿½.
 						if (DateUtil.isCellDateFormatted(cell)) {
 							// format in form of YYYYMMDD
 							SimpleDateFormat formatter =

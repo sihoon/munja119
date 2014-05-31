@@ -489,6 +489,7 @@ public class Admin extends SessionManagement {
 					else if (SLibrary.IfNull(line).equals("it")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataIT") );
 					else if (SLibrary.IfNull(line).equals("pp")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataPP") );
 					else if (SLibrary.IfNull(line).equals("ppmms")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataPP") );
+					else if (SLibrary.IfNull(line).equals("skbmms")) pq.setPrepared( connSMS, VbyP.getSQL("selectSentDataLMS") );
 					else pq.setPrepared( connSMS, VbyP.getSQL("selectSentData") );
 					pq.setString(1, user_id);
 					pq.setString(2, Integer.toString(groupIndex));
