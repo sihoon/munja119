@@ -288,12 +288,12 @@
 			private function confirmSetting():void {
 				
 				var sendtype:String = cMessage.mode.text;
-				var typeCnt:uint = 1;
-				if (sendtype == "LMS") typeCnt = 3;
+				var typeCnt:Number = 1;
+				if (sendtype == "LMS") typeCnt = 2.8;
 				else if (sendtype == "MMS") typeCnt = 15;
 				
 				type.text = sendtype;
-				cnt.text = cPhone.totalCount.text + " ("+uint(cPhone.totalCount.text)*typeCnt+"건 차감)";
+				cnt.text = cPhone.totalCount.text + " ("+Math.round(uint(cPhone.totalCount.text)*typeCnt)+"건 차감)";
 				sendTime.text = cReservation.bReservation ? cReservation.strReservation +":00" : "미설정";
 				interval.text = cInterval.bInterval ? cInterval.cnt +"건씩 "+ cInterval.minute+"분간격": "미설정";
 
