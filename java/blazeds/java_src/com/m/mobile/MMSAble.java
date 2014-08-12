@@ -14,8 +14,8 @@ public interface MMSAble {
 	static final String CLIENT_RSLTSTAT = "00";
 	static final String CLIENT_MESSAGETYPE = "0";
 	static final String APPLICATION_TYPE = "M";
-	static final double LMS_POINT_COUNT = 2.8;
-	static final int MMS_POINT_COUNT = 15;
+	static final int  LMS_POINT_COUNT = 3;
+	static final int MMS_POINT_COUNT = 10;
 	
 	int insertClient(Connection conn, MMSClientVO vo);
 	int insertLMSLog(Connection conn, LogVO vo, int year, int month);

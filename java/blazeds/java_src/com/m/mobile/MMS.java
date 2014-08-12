@@ -235,7 +235,7 @@ public class MMS implements MMSAble {
 
 		
 		PointManager pm = PointManager.getInstance();		
-		return pm.insertUserPoint(conn, mvo, 41, (int)Math.round(cnt * MMS.LMS_POINT_COUNT * PointManager.DEFULT_POINT));
+		return pm.insertUserPoint(conn, mvo, 41, cnt * MMS.LMS_POINT_COUNT * PointManager.DEFULT_POINT);
 	}
 	
 	public int sendMMSPointPut(Connection conn, UserInformationVO mvo, int cnt) {
