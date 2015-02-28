@@ -1,0 +1,101 @@
+<%@page import="java.sql.SQLException"%>
+<%@page import="com.m.member.SessionManagement"%>
+<%@page import="com.m.member.UserInformationVO"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="com.common.VbyP"%>
+<%@page import="com.common.util.SLibrary"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%
+
+
+String user_id = SLibrary.IfNull((String)session.getAttribute("user_id"));
+Connection conn = null;
+UserInformationVO vo = null;
+SessionManagement ses = null;
+
+try {
+	conn = VbyP.getDB();
+	
+	ses = new SessionManagement();
+	if ( !SLibrary.IfNull( (String)session.getAttribute("user_id") ).equals("") )
+		vo = ses.getUserInformation(conn, SLibrary.IfNull( (String)session.getAttribute("user_id") ));
+}catch (Exception e) {}
+finally {
+	
+	try {
+		if ( conn != null )	conn.close();
+	}catch(SQLException e) {
+		VbyP.errorLog("billing.jsp >> conn.close() Exception!"); 
+	}
+	conn = null;
+}
+
+%>
+
+
+<% if (vo == null) { %>
+<form name="loginForm" method="post" target="nobody" action="member/_login.jsp" >
+<fieldset id="login" >
+    <legend>로그인</legend>
+    <label class="idlabel ti" for="user_id">아이디</label><input type="text" id="user_id" name="user_id" value="" />
+    <label class="pwlabel ti" for="user_pw">비밀번호</label><input type="password" id="user_pw" name="user_pw" />
+    <button class="loginBtn ti" onclick="logincheck()">로그인</button>
+    <button class="joinBtn ti">회원가입</button>
+    <button class="findBtn ti">아이디찾기</button>
+</fieldset>
+</form>
+<% } else { %>
+<fieldset id="loginInfo">
+    <legend>로그인정보</legend>
+    <p><span class="name"><%=vo.getUser_name() %></span> 님 안녕하세요.</p>
+   	<div><img src="images/usenum.gif" />&nbsp;<span class="cnt"><%=SLibrary.addComma( vo.getPoint() ) %></span><img src="images/cnt.gif" /></div>
+   	<img src="images/btn_cashbuy.gif" class="hand" alt="충전하기" onclick="window.location.href='?content=billing'" />
+    <div class="function"><img src="images/edit.gif" class="hand" alt="정보수정"/>&nbsp;<img src="images/logout.gif" onclick="window.location.href='member/_logout.jsp'" class="hand" alt="로그아웃" /></div>
+    <!--<div class="cuponBox"><input type="text" name="cupon" class="cuponInput" />&nbsp;&nbsp;<img src="images/btn_coupon.gif" class="hand" alt="쿠폰등록" /></div> -->
+</fieldset>
+<% }%>
+<form name="form" method="post">
+<div id="joinBox">
+	<p class="joinAd ti">업계최저가격 문자서비스</p>
+	<p class="join3Title ti">정보입력</p>
+	<table class="inputTable" cellpadding="0" cellspacing="0" border="0">
+		<tr><td class="t">핸드폰</td><td class="c"><input type="text" name="hp" class="txt" value=""/><button onclick="javascript:checkPNum('<%=vo.getHp()%>'); return false;">인증번호요청</button>&nbsp;<button onclick="javascript:checkPNum('<%=vo.getHp()%>'); return false;">재전송</button></td></tr>
+		<tr><td class="t">인증번호</td><td class="c"><input type="text" name="hpCert" class="txt" value=""/><button onclick="checkCertLogin(); return false;">인증번호확인</button>&nbsp;<button onclick="window.location.href='?content='">취  소</button></td></tr>
+		<!-- <tr><td class="t">핸드폰</td><td class="c"><input type="text" name="hp" class="txt" value="<%=vo.getHp()%>"/></td></tr> -->
+		<tr>
+			<td class="c" colspan="2">
+				<span>· 고객님의 핸드폰번호를 입력하시고 인증번호요청을 누르세요.<br/>
+				· 고객님의 회원정보에 핸드폰번호가 등록되어 있으신 경우에만 인증문자가 발송됩니다.<br/>
+				· 등록이 되어있지 않으신 경우 고객센터로 문의하시면 고객확인 절차 후 등록을 진행하여 드립니다.</span>
+			</td>
+		</tr>
+	</table>
+	<div class="confirmBox">
+	<!-- 
+		<img src="images/btn_qaregist.gif" onclick="check_modify()" />&nbsp;&nbsp;&nbsp;
+		<img src="images/btn_cancle.gif" onclick="window.location.href='?'" />
+	 -->
+	</div>
+</div>
+</form>
+<a id="cost" class="ti" href="">저렴하고 안정적인 문자서비스를 찾으십니까? 단가표 보기</a>
+<p id="custom" class="ti">Custom Center : 070-7510-8489, Fax: 031)970-8489</p>
+<script type="text/javascript" src="js/member.js"></script>
+<script type="text/javascript">
+alert("보안 강화를 위해 2차 인증이 필요합니다.");
+function checkPNum(memPNum){
+	var frm = document.form;
+	var inputPNum = frm.hp.value;
+	inputPNum = inputPNum.replace(/-/gi,"");
+	if(memPNum == inputPNum){
+		//alert("aa");
+		sendCertLogin();
+	}else{
+		if(inputPNum==null || inputPNum==""){
+			alert("핸드폰번호를 입력해주세요.");
+		}else{
+			alert("회원정보의 핸드폰번호와 입력하신 핸드폰번호가 일치하지 않습니다.\n고객센터로 문의해주시기 바랍니다.");
+			return;
+		}
+	}
+}
+</script>

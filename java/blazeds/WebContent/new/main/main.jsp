@@ -10,6 +10,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%
 
 	String user_id = SLibrary.IfNull((String)session.getAttribute("user_id"));
+
 	Connection conn = null;
 	UserInformationVO vo = null;
 	SessionManagement ses = null;
@@ -49,7 +50,7 @@
 		
 		
 		arrMmsCate = home.getMainMmsCate(conn, "%%");
-		arrMms = home.getMainMms(conn, "%%", "%"+mmscate+"%", 0, 5);
+		arrMms = home.getMainMms(conn, "%%", "%"+mmscate+"%", 0, 10);
 		
 		notihm = home.getNotices(conn);
 		
@@ -84,6 +85,78 @@
 	}
 
 </script>
+
+<!-- --------------팝업화면 추가===---------- -->
+<script type="text/javascript">
+function info() {
+	if (getCookie("pop") != "true") {
+		open("main/noticepopup.jsp", "title", "width=760, height=750, left=300,top=150");
+	}
+} // info() end
+
+function getCookie(name) { //쿠키의 값을 가져오는 메소드 입니다.
+	var Found = false;
+	var start, end;
+	var i = 0;
+		while (i <= document.cookie.length) {
+			start = i;
+			end = start + name.length;
+				if (document.cookie.substring(start, end) == name) { //substring 문자열을 인덱스 기준으로 잘라서반환
+					Found = true;
+						break;
+				}  i++;
+ 		}
+	if (Found == true) {
+		start = end + 1;
+			if (end < start) ;
+		end = document.cookie.indexOf(";", start);
+					end = document.cookie.length;
+				return document.cookie.substring(start, end);
+	}
+return "";
+} //// 2차인증안내 팝업
+
+
+
+function passpop() {
+	if (getCookie("popup") != "no") {
+		open("member/popup.jsp", "title", "width=760, height=880, left=300,top=150");
+	}
+} 
+
+function getCookie(name) { 
+	var Found = false;
+	var start, end;
+	var i = 0;
+		while (i <= document.cookie.length) {
+			start = i;
+			end = start + name.length;
+				if (document.cookie.substring(start, end) == name) { //substring 문자열을 인덱스 기준으로 잘라서반환
+					Found = true;
+						break;
+				}  i++;
+ 		}
+	if (Found == true) {
+		start = end + 1;
+			if (end < start) ;
+		end = document.cookie.indexOf(";", start);
+					end = document.cookie.length;
+				return document.cookie.substring(start, end);
+	}
+return "";
+}// 12.24비밀번호 변경안내 팝업
+
+
+</script>
+<!-- ---------------- 팝업화면 끝 -->
+
+ <%if (SLibrary.isNull(user_id)){%>
+ <body onload="info()">
+ 
+ <%}else{ %>
+
+<body onload="passpop()" >
+ <%} %>  
 <div id="main"><!--main Start-->
         <ul class="introduce"><!--소개-->
             <li class="intro1 ti">업계최저가격 10</li>
@@ -206,20 +279,21 @@
                 }
                 %>
                 </div>
+                <div style="padding-left:12px">
             <% 
             	if (arrMms != null && arrMms.size() > 0) {
             		HashMap<String, String> hm = null;
             		for (int m = 0; m < arrMms.size(); m++) {
             			hm = arrMms.get(m);
             			if (hm != null && !SLibrary.isNull( SLibrary.IfNull(hm, "msg") )) {
-            		%><div style="float:left;width:180px;text-align:center;">
-							<img onclick="setPhoto('<%= SLibrary.IfNull(hm, "msg") %>')" src="<%= SLibrary.IfNull(hm, "msg") %>" class="potoimg" style="display:block;width:176px;height:144px;cursor:pointer" <%= m == (arrMms.size() -1) ? "style='margin-right:0px;'" : "" %> />
-            				<p style="width:180px;overflow:hidden;height:20px;font-size:12px;" ><%= SLibrary.IfNull(hm, "title") %></p>
+            		%><div style="float:left;width:184px;text-align:center;">
+							<img onclick="setPhoto('<%= SLibrary.IfNull(hm, "msg") %>')" src="<%= SLibrary.IfNull(hm, "msg") %>" class="potoimg" style="display:block;width:180px;height:240px;cursor:pointer" <%= m == (arrMms.size() -1) ? "style='margin-right:5px;'" : "" %> />
+            				<p style="width:184px;overflow:hidden;height:20px;font-size:12px;" ><%= SLibrary.IfNull(hm, "title") %></p>
 						</div><%
             			}
             		}
             	}
-            %>
+            %></div>
             </div>
         </fieldset>
 
@@ -256,6 +330,8 @@
 		<div style="width:500px;height:20px;background-color:#666;padding:5px 0px;text-align:right;cursor:point;color:#FFF" onclick="document.getElementById('pop').style.display='none'">닫기&nbsp;&nbsp;</div>
 	</div>-->
 	<!---->
+	
+	</body>
     <script type="text/javascript" >
 function setMsg(msg) {
 	

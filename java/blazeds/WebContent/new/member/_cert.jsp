@@ -37,20 +37,21 @@
 			
 			if (SLibrary.isNull(certNum)) throw new Exception("인증번호가 없습니다.");
 			
-			String sessionNum = (String)session.getAttribute(value+"_cert"); 
+			String sessionNum = session.getAttribute(value+"_cert").toString();
 			System.out.println(certNum+"/"+sessionNum);
 			if ( !certNum.equals(sessionNum) ) {
-				session.removeAttribute(value+"_cert");
+				//session.removeAttribute(value+"_cert");
 				throw new Exception("잘못된 인증번호 입니다.");
 			}
 			else {
 				session.setAttribute(value+"_cert", "ok");
+				session.setAttribute("certOK", "OK");
 			}
 		} 
 		
 		
 			
-
+///
 
 	}catch (Exception e) {
 		//out.println(SLibrary.alertScript(e.getMessage(), ""));

@@ -7,7 +7,21 @@
 	String includeURL = "main/main.jsp";
 	
 	String session_id = SLibrary.IfNull((String)session.getAttribute("user_id"));
-	 
+
+	//추가인증 여부 체크 - 2014.12.14
+	String session_certOK = SLibrary.IfNull((String)session.getAttribute("certOK"));
+	//System.out.println("session_id:"+session_id+",session_certOK:"+session_certOK);
+		
+	if( (!(SLibrary.isNull(session_id)) && SLibrary.isNull(session_certOK)) ){
+		if(strContent.equals("cert2")){
+			includeURL = "member/cert2.jsp";
+		}else{
+			//user_id 세션 삭제
+			session.removeAttribute("user_id");
+			session.removeAttribute("certOK");
+		}
+	}
+	
 	if ( SLibrary.isNull(strContent) )  includeURL = "main/main.jsp";
 	else {
 		if ( strContent.equals("join") ) 			includeURL = "member/join.jsp";

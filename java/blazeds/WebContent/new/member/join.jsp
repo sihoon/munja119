@@ -537,11 +537,11 @@ VbyP.accessLog("회원가입 페이지 요청 1단계>> " + request.getRemoteAdd
 직위 : 대표 
 
 개인정보관리담당자 
-성명 : 김진 
+성명 : 김상옥 
 소속부서 : CS팀 
-전자우편 : webmaster@munja119.com 
-전화번호 : 070-7510-8489 
-팩스번호 : 031)970-0746
+전자우편 : master@munja119.com 
+전화번호 : 070-7825-7700 
+팩스번호 : 031)970-8489
 
   
 아동의 개인정보보호 
@@ -630,5 +630,5 @@ VbyP.accessLog("회원가입 페이지 요청 1단계>> " + request.getRemoteAdd
 		<img src="images/btn_cancle.gif" onclick="window.location.href='?'" />
 	</div>
 </div>
-<a id="cost" class="ti" href="">저렴하고 안정적인 문자서비스를 찾으십니까? 단가표 보기</a>
+<a id="cost" class="ti" href="?content=billing">저렴하고 안정적인 문자서비스를 찾으십니까? 단가표 보기</a>
 <p id="custom" class="ti">Custom Center : 070-7510-8489, Fax: 031)970-8489</p>
