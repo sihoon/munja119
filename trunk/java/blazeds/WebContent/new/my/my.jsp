@@ -51,27 +51,42 @@
 	ArrayList<HashMap<String, String>> alBilling = null;
 	HashMap<String, String> hm = null;
 
+	ArrayList<HashMap<String, String>> SubList = null; //12.23
+	
 	//페이징
 	String purl = "";
 	String burl = "";
-	int dateRowOfPage = 5;
+	String surl = "";
+	int dateRowOfPage = 3;
 	int ptcnt = 0; // 포인트 전체개수
 	int btcnt = 0; // 결제 전체개수
+	int stcnt = 0; // 추가등록 번호전체 수
+	
 	int pnowPage = (SLibrary.isNull(request.getParameter("ppg"))) ? 1
-			: SLibrary.intValue(SLibrary.IfNull(request
-					.getParameter("ppg")));
+			: SLibrary.intValue(SLibrary.IfNull(request.getParameter("ppg")));
 	int bnowPage = (SLibrary.isNull(request.getParameter("bpg"))) ? 1
-			: SLibrary.intValue(SLibrary.IfNull(request
-					.getParameter("bpg")));
+			: SLibrary.intValue(SLibrary.IfNull(request.getParameter("bpg")));
+	
+	int snowPage = (SLibrary.isNull(request.getParameter("spg"))) ? 1
+			: SLibrary.intValue(SLibrary.IfNull(request.getParameter("spg"))); // 12.23
+	
 	int pstartPage = ((pnowPage - 1) * dateRowOfPage) + 1;//시작 index
 	int pendPage = dateRowOfPage; //마지막 index
+	
 	int bstartPage = ((bnowPage - 1) * dateRowOfPage) + 1;//시작 index
 	int bendPage = dateRowOfPage; //마지막 index
 
+	int sstartPage = ((snowPage -1) * dateRowOfPage) +1; 
+	int sendPage = dateRowOfPage; //12.23
+	
+	
+	
 	purl = "content=my&bpg="
 			+ SLibrary.IfNull(request.getParameter("bpg"));
 	burl = "content=my&ppg="
 			+ SLibrary.IfNull(request.getParameter("ppg"));
+	surl = "content=my&ppg="
+			+ SLibrary.IfNull(request.getParameter("spg"));
 
 	try {
 		conn = VbyP.getDB();
@@ -87,6 +102,7 @@
 					"window.location.href='?'"));
 			return;
 		}
+		
 		PointHistory ph = PointHistory.getInstance();
 		alPoint = ph.getPointHistoryList(conn, vo.getUser_id(),
 				pstartPage-1, pendPage);
@@ -96,6 +112,13 @@
 		alBilling = billing.getBillingList(conn, vo.getUser_id(),
 				bstartPage-1, bendPage);
 		btcnt = billing.totalCnt;
+		
+		//12.23
+		PointHistory Phis = PointHistory.getInstance();
+		SubList = Phis.getSubPhoneList(conn, vo.getUser_id(),sstartPage-1, sendPage);
+		stcnt = Phis.subcnt;
+		///12.23
+
 
 	} catch (Exception e) {
 	} finally {
@@ -130,13 +153,13 @@
    	<div><img src="images/usenum.gif" />&nbsp;<span class="cnt"><%=SLibrary.addComma(vo.getPoint())%></span><img src="images/cnt.gif" /></div>
    	<img src="images/btn_cashbuy.gif" class="hand" alt="충전하기" onclick="window.location.href='?content=billing'" />
     <div class="function"><img src="images/edit.gif" class="hand" alt="정보수정"/>&nbsp;<img src="images/logout.gif" onclick="window.location.href='member/_logout.jsp'" class="hand" alt="로그아웃" /></div>
-    <div class="cuponBox"><input type="text" name="cupon" class="cuponInput" />&nbsp;&nbsp;<img src="images/btn_coupon.gif" class="hand" alt="쿠폰등록" /></div>
+    <!--<div class="cuponBox"><input type="text" name="cupon" class="cuponInput" />&nbsp;&nbsp;<img src="images/btn_coupon.gif" class="hand" alt="쿠폰등록" /></div>-->
 </fieldset>
 <%
 	}
 %>
 
-<p id="myTitle" class="ti">마이119</p>
+<p id="myTitle" class="ti">마이존</p>
 
 <div id="myBox" class="" >
 	<p><span><%=vo.getUser_name()%></span>님의 사용가능 건수는 <span><%=SLibrary.addComma(vo.getPoint())%></span>건 입니다.</p>
@@ -226,11 +249,19 @@
 							"yyyy-MM-dd HH:mm:ss");
 					
 					if (now < bill) {
-
-						if (SLibrary.IfNull(hm, "method").equals("cash"))
-							link = "<a href='javascript:' onclick='return taxWindow("
-									+ SLibrary.IfNull(hm, "idx")
-									+ ");'>세금계산서신청</a>";
+						if (SLibrary.IfNull(hm, "method").equals("cash")){
+				//------------------------------------------------------------2012.02수정--------------//
+							String yn = SLibrary.IfNull(hm, "yn");
+								if( yn.equals("Y") ){//y가 아닐경우 
+									link = "발행완료";
+								}else{
+									link = "<a href='javascript:' onclick='return taxWindow("
+											+ SLibrary.IfNull(hm, "idx")
+											+ ");'>세금계산서신청</a>";
+								}
+						}
+				//--------------------------------------------------------------2012.12.02수정------------//
+									
 						else if (SLibrary.IfNull(hm, "method").equals("카드")) {
 
 							authData = getAuthData(SLibrary.IfNull(hm, "tid"));
@@ -267,7 +298,7 @@
 				<%
 					}
 				%>
-		<tr><td colspan="5"><%
+		<tr align="center"><td colspan="5"><%
 			//pageing
 			Paging bpg = new Paging(bnowPage, dateRowOfPage, dateRowOfPage,
 					btcnt);
@@ -296,6 +327,135 @@
 		%></td></tr>
 	</table>
 	
+	<!-- -----------------------------------------------------12월 16일~ 추가 --------------------------------->
+	
+	<script type="text/javascript">
+	function addsubphone(){
+	var nameck = /^[a-zA-Z0-9]*$/; //영문,숫자만입력
+	var hpck = /\d/; // 숫자만
+	
+	var uname = document.getElementById("sname").value;
+	var uhpno = document.getElementById("subphone").value;
+		
+	if (uname==""||uname==" ") {
+		alert('이름을 입력하여 주십시요.');
+		return ; 
+	}
+	if (!nameck.test(uname)){
+		alert("이름은 영문,숫자만 입력가능합니다");
+		return;
+	}
+	if (uhpno=="") {
+		alert('휴대폰 번호를 입력하여 주십시요.');
+		return ;
+	}
+
+	if (uhpno.split("-").join("").length<10||uhpno.split("-").join("").length>11) {
+		alert('휴대폰 번호를 올바르게 입력하여 주십시요.');
+		return ;
+	}
+	
+	if (uhpno.length > 11) {
+		alert('휴대폰 번호 입력시 -없이 숫자만 입력하세요.');
+		return ;
+	}
+	
+	if(!hpck.test(uhpno)){
+		alert("휴대폰 번호는 숫자만 입력해 주세요")
+		return;
+	}
+		
+	document.sendform.submit();
+	
+} // addsubphone() END
+
+</script>
+	
+	 
+<form name="sendform" id="sendform" action="my/mySubNumadd.jsp">	
+	<input type="hidden" name="user_id" value="" >
+	<table width="721" border="1" cellspacing="0" cellpading="0" >
+		<colgroup>
+			<col width="60">
+			<col width="200">
+			<col width="360">
+			<col width="100">
+		</colgroup>
+		<img alt="추가인증" src="images/certadd.jpg"/>
+		<tr bgcolor="#D8D8D8" height="35" align="center">
+			<td>번호</td>
+			<td>이름</td>
+			<td>휴대전화</td>
+			<td>추가</td>
+		</tr>
+		<tr height="30" align="center" >
+			<td>등록</td>
+			<td><input size="18" type="text" name="sname" id="sname" maxlength="15" value="영문,숫자만 입력" alt="이름"></td>
+			<td><input size="40" type="text" name="subphone" id="subphone" maxlength="13" value="ㅡ없이 숫자만 입력하세요" > </td>
+			<td><input type="button" onclick="addsubphone()" value="추가" style="cursor: pointer;" > </td>
+		</tr>	
+       
+
+
+<%
+			if (SubList.size() > 0) {
+				int cnt = SubList.size();
+
+				for (int p = 0; p < cnt; p++) {
+					hm = SubList.get(p);
+					if (p % 2 == 0)
+						style = " class=\"bg\"";
+					else
+						style = "";
+		%>
+
+        <tr height="30" align="center"> <br>
+        <td>등록</td>
+        <td><%=SLibrary.IfNull(hm, "name")%></td>
+        <td><%=SLibrary.IfNull(hm, "subphone")%></td>
+        <td> <a href="my/mySubNumDel.jsp?delnum=<%=SLibrary.IfNull(hm, "subphone")%>">[삭제]</a>  </td>
+        </tr>   
+	
+	<%
+		}
+		} else {
+	%>
+				
+		<tr height="30" align="center"><td colspan="4"> 내역이 없습니다.</td></tr>
+		
+<%
+	}
+%>
+
+<tr align="center"><td colspan="5"><%
+			//pageing
+			Paging spg = new Paging(snowPage, dateRowOfPage, dateRowOfPage,	stcnt);
+
+			spg.pg = "spg";
+			spg.linkPage = "";
+			spg.queryString = surl;
+
+			spg.firstOffLink = "<span style='color:gray'><< 처음</span>";
+			spg.firstBlockOffLink = "<span style='color:gray'>< 이전</span>";
+			spg.prevOffLink = "";
+			spg.nextOffLink = "";
+			spg.lastBlockOffLink = "<span style='color:gray'>다음 ></span>";
+			spg.lastOffLink = "<span style='color:gray'>마지막 >></span>";
+
+			spg.firstLink = "<< 처음";
+			spg.firstBlockLink = "< 이전";
+			spg.prevLink = "";
+			spg.nextLink = "";
+			spg.lastBlockLink = "다음 >";
+			spg.lastLink = "마지막 >>";
+
+			spg.delimiter = "|";
+
+			out.println(spg.print());
+		%></td></tr>
+	</table>
+</form>
+<!-- ///////////////////////////12.16~ -->
 	
 
 

@@ -141,19 +141,15 @@ function moveCursor(before, next, length) {
 function isValidEmail(email_address) {
 	
 	// 이메일 주소를 판별하기 위한 정규식  
-	//var format = /^[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+)*@[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*$/;
-	var format = /^\s*[\w\~\-\.]+\@[\w\~\-]+(\.[\w\~\-]{2,12}){1,3}\s*$/g;
-	// 인자 email_address를 정규식 format 으로 검색  
-	if (email_address.search(format) != -1)  
-	{  
-	    // 정규식과 일치하는 문자가 있으면 true  
-	    return true;  
-	}  
-	else  
-	{  
-	    // 없으면 false  
-	    return false;  
-	}  
+	var email = email_address;
+	var regex=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/; 
+
+	if(regex.test(email) === false) {
+		
+		return false;
+	} else {
+		return true;
+	}
 }
 
 $("#juminCheck").click(function() {
@@ -251,10 +247,13 @@ $("#passwd2").keyup(function() {
 
 
 function sendCert() {
-
 	var f = document.form;
 
-	if (!f.hp.value) {	alert("핸드폰 번호를 입력해주세요"); f.hp.focus(); return false; }
+	if (f.hp.value.length>11 || f.hp.value.length<10) {	
+		alert("휴대폰 번호가 공백이거나 올바르지 않습니다. \n\n 휴대폰 번호는 ㅡ없이 숫자만 입력해 주세요."); 
+		f.hp.focus();
+		return false; 
+	}
 
 	$.getJSON( "/new/member/_cert.jsp", {"mode":"send", "value":f.hp.value}, function(data) {
 					if (data != null && data.code && data.code == "0000") { 
@@ -283,5 +282,41 @@ function checkCert() {
 					}
 					else { alert( "인증번호 확인 실패\r\n\r\n"+data.msg ); }
 					}
+	);	
+}
+
+function sendCertLogin() {
+	
+	var f = document.form;
+	
+	if (!f.hp.value) {	alert("핸드폰 번호를 입력해주세요"); f.hp.focus(); return false; }
+	
+	$.getJSON( "/new/member/_cert.jsp", {"mode":"send", "value":f.hp.value}, function(data) {
+		if (data != null && data.code && data.code == "0000") { 
+			
+			//$("#certNum").show();
+			alert("["+f.hp.value+"] 번호로 인증번호가 발송 되었습니다.");
+			
+		}
+		else { alert( "인증번호 발송 실패\r\n\r\n"+data.msg ); }
+	}
+	);	
+}
+
+function checkCertLogin() {
+	
+	var f = document.form;
+	
+	if (!f.hpCert.value) {	alert("인증번호를 입력해주세요"); f.hpCert.focus(); return false; }
+	
+	$.getJSON( "/new/member/_cert.jsp", {"mode":"cert", "value":f.hp.value, "certNum":f.hpCert.value}, function(data) {
+		if (data != null && data.code && data.code == "0000") { 
+			
+			alert("인증 되었습니다.");
+			location.href="/new/index.jsp?content=";
+			
+		}
+		else { alert( "인증번호 확인 실패\r\n\r\n"+data.msg ); }
+	}
 	);	
 }

@@ -126,10 +126,10 @@ div.context {width:950px; height:auto; margin:0px auto;position: relative;}
 
 #main .potomore {margin-top:10px;display:block;float:right;width:46px;height:16px;background:url("../images/more.gif") no-repeat;text-indent:-9999px;}
 #main #poto {width:950px;height:auto;padding-top:20px; background:url("../images/hit_title.gif") no-repeat;overflow-y:auto;}
-#main #poto .potoBox{width:928px;height:auto;padding-left:18px;padding-bottom:10px;border-left:2px solid #DCCBAC;border-right:2px solid #DCCBAC;border-bottom:2px solid #DCCBAC;overflow-y:auto;}
-#main #poto .potoBox .subTitle {margin-left:0px;width:858px;padding:10px 20px;background-color:#EEE3DD;margin-top:10px;}
+#main #poto .potoBox{width:946px;height:auto;padding-bottom:10px;border-left:2px solid #DCCBAC;border-right:2px solid #DCCBAC;border-bottom:2px solid #DCCBAC;overflow-y:auto;}
+#main #poto .potoBox .subTitle {margin-left:14px;width:875px;padding:10px 20px;background-color:#EEE3DD;margin-top:10px;}
 #main #poto .potoBox .subTitle .de {font-weight:bold;}
-#main #poto .potoBox img {float:left;display:block;width:176px;height:144px;margin-top:20px;}
+#main #poto .potoBox img {float:center;display:block;width:180px;height:240px;margin-top:20px;margin-bottom:10px;}
 
 
 #main #noti {margin-top:14px;margin-right:18px;margin-bottom:24px;float:left;width:340px;height:150px;overflow:hidden;background:url("../images/notice_title.gif") no-repeat;}
@@ -156,7 +156,7 @@ div.context {width:950px; height:auto; margin:0px auto;position: relative;}
 #copyright .homeLink {float:left;display:block;text-indent:-9999px;width:58px;height:37px;background:url("../images/btn_home.gif") no-repeat;}
 #copyright .topLink {float:left;display:block;text-indent:-9999px;width:59px;height:37px;background:url("../images/btn_top.gif") no-repeat;}
 
-#copyright .copyRight{clear:both;width:950px;height:59px;background:url("../images/lg u+.jpg") no-repeat;}
+#copyright .copyRight{clear:both;width:950px;height:70px;background:url("../images/lg u+2.jpg") no-repeat;}
 #copyright .family {display:block;float:right;}
 
 #joinBox {float:right;margin-top:10px; width:721px; height:auto;}
@@ -189,14 +189,24 @@ div.context {width:950px; height:auto; margin:0px auto;position: relative;}
 #billingTitle {float:right;margin-top:10px;width:721px;height:58px;background:url("../images/title_all.gif") no-repeat;border-bottom:2px solid red}
 #billingTitle2 {float:right;margin-top:10px;margin-bottom:10px;width:721px;height:82px;background:url("../images/sub_img.jpg") no-repeat;}
 #billingBox {float:right; margin-top:10px;width:721px;height:auto; }
-#billingBox .txtMethod {width:721px;height:35px;background:url("../images/member_img05.gif") no-repeat;font-size:14px;font-weight:bold}
-#billingBox .selMethod { width:721px; text-align:center; padding:20px 0px}
+#billingBox .txtMethod {width:721px;height:35px;background:url("../images/member_img05.jpg") no-repeat;font-size:14px;font-weight:bold;margin-bottom:5px;}
+#billingBox .selMethod { width:721px; text-align:center; padding:px 0px}
 #billingBox .selMethod label { font-size:16px; font-weight:bold; }
-#billingBox .txtAmount {width:421px;height:25px;background:url("../images/member_img06.gif") no-repeat;text-align:right;float:left}
-#billingBox .txtCash {width:521px;height:35px;background:url("../images/member_img07.gif") no-repeat;font-size:14px;font-weight:bold}
+#billingBox .txtAmount {width:721px;height:44px;background:url("../images/member_img06.jpg") no-repeat;text-align:right;float:left;margin-top:10px;}
+#billingBox .txtAmountTb {width:46px;background:url("../images/pay_amount_rgbg.jpg") no-repeat;}
+#billingBox .txtCash {height:35px;background:url("../images/member_img07.jpg") no-repeat;font-size:14px;font-weight:bold;margin-top:10px;margin-bottom:5px;}
+#billingBox .txtCashTb {width:46px;background:url("../images/pay_account_rgbg.jpg") no-repeat;}
 #billingBox .cashList {margin-left:10px;}
-#billingBox .title {height:36px;background:url("../images/pay_top.gif") no-repeat;}
+#billingBox .title {height:51px;background:url("../images/pay_top.jpg") no-repeat;}
+#billingBox .payTitle {height:35px;background:url("../images/pay_01.jpg") no-repeat;}
+#billingBox .pay2 {height:69px;background:url("../images/pay_02.jpg") no-repeat;}
+#billingBox .pay3 {height:19px;background:url("../images/pay_03.jpg") no-repeat;}
+#billingBox .charge2 {width:667px;height:643px;background:url("../images/charge_02.jpg") no-repeat;}
+#billingBox .account1 {width:675px;height:124px;background:url("../images/account_01.jpg") no-repeat;}
+#billingBox .account2 {height:35px;background:url("../images/account_02.jpg") no-repeat;}
 #billingBox td {font-size:14px;font-weight:bold;height:36px;text-align:center;border-bottom:1px solid gray;}
+#billingBox .billingTable1 {background:url("../images/pay_amount_rgbg.jpg") no-repeat; background-position:0px 52px;}
+#billingBox .billingTable2 {background:url("../images/pay_account_rgbg.jpg") no-repeat; background-position:0px 35px;}
 
 #myBillingTitle {width:721px;height:35px;background:url("../images/mypage03.gif") no-repeat;font-size:14px;font-weight:bold}
 

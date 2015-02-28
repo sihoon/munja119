@@ -5,7 +5,7 @@
 <%
  try{
 
-  String path = "/home/sms/webapps/WebContent/new/flexlib/"  ;
+  String path = "/home/sms/webapps/ROOT/new/flexlib/"  ;
 
   String fileName = new String(request.getParameter("filename").getBytes("euc-kr"), "ISO-8859-1");
   

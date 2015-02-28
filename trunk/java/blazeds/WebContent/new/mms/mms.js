@@ -14,7 +14,7 @@ attributes.name = "Mms";
 attributes.align = "middle";
 swfobject.embedSWF(
     "mms/Mms.swf", "flashContent", 
-    "950", "1100", 
+    "950", "1230", 
     swfVersionStr, xiSwfUrlStr, 
     flashvars, params, attributes);
 // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.

@@ -32,7 +32,8 @@
 				
 				session.setAttribute("user_id", user_id);
 				VbyP.accessLog(user_id+" Login");
-				out.println(SLibrary.alertScript("", "parent.window.location.href='../index.jsp?content=normal'"));
+				//out.println(SLibrary.alertScript("", "parent.window.location.href='../index.jsp?content=normal'"));
+				out.println(SLibrary.alertScript("", "parent.window.location.href='../index.jsp?content=cert2'"));
 			}
 		}
 
