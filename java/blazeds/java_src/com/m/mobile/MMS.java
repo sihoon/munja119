@@ -1,5 +1,6 @@
 package com.m.mobile;
 
+
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import com.m.M;
 import com.m.common.PointManager;
 import com.m.common.Refuse;
 import com.m.member.UserInformationVO;
+
 
 public class MMS implements MMSAble {
 	
@@ -144,7 +146,7 @@ public class MMS implements MMSAble {
 					hashTable.put(vo.PHONE, "");
 					insertClientPqSetter(pq, vo);
 				}
-				
+				//
 				pq.addBatch();
 				
 				M.setState(vo.ID, i+1);
@@ -170,9 +172,164 @@ public class MMS implements MMSAble {
 		return resultCount;
 	}
 	
+	
+	//////////////////12.31
+	@Override
+	public int insertClientLMS(Connection connMMS, ArrayList<MMSClientVO> al, String via) {
+		VbyP.accessLog("-----------------insertClientLMS----------------------");
+		String sql = "";
+		int resultCount = 0;
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		sql = VbyP.getSQL("insertLMSClient") ;
+		VbyP.accessLog("................................insertClientLMS--------Query......--------------");
+		pq.setPrepared( connMMS, sql );
+		
+		int count = al.size();
+		MMSClientVO vo = null;
+		int maxBatch = SLibrary.parseInt( VbyP.getValue("executeBatchCount") );
+		
+		Hashtable<String, String> hashTable = new Hashtable<String, String>();
+		Hashtable<String, String> hashTable_refuse = null;
+		
+		if (count > 0) {
+			hashTable_refuse = Refuse.getRefusePhoneFromDB();
+			vo = al.get(0);
+			//stopWatch play
+			StopWatch sw = new StopWatch();
+			sw.play();
+			
+			String [] arrEncode = null;
+			if (via.equals("ppmms")) arrEncode = VbyP.getValue("udsDecode").split("\\>");
+			
+			for (int i = 0; i < count; i++) {
+				
+				vo = new MMSClientVO();
+				vo = al.get(i);
+				if (via.equals("ppmms")) {
+					
+					if (arrEncode != null && arrEncode.length == 2) {
+						
+						try { 
+						vo.setSUBJECT(new String(vo.getSUBJECT().getBytes(arrEncode[0]), arrEncode[1]));}
+						catch(Exception e) {}
+					} else {
+						vo.setSUBJECT("");
+					}
+					
+				}
+
+				if (Refuse.isRefuse(hashTable_refuse, vo.PHONE)){
+					
+					insertClientPqSetter_fail(pq, vo, "98");
+					
+				}else if (hashTable.containsKey(vo.PHONE)){
+					insertClientPqSetter_fail(pq, vo, "99"); 	
+				}else {
+					hashTable.put(vo.PHONE, "");
+					insertClientPqSetter(pq, vo);
+				}
+				//
+				pq.addBatch();
+				
+				M.setState(vo.ID, i+1);
+				
+				if (i >= maxBatch && (i%maxBatch) == 0 ) {
+					
+					System.out.println(i + " reDBConnection !");
+					resultCount += pq.executeBatch();
+					
+					try { if ( connMMS != null ) connMMS.close(); } 
+					catch(Exception e) {System.out.println( "connMMS close Error!!!!" + e.toString());}
+					
+					connMMS = VbyP.getDB(via);					
+					if (connMMS != null) System.out.println("connMMS connection!!!!");
+					
+					pq.setPrepared( connMMS, sql );
+				}
+				
+			}
+			resultCount += pq.executeBatch();
+		}
+
+		return resultCount;
+	} //12.31 //
+	
+	
+	
+	// 20141105 MMS 이미지 3개 전송시 LG라인으로 전송할경우 테이블구조가 달라 LG라인만 따로 분리(KT는 filepath가 한 column에 들어감, LG는 filepath가 3개 column으로 나뉨)
+	@Override
+	public int insertClientLG(Connection connMMS, ArrayList<MMSClientVO> al, String via) {
+
+		String sql = "";
+		int resultCount = 0;
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		sql = VbyP.getSQL("insertMMSClientLG") ;
+		
+		pq.setPrepared( connMMS, sql );
+		
+		int count = al.size();
+		MMSClientVO vo = null;
+		int maxBatch = SLibrary.parseInt( VbyP.getValue("executeBatchCount") );
+		
+		Hashtable<String, String> hashTable = new Hashtable<String, String>();
+		Hashtable<String, String> hashTable_refuse = null;
+		
+		if (count > 0) {
+			hashTable_refuse = Refuse.getRefusePhoneFromDB();
+			vo = al.get(0);
+			//stopWatch play
+			StopWatch sw = new StopWatch();
+			sw.play();
+			
+			String [] arrEncode = null;
+			
+			for (int i = 0; i < count; i++) {
+				
+				vo = new MMSClientVO();
+				vo = al.get(i);
+				
+				if (Refuse.isRefuse(hashTable_refuse, vo.PHONE)){
+					
+					insertClientPqSetterLG_fail(pq, vo, "98");
+					
+				}else if (hashTable.containsKey(vo.PHONE)){
+					insertClientPqSetterLG_fail(pq, vo, "99"); 	
+				}else {
+					hashTable.put(vo.PHONE, "");
+					insertClientPqSetterLG(pq, vo);
+				}
+				
+				pq.addBatch();
+				
+				M.setState(vo.ID, i+1);
+				
+				if (i >= maxBatch && (i%maxBatch) == 0 ) {
+					
+					System.out.println(i + " reDBConnection !");
+					resultCount += pq.executeBatch();
+					
+					try { if ( connMMS != null ) connMMS.close(); } 
+					catch(Exception e) {System.out.println( "connMMS close Error!!!!" + e.toString());}
+					
+					connMMS = VbyP.getDB(via);					
+					if (connMMS != null) System.out.println("connMMS connection!!!!");
+					
+					pq.setPrepared( connMMS, sql );
+				}
+				
+			}
+			resultCount += pq.executeBatch();
+		}
+		
+		return resultCount;
+	}
+	
+
+	
+	
+	
 	@Override
 	public int insertClientRefuse(Connection connMMS, ArrayList<MMSClientVO> al, String via) {
-
 		
 		int resultCount = 0;
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
@@ -188,7 +345,7 @@ public class MMS implements MMSAble {
 		if (count > 0) {
 			
 			hashTable_refuse = Refuse.getRefusePhoneFromDB(al.get(0).getID());
-
+			
 			for (int i = 0; i < count; i++) {
 				
 				vo = new MMSClientVO();
@@ -229,20 +386,119 @@ public class MMS implements MMSAble {
 
 		return resultCount;
 	}
-	
+
 	@Override
 	public int sendLMSPointPut(Connection conn, UserInformationVO mvo, int cnt) {
-
 		
 		PointManager pm = PointManager.getInstance();		
-		return pm.insertUserPoint(conn, mvo, 41, cnt * MMS.LMS_POINT_COUNT * PointManager.DEFULT_POINT);
+/*		int smsCnt = 0;
+		int lmsCnt = 0;
+		int mmsCnt = 0;
+		int smsRemainCnt = Integer.parseInt(mvo.getPoint());
+		int lmsRemainCnt = Integer.parseInt(mvo.getPoint_lms());
+		double tmpAmt = 0;
+		double amt = 0;
+
+		// 포인트계산
+		// Step1. 조회한 남은 건수에서 파라미터로 넘겨받은 cnt 변수를 뺀다.
+		// Step2. Step1를 금액으로 환산(Step1 * 단가)
+		// Step3. 환산한 금액을 각각 다른 포인트로 산출 (금액 / 각 단가)
+		// Step4. Step3로 계산된 포인트를 최종적으로 DB에 입력(cnt는 그대로, 나머지는 남는 포인트를 넣어줌)
+
+		// DB의 lms가 0건인 경우 포인트를 계산해줌
+		if(lmsRemainCnt <= 0){
+			if(mvo.getUnit_cost() > 0){
+				tmpAmt = mvo.getUnit_cost() * (double)smsRemainCnt; // sms 개별단가 * sms 잔여건수
+			}else{
+				tmpAmt = PointManager.DEFULT_UNIT_COST * (double)smsRemainCnt; // sms 기본단가 * sms 잔여건수
+			}
+			if(mvo.getUnit_cost_lms() > 0){
+				lmsRemainCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round( tmpAmt / mvo.getUnit_cost_lms()) ) );
+			}else{
+				lmsRemainCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round( tmpAmt / PointManager.DEFULT_UNIT_COST_LMS) ) );
+			}
+		}
+			
+		// Step1 ~ 2
+		if(mvo.getUnit_cost_lms() > 0){
+			lmsCnt = lmsRemainCnt - (cnt * -1);
+			amt = lmsCnt * mvo.getUnit_cost_lms(); //cnt를 차감하고 남는 포인트를 금액환산
+		}else{
+			lmsCnt = lmsRemainCnt - (cnt * -1);
+			amt = (double) (lmsCnt * PointManager.DEFULT_UNIT_COST_LMS); //기본단가롤 차감하고 남는 포인트를 금액환산
+		}
+
+		if(mvo.getUnit_cost() > 0){
+			smsCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   amt / mvo.getUnit_cost()   ) ) );
+		}else{
+			smsCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   amt / PointManager.DEFULT_UNIT_COST   ) ) );// SMS 기본단가로 설정
+		}
+		if(mvo.getUnit_cost_mms() > 0){
+			mmsCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   amt / mvo.getUnit_cost_mms()   ) ) );
+		}else{
+			mmsCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   amt / PointManager.DEFULT_UNIT_COST_MMS   ) ) );// MMS 기본단가로 설정
+		}
+			return pm.insertUserPointBilling(conn, mvo, 41, smsCnt, lmsCnt, mmsCnt); 
+			주석처리 12.31*/
+		return pm.insertUserPoint(conn, mvo, 41, cnt * MMS.LMS_POINT_COUNT * PointManager.DEFULT_POINT); //주석해제, 12.31
 	}
 	
 	public int sendMMSPointPut(Connection conn, UserInformationVO mvo, int cnt) {
 
-		
 		PointManager pm = PointManager.getInstance();		
-		return pm.insertUserPoint(conn, mvo, 21, cnt * MMS.MMS_POINT_COUNT * PointManager.DEFULT_POINT);
+/*		int smsCnt = 0;
+		int lmsCnt = 0;
+		int mmsCnt = 0;
+		int smsRemainCnt = Integer.parseInt(mvo.getPoint());
+		int mmsRemainCnt = Integer.parseInt(mvo.getPoint_mms());
+		double tmpAmt = 0;
+		double amt = 0;
+
+		// 포인트계산
+		// Step1. 조회한 남은 건수에서 파라미터로 넘겨받은 cnt 변수를 뺀다.
+		// Step2. Step1를 금액으로 환산(Step1 * 단가)
+		// Step3. 환산한 금액을 각각 다른 포인트로 산출 (금액 / 각 단가)
+		// Step4. Step3로 계산된 포인트를 최종적으로 DB에 입력(cnt는 그대로, 나머지는 남는 포인트를 넣어줌)
+
+		// DB의 mms가 0건인 경우 포인트를 계산해줌
+		if(mmsRemainCnt <= 0){
+
+			if(mvo.getUnit_cost() > 0){
+				tmpAmt = mvo.getUnit_cost() * (double)smsRemainCnt; // sms 개별단가 * sms잔여건수 = 금액환산
+			}else{
+				tmpAmt = PointManager.DEFULT_UNIT_COST * (double)smsRemainCnt; // sms 기본단가 * sms잔여건수 = 금액환산
+			}
+			if(mvo.getUnit_cost_mms() > 0){ // 따로 입력된 mms 단가가 있으면
+				mmsRemainCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round( tmpAmt / mvo.getUnit_cost_mms()) ) );
+			}else{// 따로 입력된 mms 단가가 없으면
+				mmsRemainCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round( tmpAmt / PointManager.DEFULT_UNIT_COST_MMS) ) );
+			}
+		}
+			
+		// Step1 ~ 2
+		if(mvo.getUnit_cost_mms() > 0){
+			mmsCnt = mmsRemainCnt - (cnt * -1);
+			amt = mmsCnt * mvo.getUnit_cost_mms(); //cnt를 차감하고 남는 포인트를 금액환산
+		}else{
+			mmsCnt = mmsRemainCnt - (cnt * -1);
+			amt = (double) (mmsCnt * PointManager.DEFULT_UNIT_COST_MMS); //기본단가롤 차감하고 남는 포인트를 금액환산
+		}
+		
+		// Step3
+		if(mvo.getUnit_cost() > 0){
+			smsCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   amt / mvo.getUnit_cost()   ) ) );
+		}else{
+			smsCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   amt / PointManager.DEFULT_UNIT_COST   ) ) );// SMS 기본단가로 설정
+		}
+		if(mvo.getUnit_cost_lms() > 0){
+			lmsCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   amt / mvo.getUnit_cost_lms()   ) ) );
+		}else{
+			lmsCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   amt / PointManager.DEFULT_UNIT_COST_LMS   ) ) );// LMS 기본단가로 설정
+		}
+
+		System.out.println(">>>>>>>>>>>>>>>>>> smsCnt:"+smsCnt+",lmsCnt:"+lmsCnt+",mmsCnt:"+mmsCnt);
+		return pm.insertUserPointBilling(conn, mvo, 21, smsCnt, lmsCnt, mmsCnt); 12.31서버파일과 맞추기위해 주석처리*/
+		return pm.insertUserPoint(conn, mvo, 21, cnt * MMS.MMS_POINT_COUNT * PointManager.DEFULT_POINT); // 서버파일과 맞추려고 주석해제 12.31
 	}
 	
 	public LogVO getLogVO( UserInformationVO mvo, Boolean bReservation, String message, ArrayList<String[]> phoneAndNameArrayList, String returnPhone, String reservationDate, String ip) throws Exception{
@@ -344,7 +600,7 @@ public class MMS implements MMSAble {
 		VbyP.debugLog(" >> getPhone -> loop");
 		return clientAl;
 	}
-	
+
 	public ArrayList<MMSClientVO> getMMSClientVOMeargeAndInterval( Connection conn, UserInformationVO mvo, Boolean bReservation, int MMSLogKey, String message, ArrayList<String[]> phoneAndNameArrayList, String returnPhone, String reservationDate, String imagePath, String ip, int cnt, int minute, boolean bMerge) throws Exception{
 		
 		ArrayList<MMSClientVO> clientAl = new ArrayList<MMSClientVO>();
@@ -459,6 +715,69 @@ public class MMS implements MMSAble {
 		VbyP.debugLog(" >> getPhone -> loop");
 		return clientAl;
 	}
+
+	public ArrayList<MMSClientVO> getMMSClientVOMeargeAndIntervalLG( Connection conn, UserInformationVO mvo, Boolean bReservation, int MMSLogKey, String message, ArrayList<String[]> phoneAndNameArrayList, String returnPhone, String reservationDate, String imagePath, String ip, int cnt, int minute, boolean bMerge) throws Exception{
+		
+		ArrayList<MMSClientVO> clientAl = new ArrayList<MMSClientVO>();
+		MMSClientVO vo = new MMSClientVO();
+		String [] temp = null;
+		boolean bInterval = false;
+		String name = "";
+		
+		VbyP.debugLog(" >> getPhone");
+		int count = phoneAndNameArrayList.size();
+		if (count < 0)
+			throw new Exception("전화번호 리스트가 없습니다.");	
+
+		// LG 형식으로 첨부이미지경로 변경
+		String [] arrImage = imagePath.split(";");
+		if (arrImage.length > 0) {
+			for(int i=0; i<arrImage.length; i++){
+				System.out.println("#### LG MMS : "+arrImage[i]);
+			}
+		}
+
+		if (cnt > 0 && minute > 0) bInterval = true;
+		
+		String msg = "";
+		for (int i = 0; i < count; i++) {
+			
+			vo = new MMSClientVO();
+			temp = phoneAndNameArrayList.get(i);
+			
+			name = (temp.length == 2)?SLibrary.IfNull(temp[1]):"";
+			
+			if (bInterval &&  i != 0 && (i+1)%cnt == 0) {
+				reservationDate = SLibrary.getDateAddSecond(reservationDate, minute*60);
+			}
+			msg = bMerge ? SLibrary.replaceAll(message, "{이름}", name ):message;
+			vo.setSUBJECT( (msg.length() > 20)? msg.substring(0,20) : msg );
+			vo.setPHONE((temp.length > 0)? SLibrary.IfNull(temp[0]):"");
+			vo.setCALLBACK( returnPhone );
+			vo.setSTATUS( CLIENT_SENDSTAT );
+			vo.setREQDATE( reservationDate );
+			
+			vo.setMSG( msg );
+
+			// LG 형식으로 첨부이미지경로 변경
+			vo.setFILE_CNT( (SLibrary.isNull(imagePath))? 0: arrImage.length );
+			vo.setFILE_CNT_REAL( (SLibrary.isNull(imagePath))? 0: arrImage.length );
+			vo.setFILE_PATH1( (arrImage.length > 0)? arrImage[0] : "" );			
+			vo.setFILE_PATH2( (arrImage.length > 1)? arrImage[1] : "" );			
+			vo.setFILE_PATH3( (arrImage.length > 2)? arrImage[2] : "" );
+						
+			vo.setTYPE( CLIENT_MESSAGETYPE );
+			vo.setID( mvo.getUser_id() );
+			vo.setPOST( Integer.toString(MMSLogKey) );
+			vo.setETC1( name  );
+			vo.setETC2( ip );
+			vo.setETC3( " " );
+						
+			clientAl.add(vo);
+		}
+		VbyP.debugLog(" >> getPhone -> loop");
+		return clientAl;
+	}
 	
 	private String findFileName(String path) {
 		
@@ -488,7 +807,7 @@ public class MMS implements MMSAble {
 		String str = buf.toString();
 		int count = message.length();
 		char chr;
-		
+				
 		String rslt = null;
 		
 		for (int i = 0; i < count; i++) {
@@ -611,6 +930,51 @@ public class MMS implements MMSAble {
 		pq.setString(16, code);
 		
 	}
+
+	private void insertClientPqSetterLG(PreparedExecuteQueryManager pq, MMSClientVO vo) {
+		
+		pq.setString(1, vo.getSUBJECT() );
+		pq.setString(2, vo.getPHONE() );
+		pq.setString(3, vo.getCALLBACK() );
+		pq.setString(4, vo.getSTATUS() );
+		pq.setString(5, vo.getREQDATE() );
+		pq.setString(6, vo.getMSG() );
+		pq.setInt(7, vo.getFILE_CNT() );
+		pq.setInt(8, vo.getFILE_CNT_REAL() );
+		pq.setString(9, vo.getFILE_PATH1() );				
+		pq.setString(10, vo.getFILE_PATH2() );			
+		pq.setString(11, vo.getFILE_PATH3() );			
+		pq.setString(12, vo.getTYPE() );
+		pq.setString(13, vo.getID() );
+		pq.setString(14, vo.getPOST() );
+		pq.setString(15, vo.getETC1() );
+		pq.setString(16, vo.getETC2() );
+		pq.setString(17, vo.getETC3() );
+		pq.setString(18, "0");
+	}
+	
+	private void insertClientPqSetterLG_fail(PreparedExecuteQueryManager pq, MMSClientVO vo, String code) {
+		
+		pq.setString(1, vo.getSUBJECT() );
+		pq.setString(2, vo.getPHONE() );
+		pq.setString(3, vo.getCALLBACK() );
+		pq.setString(4, "3" );
+		pq.setString(5, vo.getREQDATE() );
+		pq.setString(6, vo.getMSG() );
+		pq.setInt(7, vo.getFILE_CNT() );
+		pq.setInt(8, vo.getFILE_CNT_REAL() );
+		pq.setString(9, vo.getFILE_PATH1() );			
+		pq.setString(10, vo.getFILE_PATH2() );			
+		pq.setString(11, vo.getFILE_PATH3() );			
+		pq.setString(12, vo.getTYPE() );
+		pq.setString(13, vo.getID() );
+		pq.setString(14, vo.getPOST() );
+		pq.setString(15, vo.getETC1() );
+		pq.setString(16, vo.getETC2() );
+		pq.setString(17, vo.getETC3() );
+		pq.setString(18, code);
+		
+	}
 	
 	public ArrayList<String[]> getPhone(Connection conn, String user_id, ArrayList<PhoneListVO> al) {
 		
@@ -692,5 +1056,6 @@ public class MMS implements MMSAble {
 		return pq.ExecuteQueryNum();
 				
 	}
+
 
 }

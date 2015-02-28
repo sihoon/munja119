@@ -21,6 +21,8 @@ public class MemberVO implements Serializable {
 	String phone_return="";
 	String hp="";
 	String unit_cost="";
+	String unit_cost_lms="";
+	String unit_cost_mms="";
 	String line="";
 	String memo="";
 	String timeLogin="";
@@ -41,6 +43,8 @@ public class MemberVO implements Serializable {
 			setHp(SLibrary.IfNull( hm,"hp" ));
 			setEmail(SLibrary.IfNull( hm,"email" ));
 			setUnit_cost(SLibrary.IfNull( hm,"unit_cost" ));
+			setUnit_cost(SLibrary.IfNull( hm,"unit_cost_lms" ));
+			setUnit_cost(SLibrary.IfNull( hm,"unit_cost_mms" ));
 			setLine(SLibrary.IfNull( hm,"line" ));
 			setMemo(SLibrary.IfNull( hm,"memo" ));
 			setTimeLogin(SLibrary.IfNull( hm,"timeLogin" ));
@@ -106,6 +110,18 @@ public class MemberVO implements Serializable {
 	}
 	public void setUnit_cost(String unit_cost) {
 		this.unit_cost = unit_cost;
+	}
+	public String getUnit_cost_lms() {
+		return unit_cost_lms;
+	}
+	public void setUnit_cost_lms(String unit_cost_lms) {
+		this.unit_cost_lms = unit_cost_lms;
+	}
+	public String getUnit_cost_mms() {
+		return unit_cost_mms;
+	}
+	public void setUnit_cost_mms(String unit_cost_mms) {
+		this.unit_cost_mms = unit_cost_mms;
 	}
 	public String getLine() {
 		return line;

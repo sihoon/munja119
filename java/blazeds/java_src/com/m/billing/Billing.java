@@ -103,14 +103,21 @@ public class Billing {
 		}
 		return rvo;
 	}
-	
-	public BooleanAndDescriptionVO setCashBilling( Connection conn, BillingVO bvo, int count, boolean bSMS) {
+
+	public BooleanAndDescriptionVO setCashBilling( Connection conn, BillingVO bvo, int count, int count_lms, int count_mms, boolean bSMS) {
 		
 		BooleanAndDescriptionVO rvo = new BooleanAndDescriptionVO();
 		rvo.setbResult(false);
 		UserInformationVO uvo = null;
 		int rslt = 0;
-		
+
+		int rcnt = 0;
+		int rcnt_lms = 0;
+		int rcnt_mms = 0;
+		int lcnt = 0;
+		int lcnt_lms = 0;
+		int lcnt_mms = 0;
+		double tmpAmt = 0;
 		
 		try {
 			String user_id = bvo.getUser_id();
@@ -121,20 +128,63 @@ public class Billing {
 			VbyP.accessLog(" >> 결제등록 요청 "+ user_id +" , "+ Integer.toString(bvo.getAmount())+" , "+ bvo.getMethod());
 			
 			uvo = new SessionManagement().getUserInformation(conn, bvo.getUser_id());
+
+			PointManager pm = PointManager.getInstance();
+
+			uvo.setPoint( Integer.toString( pm.getUserPoint( conn,  user_id ) )); // 현재 SMS 포인트 조회
+			uvo.setPoint_lms( Integer.toString( pm.getUserPointLms( conn,  user_id ) )); // 현재 LMS포인트 조회
+			uvo.setPoint_mms( Integer.toString( pm.getUserPointMms( conn,  user_id ) )); // 현재 MMS포인트 조회
 			
 			bvo.setPoint(count);
+			bvo.setPoint_lms(count_lms);
+			bvo.setPoint_mms(count_mms);
 			bvo.setRemain_point( SLibrary.intValue(uvo.getPoint())+count);
+			System.out.println(">>>>>>>>>Billing.setCashBilling.bvo.getRemain_point()::"+bvo.getRemain_point());
+			System.out.println(">>>>>>>>>Billing.setCashBilling.bvo.getpoint()::"+bvo.getPoint());
+			System.out.println(">>>>>>>>>Billing.setCashBilling.bvo.getpoint_lms()::"+bvo.getPoint_lms());
+			System.out.println(">>>>>>>>>Billing.setCashBilling.bvo.getpoint_mms()::"+bvo.getPoint_mms());
 			bvo.setTimeWrite(SLibrary.getDateTimeString("yyyy-MM-dd HH:mm:ss"));
-			bvo.setUnit_cost(Integer.toString(uvo.getUnit_cost()));
+			bvo.setUnit_cost(Double.toString(uvo.getUnit_cost()));
+			bvo.setUnit_cost_lms(Double.toString(uvo.getUnit_cost_lms()));
+			bvo.setUnit_cost_mms(Double.toString(uvo.getUnit_cost_mms()));
+			
 			
 			if ( bill.insert(conn, bvo) < 1)
 				throw new Exception("결제 등록에 실패 하였습니다.");
 			
-			
-			PointManager pm = PointManager.getInstance();
-			rslt = pm.insertUserPoint(conn, uvo, 03, count * PointManager.DEFULT_POINT);
+			// lms, mms 충전건수 산출로직 추가
+			if( count > 0 ){
+				
+				// 남은 sms건수 + 충전할 sms 건수로 금액환산
+				rcnt = SLibrary.intValue(uvo.getPoint()) + count;
+				if(uvo.getUnit_cost() > 0){
+					tmpAmt = rcnt * uvo.getUnit_cost();
+				}else{
+					tmpAmt = rcnt * pm.DEFULT_UNIT_COST;
+				}
+				
+				// lms 건수
+				if(uvo.getUnit_cost_lms() > 0){
+					rcnt_lms = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   tmpAmt / uvo.getUnit_cost_lms()   ) ) ); //lms남은 포인트
+				}else{
+					rcnt_lms = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   tmpAmt / pm.DEFULT_UNIT_COST_LMS   ) ) );
+				}
+				
+				// mms 건수
+				if(uvo.getUnit_cost_mms() > 0){
+					rcnt_mms = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   tmpAmt / uvo.getUnit_cost_mms()   ) ) );
+				}else{
+					rcnt_mms = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   tmpAmt / pm.DEFULT_UNIT_COST_MMS   ) ) );
+				}
+				
+			}
+
+			System.out.println(">>>>>>>>>Billing.setCashBilling.rcnt:"+rcnt +",rcnt_lms:"+rcnt_lms+",rcnt_mms:"+rcnt_mms);
+			rslt = pm.insertUserPointBilling(conn, uvo, 03, rcnt, rcnt_lms, rcnt_mms);
+//			rslt = pm.insertUserPointBilling(conn, uvo, 03, count * PointManager.DEFULT_POINT, bvo.getPoint_lms(), bvo.getPoint_mms());
 			if (rslt != 1)
 				throw new Exception("건수 충전에 실패 하였습니다.");
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>33333333333333333test.rslt::"+rslt);
 
 			rvo.setbResult(true);
 			
@@ -153,11 +203,29 @@ public class Billing {
 		}
 		return rvo;
 	}
-	
+
 	public String getUnit(Connection conn, String user_id) {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();	
 		pq.setPrepared(conn, VbyP.getSQL("selectBillingUnit") );
+		pq.setString(1, user_id);
+		
+		return pq.ExecuteQueryString();
+	}
+	
+	public String getUnitLms(Connection conn, String user_id) {
+
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();	
+		pq.setPrepared(conn, VbyP.getSQL("selectBillingUnitLms") );
+		pq.setString(1, user_id);
+		
+		return pq.ExecuteQueryString();
+	}
+	
+	public String getUnitMms(Connection conn, String user_id) {
+
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();	
+		pq.setPrepared(conn, VbyP.getSQL("selectBillingUnitMms") );
 		pq.setString(1, user_id);
 		
 		return pq.ExecuteQueryString();
@@ -169,7 +237,17 @@ public class Billing {
 		rvo.setbResult(false);
 		UserInformationVO uvo = null;
 		int point = 0;
+		int point_lms = 0;
+		int point_mms = 0;
 		int rslt = 0;
+		int rcnt = 0;
+		int rcnt_lms = 0;
+		int rcnt_mms = 0;
+		int lcnt = 0;
+		int lcnt_lms = 0;
+		int lcnt_mms = 0;
+		double tmpAmt = 0;
+		
 		
 		
 		try {
@@ -181,7 +259,9 @@ public class Billing {
 			VbyP.accessLog(" >> 결제등록 요청 "+ user_id +" , "+ Integer.toString(bvo.getAmount())+" , "+ bvo.getMethod());
 			
 			uvo = new SessionManagement().getUserInformation(conn, bvo.getUser_id());
-			
+
+			PointManager pm = PointManager.getInstance();
+
 			/*
 			if (bvo.getAmount() == ( 2000+( 2000 *0.1 ) ) ) point = 100;
 			else if (bvo.getAmount() == ( 5700+( 5700 *0.1 ) ) ) point = 300;
@@ -215,31 +295,245 @@ public class Billing {
 //			else if (bvo.getAmount() == ( 5350000+( 5350000 *0.1 ) ) ) point = 500000;
 //			else point = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount()/uvo.getUnit_cost()) ) );
 			
-			if (bvo.getAmount() == ( 5000+( 5000 *0.1 ) ) ) point = 417;
-			else if (bvo.getAmount() == ( 10000+( 10000 *0.1 ) ) ) point = 1000;
-			else if (bvo.getAmount() == ( 30000+( 30000 *0.1 ) ) ) point = 3000;
-			else if (bvo.getAmount() == ( 50000+( 50000 *0.1 ) ) ) point = 5000;
-			else if (bvo.getAmount() == ( 100000+( 100000 *0.1 ) ) ) point = 10101;
-			else if (bvo.getAmount() == ( 300000+( 300000 *0.1 ) ) ) point = 30303;
-			else if (bvo.getAmount() == ( 500000+( 500000 *0.1 ) ) ) point = 51020;
-			else if (bvo.getAmount() == ( 1000000+( 1000000 *0.1 ) ) ) point = 103093;
-			else if (bvo.getAmount() == ( 3000000+( 3000000 *0.1 ) ) ) point = 312500;
+			if (bvo.getAmount() == ( 5000+( 5000 *0.1 ) ) ){
+				point = 417;
+				//point_lms = 417; ??
+				//point_mms = 417; ??
+			}else if (bvo.getAmount() == ( 10000+( 10000 *0.1 ) ) ){
+//				point = 1000;
+//				point_lms = 333;
+//				point_mms = 100;
+				
+				if(uvo.getUnit_cost() > 0){
+					point = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost() * 1.1) ) ) );
+				}else{
+					point = 1000;
+				}
+
+				if(uvo.getUnit_cost_lms() > 0){
+					point_lms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost_lms() * 1.1) ) ) );
+				}else{
+					point_lms = 333;
+				}
+
+				if(uvo.getUnit_cost_mms() > 0){
+					point_mms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost_mms() * 1.1) ) ) );
+				}else{
+					point_mms = 100;
+				}
+				
+			}else if (bvo.getAmount() == ( 30000+( 30000 *0.1 ) ) ){
+//				point = 3000;
+//				point_lms = 1000;
+//				point_mms = 300;
+				
+				if(uvo.getUnit_cost() > 0){
+					point = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost() * 1.1) ) ) );
+				}else{
+					point = 3000;
+				}
+
+				if(uvo.getUnit_cost_lms() > 0){
+					point_lms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost_lms() * 1.1) ) ) );
+				}else{
+					point_lms = 1000;
+				}
+
+				if(uvo.getUnit_cost_mms() > 0){
+					point_mms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost_mms() * 1.1) ) ) );
+				}else{
+					point_mms = 300;
+				}
+				
+			}else if (bvo.getAmount() == ( 50000+( 50000 *0.1 ) ) ){
+//				point = 5000;
+//				point_lms = 1667;
+//				point_mms = 500;
+				
+				if(uvo.getUnit_cost() > 0){
+					point = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost() * 1.1) ) ) );
+				}else{
+					point = 5000;
+				}
+
+				if(uvo.getUnit_cost_lms() > 0){
+					point_lms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost_lms() * 1.1) ) ) );
+				}else{
+					point_lms = 1667;
+				}
+
+				if(uvo.getUnit_cost_mms() > 0){
+					point_mms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost_mms() * 1.1) ) ) );
+				}else{
+					point_mms = 500;
+				}
+				
+			}else if (bvo.getAmount() == ( 100000+( 100000 *0.1 ) ) ){
+//				point = 10101;
+//				point_lms = 3367;
+//				point_mms = 1010;
+				
+				if(uvo.getUnit_cost() > 0){
+					point = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost() * 1.1) ) ) );
+				}else{
+					point = 10101;
+				}
+
+				if(uvo.getUnit_cost_lms() > 0){
+					point_lms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost_lms() * 1.1) ) ) );
+				}else{
+					point_lms = 3367;
+				}
+
+				if(uvo.getUnit_cost_mms() > 0){
+					point_mms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost_mms() * 1.1) ) ) );
+				}else{
+					point_mms = 1010;
+				}
+				
+			}else if (bvo.getAmount() == ( 300000+( 300000 *0.1 ) ) ){
+//				point = 30303;
+//				point_lms = 10101;
+//				point_mms = 3030;
+				
+				if(uvo.getUnit_cost() > 0){
+					point = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost() * 1.1) ) ) );
+				}else{
+					point = 30303;
+				}
+
+				if(uvo.getUnit_cost_lms() > 0){
+					point_lms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost_lms() * 1.1) ) ) );
+				}else{
+					point_lms = 10101;
+				}
+
+				if(uvo.getUnit_cost_mms() > 0){
+					point_mms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost_mms() * 1.1) ) ) );
+				}else{
+					point_mms = 3030;
+				}
+				
+			}else if (bvo.getAmount() == ( 500000+( 500000 *0.1 ) ) ){
+//				point = 51020;
+//				point_lms = 17007;
+//				point_mms = 5102;
+				
+				if(uvo.getUnit_cost() > 0){
+					point = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost() * 1.1) ) ) );
+				}else{
+					point = 51020;
+				}
+
+				if(uvo.getUnit_cost_lms() > 0){
+					point_lms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost_lms() * 1.1) ) ) );
+				}else{
+					point_lms = 17007;
+				}
+
+				if(uvo.getUnit_cost_mms() > 0){
+					point_mms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost_mms() * 1.1) ) ) );
+				}else{
+					point_mms = 5102;
+				}
+				
+			}else if (bvo.getAmount() == ( 1000000+( 1000000 *0.1 ) ) ){
+//				point = 103093;
+//				point_lms = 34364;
+//				point_mms = 10309;
+				
+				if(uvo.getUnit_cost() > 0){
+					point = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost() * 1.1) ) ) );
+				}else{
+					point = 103093;
+				}
+
+				if(uvo.getUnit_cost_lms() > 0){
+					point_lms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost_lms() * 1.1) ) ) );
+				}else{
+					point_lms = 34364;
+				}
+
+				if(uvo.getUnit_cost_mms() > 0){
+					point_mms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost_mms() * 1.1) ) ) );
+				}else{
+					point_mms = 10309;
+				}
+				
+			}else if (bvo.getAmount() == ( 3000000+( 3000000 *0.1 ) ) ){
+//				point = 312500;
+//				point_lms = 104167;
+//				point_mms = 31250;
+				
+				if(uvo.getUnit_cost() > 0){
+					point = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost() * 1.1) ) ) );
+				}else{
+					point = 312500;
+				}
+
+				if(uvo.getUnit_cost_lms() > 0){
+					point_lms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost_lms() * 1.1) ) ) );
+				}else{
+					point_lms = 104167;
+				}
+
+				if(uvo.getUnit_cost_mms() > 0){
+					point_mms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount() / (uvo.getUnit_cost_mms() * 1.1) ) ) );
+				}else{
+					point_mms = 31250;
+				}
+				
+			}
 //			else if (bvo.getAmount() == ( 5000000+( 5000000 *0.1 ) ) ) point = 485437;
 //			else if (bvo.getAmount() == ( 10000000+( 10000000 *0.1 ) ) ) point = 1000000;
-			else point = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount()/uvo.getUnit_cost()) ) );
+			else{
+				point = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount()/ (uvo.getUnit_cost() *1.1) ) ) );
+				point_lms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount()/ (uvo.getUnit_cost_lms() *1.1) ) ) ); 
+				point_mms = SLibrary.intValue( SLibrary.fmtBy.format( Math.ceil(bvo.getAmount()/ (uvo.getUnit_cost_mms() *1.1) ) ) ); 
+			}
 			
 			bvo.setPoint(point);
+			bvo.setPoint_lms(point_lms);
+			bvo.setPoint_mms(point_mms);
 			bvo.setRemain_point( SLibrary.intValue(uvo.getPoint())+point);
 			bvo.setTimeWrite(SLibrary.getDateTimeString("yyyy-MM-dd HH:mm:ss"));
-			bvo.setUnit_cost(Integer.toString(uvo.getUnit_cost()));
-			
+			bvo.setUnit_cost(uvo.getUnit_cost().toString());
+			bvo.setUnit_cost_lms(uvo.getUnit_cost_lms().toString());
+			bvo.setUnit_cost_mms(uvo.getUnit_cost_mms().toString());
+
+			uvo.setPoint( Integer.toString( pm.getUserPoint( conn,  user_id ) )); // 현재 SMS 포인트 조회
+			uvo.setPoint_lms( Integer.toString( pm.getUserPointLms( conn,  user_id ) )); // 현재 LMS포인트 조회
+			uvo.setPoint_mms( Integer.toString( pm.getUserPointMms( conn,  user_id ) )); // 현재 MMS포인트 조회
+
 			
 			if ( bill.insert(conn, bvo) < 1)
 				throw new Exception("결제 등록에 실패 하였습니다.");
 			
+			System.out.println();
 			
-			PointManager pm = PointManager.getInstance();
-			rslt = pm.insertUserPoint(conn, uvo, 03, point * PointManager.DEFULT_POINT);
+			// 남은 sms건수 + 충전할 sms 건수로 금액환산
+			rcnt = SLibrary.intValue(uvo.getPoint()) + point;
+			if(uvo.getUnit_cost() > 0){
+				tmpAmt = rcnt * uvo.getUnit_cost();
+			}else{
+				tmpAmt = rcnt * pm.DEFULT_UNIT_COST;
+			}
+			
+			// lms 건수
+			if(uvo.getUnit_cost_lms() > 0){
+				rcnt_lms = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   tmpAmt / uvo.getUnit_cost_lms()   ) ) ); //lms남은 포인트
+			}else{
+				rcnt_lms = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   tmpAmt / pm.DEFULT_UNIT_COST_LMS   ) ) );
+			}
+			
+			// mms 건수
+			if(uvo.getUnit_cost_mms() > 0){
+				rcnt_mms = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   tmpAmt / uvo.getUnit_cost_mms()   ) ) );
+			}else{
+				rcnt_mms = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   tmpAmt / pm.DEFULT_UNIT_COST_MMS   ) ) );
+			}
+			
+			rslt = pm.insertUserPointBilling(conn, uvo, 03, rcnt, rcnt_lms, rcnt_mms);
 			if (rslt != 1)
 				throw new Exception("건수 충전에 실패 하였습니다.");
 
@@ -253,7 +547,7 @@ public class Billing {
 		}
 		return rvo;
 	}
-	
+
 	private int insert(Connection conn, BillingVO vo) {
 		
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
@@ -263,15 +557,18 @@ public class Billing {
 		pq.setInt(3, vo.getAmount());
 		pq.setString(4, vo.getOrder_no());
 		pq.setString(5, vo.getUnit_cost());
-		pq.setInt(6, vo.getPoint());
-		pq.setInt(7, vo.getRemain_point());
-		pq.setString(8, SLibrary.getDateTimeString("yyyy-MM-dd HH:mm:ss"));
-		pq.setString(9, vo.getTid());
-		pq.setString(10, vo.getTimestamp());
+		pq.setString(6, vo.getUnit_cost_lms());
+		pq.setString(7, vo.getUnit_cost_mms());
+		pq.setInt(8, vo.getPoint());
+		pq.setInt(9, vo.getPoint_lms());
+		pq.setInt(10, vo.getPoint_mms());
+		pq.setInt(11, vo.getRemain_point());
+		pq.setString(12, SLibrary.getDateTimeString("yyyy-MM-dd HH:mm:ss"));
+		pq.setString(13, vo.getTid());
+		pq.setString(14, vo.getTimestamp());
 
 		
 		return pq.executeUpdate();
 	}
-	
 	
 }
