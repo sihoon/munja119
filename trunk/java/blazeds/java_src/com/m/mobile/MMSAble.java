@@ -18,10 +18,15 @@ public interface MMSAble {
 	static final int MMS_POINT_COUNT = 10;
 	
 	int insertClient(Connection conn, MMSClientVO vo);
+	
 	int insertLMSLog(Connection conn, LogVO vo, int year, int month);
 	int insertMMSLog(Connection conn, LogVO vo, int year, int month);
 	
 	int insertClient(Connection conn, ArrayList<MMSClientVO> al, String via);
+	int insertClientLG(Connection conn, ArrayList<MMSClientVO> al, String via);
+	
+	int insertClientLMS(Connection conn, ArrayList<MMSClientVO> al, String via); //12.30
+	
 	int insertClientRefuse(Connection connMMS, ArrayList<MMSClientVO> al, String via);
 	int sendLMSPointPut(Connection conn, UserInformationVO mvo, int cnt);
 	int sendMMSPointPut(Connection conn, UserInformationVO mvo, int cnt);
@@ -29,4 +34,5 @@ public interface MMSAble {
 	LogVO getLogVO( UserInformationVO mvo, Boolean bReservation, String message, ArrayList<String[]> phoneAndNameArrayList, String returnPhone, String reservationDate, String ip) throws Exception;
 	LogVO getLogVOMearge( UserInformationVO mvo, Boolean bReservation, String message, String phone, String returnPhone, String reservationDate, int count, String ip) throws Exception;
 	ArrayList<String[]> getPhone(Connection conn, String user_id, ArrayList<PhoneListVO> al);
+	
 }

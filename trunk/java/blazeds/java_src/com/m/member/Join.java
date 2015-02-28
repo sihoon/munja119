@@ -96,10 +96,9 @@ public class Join {
 				VbyP.errorLog("Join >> conn.close() Exception!"); 
 			}
 		}
-		
-		
 		return count;
 	}
+	
 	
 	public int update(JoinVO vo) {
 		
@@ -166,4 +165,59 @@ public class Join {
 		
 		return count;
 	}
+
+	public String getFindId(JoinVO vo) {
+
+		Connection conn = null;
+		String rslt = "";
+
+		try {
+			conn = VbyP.getDB();
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();	
+			pq.setPrepared(conn, VbyP.getSQL("findId") );
+			pq.setString(1, SLibrary.IfNull(vo.getHp()));
+//			pq.setString(1, SLibrary.IfNull(vo.getName()));
+//			pq.setString(3, SLibrary.IfNull(vo.getEmail()));
+			rslt = pq.ExecuteQueryString();
+			
+		}catch(Exception e) {}
+		finally {
+			try {
+				if ( conn != null )
+					conn.close();
+			}catch(SQLException e) {
+				VbyP.errorLog("getFindId >> conn.close() Exception!"); 
+			}
+		}
+		
+		return rslt;
+	}
+
+	public String getFindPw(JoinVO vo) {
+
+		Connection conn = null;
+		String rslt = "";
+
+		try {
+			conn = VbyP.getDB();
+			PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();	
+			pq.setPrepared(conn, VbyP.getSQL("findPw") );
+			pq.setString(1, SLibrary.IfNull(vo.getHp()));
+//			pq.setString(1, SLibrary.IfNull(vo.getUser_id()));
+//			pq.setString(2, SLibrary.IfNull(vo.getName()));
+//			pq.setString(4, SLibrary.IfNull(vo.getEmail()));
+			rslt = pq.ExecuteQueryString();
+			
+		}catch(Exception e) {}
+		finally {
+			try {
+				if ( conn != null )
+					conn.close();
+			}catch(SQLException e) {
+				VbyP.errorLog("getFindPw >> conn.close() Exception!"); 
+			}
+		}
+		
+		return rslt;
+	}	
 }

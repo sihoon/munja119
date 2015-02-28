@@ -1,8 +1,8 @@
 package com.m.member;
 
-import java.util.HashMap;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import com.common.VbyP;
 import com.common.db.PreparedExecuteQueryManager;
@@ -10,8 +10,8 @@ import com.common.util.SLibrary;
 import com.m.common.BooleanAndDescriptionVO;
 import com.m.common.PointManager;
 
-import flex.messaging.FlexSession;
 import flex.messaging.FlexContext;
+import flex.messaging.FlexSession;
 
 public class SessionManagement {
 	
@@ -211,13 +211,38 @@ public class SessionManagement {
 		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
 		pq.setPrepared( conn, VbyP.getSQL("userInformation") );
 		pq.setString(1, this.getSession());
+		
 		HashMap<String, String> hm= pq.ExecuteQueryCols();
 		
 		hm.put("point", Integer.toString( PointManager.getInstance().getUserPoint( conn, this.getSession() ) ) );
-		
 		vo.setHashMap(hm);
+		hm.put("point_lms", Integer.toString( PointManager.getInstance().getUserPointLms( conn, this.getSession() ) ) );
+		vo.setHashMap(hm);
+		hm.put("point_mms", Integer.toString( PointManager.getInstance().getUserPointMms( conn, this.getSession() ) ) );
+		vo.setHashMap(hm);
+		
 		return vo;
 	}
+	
+
+	
+/*호출화면
+ public ArrayList<HashMap<String, String>> getMainMms(Connection conn, String gubun, String cate, int from, int count) {
+		
+		ArrayList<HashMap<String, String>> rslt = null;
+		
+		PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+		pq.setPrepared( conn, VbyP.getSQL("selectMainMms") );
+		pq.setString(1, gubun);
+		pq.setString(2, cate);
+		pq.setInt(3, from);
+		pq.setInt(4, count);
+		
+		rslt = pq.ExecuteQueryArrayList();
+		
+		return rslt;
+	}
+*/
 	
 	public UserInformationVO getUserInformation(Connection conn, String user_id) {
 		

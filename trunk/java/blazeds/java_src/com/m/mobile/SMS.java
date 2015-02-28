@@ -382,13 +382,85 @@ public class SMS implements SMSAble {
 	public int sendPointPut(Connection conn, UserInformationVO mvo, int cnt) {
 
 		PointManager pm = PointManager.getInstance();		
-		return pm.insertUserPoint(conn, mvo, 11, cnt * PointManager.DEFULT_POINT);
+		int smsCnt = 0;
+		int lmsCnt = 0;
+		int mmsCnt = 0;		
+		int smsRemainCnt = Integer.parseInt(mvo.getPoint());
+		Double amt = 0.0;
+
+		// 포인트계산
+		// Step1. 조회한 남은 건수에서 파라미터로 넘겨받은 cnt 변수를 뺀다.
+		// Step2. Step1를 금액으로 환산(Step1 * 단가)
+		// Step3. 환산한 금액을 각각 다른 포인트로 산출 (금액 / 각 단가)
+		// Step4. Step3로 계산된 포인트를 최종적으로 DB에 입력(cnt는 그대로, 나머지는 남는 포인트를 넣어줌)
+		
+		// Step1 ~ 2
+		if(mvo.getUnit_cost() > 0){
+			smsCnt = smsRemainCnt - (cnt * -1);
+			amt = smsCnt * mvo.getUnit_cost(); //cnt를 차감하고 남는 포인트를 금액환산
+		}else{
+			smsCnt = smsRemainCnt - (cnt * -1);
+			amt = (double) (smsCnt * PointManager.DEFULT_UNIT_COST);// 기본단가롤 차감하고 남는 포인트를 금액환산
+		}
+		
+		// Step3
+		if(mvo.getUnit_cost_lms() > 0){
+			lmsCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   amt / mvo.getUnit_cost_lms()   ) ) );
+		}else{
+			lmsCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   amt / PointManager.DEFULT_UNIT_COST_LMS   ) ) );// LMS 기본단가로 설정
+		}
+		if(mvo.getUnit_cost_mms() > 0){
+			mmsCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   amt / mvo.getUnit_cost_mms()   ) ) );
+		}else{
+			mmsCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   amt / PointManager.DEFULT_UNIT_COST_MMS   ) ) );// MMS 기본단가로 설정
+		}
+		
+		// Step4
+		System.out.println(">>>>>>>>>>>>>>>>>>sendPointPut.smsCnt:"+smsCnt+",lmsCnt:"+lmsCnt+",mmsCnt:"+mmsCnt);
+		return pm.insertUserPointBilling(conn, mvo, 11, smsCnt, lmsCnt, mmsCnt);	
+		//return pm.insertUserPoint(conn, mvo, 11, cnt * PointManager.DEFULT_POINT);
 	}
 	
 	public int sendForeignPointPut(Connection conn, UserInformationVO mvo, int cnt) {
 
-		PointManager pm = PointManager.getInstance();		
-		return pm.insertUserPoint(conn, mvo, 31, cnt * PointManager.FOREIGN_POINT);
+		PointManager pm = PointManager.getInstance();			
+		int smsCnt = 0;
+		int lmsCnt = 0;
+		int mmsCnt = 0;
+		int smsRemainCnt = Integer.parseInt(mvo.getPoint());
+		double tmpAmt = 0;
+		double amt = 0;
+
+		// 포인트계산
+		// Step1. 조회한 남은 건수에서 파라미터로 넘겨받은 cnt 변수를 뺀다.
+		// Step2. Step1를 금액으로 환산(Step1 * 단가)
+		// Step3. 환산한 금액을 각각 다른 포인트로 산출 (금액 / 각 단가)
+		// Step4. Step3로 계산된 포인트를 최종적으로 DB에 입력(cnt는 그대로, 나머지는 남는 포인트를 넣어줌)
+		
+		// Step1 ~ 2
+		if(mvo.getUnit_cost() > 0){
+			smsCnt = smsRemainCnt - (cnt * (PointManager.FOREIGN_POINT * -1));
+			amt = smsCnt * mvo.getUnit_cost(); //cnt를 차감하고 남는 포인트를 금액환산
+		}else{
+			smsCnt = smsRemainCnt - (cnt * (PointManager.FOREIGN_POINT * -1));
+			amt = (double) (smsCnt * PointManager.DEFULT_UNIT_COST);// 기본단가롤 차감하고 남는 포인트를 금액환산
+		}
+		
+		// Step3
+		if(mvo.getUnit_cost_lms() > 0){
+			lmsCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   amt / mvo.getUnit_cost_lms()   ) ) );
+		}else{
+			lmsCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   amt / PointManager.DEFULT_UNIT_COST_LMS   ) ) );// LMS 기본단가로 설정
+		}
+		if(mvo.getUnit_cost_mms() > 0){
+			mmsCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   amt / mvo.getUnit_cost_mms()   ) ) );
+		}else{
+			mmsCnt = SLibrary.intValue( SLibrary.fmtBy.format( Math.round(   amt / PointManager.DEFULT_UNIT_COST_MMS   ) ) );// MMS 기본단가로 설정
+		}
+
+		System.out.println(">>>>>>>>>>>>>>>>>>sendForeignPointPut.smsCnt:"+smsCnt+",lmsCnt:"+lmsCnt+",mmsCnt:"+mmsCnt);
+		return pm.insertUserPointBilling(conn, mvo, 31, smsCnt, lmsCnt, mmsCnt);
+//		return pm.insertUserPoint(conn, mvo, 31, cnt * PointManager.FOREIGN_POINT);
 	}
 	
 	public LogVO getLogVO( UserInformationVO mvo, Boolean bReservation, String message, ArrayList<String[]> phoneAndNameArrayList, String returnPhone, String reservationDate, String ip) throws Exception{

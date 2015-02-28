@@ -1,6 +1,9 @@
 package com.m.member;
 
 import java.io.Serializable;
+import java.util.HashMap;
+
+import com.common.util.SLibrary;
 
 public class JoinVO implements Serializable {
 
@@ -19,6 +22,36 @@ public class JoinVO implements Serializable {
 	String emailYN;
 	String hpYN;
 	
+
+	int rnum;
+
+
+	String sname;
+	String subphone;
+	String addid;
+	//
+	
+	
+	public void setHashMap(HashMap<String, String> hm){
+		
+			setSubphone(SLibrary.IfNull(hm, "subphone"));
+			setSname(SLibrary.IfNull(hm,"sname"));
+			setAddid(SLibrary.IfNull(hm,"addid"));
+	
+	}
+	
+	public String getAddid() {
+		return addid;
+	}
+	public void setAddid(String addid) {
+		this.addid = addid;
+	}
+	public String getSname() {	return sname;	}
+	public void setSname(String sname) {this.sname = sname;	}
+	
+	public String getSubphone() {	return subphone;}
+	public void setSubphone(String subphone) {	this.subphone = subphone;	}
+
 	
 	
 	public String getUser_id() {

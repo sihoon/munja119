@@ -15,7 +15,11 @@ public class BillingVO implements Serializable {
 	int amount;
 	String order_no = ""; 
 	String unit_cost = "";
+	String unit_cost_lms = "";
+	String unit_cost_mms = "";
 	int point;
+	int point_lms;
+	int point_mms;
 	int remain_point; 
 	String memo = ""; 
 	String admin_id = "";
@@ -40,6 +44,12 @@ public class BillingVO implements Serializable {
 	}
 	public String getUnit_cost() {
 		return unit_cost;
+	}
+	public String getUnit_cost_lms() {
+		return unit_cost_lms;
+	}
+	public String getUnit_cost_mms() {
+		return unit_cost_mms;
 	}
 	public int getRemain_point() {
 		return remain_point;
@@ -71,6 +81,12 @@ public class BillingVO implements Serializable {
 	public void setUnit_cost(String unit_cost) {
 		this.unit_cost = unit_cost;
 	}
+	public void setUnit_cost_lms(String unit_cost_lms) {
+		this.unit_cost_lms = unit_cost_lms;
+	}
+	public void setUnit_cost_mms(String unit_cost_mms) {
+		this.unit_cost_mms = unit_cost_mms;
+	}
 	public void setRemain_point(int remain_point) {
 		this.remain_point = remain_point;
 	}
@@ -88,6 +104,18 @@ public class BillingVO implements Serializable {
 	}
 	public void setPoint(int point) {
 		this.point = point;
+	}
+	public int getPoint_lms() {
+		return point_lms;
+	}
+	public void setPoint_lms(int point_lms) {
+		this.point_lms = point_lms;
+	}
+	public int getPoint_mms() {
+		return point_mms;
+	}
+	public void setPoint_mms(int point_mms) {
+		this.point_mms = point_mms;
 	}
 	public String getTid() {
 		return tid;

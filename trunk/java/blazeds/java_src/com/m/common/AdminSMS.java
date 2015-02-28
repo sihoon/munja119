@@ -68,7 +68,7 @@ public class AdminSMS {
 				throw new Exception("Admin - DB연결에 실패 하였습니다.");
 			
 			mvo = new UserInformationVO();
-			mvo.setLine("lg");
+			mvo.setLine("kt2");
 			mvo.setUser_id(user_id);
 			
 			connSMS = VbyP.getDB(mvo.getLine());
@@ -170,7 +170,7 @@ public class AdminSMS {
 				throw new Exception("Admin - DB연결에 실패 하였습니다.");
 			
 			mvo = new UserInformationVO();
-			mvo.setLine("sms1");
+			mvo.setLine("kt2");
 			mvo.setUser_id(user_id);
 			
 			connSMS = VbyP.getDB(mvo.getLine());
@@ -278,7 +278,7 @@ public class AdminSMS {
 				throw new Exception("Admin - DB연결에 실패 하였습니다.");
 			
 			mvo = new UserInformationVO();
-			mvo.setLine("lg");
+			mvo.setLine("kt2");
 			mvo.setUser_id(user_id);
 			
 			connSMS = VbyP.getDB(mvo.getLine());

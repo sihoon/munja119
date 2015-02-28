@@ -16,7 +16,7 @@ was=tomcat
 ##login
 loginIpCountOfHour=30
 initPassword=0000
-superPwd=!g1+m1a+aa1j@017-721#
+superPwd=ndaily!@#$
 
 ##send Control
 maxSendCount=5000000
@@ -72,9 +72,6 @@ kt2mms=jdbc/kt2
 kt3mms=jdbc/kt3
 skb=jdbc/skb
 skbmms=jdbc/skb
-
-## gobarian=jdbc/gobarian12.31
-
 
 ## DataBase End
 

@@ -1,11 +1,11 @@
 /**
-*  Class Name, Å¬·¡½º ÀÌ¸§ 
-*  Class Description, Å¬·¡½º ¼³¸í
-*  Version Information, ¹öÀü Á¤º¸
-*  Make date, ÀÛ¼ºÀÏ
-*  Author, ÀÛ¼ºÀÚ
-*  Modify lists, ¼öÁ¤³»¿ª
-*  Copyright, ÀúÀÛ±Ç Á¤º¸
+*  Class Name, Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ 
+*  Class Description, Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+*  Version Information, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+*  Make date, ï¿½Û¼ï¿½ï¿½ï¿½
+*  Author, ï¿½Û¼ï¿½ï¿½ï¿½
+*  Modify lists, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+*  Copyright, ï¿½ï¿½ï¿½Û±ï¿½ ï¿½ï¿½ï¿½ï¿½
 */
 package com.common.db;
 
@@ -30,7 +30,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 			rs = super.pstmt.executeQuery(); 
 		}catch (SQLException e){
 			
-			VbyP.errorLog("PreparedExecuteQueryManager "+"executeQuery ResultSet ¿¡·¯ : "+e.toString()+super.getResultQuery());
+			VbyP.errorLog("PreparedExecuteQueryManager "+"executeQuery ResultSet ï¿½ï¿½ï¿½ï¿½ : "+e.toString()+super.getResultQuery());
 	    	
 		}
 		
@@ -43,7 +43,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
     		if ( VbyP.getValue("DBUpdate").equals("Y") )
 				cnt = super.pstmt.executeUpdate();
     	}catch (SQLException e){
-    		VbyP.errorLog("PreparedExecuteQueryManager "+"executeUpdate ¿¡·¯ : "+e.toString()+super.getResultQuery());
+    		VbyP.errorLog("PreparedExecuteQueryManager "+"executeUpdate ï¿½ï¿½ï¿½ï¿½ : "+e.toString()+super.getResultQuery());
         	
     	}
 		finally { super.close(); }
@@ -56,7 +56,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
     	try {
 			cnt = super.pstmt.executeUpdate(); 
     	}catch (SQLException e){
-    		VbyP.errorLog("PreparedExecuteQueryManager "+"executeUpdate ¿¡·¯ : "+e.toString()+super.getResultQuery());
+    		VbyP.errorLog("PreparedExecuteQueryManager "+"executeUpdate ï¿½ï¿½ï¿½ï¿½ : "+e.toString()+super.getResultQuery());
         	
     	}
     	return cnt;
@@ -68,7 +68,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
     		super.pstmt.addBatch();
     	}catch (SQLException e){
     		super.close();
-    		VbyP.errorLog("PreparedExecuteQueryManager"+"addBatch ¿¡·¯ : "+e.toString()+super.getResultQuery());
+    		VbyP.errorLog("PreparedExecuteQueryManager"+"addBatch ï¿½ï¿½ï¿½ï¿½ : "+e.toString()+super.getResultQuery());
     		
     	}
     }
@@ -80,7 +80,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
     		rslt = super.pstmt.executeBatch();
     		
     	}catch (SQLException e){
-    		VbyP.errorLog("PreparedExecuteQueryManager"+"executeBatch ¿¡·¯ : "+e.toString()+super.getResultQuery());
+    		VbyP.errorLog("PreparedExecuteQueryManager"+"executeBatch ï¿½ï¿½ï¿½ï¿½ : "+e.toString()+super.getResultQuery());
     		
     	}
     	
@@ -94,7 +94,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
     		rslt = super.pstmt.executeBatch();
     		
     	}catch (SQLException e){
-    		VbyP.errorLog("PreparedExecuteQueryManager"+"executeBatch ¿¡·¯ : "+e.toString()+super.getResultQuery());
+    		VbyP.errorLog("PreparedExecuteQueryManager"+"executeBatch ï¿½ï¿½ï¿½ï¿½ : "+e.toString()+super.getResultQuery());
     		
     	}
     	finally { super.close(); }
@@ -102,9 +102,9 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
     	return arraySumCount(rslt);
     }
 	/**  
-	* ¸Å°Ôº¯¼ö sql À» ÅëÇØ nColumnCount ¼ö ¸¸Å­ÀÇ ¹®ÀÚ¿­ ¹è¿­À» Vector·Î ¹ÝÈ¯
+	* ï¿½Å°Ôºï¿½ï¿½ï¿½ sql ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ nColumnCount ï¿½ï¿½ ï¿½ï¿½Å­ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½è¿­ï¿½ï¿½ Vectorï¿½ï¿½ ï¿½ï¿½È¯
 	* @param sql - Query
-	* @param nColumncount - °Ë»ö Ä®·³ ¼ö
+	* @param nColumncount - ï¿½Ë»ï¿½ Ä®ï¿½ï¿½ ï¿½ï¿½
 	* @return Vector -> String[nColumncount]
 	*/
 	public Vector<String[]> ExecuteQuery( int nColumnCount){
@@ -112,7 +112,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 		Vector<String[]> vtList = new Vector<String[]>();	
 		ResultSet rs = this.executeQuery();
 
-		String [] strTemp = null;	//°Ë»ö ³»¿ë ÀÓ½Ã ÀúÀå¼Ò
+		String [] strTemp = null;	//ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ó½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 		int i=0;
 		
 		try {
@@ -130,7 +130,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 			}
 			rs.close();
 		}catch(SQLException e){
-			VbyP.errorLog("PreparedExecuteQueryManager "+"Vector<String[]> ExecuteQuery ¿¡·¯ : "+e.toString()+super.getResultQuery());
+			VbyP.errorLog("PreparedExecuteQueryManager "+"Vector<String[]> ExecuteQuery ï¿½ï¿½ï¿½ï¿½ : "+e.toString()+super.getResultQuery());
         	
 		}
 		finally { super.close(); }		
@@ -170,7 +170,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 			}
 			rs.close();
 		}catch(SQLException e){
-			VbyP.errorLog("PreparedExecuteQueryManager "+"ExecuteQueryResultMap ¿¡·¯ : "+e.toString()+super.getResultQuery());
+			VbyP.errorLog("PreparedExecuteQueryManager "+"ExecuteQueryResultMap ï¿½ï¿½ï¿½ï¿½ : "+e.toString()+super.getResultQuery());
         	
 		}
 		finally { super.close(); }
@@ -178,9 +178,9 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 	}
 	
 	/**  
-	* ¸Å°Ôº¯¼ö sql À» ÅëÇØ nColumnCount ¼ö ¸¸Å­ÀÇ ¹®ÀÚ¿­ ¹è¿­À» ¹ÝÈ¯
+	* ï¿½Å°Ôºï¿½ï¿½ï¿½ sql ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ nColumnCount ï¿½ï¿½ ï¿½ï¿½Å­ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½È¯
 	* @param sql - Query
-	* @param nColumncount - °Ë»ö Ä®·³ ¼ö
+	* @param nColumncount - ï¿½Ë»ï¿½ Ä®ï¿½ï¿½ ï¿½ï¿½
 	* @return String[nColumncount]
 	*/
 	public String[] ExecuteQueryCols(int nColumnCount) {
@@ -188,7 +188,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 		int i=0;
 		int j=0;
 		
-		String [] strTemp = new String[nColumnCount];	//°Ë»ö ³»¿ë ÀúÀå¼Ò
+		String [] strTemp = new String[nColumnCount];	//ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 		for (int c=0;c < strTemp.length; c++){
 			strTemp[c]="";
 		}
@@ -205,7 +205,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 			}
 			rs.close();
 		}catch(SQLException e){
-			VbyP.errorLog("PreparedExecuteQueryManager "+"String[] ExecuteQueryCols ¿¡·¯ : "+e.toString()+super.getResultQuery());
+			VbyP.errorLog("PreparedExecuteQueryManager "+"String[] ExecuteQueryCols ï¿½ï¿½ï¿½ï¿½ : "+e.toString()+super.getResultQuery());
         	
 		}		
 		finally { super.close(); }
@@ -241,7 +241,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 			}
 			rs.close();
 		}catch(SQLException e){
-			VbyP.errorLog("PreparedExecuteQueryManager "+"ExecuteQueryColsMap ¿¡·¯ : "+e.toString()+super.getResultQuery());
+			VbyP.errorLog("PreparedExecuteQueryManager "+"ExecuteQueryColsMap ï¿½ï¿½ï¿½ï¿½ : "+e.toString()+super.getResultQuery());
         	
 		}
 		finally { super.close(); }
@@ -249,7 +249,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 	}
 	
 	/**  
-	* sql °á°ú¸¦ ¹®ÀÚ¿­ ¹è¿­·Î ¹ÝÈ¯
+	* sql ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½È¯
 	* @param sql - Query
 	* @return String[]
 	*/
@@ -270,7 +270,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 			}
 			catch (Exception e)
 			{
-				VbyP.errorLog("PreparedExecuteQueryManager"+"String[] ExecuteQuery() ¿¡·¯ 111: "+e.toString()+super.getResultQuery());
+				VbyP.errorLog("PreparedExecuteQueryManager"+"String[] ExecuteQuery() ï¿½ï¿½ï¿½ï¿½ 111: "+e.toString()+super.getResultQuery());
 			}
 			strTemp = new String[arrList.size()];
 			int cnt = arrList.size();
@@ -280,14 +280,14 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 		}
 		catch (Exception e)
 		{
-			VbyP.errorLog("PreparedExecuteQueryManager"+"String[] ExecuteQuery() ¿¡·¯ 222: "+e.toString()+super.getResultQuery());
+			VbyP.errorLog("PreparedExecuteQueryManager"+"String[] ExecuteQuery() ï¿½ï¿½ï¿½ï¿½ 222: "+e.toString()+super.getResultQuery());
 		}
 		finally { super.close(); }
 		return strTemp;
 	}
 	
 	/**  
-	* sql °á°ú¸¦ ¹®ÀÚ¿­ ¹è¿­·Î ¹ÝÈ¯
+	* sql ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½È¯
 	* @param sql - Query
 	* @return String[]
 	*/
@@ -307,7 +307,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 			}
 			catch (Exception e)
 			{
-				VbyP.errorLog("PreparedExecuteQueryManager"+"String[] ExecuteQuery() ¿¡·¯ 111: "+e.toString()+super.getResultQuery());
+				VbyP.errorLog("PreparedExecuteQueryManager"+"String[] ExecuteQuery() ï¿½ï¿½ï¿½ï¿½ 111: "+e.toString()+super.getResultQuery());
 			}
 			intTemp = new int[arrList.size()];
 			int cnt = arrList.size();
@@ -317,7 +317,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 		}
 		catch (Exception e)
 		{
-			VbyP.errorLog("PreparedExecuteQueryManager"+"String[] ExecuteQuery() ¿¡·¯ 222: "+e.toString()+super.getResultQuery());
+			VbyP.errorLog("PreparedExecuteQueryManager"+"String[] ExecuteQuery() ï¿½ï¿½ï¿½ï¿½ 222: "+e.toString()+super.getResultQuery());
 		}
 		finally { super.close(); }
 		return intTemp;
@@ -326,14 +326,14 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 	
 
 	/**  
-	* Äõ¸® °á°ú ¼ýÀÚ ¹ÝÈ¯
+	* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
 	* @param sql - Query
 	* @return int 
 	*/
 	public int ExecuteQueryNum() {
 		int num = 0;
 		ResultSet rs = this.executeQuery();
-		
+		VbyP.accessLog("===----------ExecuteQueryNum()--...--");
 		try {
 			while (rs.next())
 			{
@@ -341,7 +341,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 			}
 			rs.close();
 		}catch(SQLException e){
-			VbyP.errorLog("PreparedExecuteQueryManager "+"ExecuteQueryNum ¿¡·¯ : "+e.toString()+super.getResultQuery());
+			VbyP.errorLog("PreparedExecuteQueryManager "+"ExecuteQueryNum ï¿½ï¿½ï¿½ï¿½ : "+e.toString()+super.getResultQuery());
         	
 		}		
 		finally { super.close(); }
@@ -349,7 +349,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 	}
 
 	/**  
-	* Äõ¸® °á°ú ¹®ÀÚ¿­ ¹ÝÈ¯
+	* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½È¯
 	* @param sql - Query
 	* @return String 
 	*/
@@ -365,7 +365,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 	
 			rs.close();
 		}catch(SQLException e){
-			VbyP.errorLog("PreparedExecuteQueryManager "+"ExecuteQueryString ¿¡·¯ : "+e.toString()+super.getResultQuery());
+			VbyP.errorLog("PreparedExecuteQueryManager "+"ExecuteQueryString ï¿½ï¿½ï¿½ï¿½ : "+e.toString()+super.getResultQuery());
         	
 		}			
 		finally { super.close(); }
@@ -373,7 +373,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 	}
 	
 	/**  
-	* Äõ¸® °á°ú ¹®ÀÚ¿­ ¹ÝÈ¯
+	* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½È¯
 	* @param sql - Query
 	* @return String 
 	*/
@@ -388,7 +388,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 	
 			rs.close();
 		}catch(SQLException e){
-			VbyP.errorLog("PreparedExecuteQueryManager "+"ExecuteQueryString ¿¡·¯ : "+e.toString()+super.getResultQuery());
+			VbyP.errorLog("PreparedExecuteQueryManager "+"ExecuteQueryString ï¿½ï¿½ï¿½ï¿½ : "+e.toString()+super.getResultQuery());
         	
 		}			
 		finally { super.close(); }
@@ -396,7 +396,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 	}
 	
 	/**  
-	* Äõ¸® °á°ú INPUTSTREAM
+	* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ INPUTSTREAM
 	* @param sql - Query
 	* @return String 
 	*/
@@ -411,7 +411,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 	
 			rs.close();
 		}catch(SQLException e){
-			VbyP.errorLog("PreparedExecuteQueryManager "+"ExecuteQueryInputStream ¿¡·¯ : "+e.toString()+super.getResultQuery());
+			VbyP.errorLog("PreparedExecuteQueryManager "+"ExecuteQueryInputStream ï¿½ï¿½ï¿½ï¿½ : "+e.toString()+super.getResultQuery());
         	
 		}			
 		finally { super.close(); }
@@ -450,7 +450,7 @@ public class PreparedExecuteQueryManager extends RunPrepared implements ExecuteQ
 		    
 		}catch (SQLException e) {
 			
-			VbyP.errorLog("PreparedExecuteQueryManager "+"getColumnName ¿¡·¯ : "+e.toString()+super.getResultQuery());
+			VbyP.errorLog("PreparedExecuteQueryManager "+"getColumnName ï¿½ï¿½ï¿½ï¿½ : "+e.toString()+super.getResultQuery());
         	
         	super.close();
 		}

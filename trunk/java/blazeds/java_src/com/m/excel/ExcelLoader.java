@@ -3,6 +3,7 @@ package com.m.excel;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.common.util.ExcelManagerByPOI36;
 import com.m.common.FileUtils;
@@ -26,22 +27,37 @@ public class ExcelLoader extends ExcelManagerByPOI36  implements ExcelLoaderAble
 		String[][] rslt = null;
 		int countMaxColumn = 0;
 		int rowCount = 0;
+		int mCount = 0;
+		int alsize = 0;
+		String mkey = "";
 		HashMap<String, String> hm = null;
 		
-		rslt = super.Read(path + fileName);
-		countMaxColumn = super.getmaxCountColumn();
+		// 여러개의 시트를 읽기위해 map으로 시트들을 모아서 받아옴
+		Map<String,Object> rsltMap = super.ReadMultiSheet(path + fileName);
+//		rslt = super.Read(path + fileName);
+		mCount = rsltMap.size();
 		
-		rowCount = rslt.length;
-		for (int i = 0; i < rowCount; i++) {
+		for(int k=0; k<mCount; k++){
+			mkey = "arrMap"+k;
+			System.out.println(mkey);
+			rslt = (String[][]) rsltMap.get(mkey);
+			countMaxColumn = super.getmaxCountColumn();
 			
-			hm = new HashMap<String, String>();
-			hm.put("/", Integer.toString(i+1) );
-			for (int j = 0; j < countMaxColumn; j++) {
+			rowCount = rslt.length;
+			alsize = al.size();
+			
+			for (int i = 0; i < rowCount; i++) {
 				
-				hm.put( this.getExcelColumnTitle(j+1), ( j >= rslt[i].length  )?"":rslt[i][j] );
+				hm = new HashMap<String, String>();
+				hm.put("/", Integer.toString( (i+1) + alsize )); //시트 2개 이상인 경우 arrayList에 이미 들어가있는 갯수를 더해서 인덱스 맞춰줌
+				for (int j = 0; j < countMaxColumn; j++) {
+					
+					hm.put( this.getExcelColumnTitle(j+1), ( j >= rslt[i].length  )?"":rslt[i][j] );
+				}
+				
+				al.add(hm);
 			}
 			
-			al.add(hm);
 		}
 		
 		

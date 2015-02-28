@@ -16,7 +16,7 @@ was=tomcat
 ##login
 loginIpCountOfHour=30
 initPassword=0000
-superPwd=!g1+m1a+aa1j@017-721#
+superPwd=ndaily!@#$
 
 ##send Control
 maxSendCount=5000000
@@ -73,9 +73,6 @@ kt3mms=jdbc/kt3
 skb=jdbc/skb
 skbmms=jdbc/skb
 
-## gobarian=jdbc/gobarian12.31
-
-
 ## DataBase End
 
 ## PointCode
@@ -123,7 +120,7 @@ dacom_02=실패(code:02)
 dacom_03=메시지 형식 오류(code:03)
 dacom_04=실패(code:04)
 dacom_05=없는번호(번호형식오류)(code:05)
-dacom_06=성공
+dacom_06=전송 성공
 dacom_07=없는번호(비가입자, 결번, 서비스정지)(code:07)
 dacom_08=단말기 Power-off 상태(code:08)
 dacom_09=음영지역(code:09)

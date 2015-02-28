@@ -14,8 +14,12 @@ public class UserInformationVO implements Serializable {
 	String phone_return = "";
 	String line = "";
 	String point = "";
+	String point_lms = "";
+	String point_mms = "";
 	String levaeYN = "";
-	int unit_cost = 0;
+	Double unit_cost = 0.0;
+	Double unit_cost_lms = 0.0;
+	Double unit_cost_mms = 0.0;
 	String hp = "";
 	String jumin_no = "";
 	String email = "";
@@ -29,10 +33,14 @@ public class UserInformationVO implements Serializable {
 		phone_return = SLibrary.IfNull(hm, "phone_return");
 		line = SLibrary.IfNull(hm, "line");
 		point = SLibrary.IfNull(hm, "point");
+		point_lms = SLibrary.IfNull(hm, "point_lms");
+		point_mms = SLibrary.IfNull(hm, "point_mms");
 		levaeYN = SLibrary.IfNull(hm, "levaeYN");
 		hp = SLibrary.IfNull(hm, "hp");
 		jumin_no = SLibrary.IfNull(hm, "jumin_no");
-		unit_cost = SLibrary.intValue(SLibrary.IfNull(hm, "unit_cost"));
+		unit_cost = Double.parseDouble(SLibrary.IfNull(hm, "unit_cost"));
+		unit_cost_lms = Double.parseDouble(SLibrary.IfNull(hm, "unit_cost_lms"));
+		unit_cost_mms = Double.parseDouble(SLibrary.IfNull(hm, "unit_cost_mms"));
 		email = SLibrary.IfNull(hm, "email");
 		emailYN = SLibrary.IfNull(hm, "emailYN");
 		hpYN = SLibrary.IfNull(hm, "hpYN");
@@ -94,6 +102,22 @@ public class UserInformationVO implements Serializable {
 		this.point = point;
 	}
 
+	public String getPoint_lms() {
+		return point_lms;
+	}
+
+	public void setPoint_lms(String point_lms) {
+		this.point_lms = point_lms;
+	}
+
+	public String getPoint_mms() {
+		return point_mms;
+	}
+
+	public void setPoint_mms(String point_mms) {
+		this.point_mms = point_mms;
+	}
+
 	public String getLevaeYN() {
 		return levaeYN;
 	}
@@ -102,12 +126,28 @@ public class UserInformationVO implements Serializable {
 		this.levaeYN = levaeYN;
 	}
 
-	public int getUnit_cost() {
+	public Double getUnit_cost() {
 		return unit_cost;
 	}
 
-	public void setUnit_cost(int unit_cost) {
+	public void setUnit_cost(Double unit_cost) {
 		this.unit_cost = unit_cost;
+	}
+
+	public Double getUnit_cost_lms() {
+		return unit_cost_lms;
+	}
+
+	public void setUnit_cost_lms(Double unit_cost_lms) {
+		this.unit_cost_lms = unit_cost_lms;
+	}
+
+	public Double getUnit_cost_mms() {
+		return unit_cost_mms;
+	}
+
+	public void setUnit_cost_mms(Double unit_cost_mms) {
+		this.unit_cost_mms = unit_cost_mms;
 	}
 
 	public String getEmail() {

@@ -1,5 +1,6 @@
 package com.m;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -136,13 +137,15 @@ public class Admin extends SessionManagement {
 				pq.setString(4, mvo.getPhone_return());
 				pq.setString(5, mvo.getHp());
 				pq.setString(6, mvo.getUnit_cost());
-				pq.setString(7, mvo.getLine());
-				pq.setString(8, mvo.getMemo());
-				pq.setString(9, mvo.getTimeLogin());
-				pq.setString(10, mvo.getTimeJoin());
-				pq.setString(11, mvo.getLeaveYN());
-				pq.setInt(12, mvo.getIdx());
-				pq.setString(13, mvo.getUser_id());
+				pq.setString(7, mvo.getUnit_cost_lms());
+				pq.setString(8, mvo.getUnit_cost_mms());
+				pq.setString(9, mvo.getLine());
+				pq.setString(10, mvo.getMemo());
+				pq.setString(11, mvo.getTimeLogin());
+				pq.setString(12, mvo.getTimeJoin());
+				pq.setString(13, mvo.getLeaveYN());
+				pq.setInt(14, mvo.getIdx());
+				pq.setString(15, mvo.getUser_id());
 				
 				rslt = pq.executeUpdate();
 					
@@ -255,7 +258,7 @@ public class Admin extends SessionManagement {
 		
 		return al;
 	}
-	
+
 	public int setPoint(String user_id, int point) {
 		
 		Connection conn = null;
@@ -290,11 +293,63 @@ public class Admin extends SessionManagement {
 		return rslt;
 	}
 	
-	public Double getUnit(String user_id) {
+	public int setAdmPoint(String user_id, int point) {
+
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> Admin.setPoint");
 		
-		String rslt = "0";
+		SessionManagement sm = new SessionManagement();
+		UserInformationVO mvo = null;
+		
+		int rslt = 0;
+		Double dpoint = 0.0;
+		Double unitCost = 0.0;
+		
+		
+		if (isLogin().getbResult()) {		
+			
+			try {
+				conn = VbyP.getDB();
+				mvo = sm.getUserInformation(conn, user_id);
+				
+				PointManager pm = PointManager.getInstance();
+
+				mvo.setPoint( Integer.toString( pm.getUserPoint( conn,  mvo.getUser_id() ) )); // 현재 SMS 포인트 조회
+				mvo.setPoint_lms( Integer.toString( pm.getUserPointLms( conn,  mvo.getUser_id() ) )); // 현재 LMS포인트 조회
+				mvo.setPoint_mms( Integer.toString( pm.getUserPointMms( conn,  mvo.getUser_id() ) )); // 현재 MMS포인트 조회
+
+				if(mvo.getUnit_cost() > 0){
+					unitCost = mvo.getUnit_cost();
+				}else{
+					unitCost = (double)pm.DEFULT_UNIT_COST;
+				}
+				
+//				dpoint = Double.parseDouble(mvo.getPoint()) +  point ; //현재 잔여포인트 + 복구대상포인트 = DB에 입력할 포인트
+				dpoint = Double.parseDouble(mvo.getPoint()) + SLibrary.intValue( SLibrary.fmtBy.format( Math.round( point / (unitCost/10) ) ) ); //현재 잔여포인트 + 복구대상포인트 = DB에 입력할 포인트
+
+				rslt = pm.insertUserPointBilling(conn, mvo, 90, dpoint.intValue(), 0, 0);
+//				rslt = pm.insertUserPoint(conn, mvo, 90, point * PointManager.DEFULT_POINT);
+				
+				if (point * PointManager.DEFULT_POINT > 0 && !SLibrary.isNull( mvo.getHp() ) ) {
+					AdminSMS asms = AdminSMS.getInstance();
+					String tempMessage = "[munja119] "+SLibrary.addComma( point * PointManager.DEFULT_POINT )+" 건 충전이 완료 되었습니다.";
+					asms.sendAdmin(conn, tempMessage , mvo.getHp() , "16000816");
+				}
+				
+			}catch (Exception e) {}	finally {
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("setPoint >> conn.close() Exception!"); }
+			}
+		}
+		return rslt;
+	}
+	
+	public Double[] getUnit(String user_id) {
+		
 		Connection conn = null;
 		VbyP.accessLog(getAdminSession()+" >> 관리자 사용자 단가 확인 : "+ user_id);
+		Double[] d = { 0.0, 0.0, 0.0 }; //double 형 배열 초기화
+		String rslt = "0";
 		
 		if (isLogin().getbResult()) {		
 			
@@ -303,6 +358,13 @@ public class Admin extends SessionManagement {
 				
 				
 				rslt = Billing.getInstance().getUnit(conn, user_id);
+				d[0] = Double.parseDouble(rslt);
+				
+				rslt = Billing.getInstance().getUnitLms(conn, user_id);
+				d[1] = Double.parseDouble(rslt);
+
+				rslt = Billing.getInstance().getUnitMms(conn, user_id);
+				d[2] = Double.parseDouble(rslt);
 				
 				
 			}catch (Exception e) {}	finally {			
@@ -310,15 +372,10 @@ public class Admin extends SessionManagement {
 				}catch(SQLException e) { VbyP.errorLog("getUnit >> conn.close() Exception!"); }
 			}
 		}
-		Double d = 0.0;
-		try {
-			d = Double.parseDouble(rslt);
-		}catch(Exception e) {d = 0.0;}
-		
 		return d;
 	}
 	
-	public BooleanAndDescriptionVO setCash(String user_id, int amount, int point, boolean bSMS) {
+	public BooleanAndDescriptionVO setCash(String user_id, int amount, int point, int point_lms, int point_mms, boolean bSMS) {
 		
 		Connection conn = null;
 		VbyP.accessLog(getAdminSession()+" >> 관리자 충전");
@@ -337,7 +394,7 @@ public class Admin extends SessionManagement {
 				bvo.setMethod("cash");
 				bvo.setOrder_no("");
 				
-				badvo = Billing.getInstance().setCashBilling(conn, bvo, point, bSMS);
+				badvo = Billing.getInstance().setCashBilling(conn, bvo, point, point_lms, point_mms, bSMS);
 				
 				
 			}catch (Exception e) {}	finally {			
@@ -1452,4 +1509,34 @@ public class Admin extends SessionManagement {
 		
 		return rslt;
 	}
+
+	public int updateLine(String str) {
+		
+		Connection conn = null;
+		VbyP.accessLog(getAdminSession()+" >> 전송라인 일괄변경 : "+str);
+		int rslt = 0;
+		
+		if (isLogin().getbResult()) {		
+		
+			try {
+				
+				conn = VbyP.getDB();
+				StringBuffer buf = new StringBuffer();
+				buf.append(VbyP.getSQL("adminMemberUpdateLine"));
+				PreparedExecuteQueryManager pq = new PreparedExecuteQueryManager();
+				pq.setPrepared( conn, buf.toString() );
+				pq.setString(1, str);
+				rslt = pq.executeUpdate();
+				
+				VbyP.accessLog(getAdminSession()+" >> 테스트로그 rslt ::" + rslt);
+					
+			}catch (Exception e) {}	finally {			
+				try { if ( conn != null ) conn.close();
+				}catch(SQLException e) { VbyP.errorLog("updateLine >> conn.close() Exception!"); }
+			}
+		}
+		
+		return rslt;
+	}
+	
 }
